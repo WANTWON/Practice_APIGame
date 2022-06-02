@@ -28,7 +28,14 @@ void CMainGame::Initialize(void)
 
 void CMainGame::Update(void)
 {
+
 	CObjMgr::Get_Instance()->Update();
+
+}
+
+void CMainGame::Late_Update(void)
+{
+	CObjMgr::Get_Instance()->Late_Update();
 }
 
 
