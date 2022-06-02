@@ -17,10 +17,14 @@ void CPlayer::Initialize(void)
 	m_tInfo = { 100.f, 200.f, 50.f, 50.f };
 	m_fSpeed = 10.f;
 }
-void CPlayer::Update(void)
+void CPlayer::Late_Update(void)
+{
+}
+int CPlayer::Update(void)
 {
 	Key_Down();
 	Update_Rect();
+	return OBJ_NOEVENT;
 }
 void CPlayer::Release(void)
 {

@@ -25,6 +25,27 @@
     <Filter Include="01. Obj\00.Player">
       <UniqueIdentifier>{85c4e69b-21e3-4afc-b99d-7a2e2a4b08bb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\01.Monster">
+      <UniqueIdentifier>{2d32ca31-79cf-44bc-af27-568aa5f166bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\02.Block">
+      <UniqueIdentifier>{18353809-2afa-462c-bb75-b0512dc17e44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\03.Item">
+      <UniqueIdentifier>{077930c0-5775-4ce7-b5c9-134e32e585c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Design">
+      <UniqueIdentifier>{2ebbb6b4-3087-40c4-989d-35cd6b010494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Design\AbstractFactory">
+      <UniqueIdentifier>{1d312999-491d-4bd0-8ca8-8202c3308615}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Design\CollisionMgr">
+      <UniqueIdentifier>{922bd0cd-658f-4512-b038-85ff12dd69e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Design\ObjMgr">
+      <UniqueIdentifier>{39e281fd-baee-41a2-a6fa-fed72ddf56e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -63,6 +84,24 @@
     <ClInclude Include="Enum.h">
       <Filter>99. Header</Filter>
     </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>01. Obj\01.Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>01. Obj\02.Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>01. Obj\03.Item</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractFactory.h">
+      <Filter>98.Design\AbstractFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionMgr.h">
+      <Filter>98.Design\CollisionMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjMgr.h">
+      <Filter>98.Design\ObjMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -79,6 +118,21 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>01. Obj\00.Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>01. Obj\01.Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>01. Obj\02.Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>01. Obj\03.Item</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionMgr.cpp">
+      <Filter>98.Design\CollisionMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjMgr.cpp">
+      <Filter>98.Design\ObjMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
