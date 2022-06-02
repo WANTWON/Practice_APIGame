@@ -15,3 +15,4 @@ public:
 	void Render(HDC hDC) override;
 };
 
+// test
