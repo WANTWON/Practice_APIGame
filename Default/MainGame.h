@@ -11,10 +11,11 @@ public:
 	~CMainGame();
 
 public:
-	void Initialize(void);
-	void Update(void);
-	void Release(void);
-	void Render(void);
+	void Initialize	(void);
+	void Update		(void);
+	void Late_Update(void);
+	void Release	(void);
+	void Render		(void);
 
 private:
 	HDC  m_HDC;
