@@ -145,12 +145,18 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractFactory.h" />
+    <ClInclude Include="Block.h" />
+    <ClInclude Include="CollisionMgr.h" />
     <ClInclude Include="Default.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Enum.h" />
     <ClInclude Include="Function.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="MainGame.h" />
+    <ClInclude Include="Monster.h" />
     <ClInclude Include="Obj.h" />
+    <ClInclude Include="ObjMgr.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -158,9 +164,14 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Block.cpp" />
+    <ClCompile Include="CollisionMgr.cpp" />
     <ClCompile Include="Default.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="MainGame.cpp" />
+    <ClCompile Include="Monster.cpp" />
     <ClCompile Include="Obj.cpp" />
+    <ClCompile Include="ObjMgr.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

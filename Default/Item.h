@@ -1,20 +1,17 @@
 #pragma once
 #include "Obj.h"
-class CPlayer :
+class CItem :
 	public CObj
 {
 public:
-	CPlayer();
-	virtual ~CPlayer();
+	CItem();
+	virtual ~CItem();
 
 public:
 	void Initialize(void) override;
-	void Late_Update(void) override;
 	int Update(void) override;
+	void Late_Update(void) override;
 	void Release(void) override;
 	void Render(HDC hDC) override;
-
-public:
-	void Key_Down(void);
 };
 

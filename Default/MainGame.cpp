@@ -1,5 +1,9 @@
 #include "stdafx.h"
 #include "MainGame.h"
+#include "AbstractFactory.h"
+#include "CollisionMgr.h"
+#include <time.h>
+#include "ObjMgr.h"
 
 
 CMainGame::CMainGame() : m_pPlayer(nullptr), eDir(DIR_END)
@@ -17,25 +21,21 @@ void CMainGame::Initialize(void)
 {
 
 	m_HDC = GetDC(g_hWnd);
-
-	if (!m_pPlayer)
-	{
-		m_pPlayer = new CPlayer;
-		m_pPlayer->Initialize();
-	}
+	CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, CAbstractFactory<CPlayer>::Create());
+	
 }
 
 
 void CMainGame::Update(void)
 {
-	m_pPlayer->Update();
+	CObjMgr::Get_Instance()->Update();
 }
 
 
 void CMainGame::Release(void)
 {
-	Safe_Delete<CObj*>(m_pPlayer);
-
+	
+	CObjMgr::Get_Instance()->Destroy_Instance();
 
 	ReleaseDC(g_hWnd, m_HDC);
 }
@@ -45,5 +45,5 @@ void CMainGame::Render(void)
 {
 	Rectangle(m_HDC, 0, 0, WINCX, WINCY);
 
-	m_pPlayer->Render(m_HDC);
+	CObjMgr::Get_Instance()->Render(m_HDC);
 }

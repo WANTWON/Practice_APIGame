@@ -19,3 +19,27 @@
 
 
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.
+#include <list>
+#include <iostream>
+#include <vector>
+#include <map>
+#include <algorithm>
+#include <ctime> //메모리 누수 방지 함수
+
+
+
+#ifdef _DEBUG
+
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
+#ifndef DBG_NEW 
+
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )  
+#define new DBG_NEW //메모리 누수가 나는 부분을 보라색 처리하기 위함
+
+#endif
+#endif
+
+using namespace std;
