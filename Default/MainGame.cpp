@@ -28,6 +28,7 @@ void CMainGame::Initialize(void)
 
 void CMainGame::Update(void)
 {
+	//Test
 	m_pPlayer->Update();
 }
 
