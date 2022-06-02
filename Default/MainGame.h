@@ -1,7 +1,6 @@
 #pragma once
 #include "Define.h"
 #include "Player.h"
-//	test
 
 
 class CMainGame

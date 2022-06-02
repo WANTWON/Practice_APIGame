@@ -123,6 +123,9 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    RECT  rc = {0,0, WINCX, WINCY};
 
+   //	최종 RC = rc + 기본 왼도우 창 스타일 + 메뉴 바 사이즈 고려 여부
+   AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
+
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, 
 	   WS_OVERLAPPEDWINDOW,
       200, 200, 
