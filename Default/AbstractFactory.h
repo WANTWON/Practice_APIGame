@@ -4,6 +4,10 @@
 template <typename T>
 class CAbstractFactory
 {
+private:
+	CAbstractFactory() {}
+	~CAbstractFactory() {}
+
 public:
 	static CObj*  Create() {
 		CObj* pInstance = new T;
@@ -23,7 +27,6 @@ public:
 
 		return pInstance;
 	}
-
 
 	static CObj* Create(float _fX, float _fY, float _angle)
 	{
@@ -45,13 +48,15 @@ public:
 		return pInstance;
 	}
 
-
-	CAbstractFactory()
+	// 아이템 팩토리
+	static CObj* Create(float _fX, float _fY, ITEM_TYPE _type)
 	{
-	}
-
-	~CAbstractFactory()
-	{
+		CObj* pInstance = new T;
+		pInstance->Initialize();
+		pInstance->Set_Pos(_fX, _fY);
+		static_cast<CItem*>(pInstance)->Set_Type(_type);
+	
+		return pInstance;
 	}
 };
 
