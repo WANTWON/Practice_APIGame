@@ -36,6 +36,10 @@ int CCollisionMgr::Collision_Rect(list<CObj*> Sour, list<CObj*> Dest)
 	return iScore;
 }
 
+
+
+
+
 void CCollisionMgr::Collision_Rect_Ex(list<CObj*> _Sour, list<CObj*> _Dest)
 {
 	for (auto& Dest : _Dest)
@@ -77,7 +81,89 @@ void CCollisionMgr::Collision_Rect_Ex(list<CObj*> _Sour, list<CObj*> _Dest)
 	}
 }
 
+bool CCollisionMgr::Collision_Block_Ex(float _fX, float *_fY, list<CObj*> _Dest)
+{
+	if (_Dest.empty())
+		return false;
 
+	CObj* pTarget = nullptr;
+
+	for (auto& iter : _Dest)
+	{
+		if (_fX >= iter->Get_Rect().left
+			&& _fX < iter->Get_Rect().right )
+			pTarget = iter;
+	}
+
+	if (!pTarget)
+		return false;
+
+	// 직선의 방정식 
+	// Y - y1 = ((y2 - y1) / (x2 - x1)) * (X - x1)
+	// Y = ((y2 - y1) / (x2 - x1)) * (X - x1) + y1
+
+	float x1 = pTarget->Get_Rect().left;
+	float y1 = pTarget->Get_Rect().top;
+
+	float x2 = pTarget->Get_Rect().right;
+	float y2 = pTarget->Get_Rect().top;
+
+	*_fY = ((y2 - y1) / (x2 - x1))*(_fX - x1) + y1;
+
+	return true;
+}
+
+
+void CCollisionMgr::Collision_Block(list<CObj*> _Sour, list<CObj*> _Dest)
+{
+	float fY = 0;
+
+		for (auto& Sour : _Sour)
+		{
+			float fWidth = 0.f;
+			float fHeight = 0.f;
+
+			bool CollionBlock = Collision_Block_Ex( Sour->Get_Info().fX , &fY, _Dest);
+
+			if (CollionBlock)
+			{
+				Sour->Set_PosYTemp(fY - Sour->Get_Info().fCY*0.5f);
+			}
+			/*else
+			{
+				Sour->Set_PosY(Sour->Get_Speed());
+			}*/
+			//if (Check_Rect(Dest, Sour, &fWidth, &fHeight))
+			//{
+			//	if (fWidth > fHeight)  //상하 충돌
+			//	{
+			//		if (Dest->Get_Info().fY > Sour->Get_Info().fY)
+			//		{
+			//			Sour->Set_PosY(-fHeight*(Sour->Get_Speed()));     
+			//		}
+			//		else
+			//		{
+			//			Sour->Set_PosY(fHeight);
+			//		}
+
+			//	}
+			//	else //좌우 충돌 
+			//	{
+			//		if (Dest->Get_Info().fX > Sour->Get_Info().fX)
+			//		{
+			//			Sour->Set_PosX(-fWidth);
+			//		}
+			//		else
+			//		{
+			//			Sour->Set_PosX(fWidth);
+			//		}
+			//	}
+
+			//}
+
+		//}
+	}
+}
 
 
 int CCollisionMgr::Check_Rect(CObj* Sour, CObj* Dest, float* _pX, float* _pY)

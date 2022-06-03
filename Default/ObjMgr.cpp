@@ -63,7 +63,7 @@ void CObjMgr::Late_Update()
 	CCollisionMgr::Step_on_Mushroom(m_pObjList[OBJ_PLAYER], m_pObjList[OBJ_MONSTER]);
 	CCollisionMgr::Collision_Rect_Ex(Get_Monsters(), m_pObjList[OBJ_PLAYER]);
 
-
+	CCollisionMgr::Collision_Block(m_pObjList[OBJ_PLAYER], m_pObjList[OBJ_BLOCK]);
 	
 	//CCollisionMgr::Collision_Rect_Ex(m_pObjList[OBJ_MONSTER], m_pObjList[OBJ_PLAYER]);
 
