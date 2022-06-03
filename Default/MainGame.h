@@ -8,13 +8,13 @@ public:
 	CMainGame();
 	~CMainGame();
 
-	void Initialize();
-	void Release();
 
-	// 프레임마다 실행되는 함수 
-	void Update();
-	void Late_Update();
-	void Render();
+public:
+	void Initialize	(void);
+	void Update		(void);
+	void Late_Update(void);
+	void Release	(void);
+	void Render		(void);
 
 private:
 	HDC m_HDC;
