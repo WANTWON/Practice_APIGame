@@ -17,19 +17,8 @@ public:
 	void Release	(void);
 	void Render		(void);
 
-	void Set_Stage(STAGE_LIST _Stage) { m_eChoice_Stage = _Stage; }
-
 private:
 	HDC m_hDc;
 
-	STAGE_LIST m_eChoice_Stage;
-
-	CStage*  m_pStage[STAGE_END];
-
-	CObj*   m_Mouse;
-	DWORD  m_dwTime;
-	RECT m_tRect[4];
-
-	bool m_bNewGame;
 };
 

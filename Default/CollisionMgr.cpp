@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "CollisionMgr.h"
 #include "Item.h"
+#include "Monster.h";
+#include "Player.h"
 
 CCollisionMgr::CCollisionMgr()
 {
@@ -75,6 +77,9 @@ void CCollisionMgr::Collision_Rect_Ex(list<CObj*> _Sour, list<CObj*> _Dest)
 	}
 }
 
+
+
+
 int CCollisionMgr::Check_Rect(CObj* Sour, CObj* Dest, float* _pX, float* _pY)
 {
 	float fWidth = abs(Sour->Get_Info().fX - Dest->Get_Info().fX);
@@ -91,6 +96,40 @@ int CCollisionMgr::Check_Rect(CObj* Sour, CObj* Dest, float* _pX, float* _pY)
 	}
 	else
 		return false;
+}
+
+
+void CCollisionMgr::Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest)
+{
+
+	for (auto& Dest : _Dest)
+	{
+		for (auto& Sour : _Sour)
+		{
+			float fWidth = 0.f;
+			float fHeight = 0.f;
+
+			if (Check_Rect(Dest, Sour, &fWidth, &fHeight))
+			{
+				if (fWidth > fHeight)  //상하 충돌
+				{
+					dynamic_cast<CMonster*>(Dest)->Be_Attacked();
+					dynamic_cast<CPlayer*>(Sour)->Set_bJump();
+				}
+				else //좌우 충돌 
+				{
+					if (Dest->Get_Info().fX > Sour->Get_Info().fX)
+					{
+						Sour->Set_PosX(-fWidth);
+					}
+					else
+					{
+						Sour->Set_PosX(fWidth);
+					}
+				}
+			}
+		}
+	}
 }
 
 

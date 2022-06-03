@@ -32,7 +32,7 @@ int  CTurtleMonster::Update(void)
 
 		if (!m_bCount)
 		{
-			CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleBack>::Create(m_tInfo.fX, m_tInfo.fY));
+			CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleBack>::Create(m_tInfo.fX+20, m_tInfo.fY));
 			m_dwTime = GetTickCount();
 			m_bCount = true;
 		}
