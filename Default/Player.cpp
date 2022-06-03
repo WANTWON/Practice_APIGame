@@ -80,7 +80,6 @@ void CPlayer::Key_Input(void)
 void CPlayer::Jumping(void)
 {
 	
-
 	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
 	
 	bool b_BlockCol = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
