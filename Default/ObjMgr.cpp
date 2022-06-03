@@ -71,11 +71,6 @@ void CObjMgr::Render(HDC hDC)
 			iter->Render(hDC);
 	}
 
-	TCHAR sztScore[32] = L"";
-	swprintf_s(sztScore, L"점수 : %d", m_iScore);
-
-	//DC, 위치, 출력
-	TextOut(hDC, 650, 30, sztScore, lstrlen(sztScore));
 }
 
 void CObjMgr::Release()
