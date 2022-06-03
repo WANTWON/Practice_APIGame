@@ -14,9 +14,9 @@ public:
 	void Late_Update(void) override;
 	void Release(void) override;
 	void Render(HDC hDC) override;
-
-	
-	void Set_bJump(void) { m_bJump = true; }
+	void Set_FixPoint( float _fY) {  m_fFixPointY = _fY; }
+	void Set_bJump(bool temp) { m_bJump = temp; }
+	void Set_StepBlock(bool temp) { m_bStep_Block = temp; }
 
 private:
 	void Key_Input(void);
@@ -28,6 +28,14 @@ private:
 	float m_fJumpPower;
 	bool m_bJump;
 	bool m_bFalling;
+
+	float m_fkg;
+
+	float m_fFixPointY;
+	bool m_bStep_Block;
+
+	float fY;
+	float fY2;
 
 	POINT m_pGUIDE;
 };

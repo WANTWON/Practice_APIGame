@@ -107,7 +107,7 @@ void CTurtleMonster::Move(void)
 
 		if (m_bFalling)
 		{
-			m_tInfo.fY += m_fSpeed;
+			m_tInfo.fY += m_fSpeed*2;
 			if (m_tInfo.fY >= fY - m_tInfo.fCY*0.5f)
 				m_bFalling = false;
 		}

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CollisionMgr.h"
 #include "Item.h"
-#include "Monster.h";
+#include "Monster.h"
 #include "Player.h"
 
 CCollisionMgr::CCollisionMgr()
@@ -71,87 +71,6 @@ void CCollisionMgr::Collision_Rect_Ex(list<CObj*> _Sour, list<CObj*> _Dest)
 					{
 						Sour->Set_PosX(fWidth);
 					}
-				}
-
-			}
-
-		}
-	}
-}
-
-bool CCollisionMgr::Collision_Block_Ex(float _fX, float *_fY, CObj* player  ,list<CObj*> _Dest)
-{
-	if (_Dest.empty())
-		return false;
-
-	CObj* pTarget = nullptr;
-
-	for (auto& iter : _Dest)
-	{
-		if (_fX >= iter->Get_Rect().left && _fX < iter->Get_Rect().right && player->Get_Rect().bottom < iter->Get_Rect().top  )
-			pTarget = iter;
-
-	}
-
-	if (!pTarget)
-		return false;
-
-	// 직선의 방정식 
-	// Y - y1 = ((y2 - y1) / (x2 - x1)) * (X - x1)
-	// Y = ((y2 - y1) / (x2 - x1)) * (X - x1) + y1
-
-	float x1 = pTarget->Get_Rect().left;
-	float y1 = pTarget->Get_Rect().top;
-
-	float x2 = pTarget->Get_Rect().right;
-	float y2 = pTarget->Get_Rect().top;
-
-	*_fY = ((y2 - y1) / (x2 - x1))*(_fX - x1) + y1;
-
-	return true;
-}
-
-
-void CCollisionMgr::Collision_Block(list<CObj*> _Sour, list<CObj*> _Dest)
-{
-	for (auto& Dest : _Dest)
-	{
-		for (auto& Sour : _Sour)
-		{
-			float fWidth = 0.f;
-			float fHeight = 0.f;
-
-			if (Check_Rect(Dest, Sour, &fWidth, &fHeight))
-			{
-				if (fWidth > fHeight)  //상하 충돌
-				{
-					if (Dest->Get_Info().fY >= Sour->Get_Info().fY)
-					{
-							Sour->Set_PosY(-fHeight);
-							dynamic_cast<CPlayer*>(Sour)->Set_FixPoint((float)Dest->Get_Rect().top);
-							dynamic_cast<CPlayer*>(Sour)->Set_StepBlock(true);
-						
-					}
-					else
-					{
-						Sour->Set_PosY(fHeight);
-						dynamic_cast<CPlayer*>(Sour)->Set_StepBlock(false);
-					}
-
-				}
-				else //좌우 충돌 
-				{
-					if (Dest->Get_Info().fX > Sour->Get_Info().fX)
-					{
-						Sour->Set_PosX(-fWidth);
-						dynamic_cast<CPlayer*>(Sour)->Set_StepBlock(false);
-					}
-					else
-					{
-						Sour->Set_PosX(fWidth);
-						dynamic_cast<CPlayer*>(Sour)->Set_StepBlock(false);
-					}
-					
 				}
 
 			}
