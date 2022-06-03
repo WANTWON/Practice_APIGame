@@ -16,4 +16,6 @@ public:
 	static void Collision_Wall_Player(list<CObj*> Sour, list<CObj*> Wall);
 	static void Collision_Rect_Ex(list<CObj*> Sour, list<CObj*> Dest);
 	static int Check_Rect(CObj* Sour, CObj* Dest, float* _pX, float* _pY);
+
+	static void Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest);
 };
