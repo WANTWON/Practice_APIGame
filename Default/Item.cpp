@@ -65,7 +65,17 @@ void CItem::Render(HDC hDC)
 
 void CItem::Render_Coin(HDC hdc)
 {
+	HBRUSH myBrush = nullptr;
+	HBRUSH oldBrush = nullptr;
+
+	myBrush = (HBRUSH)CreateSolidBrush(RGB(255, 255, 0));
+	oldBrush = (HBRUSH)SelectObject(hdc, myBrush);
+
 	Ellipse(hdc, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+
+	SelectObject(hdc, oldBrush);
+	DeleteObject(myBrush);
+	
 }
 
 void CItem::Render_Mushroom(HDC hdc)

@@ -77,6 +77,12 @@ void CObjMgr::Render(HDC hDC)
 			iter->Render(hDC);
 	}
 
+
+	TCHAR sztScore[32] = L"";
+	swprintf_s(sztScore, L"ÄÚÀÎ : %d", m_iScore);
+
+	TextOut(hDC, 650, 30, sztScore, lstrlen(sztScore));
+
 }
 
 void CObjMgr::Release()
