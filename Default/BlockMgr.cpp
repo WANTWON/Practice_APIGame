@@ -65,9 +65,10 @@ bool CBlockMgr::CollisionBlock(RECT Player, float _fX, float * Change_fY)
 
 	for (auto& iter : m_Blocklist)
 	{
-		if ( _fX >= iter->Get_Rect().left && _fX < iter->Get_Rect().right && Player.bottom < iter->Get_Rect().top+5 && Player.bottom > iter->Get_Rect().top-2)
-			// 플레이어의 오른쪽이 상자의 왼쪽보다 크거나, 왼쪽이 상자의 오른쪽보다 작을 때
-			// 그리고 플레이어의 Bottom이 상자의 Top보다 클 때
+		if ( _fX >= iter->Get_Rect().left && _fX < iter->Get_Rect().right 
+			&& Player.bottom < iter->Get_Rect().top+2 && Player.bottom > iter->Get_Rect().top-2)
+			// 플레이어의 X값(중점)이 상자의 왼쪽과 오른쪽 사이에 있고, 플레이어의 Bottom이 상자의 Top보다 클 때
+			// (이때, 플레이어랑 상자랑의 조건 거리를 너무 여유롭게 주면 바로 Jump가 false처리 되어 순간이동 할 수 있어서 2를 임의적으로 추가함)
 			pTarget = iter;
 
 	}
@@ -103,8 +104,6 @@ bool CBlockMgr::Collision_with_Direction(CObj* Player)
 	for (auto& iter : m_Blocklist)
 	{
 		if (Player->Get_Info().fX >= iter->Get_Rect().left && Player->Get_Info().fX < iter->Get_Rect().right)
-			// 플레이어의 오른쪽이 상자의 왼쪽보다 크거나, 왼쪽이 상자의 오른쪽보다 작을 때
-			// 그리고 플레이어의 Bottom이 상자의 Top보다 클 때
 			pTarget = iter;
 
 	}

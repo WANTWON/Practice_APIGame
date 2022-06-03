@@ -94,13 +94,13 @@ void CPlayer::Jumping(void)
 
 		if (b_BlockCol && m_tInfo.fY+m_tInfo.fCY*0.5f >= fY2) //플레이어의 Bottom 값이 블록의 Top이랑 미세하게 겹쳤을 때만 (즉 상단 접촉할 때)
 		{
-			m_fTime = 0.3f;
+			m_fTime = 0.0f;
 			m_bJump = false;
 		}
 		if (b_LineCol && m_tInfo.fY > fY) //땅보다 더 내려갈 수 있으니까
 		{
 			m_bJump = false;
-			m_fTime = 0.3f;
+			m_fTime = 0.0f;
 			//m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 		}
 	}
