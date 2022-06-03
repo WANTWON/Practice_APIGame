@@ -14,7 +14,7 @@ CPlayer::~CPlayer()
 
 void CPlayer::Initialize(void)
 {
-	m_tInfo = { 100.f, 200.f, 50.f, 50.f };
+	m_tInfo = { 100.f, 575.f, 50.f, 50.f };
 	m_fSpeed = 10.f;
 }
 void CPlayer::Late_Update(void)

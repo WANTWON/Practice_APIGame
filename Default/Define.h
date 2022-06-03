@@ -7,5 +7,5 @@ extern HWND  g_hWnd;
 
 #define PURE =0
 
-#define OBJ_NOEVENT	1
-#define OBJ_DEAD   0
+#define OBJ_NOEVENT	0
+#define OBJ_DEAD   1
