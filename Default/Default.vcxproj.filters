@@ -85,6 +85,9 @@
     <Filter Include="98.Design\StageMgr">
       <UniqueIdentifier>{c84434f6-d826-4eef-9c26-523cdcd26ddc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\01.Monster\03.Jumping_Monster">
+      <UniqueIdentifier>{9979f4a1-74a0-41a3-8172-b465c498b3fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -183,6 +186,9 @@
     <ClInclude Include="StageMgr.h">
       <Filter>98.Design\StageMgr</Filter>
     </ClInclude>
+    <ClInclude Include="JumpingMonster.h">
+      <Filter>01. Obj\01.Monster\03.Jumping_Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -247,6 +253,9 @@
     </ClCompile>
     <ClCompile Include="StageMgr.cpp">
       <Filter>98.Design\StageMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="JumpingMonster.cpp">
+      <Filter>01. Obj\01.Monster\03.Jumping_Monster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

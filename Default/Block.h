@@ -13,5 +13,9 @@ public:
 	void Late_Update(void) override;
 	void Release(void) override;
 	void Render(HDC hDC) override;
+
+
+private:
+	bool m_bCreate;
 };
 

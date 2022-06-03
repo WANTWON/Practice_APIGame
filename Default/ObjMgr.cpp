@@ -2,6 +2,7 @@
 #include "ObjMgr.h"
 #include "Obj.h"
 #include "CollisionMgr.h"
+#include "Player.h"
 
 CObjMgr* CObjMgr::m_pInstance = nullptr;
 
@@ -63,9 +64,23 @@ void CObjMgr::Late_Update()
 	CCollisionMgr::Step_on_Mushroom(m_pObjList[OBJ_PLAYER], m_pObjList[OBJ_MONSTER]);
 	CCollisionMgr::Collision_Rect_Ex(Get_Monsters(), m_pObjList[OBJ_PLAYER]);
 
-	CCollisionMgr::Collision_Block(m_pObjList[OBJ_PLAYER], m_pObjList[OBJ_BLOCK]);
+	//CCollisionMgr::Collision_Block(m_pObjList[OBJ_PLAYER], m_pObjList[OBJ_BLOCK]);
+
+	float fY = 0;
+	CCollisionMgr::Collision_Block_Ex(m_pObjList[OBJ_PLAYER].front()->Get_Info().fX, &fY, m_pObjList[OBJ_PLAYER].front(), m_pObjList[OBJ_BLOCK]);
+	if (fY != 0)
+	{
+		m_pObjList[OBJ_PLAYER].front()->Set_PosYTemp(fY);
+		dynamic_cast<CPlayer*>(m_pObjList[OBJ_PLAYER].front())->Set_FixPoint(fY);
+		dynamic_cast<CPlayer*>(m_pObjList[OBJ_PLAYER].front())->Set_StepBlock(true);
+	}
+	else
+	{
+		dynamic_cast<CPlayer*>(m_pObjList[OBJ_PLAYER].front())->Set_StepBlock(false);
+	}
+
 	
-	//CCollisionMgr::Collision_Rect_Ex(m_pObjList[OBJ_MONSTER], m_pObjList[OBJ_PLAYER]);
+	CCollisionMgr::Collision_Rect_Ex(m_pObjList[OBJ_MONSTER], m_pObjList[OBJ_PLAYER]);
 
 }
 

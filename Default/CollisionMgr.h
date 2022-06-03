@@ -19,6 +19,6 @@ public:
 
 	static void Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest);
 	static void Collision_Block(list<CObj*> _Sour, list<CObj*> _Dest);
-	static bool Collision_Block_Ex(float _fX, float *_fY, list<CObj*> _Destt);
+	static bool Collision_Block_Ex(float _fX, float *_fY, CObj* player, list<CObj*> _Dest);
 	
 };
