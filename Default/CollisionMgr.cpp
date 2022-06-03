@@ -77,9 +77,6 @@ void CCollisionMgr::Collision_Rect_Ex(list<CObj*> _Sour, list<CObj*> _Dest)
 	}
 }
 
-
-
-
 int CCollisionMgr::Check_Rect(CObj* Sour, CObj* Dest, float* _pX, float* _pY)
 {
 	float fWidth = abs(Sour->Get_Info().fX - Dest->Get_Info().fX);
@@ -98,10 +95,8 @@ int CCollisionMgr::Check_Rect(CObj* Sour, CObj* Dest, float* _pX, float* _pY)
 		return false;
 }
 
-
 void CCollisionMgr::Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest)
 {
-
 	for (auto& Dest : _Dest)
 	{
 		for (auto& Sour : _Sour)
@@ -132,6 +127,35 @@ void CCollisionMgr::Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest)
 	}
 }
 
+void CCollisionMgr::Collision_Item(CObj * Player, list<CObj*> Items)
+{
+	for (auto& item : Items)
+	{
+		float fWidth, fHeight = 0.f;
+
+		if (Check_Rect(Player, item, &fWidth, &fHeight))
+		{
+			CPlayer* pPlayer = static_cast<CPlayer*>(Player);
+
+			switch (static_cast<CItem*>(item)->Get_Type())
+			{
+			case ITEM_MUSHROOM:
+				pPlayer->Set_ActiveBuff(ITEM_MUSHROOM);
+				break;
+			case ITEM_STAR:
+				pPlayer->Set_ActiveBuff(ITEM_STAR);
+				break;
+			case ITEM_FLOWER:
+				pPlayer->Set_ActiveBuff(ITEM_FLOWER);
+				break;
+			default:
+				pPlayer->Set_ActiveBuff(ITEM_MUSHROOM);
+			}
+
+			item->Set_Dead(true);
+		}
+	}
+}
 
 int CCollisionMgr::Collision_Sphere(list<CObj*> Sour, list<CObj*> Dest)
 {
@@ -147,33 +171,11 @@ int CCollisionMgr::Collision_Sphere(list<CObj*> Sour, list<CObj*> Dest)
 				(*Sour_iter)->Set_Dead(true);
 				(*Dest_iter)->Set_Dead(true);
 				iScore += rand() % 10 + 5;
-
 			}
 			Dest_iter++;
 		}
 		Sour_iter++;
 	}
-	return iScore;
-}
-
-int CCollisionMgr::Collision_Coin(CObj* Player, list<CObj*> Items)
-{
-	int iScore = 0;
-
-	for (auto& item : Items )
-	{
-		if (IntersectRect(&rc, &Player->Get_Rect(), &item->Get_Rect()))
-		{
-			CItem* _Item = dynamic_cast<CItem*>(item);
-
-			if (_Item->Get_Type() == ITEM_COIN)
-			{
-				iScore += 1;
-				_Item->Set_Dead(true);
-			}
-		}
-	}
-
 	return iScore;
 }
 

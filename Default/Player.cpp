@@ -6,7 +6,7 @@
 #include "KeyMgr.h"
 
 
-CPlayer::CPlayer() : m_pShield_Angle(0), m_bJump(false), m_fJumpPower(0), m_fTime(0), m_bFalling(false)
+CPlayer::CPlayer() : m_pShield_Angle(0), m_bJump(false), m_fJumpPower(0), m_fTime(0), m_bFalling(false), m_iActiveBuff(ITEM_END)
 {
 	ZeroMemory(&m_pGUIDE, sizeof(POINT));
 }
@@ -32,6 +32,7 @@ int CPlayer::Update(void)
 		return OBJ_DEAD;
 
 	Jumping();
+	Check_ActiveBuff();
 	Key_Input();
 	Update_Rect();
 
@@ -56,6 +57,30 @@ void CPlayer::Render(HDC hDC)
 {
 
 	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+
+}
+
+void CPlayer::Buff_Mushroom(bool bActive)
+{
+	if (bActive)
+	{
+		m_tInfo.fCX = 100.f;
+		m_tInfo.fCY = 100.f;
+	}
+	else
+	{
+		m_tInfo.fCX = 50.f;
+		m_tInfo.fCY = 50.f;
+	}
+}
+
+void CPlayer::Buff_Star(bool bActive)
+{
+
+}
+
+void CPlayer::Buff_Flower(bool bActive)
+{
 
 }
 
@@ -106,4 +131,20 @@ void CPlayer::Jumping(void)
 		m_bFalling = true;
 	}
 
+}
+
+void CPlayer::Check_ActiveBuff(void)
+{
+	switch (m_iActiveBuff)
+	{
+	case ITEM_MUSHROOM:
+		Buff_Mushroom(true);
+		break;
+	case ITEM_STAR:
+		Buff_Star(true);
+		break;
+	case ITEM_FLOWER:
+		Buff_Flower(true);
+		break;
+	}
 }
