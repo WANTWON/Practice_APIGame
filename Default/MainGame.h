@@ -2,13 +2,12 @@
 #include "Define.h"
 #include "Player.h"
 
-
-
 class CMainGame
 {
 public:
 	CMainGame();
 	~CMainGame();
+
 
 public:
 	void Initialize	(void);
@@ -18,7 +17,7 @@ public:
 	void Render		(void);
 
 private:
-	HDC  m_HDC;
+	HDC m_HDC;
 	CObj* m_pPlayer;
 	DIRECTION eDir;
 };

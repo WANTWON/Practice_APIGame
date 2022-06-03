@@ -1,21 +1,17 @@
 #include "stdafx.h"
 #include "Obj.h"
 
-
-CObj::CObj()
+CObj::CObj() : m_bDead(false), m_fSpeed(0.f)
 {
 	ZeroMemory(&m_tInfo, sizeof(INFO));
 	ZeroMemory(&m_tRect, sizeof(RECT));
-	m_fSpeed = 0;
 }
-
 
 CObj::~CObj()
 {
 }
 
-
-void CObj::Update_Rect(void)
+void CObj::Update_Rect()
 {
 	m_tRect.left = int(m_tInfo.fX - (m_tInfo.fCX * 0.5f));
 	m_tRect.right = int(m_tInfo.fX + (m_tInfo.fCX * 0.5f));

@@ -11,26 +11,38 @@ private:
 	CObjMgr();
 	~CObjMgr();
 
-public:
-	CObj* Get_Player(void) { return m_pObjList[OBJ_PLAYER].front(); }
-	CObj* Get_Target(OBJ_LIST _ID, CObj* pObj);
+	static CObjMgr* m_pInstance;
+
+	list<CObj*> m_pObjList[OBJ_END];
+	int m_iScore;
 
 public:
+	void Release();
+
+	// 프레임마다 실행되는 함수 
+	int Update();
+	void Late_Update();
+	void Render(HDC hDC);
+	
 	void Add_Object(OBJ_LIST _ID, CObj* pObj);
-	int			Update(void);
-	void		Late_Update(void);
-	void		Render(HDC hDC);
-	void		Release(void);
 
-public:
-	static CObjMgr* Get_Instance(void)
+	// 게터와 세터
+	static CObjMgr* Get_Instance()
 	{
 		if (m_pInstance == nullptr)
 			m_pInstance = new CObjMgr;
 
 		return m_pInstance;
 	}
-	static		void			Destroy_Instance(void)
+
+	CObj* Get_Player() { return m_pObjList[OBJ_PLAYER].front(); }
+	list<CObj*> Get_Monsters() { return m_pObjList[OBJ_MONSTER]; }
+	list<CObj*> Get_Blocks() { return m_pObjList[OBJ_BLOCK]; }
+	list<CObj*> Get_Items() { return m_pObjList[OBJ_ITEM]; }
+
+	CObj* Get_Target(OBJ_LIST _ID, CObj* pObj);
+
+	static void Destroy_Instance()
 	{
 		if (nullptr != m_pInstance)
 		{
@@ -38,10 +50,5 @@ public:
 			m_pInstance = nullptr;
 		}
 	}
-
-private:
-	list<CObj*> m_pObjList[OBJ_END];
-	int m_iScore;
-	static		CObjMgr*		m_pInstance;
 };
 
