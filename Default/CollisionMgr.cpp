@@ -38,6 +38,16 @@ int CCollisionMgr::Collision_Rect(list<CObj*> Sour, list<CObj*> Dest)
 }
 
 
+int CCollisionMgr::Collision_Bullet(CObj* _This, list<CObj*> _Bullet)
+{
+	RECT rt{};
+
+
+	return 0;
+}
+
+
+
 
 void CCollisionMgr::Collision_Rect_Ex(list<CObj*> _Sour, list<CObj*> _Dest)
 {
