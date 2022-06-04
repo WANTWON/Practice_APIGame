@@ -147,12 +147,14 @@
   <ItemGroup>
     <ClInclude Include="AbstractFactory.h" />
     <ClInclude Include="Block.h" />
+    <ClInclude Include="Coin.h" />
     <ClInclude Include="BlockMgr.h" />
     <ClInclude Include="CoinBlock.h" />
     <ClInclude Include="CollisionMgr.h" />
     <ClInclude Include="Default.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Enum.h" />
+    <ClInclude Include="Flower.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="Include.h" />
     <ClInclude Include="Item.h" />
@@ -164,6 +166,7 @@
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="Mouse.h" />
+    <ClInclude Include="Mushroom.h" />
     <ClInclude Include="MushroomMonster.h" />
     <ClInclude Include="NormalBlock.h" />
     <ClInclude Include="Obj.h" />
@@ -176,6 +179,7 @@
     <ClInclude Include="Stage3.h" />
     <ClInclude Include="Stage4.h" />
     <ClInclude Include="StageMgr.h" />
+    <ClInclude Include="Star.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Struct.h" />
     <ClInclude Include="targetver.h" />
@@ -184,10 +188,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="Coin.cpp" />
     <ClCompile Include="BlockMgr.cpp" />
     <ClCompile Include="CoinBlock.cpp" />
     <ClCompile Include="CollisionMgr.cpp" />
     <ClCompile Include="Default.cpp" />
+    <ClCompile Include="Flower.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemBlock.cpp" />
     <ClCompile Include="JumpingMonster.cpp" />
@@ -196,6 +202,7 @@
     <ClCompile Include="LineMgr.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="Mushroom.cpp" />
     <ClCompile Include="MushroomMonster.cpp" />
     <ClCompile Include="NormalBlock.cpp" />
     <ClCompile Include="Obj.cpp" />
@@ -206,6 +213,7 @@
     <ClCompile Include="Stage3.cpp" />
     <ClCompile Include="Stage4.cpp" />
     <ClCompile Include="StageMgr.cpp" />
+    <ClCompile Include="Star.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

@@ -6,10 +6,6 @@
 #include "StageMgr.h"
 
 
-
-
-
-
 CMainGame::CMainGame()
 {
 }
@@ -53,5 +49,4 @@ void CMainGame::Release(void)
 	CStageMgr::Get_Instance()->Destroy_Instance();
 
 	ReleaseDC(g_hWnd, m_hDc);
-
 }

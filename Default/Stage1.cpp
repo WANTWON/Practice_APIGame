@@ -7,6 +7,10 @@
 #include "LineMgr.h"
 #include "MushroomMonster.h"
 #include "TurtleMonster.h"
+#include "Coin.h"
+#include "Mushroom.h"
+#include "Star.h"
+#include "Flower.h"
 #include "JumpingMonster.h"
 #include "Item.h"
 #include "Block.h"
@@ -36,8 +40,11 @@ void CStage1::Initialize(void)
 	CBlockMgr::Get_Instance()->Add_Object(BLOCK_NORMAL, CAbstractFactory<CNormalBlock>::Create(500, 150));
 
 
-	CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CItem>::Create(200, 300, ITEM_COIN));
-	CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CItem>::Create(300, 400, ITEM_COIN));
+	// Test Coin
+	//CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CCoin>::Create(200, 300, ITEM_COIN));
+
+	// Test Mushroom
+	CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CMushroom>::Create(200, 300, ITEM_MUSHROOM));
 
 	CLineMgr::Get_Instance()->Initialize();
 	CBlockMgr::Get_Instance()->Initialize();
