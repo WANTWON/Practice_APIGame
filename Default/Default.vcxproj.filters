@@ -106,6 +106,15 @@
     <Filter Include="01. Obj\05.Bullet">
       <UniqueIdentifier>{decd3ad0-1177-46ee-97f8-0920cdd6b27d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\02.Block\02. ItemBlock">
+      <UniqueIdentifier>{09e8fecc-9def-43f3-8eeb-479e49f08d13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\02.Block\01. CoinBlock">
+      <UniqueIdentifier>{fc3aa760-f0c9-4f34-af7c-7db191ec287e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\02.Block\00. NormalBlock">
+      <UniqueIdentifier>{0b1818ef-78c7-42d2-baba-d87e1e0dbfc3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -225,6 +234,15 @@
     <ClInclude Include="Bullet.h">
       <Filter>01. Obj\05.Bullet</Filter>
     </ClInclude>
+    <ClInclude Include="CoinBlock.h">
+      <Filter>01. Obj\02.Block\01. CoinBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="NormalBlock.h">
+      <Filter>01. Obj\02.Block\00. NormalBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemBlock.h">
+      <Filter>01. Obj\02.Block\02. ItemBlock</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -310,6 +328,15 @@
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>01. Obj\05.Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="CoinBlock.cpp">
+      <Filter>01. Obj\02.Block\01. CoinBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="NormalBlock.cpp">
+      <Filter>01. Obj\02.Block\00. NormalBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemBlock.cpp">
+      <Filter>01. Obj\02.Block\02. ItemBlock</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

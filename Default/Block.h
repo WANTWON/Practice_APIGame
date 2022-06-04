@@ -1,6 +1,7 @@
 #pragma once
 #include "Obj.h"
-class CBlock :
+
+class CBlock abstract :
 	public CObj
 {
 public:
@@ -8,14 +9,16 @@ public:
 	virtual ~CBlock();
 
 public:
-	void Initialize(void) override;
-	int Update(void) override;
-	void Late_Update(void) override;
-	void Release(void) override;
-	void Render(HDC hDC) override;
+	virtual void Initialize(void)	override;
+	virtual int  Update(void)		PURE;
+	virtual void Late_Update(void)	PURE;
+	virtual void Release(void)		PURE;
+	virtual void Render(HDC hDC)	PURE;
 
 
 private:
-	bool m_bCreate;
+	bool	m_bCreate;
+
+
 };
 

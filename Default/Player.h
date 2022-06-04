@@ -24,6 +24,8 @@ public:
 	void Set_bJump(bool temp) { m_bJump = temp; }
 	void Set_StepBlock(bool temp) { m_bStep_Block = temp; }
 
+	float	Get_Gravity(void){ return (m_fJumpPower*m_fTime - (9.8*m_fTime*m_fTime*0.5f)); }
+
 private:
 	void Key_Input(void);
 	void Jumping(void);

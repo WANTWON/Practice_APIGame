@@ -150,6 +150,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="BlockMgr.h" />
+    <ClInclude Include="CoinBlock.h" />
     <ClInclude Include="CollisionMgr.h" />
     <ClInclude Include="Default.h" />
     <ClInclude Include="Define.h" />
@@ -158,6 +159,7 @@
     <ClInclude Include="Function.h" />
     <ClInclude Include="Include.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemBlock.h" />
     <ClInclude Include="JumpingMonster.h" />
     <ClInclude Include="KeyMgr.h" />
     <ClInclude Include="Line.h" />
@@ -167,6 +169,7 @@
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Mushroom.h" />
     <ClInclude Include="MushroomMonster.h" />
+    <ClInclude Include="NormalBlock.h" />
     <ClInclude Include="Obj.h" />
     <ClInclude Include="ObjMgr.h" />
     <ClInclude Include="Player.h" />
@@ -189,10 +192,12 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="BlockMgr.cpp" />
+    <ClCompile Include="CoinBlock.cpp" />
     <ClCompile Include="CollisionMgr.cpp" />
     <ClCompile Include="Default.cpp" />
     <ClCompile Include="Flower.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemBlock.cpp" />
     <ClCompile Include="JumpingMonster.cpp" />
     <ClCompile Include="KeyMgr.cpp" />
     <ClCompile Include="Line.cpp" />
@@ -201,6 +206,7 @@
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Mushroom.cpp" />
     <ClCompile Include="MushroomMonster.cpp" />
+    <ClCompile Include="NormalBlock.cpp" />
     <ClCompile Include="Obj.cpp" />
     <ClCompile Include="ObjMgr.cpp" />
     <ClCompile Include="Player.cpp" />
