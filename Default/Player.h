@@ -20,8 +20,6 @@ public:
 	void Set_BuffTime(DWORD dwTime) { m_dwBuffTime = dwTime; }
 	void Set_IsBuffActive(bool bIsBuffActive) { m_bIsBuffActive = bIsBuffActive; }
 
-	void Set_FixPoint( float _fY) {  m_fFixPointY = _fY; }
-
 	void Set_bJump(bool temp) { m_bJump = temp; }
 	void Set_StepMonster(bool temp) { m_bStep_Monster = temp; }
 
