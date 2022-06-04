@@ -33,6 +33,9 @@ public:
 	void Set_Dead_Moment(void);
 	void Set_Dead_Count(void) { m_bDead_Count = true; }
 	bool Get_Count(void) { return m_bDead_Count; }
+	bool Get_Buff(void) { return m_bIsBuffActive; }
+	void Get_Active(bool bActive) { m_bActive = bActive; }
+	void Set_Item(void) { m_bItem = true; }
 
 	
 private:
@@ -44,6 +47,7 @@ private:
 	void Buff_Star();
 	void Buff_Flower();
 	void Shoot();
+	void Check_Active(void);
 
 private:
 	float m_pShield_Angle;
@@ -73,6 +77,7 @@ private:
 	int m_iLife;
 	bool m_bPlay;
 	float m_fPTime;
-	
+	bool m_bActive;
+	bool m_bItem;
 };
 
