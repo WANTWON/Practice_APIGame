@@ -234,9 +234,6 @@
     <ClInclude Include="BlockMgr.h">
       <Filter>98.Design\BlockMgr</Filter>
     </ClInclude>
-    <ClInclude Include="FlyingMonster.h">
-      <Filter>01. Obj\01.Monster\04.Fying_Monster</Filter>
-    </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>01. Obj\05.Bullet</Filter>
     </ClInclude>
@@ -248,6 +245,9 @@
     </ClInclude>
     <ClInclude Include="ItemBlock.h">
       <Filter>01. Obj\02.Block\02. ItemBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="FlyingMonster.h">
+      <Filter>01. Obj\01.Monster\04.Fying_Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -332,9 +332,6 @@
     <ClCompile Include="BlockMgr.cpp">
       <Filter>98.Design\BlockMgr</Filter>
     </ClCompile>
-    <ClCompile Include="FlyingMonster.cpp">
-      <Filter>01. Obj\01.Monster\04.Fying_Monster</Filter>
-    </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>01. Obj\05.Bullet</Filter>
     </ClCompile>
@@ -346,6 +343,9 @@
     </ClCompile>
     <ClCompile Include="ItemBlock.cpp">
       <Filter>01. Obj\02.Block\02. ItemBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="FlyingMonster.cpp">
+      <Filter>01. Obj\01.Monster\04.Fying_Monster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

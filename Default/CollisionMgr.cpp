@@ -187,8 +187,6 @@ DIRECTION CCollisionMgr::Col_ReturnDir(list<CObj*> _Sour, list<CObj*> _Dest)
 
 DIRECTION CCollisionMgr::Col_ReturnDir(list<CObj*> _Sour, CObj* _Dest)
 {
-	// _Sour = �ε���
-	// _Dest = �ε��� ����
 	for (auto& Sour : _Sour)
 	{
 		float fWidth = 0.f;
