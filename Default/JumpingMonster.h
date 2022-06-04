@@ -22,5 +22,6 @@ private:
 	float m_fTime;
 	float m_fJumpPower;
 	bool m_bJump;
+	float fY;
 };
 

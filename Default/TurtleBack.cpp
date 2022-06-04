@@ -14,7 +14,7 @@ CTurtleBack::~CTurtleBack()
 
 void CTurtleBack::Initialize(void)
 {
-	m_tInfo = { 125.f,125.f, 40.f, 25.f };
+	m_tInfo = { 125.f,125.f, 40.f, 40.f };
 	m_fSpeed = 5.f;
 }
 int  CTurtleBack::Update(void)

@@ -5,10 +5,10 @@
 #include "ObjMgr.h"
 #include "TurtleBack.h"
 #include "TurtleMonster.h"
+#include "Player.h"
 
 
-
-CJumpingMonster::CJumpingMonster() : m_fTime(0), m_bJump(true)
+CJumpingMonster::CJumpingMonster() : m_fTime(0), m_bJump(false)
 {
 }
 
@@ -20,8 +20,9 @@ CJumpingMonster::~CJumpingMonster()
 void CJumpingMonster::Initialize(void)
 {
 	m_tInfo = { 125.f,125.f, 40.f, 50.f };
-	m_fSpeed = 2.f;
+	m_fSpeed = 1.f;
 	m_fJumpPower = 12.f;
+	m_dwTime = GetTickCount();
 }
 
 int CJumpingMonster::Update(void)
@@ -40,6 +41,7 @@ int CJumpingMonster::Update(void)
 
 	}
 
+	Jumping();
 	Move();
 	Update_Rect();
 
@@ -52,6 +54,16 @@ void CJumpingMonster::Late_Update(void)
 	{
 		m_bDead = true;
 
+	}
+
+	if (m_dwTime + 2000 < GetTickCount())
+	{
+		if (m_bJump == true)
+			m_bJump = false;
+		else
+			m_bJump = true;
+
+		m_dwTime = GetTickCount();
 	}
 }
 
@@ -88,19 +100,18 @@ void CJumpingMonster::Render(HDC hDC)
 void CJumpingMonster::Move(void)
 {
 	
-	float fY = 0.f;
+	 fY = 0.f;
 
 	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
 
 	if (b_LineCol)
 	{
-		Jumping();
-
+		
+		
 		if (m_tInfo.fY > fY)
 		{
 			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 			m_fTime = 0.f;
-			//m_bJump = false;
 		}
 			
 		
@@ -114,11 +125,10 @@ void CJumpingMonster::Move(void)
 
 void CJumpingMonster::Jumping(void)
 {
-	if (m_bJump)
+	if (m_bJump && dynamic_cast<CPlayer*>(m_pTarget)->Get_bJump() )
 	{
 		m_tInfo.fY -= m_fJumpPower*m_fTime - (9.8f*m_fTime*m_fTime*0.5f);
-		m_fTime += 0.10f;
-
+		m_fTime += 0.1f;
 
 		if (m_pTarget)
 		{
@@ -126,11 +136,23 @@ void CJumpingMonster::Jumping(void)
 				m_tInfo.fX += m_fSpeed;
 			else
 				m_tInfo.fX -= m_fSpeed;
+
+		}
+
+	}
+	else
+	{
+		if (m_pTarget)
+		{
+			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
+			if (m_pTarget->Get_Info().fX > m_tInfo.fX)
+				m_tInfo.fX += m_fSpeed;
+			else
+				m_tInfo.fX -= m_fSpeed;
+			
 		}
 		else
 			m_tInfo.fX += m_fSpeed;
-		
-
 	}
-	
+
 }

@@ -43,7 +43,7 @@ void CLineMgr::Release(void)
 	m_Linelist.clear();
 }
 
-bool CLineMgr::CollisionLine(float _fX, float *_fY)
+bool CLineMgr::CollisionLine(float _fX, float *Change_fY)
 {
 	if (m_Linelist.empty())
 		return false;
@@ -70,7 +70,7 @@ bool CLineMgr::CollisionLine(float _fX, float *_fY)
 	float x2 = pTarget->Get_Line().fRPoint.fX;
 	float y2 = pTarget->Get_Line().fRPoint.fY;
 
-	*_fY = ((y2 - y1) / (x2 - x1))*(_fX - x1) + y1;
+	*Change_fY = ((y2 - y1) / (x2 - x1))*(_fX - x1) + y1;
 
 	return true;
 }
