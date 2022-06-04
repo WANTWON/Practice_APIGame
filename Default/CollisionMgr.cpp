@@ -143,8 +143,6 @@ void CCollisionMgr::Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest)
 
 DIRECTION CCollisionMgr::Col_ReturnDir(list<CObj*> _Sour, list<CObj*> _Dest)
 {
-	// _Sour = �ε���
-	// _Dest = �ε��� ����
 	for (auto& Dest : _Dest)
 	{
 		for (auto& Sour : _Sour)
