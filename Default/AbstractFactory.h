@@ -1,5 +1,6 @@
 #pragma once
 #include "Obj.h"
+#include "Bullet.h"
 
 template <typename T>
 class CAbstractFactory
@@ -21,6 +22,10 @@ public:
 		CObj* pInstance = new T;
 		pInstance->Initialize();
 		pInstance->Set_Pos(_fX, _fY);
+
+		CBullet* pBullet = dynamic_cast<CBullet*>(pInstance);
+		if (pBullet)
+			pBullet->Set_StartPos(_fX, _fY);
 
 		if (eDir != DIR_END)
 			pInstance->Set_Dir(eDir);

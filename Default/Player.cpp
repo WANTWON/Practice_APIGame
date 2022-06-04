@@ -106,7 +106,7 @@ void CPlayer::Coin_Pickup()
 
 void CPlayer::Buff_Mushroom()
 {
-	if (GetTickCount() > m_dwBuffTime + 5000)
+	if (GetTickCount() > m_dwBuffTime + 10000)
 	{
 		// De-activate Buff
 		m_tInfo.fCX -= m_tInfo.fCX * .5f;
@@ -135,7 +135,7 @@ void CPlayer::Buff_Star()
 
 void CPlayer::Buff_Flower()
 {
-	if (GetTickCount() > m_dwBuffTime + 100000)
+	if (GetTickCount() > m_dwBuffTime + 10000)
 	{
 		// De-activate Buff
 		m_bCanShoot = false;

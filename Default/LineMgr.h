@@ -12,9 +12,8 @@ public:
 	void		Render(HDC hDC);
 	void		Release(void);
 
-	bool		CollisionLine(float _fX, float* _fY); //X���� ���� �ޱ� ���� ��. Y���� ��ǥ�� ������ ���ؼ�
-	bool		CollisionLine_Bullet(float _fX, float _fY, float * _OutY, CLine* _OutLine);
-
+	bool		CollisionLine(float _fX, float* _fY); //X��� ��� �ޱ� ��� ��. Y��� ��ǥ�� ����� ��ؼ�
+	CLine*		CollisionLine_Bullet(float _fX, float _fY, float * _OutY);
 
 public:
 	static CLineMgr* Get_Instance(void)

@@ -1,4 +1,4 @@
-#pragma once
+#pragma once 
 #include "Obj.h"
 class CBullet : public CObj
 {
@@ -14,9 +14,14 @@ public:
 	void Late_Update() override;
 	void Render(HDC hDC) override;
 
+	void Set_StartPos(float _fX, float _fY) { m_fBulletStartPosX = _fX; m_fBulletStartPosY = _fY; }
+
 private:
 	float m_fAnimSpeed;
 	float m_fAnimTime;
 	float m_fAnimAccel;
+
+	float m_fBulletStartPosX;
+	float m_fBulletStartPosY;
 };
 
