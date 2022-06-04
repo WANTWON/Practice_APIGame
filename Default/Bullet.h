@@ -23,5 +23,7 @@ protected:
 
 	float m_fBulletStartPosX;
 	float m_fBulletStartPosY;
+
+	OBJ_LIST  m_eID;
 };
 

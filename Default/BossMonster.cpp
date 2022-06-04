@@ -89,7 +89,7 @@ void CBossMonster::Make_Bullet(void)
 	if (m_bMove)
 		return;
 
-	/*CObjMgr::Get_Instance()->Add_Object(OBJ_BULLET, CAbstractFactory<CMonsterBullet>::Create_with_Target(m_tInfo.fX, m_tInfo.fY,
-		CObjMgr::Get_Instance()->Get_Player()));*/
+	CObjMgr::Get_Instance()->Add_Object(OBJ_BULLET, CAbstractFactory<CMonsterBullet>::Create_with_Target(m_tInfo.fX, m_tInfo.fY,
+		CObjMgr::Get_Instance()->Get_Player()));
 }
 
