@@ -14,15 +14,19 @@ public:
 	void Late_Update(void) override;
 	void Release(void) override;
 	void Render(HDC hDC) override;
-	
+
 	void Set_bJump(void) { m_bJump = true; }
 	void Set_ActiveBuff(ITEM_TYPE iBuff) { m_iActiveBuff = iBuff; }
 	void Set_BuffTime(DWORD dwTime) { m_dwBuffTime = dwTime; }
 	void Set_IsBuffActive(bool bIsBuffActive) { m_bIsBuffActive = bIsBuffActive; }
 
-	void Set_FixPoint( float _fY) {  m_fFixPointY = _fY; }
 	void Set_bJump(bool temp) { m_bJump = temp; }
-	void Set_StepBlock(bool temp) { m_bStep_Block = temp; }
+	void Set_StepMonster(bool temp) { m_bStep_Monster = temp; }
+
+	bool Get_bJump(void) { return m_bJump; }
+	void Set_JumpingTime(void) { Jumping_Time = GetTickCount(); }
+
+	
 
 	float	Get_Gravity(void){ return (m_fJumpPower*m_fTime - (9.8*m_fTime*m_fTime*0.5f)); }
 
@@ -51,12 +55,13 @@ private:
 
 	float m_fkg;
 
-	float m_fFixPointY;
-	bool m_bStep_Block;
+	bool m_bStep_Monster;
 
 	float fY;
 	float fY2;
 
+	DWORD m_dwTIme;
+	DWORD Jumping_Time;
 	POINT m_pGUIDE;
 };
 

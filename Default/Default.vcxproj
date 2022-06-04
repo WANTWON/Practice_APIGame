@@ -156,6 +156,7 @@
     <ClInclude Include="Define.h" />
     <ClInclude Include="Enum.h" />
     <ClInclude Include="Flower.h" />
+    <ClInclude Include="FlyingMonster.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="Include.h" />
     <ClInclude Include="Item.h" />
@@ -196,6 +197,7 @@
     <ClCompile Include="CollisionMgr.cpp" />
     <ClCompile Include="Default.cpp" />
     <ClCompile Include="Flower.cpp" />
+    <ClCompile Include="FlyingMonster.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemBlock.cpp" />
     <ClCompile Include="JumpingMonster.cpp" />

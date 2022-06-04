@@ -1,11 +1,11 @@
 #pragma once
 #include "Monster.h"
-class CJumpingMonster :
+class CFlyingMonster :
 	public CMonster
 {
 public:
-	CJumpingMonster();
-	~CJumpingMonster();
+	CFlyingMonster();
+	virtual ~CFlyingMonster();
 
 public:
 	void Initialize(void);

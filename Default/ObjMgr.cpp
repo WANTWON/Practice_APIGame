@@ -77,7 +77,7 @@ void CObjMgr::Render(HDC hDC)
 
 
 	TCHAR sztScore[32] = L"";
-	swprintf_s(sztScore, L"ÄÚÀÎ : %d", m_iScore);
+	swprintf_s(sztScore, L"Coin : %d", m_iScore);
 
 	TextOut(hDC, 650, 30, sztScore, lstrlen(sztScore));
 
