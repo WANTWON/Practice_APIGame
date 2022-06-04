@@ -1,10 +1,10 @@
 #pragma once
-#include "Item.h"
-class CMushroom : public CItem
+#include "Obj.h"
+class CBullet : public CObj
 {
 public:
-	CMushroom();
-	virtual ~CMushroom();
+	CBullet();
+	virtual ~CBullet();
 
 	void Initialize() override;
 	void Release() override;
@@ -15,6 +15,8 @@ public:
 	void Render(HDC hDC) override;
 
 private:
-	void Animate() override;
+	float m_fAnimSpeed;
+	float m_fAnimTime;
+	float m_fAnimAccel;
 };
 

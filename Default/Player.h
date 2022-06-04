@@ -18,6 +18,7 @@ public:
 	void Set_bJump(void) { m_bJump = true; }
 	void Set_ActiveBuff(ITEM_TYPE iBuff) { m_iActiveBuff = iBuff; }
 	void Set_BuffTime(DWORD dwTime) { m_dwBuffTime = dwTime; }
+	void Set_IsBuffActive(bool bIsBuffActive) { m_bIsBuffActive = bIsBuffActive; }
 
 	void Set_FixPoint( float _fY) {  m_fFixPointY = _fY; }
 	void Set_bJump(bool temp) { m_bJump = temp; }
@@ -31,8 +32,9 @@ private:
 	void Check_ActiveBuff(void);
 	void Coin_Pickup();
 	void Buff_Mushroom();
-	void Buff_Star(bool bActive);
-	void Buff_Flower(bool bActive);
+	void Buff_Star();
+	void Buff_Flower();
+	void Shoot();
 
 private:
 	float m_pShield_Angle;
@@ -44,6 +46,8 @@ private:
 	ITEM_TYPE m_iActiveBuff;
 	DWORD m_dwBuffTime;
 	bool m_bIsBuffActive;
+	bool m_bCanShoot;
+	DIRECTION m_iLastDir;
 
 	float m_fkg;
 
