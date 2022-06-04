@@ -91,6 +91,9 @@
     <Filter Include="98.Design\BlockMgr">
       <UniqueIdentifier>{a9496093-2d81-4da6-a5b8-366a86aa3382}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\01.Monster\04.Fying_Monster">
+      <UniqueIdentifier>{c1a633c4-2d68-4b4e-802d-0e241cc6692e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -195,6 +198,9 @@
     <ClInclude Include="BlockMgr.h">
       <Filter>98.Design\BlockMgr</Filter>
     </ClInclude>
+    <ClInclude Include="FlyingMonster.h">
+      <Filter>01. Obj\01.Monster\04.Fying_Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -265,6 +271,9 @@
     </ClCompile>
     <ClCompile Include="BlockMgr.cpp">
       <Filter>98.Design\BlockMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="FlyingMonster.cpp">
+      <Filter>01. Obj\01.Monster\04.Fying_Monster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

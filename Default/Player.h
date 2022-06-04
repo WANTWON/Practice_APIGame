@@ -20,10 +20,11 @@ public:
 	bool Get_bJump(void) { return m_bJump; }
 	void Set_JumpingTime(void) { Jumping_Time = GetTickCount(); }
 
+	
+
 private:
 	void Key_Input(void);
 	void Jumping(void);
-	void Steping(void);
 
 private:
 	float m_pShield_Angle;
@@ -39,7 +40,7 @@ private:
 	float fY;
 	float fY2;
 
-
+	DWORD m_dwTIme;
 	DWORD Jumping_Time;
 	POINT m_pGUIDE;
 };

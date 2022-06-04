@@ -35,7 +35,7 @@ public:
 	void Set_Dead(bool _dead) { m_bDead = _dead; }
 	void Set_Target(CObj* _temp) { m_pTarget = _temp; }
 
-
+	bool Get_bDead(void) { return m_bDead; }
 	void Set_PosYTemp(float _fY) { m_tInfo.fY = _fY; }
 
 protected:

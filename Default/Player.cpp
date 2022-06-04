@@ -26,7 +26,7 @@ void CPlayer::Initialize(void)
 	m_fJumpPower = 15.f;
 	m_fkg = 9.8f;
 	Jumping_Time = GetTickCount();
-
+	m_dwTIme = GetTickCount();
 }
 
 int CPlayer::Update(void)
@@ -37,7 +37,6 @@ int CPlayer::Update(void)
 	if (!m_bJump)
 		m_fTime = 0;
 
-	Steping();
 	Jumping();
 	Key_Input();
 	Update_Rect();
@@ -92,7 +91,7 @@ void CPlayer::Key_Input(void)
 void CPlayer::Jumping(void)
 {
 	
-
+	//몬스터를 밟았을 때의 포물선 운동과, 점프할 때의 포물선 운동을 다르게 지정했습니다.
 	
 	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
 	
@@ -102,7 +101,7 @@ void CPlayer::Jumping(void)
 	if (m_bStep_Monster) // 몬스터를 밟았을 때
 	{
 		m_fJumpPower = 10;
-		m_tInfo.fY -= m_fJumpPower*m_fTime - (2.8*m_fTime*m_fTime*0.5f);
+		m_tInfo.fY -= m_fJumpPower*m_fTime - (2.8f*m_fTime*m_fTime*0.5f);
 		m_fTime += 0.09f;
 		if (m_fTime > 1.2f)
 			m_fTime = 1.2f;
@@ -118,10 +117,10 @@ void CPlayer::Jumping(void)
 		}
 
 	}
-	else if (m_bJump)
+	else if (m_bJump)  //점프를 했을 때
 	{
 		m_fJumpPower = 15;
-		m_tInfo.fY -= m_fJumpPower*m_fTime - (9.8*m_fTime*m_fTime*0.5f);
+		m_tInfo.fY -= m_fJumpPower*m_fTime - (9.8f*m_fTime*m_fTime*0.5f);
 		m_fTime += 0.13f;
 		if (m_fTime > 3.9f)
 			m_fTime = 3.9f;
@@ -135,7 +134,6 @@ void CPlayer::Jumping(void)
 		{
 			m_bJump = false;
 			m_fTime = 0.0f;
-			//m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 		}
 	}
 	else if (b_LineCol)
@@ -152,12 +150,5 @@ void CPlayer::Jumping(void)
 		m_tInfo.fY += m_fSpeed;
 		m_bFalling = true;
 	}
-	
-}
-
-void CPlayer::Steping(void)
-{
-	
-
 	
 }
