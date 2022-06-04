@@ -1,11 +1,11 @@
 #pragma once
 #include "Monster.h"
-class CTurtleMonster :
+class CJumpingMonster :
 	public CMonster
 {
 public:
-	CTurtleMonster();
-	virtual ~CTurtleMonster();
+	CJumpingMonster();
+	~CJumpingMonster();
 
 public:
 	void Initialize(void);
@@ -16,8 +16,11 @@ public:
 
 	void Move(void);
 
-private:
-	
+	void Jumping(void);
 
+private:
+	float m_fTime;
+	float m_fJumpPower;
+	bool m_bJump;
 };
 

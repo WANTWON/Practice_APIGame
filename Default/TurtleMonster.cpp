@@ -6,7 +6,7 @@
 #include "TurtleBack.h"
 
 
-CTurtleMonster::CTurtleMonster()
+CTurtleMonster::CTurtleMonster() 
 {
 }
 
@@ -29,11 +29,12 @@ int  CTurtleMonster::Update(void)
 	if (m_bGet_Attacked)
 	{
 		m_tInfo.fCY = 25;
-
+		
 		if (!m_bCount)
 		{
-			CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleBack>::Create(m_tInfo.fX+20, m_tInfo.fY));
+			CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleBack>::Create(m_tInfo.fX+50, m_tInfo.fY));
 			m_dwTime = GetTickCount();
+			m_fSpeed *= 0.5f;
 			m_bCount = true;
 		}
 
@@ -56,11 +57,11 @@ void CTurtleMonster::Late_Update(void)
 		m_fSpeed *= -1.f;
 	}
 
+
 	if (m_bGet_Attacked && m_dwTime + 500 < GetTickCount())
 	{
-
-
-		m_bDead = true;
+			m_bDead = true;
+		
 	}
 
 
@@ -106,7 +107,7 @@ void CTurtleMonster::Move(void)
 
 		if (m_bFalling)
 		{
-			m_tInfo.fY += m_fSpeed;
+			m_tInfo.fY += m_fSpeed*1.3f;
 			if (m_tInfo.fY >= fY - m_tInfo.fCY*0.5f)
 				m_bFalling = false;
 		}

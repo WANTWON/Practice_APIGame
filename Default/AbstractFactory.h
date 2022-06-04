@@ -28,6 +28,16 @@ public:
 		return pInstance;
 	}
 
+	static CObj* Create_with_Target(float _fX, float _fY,CObj* pTarget)
+	{
+		CObj* pInstance = new T;
+		pInstance->Initialize();
+		pInstance->Set_Pos(_fX, _fY);
+		pInstance->Set_Target(pTarget);
+
+		return pInstance;
+	}
+
 	static CObj* Create(float _fX, float _fY, float _angle)
 	{
 		CObj* pInstance = new T;

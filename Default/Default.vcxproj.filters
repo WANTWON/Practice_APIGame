@@ -96,6 +96,11 @@
     </Filter>
     <Filter Include="01. Obj\03.Item\034.Flower">
       <UniqueIdentifier>{2b254151-c149-40e6-8cfe-66503d0d314b}</UniqueIdentifier>
+    <Filter Include="01. Obj\01.Monster\03.Jumping_Monster">
+      <UniqueIdentifier>{9979f4a1-74a0-41a3-8172-b465c498b3fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Design\BlockMgr">
+      <UniqueIdentifier>{a9496093-2d81-4da6-a5b8-366a86aa3382}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +211,11 @@
     </ClInclude>
     <ClInclude Include="Star.h">
       <Filter>01. Obj\03.Item\033.Star</Filter>
+    <ClInclude Include="JumpingMonster.h">
+      <Filter>01. Obj\01.Monster\03.Jumping_Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockMgr.h">
+      <Filter>98.Design\BlockMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -283,6 +293,11 @@
     </ClCompile>
     <ClCompile Include="Star.cpp">
       <Filter>01. Obj\03.Item\033.Star</Filter>
+    <ClCompile Include="JumpingMonster.cpp">
+      <Filter>01. Obj\01.Monster\03.Jumping_Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockMgr.cpp">
+      <Filter>98.Design\BlockMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

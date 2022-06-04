@@ -148,6 +148,7 @@
     <ClInclude Include="AbstractFactory.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="Coin.h" />
+    <ClInclude Include="BlockMgr.h" />
     <ClInclude Include="CollisionMgr.h" />
     <ClInclude Include="Default.h" />
     <ClInclude Include="Define.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="Function.h" />
     <ClInclude Include="Include.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="JumpingMonster.h" />
     <ClInclude Include="KeyMgr.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="LineMgr.h" />
@@ -184,10 +186,12 @@
   <ItemGroup>
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Coin.cpp" />
+    <ClCompile Include="BlockMgr.cpp" />
     <ClCompile Include="CollisionMgr.cpp" />
     <ClCompile Include="Default.cpp" />
     <ClCompile Include="Flower.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="JumpingMonster.cpp" />
     <ClCompile Include="KeyMgr.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="LineMgr.cpp" />

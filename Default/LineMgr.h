@@ -11,7 +11,6 @@ public:
 	void		Initialize(void);
 	void		Render(HDC hDC);
 	void		Release(void);
-
 	bool		CollisionLine(float _fX, float* _fY); //X값은 값을 받기 위한 것. Y값은 좌표값 변경을 위해서
 
 public:
