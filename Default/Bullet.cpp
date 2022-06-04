@@ -38,14 +38,15 @@ int CBullet::Update()
 	{
 		bool bBounce = false;
 		float fY = 0.f;
-		CLine* b_ColLine = CLineMgr::Get_Instance()->CollisionLine_Bullet(m_tInfo.fX, m_tInfo.fY, &fY);
+		CLine* b_ColLine = CLineMgr::Get_Instance()->CollisionLine_Bullet(m_tInfo.fX, &fY);
 
 		// Falling
 		if (!b_ColLine)
 		{
-			
-			m_tInfo.fY += m_fSpeed;
-			m_tInfo.fX += Get_Dir() == DIR_RIGHT ? m_fSpeed : -m_fSpeed;
+			m_bDead = true;
+			return OBJ_NOEVENT;
+			/*m_tInfo.fY += m_fSpeed;
+			m_tInfo.fX += Get_Dir() == DIR_RIGHT ? m_fSpeed : -m_fSpeed;*/
 		}
 		// Not Falling
 		else
