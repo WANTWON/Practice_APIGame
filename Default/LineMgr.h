@@ -11,7 +11,12 @@ public:
 	void		Initialize(void);
 	void		Render(HDC hDC);
 	void		Release(void);
-	bool		CollisionLine(float _fX, float *Change_fY); //X°ªÀº °ªÀ» ¹Þ±â À§ÇÑ °Í. Y°ªÀº ÁÂÇ¥°ª º¯°æÀ» À§ÇØ¼­
+
+	bool		CollisionLine(float _fX, float *Change_fY); //Xï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½. Yï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½
+
+	bool		CollisionLine(float _fX, float* _fY); //Xï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½. Yï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½
+	bool		CollisionLine_Bullet(float _fX, float _fY, float * _OutY, CLine* _OutLine);
+
 
 public:
 	static CLineMgr* Get_Instance(void)

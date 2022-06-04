@@ -85,6 +85,18 @@
     <Filter Include="98.Design\StageMgr">
       <UniqueIdentifier>{c84434f6-d826-4eef-9c26-523cdcd26ddc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\03.Item\031.Coin">
+      <UniqueIdentifier>{fec90c42-893e-4c7c-8ff3-379abc5d56aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\03.Item\032.Mushroom">
+      <UniqueIdentifier>{560fa323-c1dd-4145-a386-48ec24876962}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\03.Item\033.Star">
+      <UniqueIdentifier>{2aec992a-1bd7-41af-8e06-85918a96ab27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\03.Item\034.Flower">
+      <UniqueIdentifier>{2b254151-c149-40e6-8cfe-66503d0d314b}</UniqueIdentifier>
+    </Filter>
     <Filter Include="01. Obj\01.Monster\03.Jumping_Monster">
       <UniqueIdentifier>{9979f4a1-74a0-41a3-8172-b465c498b3fd}</UniqueIdentifier>
     </Filter>
@@ -93,6 +105,18 @@
     </Filter>
     <Filter Include="01. Obj\01.Monster\04.Fying_Monster">
       <UniqueIdentifier>{c1a633c4-2d68-4b4e-802d-0e241cc6692e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\05.Bullet">
+      <UniqueIdentifier>{decd3ad0-1177-46ee-97f8-0920cdd6b27d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\02.Block\02. ItemBlock">
+      <UniqueIdentifier>{09e8fecc-9def-43f3-8eeb-479e49f08d13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\02.Block\01. CoinBlock">
+      <UniqueIdentifier>{fc3aa760-f0c9-4f34-af7c-7db191ec287e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\02.Block\00. NormalBlock">
+      <UniqueIdentifier>{0b1818ef-78c7-42d2-baba-d87e1e0dbfc3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -192,6 +216,18 @@
     <ClInclude Include="StageMgr.h">
       <Filter>98.Design\StageMgr</Filter>
     </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>01. Obj\03.Item\031.Coin</Filter>
+    </ClInclude>
+    <ClInclude Include="Mushroom.h">
+      <Filter>01. Obj\03.Item\032.Mushroom</Filter>
+    </ClInclude>
+    <ClInclude Include="Flower.h">
+      <Filter>01. Obj\03.Item\034.Flower</Filter>
+    </ClInclude>
+    <ClInclude Include="Star.h">
+      <Filter>01. Obj\03.Item\033.Star</Filter>
+    </ClInclude>
     <ClInclude Include="JumpingMonster.h">
       <Filter>01. Obj\01.Monster\03.Jumping_Monster</Filter>
     </ClInclude>
@@ -200,6 +236,18 @@
     </ClInclude>
     <ClInclude Include="FlyingMonster.h">
       <Filter>01. Obj\01.Monster\04.Fying_Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>01. Obj\05.Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="CoinBlock.h">
+      <Filter>01. Obj\02.Block\01. CoinBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="NormalBlock.h">
+      <Filter>01. Obj\02.Block\00. NormalBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemBlock.h">
+      <Filter>01. Obj\02.Block\02. ItemBlock</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -266,6 +314,18 @@
     <ClCompile Include="StageMgr.cpp">
       <Filter>98.Design\StageMgr</Filter>
     </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>01. Obj\03.Item\031.Coin</Filter>
+    </ClCompile>
+    <ClCompile Include="Mushroom.cpp">
+      <Filter>01. Obj\03.Item\032.Mushroom</Filter>
+    </ClCompile>
+    <ClCompile Include="Flower.cpp">
+      <Filter>01. Obj\03.Item\034.Flower</Filter>
+    </ClCompile>
+    <ClCompile Include="Star.cpp">
+      <Filter>01. Obj\03.Item\033.Star</Filter>
+    </ClCompile>
     <ClCompile Include="JumpingMonster.cpp">
       <Filter>01. Obj\01.Monster\03.Jumping_Monster</Filter>
     </ClCompile>
@@ -274,6 +334,18 @@
     </ClCompile>
     <ClCompile Include="FlyingMonster.cpp">
       <Filter>01. Obj\01.Monster\04.Fying_Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>01. Obj\05.Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="CoinBlock.cpp">
+      <Filter>01. Obj\02.Block\01. CoinBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="NormalBlock.cpp">
+      <Filter>01. Obj\02.Block\00. NormalBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemBlock.cpp">
+      <Filter>01. Obj\02.Block\02. ItemBlock</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

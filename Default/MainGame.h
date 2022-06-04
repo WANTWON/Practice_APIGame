@@ -3,6 +3,7 @@
 #include "Mouse.h"
 #include "Stage.h"
 
+
 class CMainGame
 {
 public:

@@ -12,8 +12,8 @@ private:
 	~CObjMgr();
 
 	static CObjMgr* m_pInstance;
-
 	list<CObj*> m_pObjList[OBJ_END];
+
 	int m_iScore;
 
 public:
@@ -36,6 +36,7 @@ public:
 	}
 
 	CObj* Get_Player() { return m_pObjList[OBJ_PLAYER].front(); }
+	list<CObj*> Get_listPlayer() { return m_pObjList[OBJ_PLAYER]; }
 	list<CObj*> Get_Monsters() { return m_pObjList[OBJ_MONSTER]; }
 	list<CObj*> Get_Blocks() { return m_pObjList[OBJ_BLOCK]; }
 	list<CObj*> Get_Items() { return m_pObjList[OBJ_ITEM]; }
