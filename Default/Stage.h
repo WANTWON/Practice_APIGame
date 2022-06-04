@@ -18,12 +18,15 @@ public:
 	virtual void Late_Update(void) PURE;
 	virtual void Release(void) PURE;
 	virtual void Render(HDC hDC) PURE;
+public:
+	void	Set_Clear_true(void) { m_bClear = true; }
 
 protected:
 	DWORD  m_dwTime;
 
 	bool m_bClear;
 	int m_iScore;
+	
 
 };
 

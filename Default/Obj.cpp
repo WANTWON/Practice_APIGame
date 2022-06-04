@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Obj.h"
 
-CObj::CObj() : m_bDead(false), m_fSpeed(0.f)
+CObj::CObj() : m_bDead(false), m_fSpeed(0.f), m_bDead_Count(false), m_bBye(false)
 {
 	ZeroMemory(&m_tInfo, sizeof(INFO));
 	ZeroMemory(&m_tRect, sizeof(RECT));
