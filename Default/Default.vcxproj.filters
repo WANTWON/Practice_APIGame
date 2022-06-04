@@ -103,6 +103,9 @@
     <Filter Include="98.Design\BlockMgr">
       <UniqueIdentifier>{a9496093-2d81-4da6-a5b8-366a86aa3382}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\01.Monster\04.Fying_Monster">
+      <UniqueIdentifier>{c1a633c4-2d68-4b4e-802d-0e241cc6692e}</UniqueIdentifier>
+    </Filter>
     <Filter Include="01. Obj\05.Bullet">
       <UniqueIdentifier>{decd3ad0-1177-46ee-97f8-0920cdd6b27d}</UniqueIdentifier>
     </Filter>
@@ -243,6 +246,9 @@
     <ClInclude Include="ItemBlock.h">
       <Filter>01. Obj\02.Block\02. ItemBlock</Filter>
     </ClInclude>
+    <ClInclude Include="FlyingMonster.h">
+      <Filter>01. Obj\01.Monster\04.Fying_Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -337,6 +343,9 @@
     </ClCompile>
     <ClCompile Include="ItemBlock.cpp">
       <Filter>01. Obj\02.Block\02. ItemBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="FlyingMonster.cpp">
+      <Filter>01. Obj\01.Monster\04.Fying_Monster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

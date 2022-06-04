@@ -35,9 +35,9 @@ public:
 	void Set_Dead(bool _dead) { m_bDead = _dead; }
 	void Set_Target(CObj* _temp) { m_pTarget = _temp; }
 
-
+	bool Get_bDead(void) { return m_bDead; }
 	void Set_PosYTemp(float _fY) { m_tInfo.fY = _fY; }
-
+	bool Get_Bye(void) { return m_bBye; }
 protected:
 	INFO m_tInfo;
 	RECT m_tRect;
@@ -46,5 +46,7 @@ protected:
 	DIRECTION m_eDir;
 	CObj* m_pTarget;
 	bool m_bDead;
+	bool m_bBye;
+	bool m_bDead_Count;
 };
 

@@ -27,14 +27,14 @@ int  CMushroomMonster::Update(void)
 
 	if (m_bGet_Attacked)
 	{
-		m_tInfo.fCY = 15;
+		m_iMonsterNumder = 1;
+		m_bDead = true;
 
-		if (!m_bCount)
+	/*	if (!m_bCount)
 		{
 			m_dwTime = GetTickCount();
 			m_bCount = true;
-		}
-
+		}*/
 	}
 	Move();
 	Update_Rect();
@@ -54,8 +54,8 @@ void CMushroomMonster::Late_Update(void)
 		m_fSpeed *= -1.f;
 	}
 
-	if (m_bGet_Attacked && m_dwTime + 500 < GetTickCount())
-		m_bDead = true;
+	/*if (m_bGet_Attacked && m_dwTime + 500 < GetTickCount())
+		m_bDead = true;*/
 
 }
 

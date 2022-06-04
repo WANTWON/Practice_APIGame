@@ -44,7 +44,18 @@ void CCoin::Late_Update()
 
 void CCoin::Render(HDC hDC)
 {
+	HBRUSH myBrush = nullptr;
+	HBRUSH oldBrush = nullptr;
+
+	myBrush = (HBRUSH)CreateSolidBrush(RGB(255, 255, 0));
+	oldBrush = (HBRUSH)SelectObject(hDC, myBrush);
+
 	Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+
+	SelectObject(hDC, oldBrush);
+	DeleteObject(myBrush);
+
+	
 }
 
 void CCoin::Animate()

@@ -111,26 +111,33 @@ void CCollisionMgr::Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest)
 			{
 				if (fWidth > fHeight)  //상하 충돌
 				{
+					if (true == dynamic_cast<CPlayer*>(Sour)->Get_Count())
+					{
+						continue;
+					}
+
 					if (Dest->Get_Info().fY >= Sour->Get_Info().fY)
 					{
+						Sour->Set_PosY(-fHeight);
 						dynamic_cast<CMonster*>(Dest)->Be_Attacked();
-						dynamic_cast<CPlayer*>(Sour)->Set_bJump(true);
+						dynamic_cast<CPlayer*>(Sour)->Set_StepMonster(true);
+						dynamic_cast<CPlayer*>(Sour)->Set_JumpingTime();
 					}
 					else
 					{
-						Sour->Set_PosY(fHeight);
+						dynamic_cast<CPlayer*>(Sour)->Set_Dead_Count();
+						//Sour->Set_PosY(fHeight);
 					}
-
 				}
 				else //좌우 충돌 
 				{
-					if (Dest->Get_Info().fX > Sour->Get_Info().fX)
+				if (Dest->Get_Rect().left <= Sour->Get_Rect().right)
 					{
-						Sour->Set_PosX(-fWidth);
+					dynamic_cast<CPlayer*>(Sour)->Set_Dead_Count();
 					}
-					else
+				else
 					{
-						Sour->Set_PosX(fWidth);
+					dynamic_cast<CPlayer*>(Sour)->Set_Dead_Count();
 					}
 				}
 
@@ -141,8 +148,6 @@ void CCollisionMgr::Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest)
 
 DIRECTION CCollisionMgr::Col_ReturnDir(list<CObj*> _Sour, list<CObj*> _Dest)
 {
-	// _Sour = �ε���
-	// _Dest = �ε��� ����
 	for (auto& Dest : _Dest)
 	{
 		for (auto& Sour : _Sour)
@@ -185,8 +190,6 @@ DIRECTION CCollisionMgr::Col_ReturnDir(list<CObj*> _Sour, list<CObj*> _Dest)
 
 DIRECTION CCollisionMgr::Col_ReturnDir(list<CObj*> _Sour, CObj* _Dest)
 {
-	// _Sour = �ε���
-	// _Dest = �ε��� ����
 	for (auto& Sour : _Sour)
 	{
 		float fWidth = 0.f;
