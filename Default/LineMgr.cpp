@@ -75,7 +75,7 @@ bool CLineMgr::CollisionLine(float _fX, float *_fY)
 	return true;
 }
 
-bool CLineMgr::CollisionLine_Bullet(float _fX, float _fY, float * _OutY, CLine* _OutLine)
+CLine* CLineMgr::CollisionLine_Bullet(float _fX, float _fY, float * _OutY)
 {
 	if (m_Linelist.empty())
 		return false;
@@ -90,7 +90,7 @@ bool CLineMgr::CollisionLine_Bullet(float _fX, float _fY, float * _OutY, CLine* 
 	}
 
 	if (!pTarget)
-		return false;
+		return nullptr;
 
 	float x1 = pTarget->Get_Line().fLPoint.fX;
 	float y1 = pTarget->Get_Line().fLPoint.fY;
@@ -99,7 +99,6 @@ bool CLineMgr::CollisionLine_Bullet(float _fX, float _fY, float * _OutY, CLine* 
 	float y2 = pTarget->Get_Line().fRPoint.fY;
 
 	*_OutY = ((y2 - y1) / (x2 - x1))*(_fX - x1) + y1;
-	//*_OutLine = CLine(LINEPOINT(pTarget->Get_Line().fLPoint.fX), LINEPOINT());
-
-	return true;
+	
+	return pTarget;
 }

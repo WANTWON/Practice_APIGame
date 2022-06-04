@@ -3,12 +3,12 @@
 #include "LineMgr.h"
 
 // Bullet:
-// .Should bounce on horizontal surfaces;
-// .Should be destroyed on collision with vertical surfaces;
+// .Should bounce on horizontal surfaces; -OK
+// .Should be destroyed on collision with vertical surfaces; -OK
 // .Should be destroyed on collision with monsters;
 // .Should be destroyed when exiting the screen space.
 
-CBullet::CBullet() : m_fAnimSpeed(0.f), m_fAnimTime(0.f), m_fAnimAccel(9.8f)
+CBullet::CBullet() : m_fAnimSpeed(0.f), m_fAnimTime(0.f), m_fAnimAccel(9.8f), m_fBulletStartPosX(0.f), m_fBulletStartPosY(0.f)
 {
 }
 
@@ -34,30 +34,40 @@ int CBullet::Update()
 	if (m_bDead)
 		return OBJ_DEAD;
 
-	if (Get_Dir() == DIR_RIGHT)
+	if (Get_Dir() == DIR_LEFT || Get_Dir() == DIR_RIGHT)
 	{
+		bool bBounce = false;
 		float fY = 0.f;
-		bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
+		CLine* b_ColLine = CLineMgr::Get_Instance()->CollisionLine_Bullet(m_tInfo.fX, m_tInfo.fY, &fY);
 
-		
+		// Falling
+		if (!b_ColLine)
+		{
+			
+			m_tInfo.fY += m_fSpeed;
+			m_tInfo.fX += Get_Dir() == DIR_RIGHT ? m_fSpeed : -m_fSpeed;
+		}
+		// Not Falling
+		else
+		{
+			// Line Collision
+			if (m_tInfo.fY >= fY)
+			{
+				if (b_ColLine->Get_Line().fLPoint.fY < m_fBulletStartPosY || b_ColLine->Get_Line().fRPoint.fY < m_fBulletStartPosY)
+				{
+					m_bDead = true;
+					return OBJ_NOEVENT;
+				}
 
-		m_tInfo.fY += m_fAnimSpeed * m_fAnimTime + (m_fAnimAccel * pow(m_fAnimTime, 2)) * 0.5f;
-		m_fAnimTime += 0.01f;
+				m_tInfo.fY = fY;
+				bBounce = true;
+			}
 
-		m_tInfo.fX += m_fSpeed;
-	}
-		
-	else if (Get_Dir() == DIR_LEFT)
-	{
-		float fY = 0.f;
-		CLine line;
-
-		bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine_Bullet(m_tInfo.fX, m_tInfo.fY, &fY, &line);
-		
-		m_tInfo.fY += m_fAnimSpeed * m_fAnimTime + (m_fAnimAccel * pow(m_fAnimTime, 2)) * 0.5f;
-		m_fAnimTime += 0.01f;
-
-		m_tInfo.fX -= m_fSpeed;
+			m_tInfo.fY += m_fAnimSpeed * m_fAnimTime + (m_fAnimAccel * pow(m_fAnimTime, 2)) * 0.5f;
+			m_fAnimTime += bBounce ? -0.2 : 0.01f;
+			m_tInfo.fX += Get_Dir() == DIR_RIGHT ? m_fSpeed : -m_fSpeed;
+			bBounce = false;
+		}
 	}
 	
 	Update_Rect();

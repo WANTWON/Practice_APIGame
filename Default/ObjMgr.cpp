@@ -77,8 +77,8 @@ void CObjMgr::Render(HDC hDC)
 
 
 	TCHAR sztScore[32] = L"";
-	swprintf_s(sztScore, L"√Ñ√ö√Ä√é : %d", m_iScore);
-
+	swprintf_s(sztScore, L"ƒ⁄¿Œ : %d", m_iScore);
+	
 	TextOut(hDC, 650, 30, sztScore, lstrlen(sztScore));
 
 }
