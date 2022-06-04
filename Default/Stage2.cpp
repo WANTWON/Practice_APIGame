@@ -42,6 +42,9 @@ void CStage2::Initialize(void)
 
 int CStage2::Update(void)
 {
+	if (m_bClear)
+		return STAGE_CLEAR;
+
 	CObjMgr::Get_Instance()->Update();
 	CBlockMgr::Get_Instance()->Update();
 

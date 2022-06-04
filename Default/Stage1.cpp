@@ -26,6 +26,7 @@ CStage1::CStage1()
 
 CStage1::~CStage1()
 {
+	Release();
 }
 
 void CStage1::Initialize(void)
@@ -39,7 +40,7 @@ void CStage1::Initialize(void)
 
 	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CMushroomMonster>::Create(600, 200));
 	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleMonster>::Create(500, 200));
-	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CJumpingMonster>::Create_with_Target(300, 300, CObjMgr::Get_Instance()->Get_Player()));
+//	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CJumpingMonster>::Create_with_Target(300, 300, CObjMgr::Get_Instance()->Get_Player()));
 
 	CBlockMgr::Get_Instance()->Add_Object(BLOCK_NORMAL, CAbstractFactory<CNormalBlock>::Create(550, 150));
 	CBlockMgr::Get_Instance()->Add_Object(BLOCK_NORMAL, CAbstractFactory<CNormalBlock>::Create(500, 150));
@@ -65,7 +66,9 @@ void CStage1::Initialize(void)
 
 int CStage1::Update(void)
 {
-		
+	if (m_bClear)
+		return STAGE_CLEAR;
+
 	CObjMgr::Get_Instance()->Update();
 	CBlockMgr::Get_Instance()->Update();
 
@@ -74,7 +77,9 @@ int CStage1::Update(void)
 
 void CStage1::Late_Update(void)
 {
-
+	if (CObjMgr::Get_Instance()->Get_Player()->Get_Bye())
+		m_bClear = true;
+		
 
 	CObjMgr::Get_Instance()->Late_Update();
 	CBlockMgr::Get_Instance()->Late_Update();

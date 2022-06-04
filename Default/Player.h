@@ -2,6 +2,7 @@
 #include "Obj.h"
 
 
+
 class CPlayer :
 	public CObj
 {
@@ -29,7 +30,11 @@ public:
 	
 
 	float	Get_Gravity(void){ return (m_fJumpPower*m_fTime - (9.8*m_fTime*m_fTime*0.5f)); }
+	void Set_StepBlock(bool temp) { m_bStep_Block = temp; }
+	void Set_Dead_Moment(void);
+	void Set_Dead_Count(void) { m_bDead_Count = true; }
 
+	
 private:
 	void Key_Input(void);
 	void Jumping(void);
@@ -63,5 +68,12 @@ private:
 	DWORD m_dwTIme;
 	DWORD Jumping_Time;
 	POINT m_pGUIDE;
+	
+	
+	int m_iLife;
+	bool m_bPlay;
+	float m_fPTime;
+
+	
 };
 

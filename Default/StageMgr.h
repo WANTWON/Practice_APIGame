@@ -16,6 +16,8 @@ public:
 	void Render(HDC hDC);
 	void Set_Stage(STAGE_LIST _Stage) { m_eChoice_Stage = _Stage; }
 	void Release(void);
+	void Set_NewGame(void) { m_bNewGame = true; }
+	
 
 public:
 	static CStageMgr* Get_Instance(void)

@@ -23,8 +23,7 @@ void CTurtleMonster::Initialize(void)
 }
 int  CTurtleMonster::Update(void)
 {
-	if (m_bDead)
-		return OBJ_DEAD;
+	
 
 	if (m_bGet_Attacked)
 	{
@@ -39,6 +38,10 @@ int  CTurtleMonster::Update(void)
 		}
 
 	}
+
+	if (m_bDead)
+		return OBJ_DEAD;
+
 	Move();
 	Update_Rect();
 
@@ -58,7 +61,7 @@ void CTurtleMonster::Late_Update(void)
 	}
 
 
-	if (m_bGet_Attacked && m_dwTime + 500 < GetTickCount())
+	if (m_bGet_Attacked )//&& m_dwTime + 500 < GetTickCount())
 	{
 			m_bDead = true;
 		
