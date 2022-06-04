@@ -2,6 +2,7 @@
 #include "Obj.h"
 
 
+
 class CPlayer :
 	public CObj
 {
@@ -17,7 +18,10 @@ public:
 	void Set_FixPoint( float _fY) {  m_fFixPointY = _fY; }
 	void Set_bJump(bool temp) { m_bJump = temp; }
 	void Set_StepBlock(bool temp) { m_bStep_Block = temp; }
+	void Set_Dead_Moment(void);
+	void Set_Dead_Count(void) { m_bDead_Count = true; }
 
+	
 private:
 	void Key_Input(void);
 	void Jumping(void);
@@ -38,5 +42,12 @@ private:
 	float fY2;
 
 	POINT m_pGUIDE;
+	
+	
+	int m_iLife;
+	bool m_bPlay;
+	float m_fPTime;
+
+	
 };
 

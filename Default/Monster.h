@@ -4,7 +4,7 @@ class CMonster :
 	public CObj
 {
 public:
-	CMonster() : m_bFalling(true), m_bGet_Attacked(false), m_bCount(false), iAttack_Count(0){}
+	CMonster() : m_bFalling(true), m_bGet_Attacked(false), m_bCount(false), iAttack_Count(0), m_iMonsterNumder(0) {}
 	virtual ~CMonster() {}
 
 public:
@@ -18,7 +18,7 @@ public:
 
 public:
 	void Be_Attacked(void) { m_bGet_Attacked = true; iAttack_Count++; }
-
+	int Get_Number(void) { return m_iMonsterNumder; }
 
 protected:
 	bool m_bFalling;
@@ -26,5 +26,6 @@ protected:
 	int  iAttack_Count;
 	bool m_bCount;
 	DWORD m_dwTime;
+	int m_iMonsterNumder;
 };
 

@@ -101,7 +101,6 @@ int CCollisionMgr::Check_Rect(CObj* Sour, CObj* Dest, float* _pX, float* _pY)
 
 void CCollisionMgr::Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest)
 {
-
 	for (auto& Dest : _Dest)
 	{
 		for (auto& Sour : _Sour)
@@ -113,26 +112,26 @@ void CCollisionMgr::Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest)
 			{
 				if (fWidth > fHeight)  //상하 충돌
 				{
-					if (Dest->Get_Info().fY >= Sour->Get_Info().fY)
+					if (Dest->Get_Rect().top <= Sour->Get_Rect().bottom)
 					{
 						dynamic_cast<CMonster*>(Dest)->Be_Attacked();
 						dynamic_cast<CPlayer*>(Sour)->Set_bJump(true);
 					}
 					else
 					{
-						Sour->Set_PosY(fHeight);
+						dynamic_cast<CPlayer*>(Sour)->Set_Dead_Count();
+						//Sour->Set_PosY(fHeight);
 					}
-					
 				}
 				else //좌우 충돌 
 				{
-					if (Dest->Get_Info().fX > Sour->Get_Info().fX)
+				if (Dest->Get_Rect().left <= Sour->Get_Rect().right)
 					{
-						Sour->Set_PosX(-fWidth);
+					dynamic_cast<CPlayer*>(Sour)->Set_Dead_Count();
 					}
-					else
+				else
 					{
-						Sour->Set_PosX(fWidth);
+					dynamic_cast<CPlayer*>(Sour)->Set_Dead_Count();
 					}
 				}
 			}

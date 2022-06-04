@@ -3,6 +3,7 @@
 #include "Obj.h"
 #include "CollisionMgr.h"
 #include "Player.h"
+#include "Monster.h"
 
 CObjMgr* CObjMgr::m_pInstance = nullptr;
 
@@ -62,8 +63,7 @@ void CObjMgr::Late_Update()
 	m_iScore += CCollisionMgr::Collision_Coin(Get_Player(), Get_Items());
 	
 	CCollisionMgr::Step_on_Mushroom(m_pObjList[OBJ_PLAYER], m_pObjList[OBJ_MONSTER]);
-	CCollisionMgr::Collision_Rect_Ex(Get_Monsters(), m_pObjList[OBJ_PLAYER]);
-	CCollisionMgr::Collision_Rect_Ex(m_pObjList[OBJ_MONSTER], m_pObjList[OBJ_PLAYER]);
+	//CCollisionMgr::Collision_Rect_Ex(m_pObjList[OBJ_MONSTER], m_pObjList[OBJ_PLAYER]);
 
 }
 
@@ -73,6 +73,18 @@ void CObjMgr::Render(HDC hDC)
 	{
 		for (auto& iter : m_pObjList[i])
 			iter->Render(hDC);
+	}
+
+	for (auto& iter : m_pObjList[OBJ_MONSTER])
+	{
+		RECT rc = {};
+		rc = iter->Get_Rect();
+		int Number = dynamic_cast<CMonster*>(iter)->Get_Number();
+
+		if (1 == Number)
+		{
+			Rectangle(hDC, rc.left, rc.top, rc.right, rc.bottom);
+		}
 	}
 
 

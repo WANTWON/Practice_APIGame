@@ -5,9 +5,11 @@
 #include "LineMgr.h"
 #include "KeyMgr.h"
 #include "BlockMgr.h"
+#include "StageMgr.h"
+#include "Stage.h"
 
 
-CPlayer::CPlayer() : m_pShield_Angle(0), m_bJump(false), m_fJumpPower(0), m_fTime(0), m_bFalling(false), m_bStep_Block(false), fY(0), fY2(0)
+CPlayer::CPlayer() : m_pShield_Angle(0), m_bJump(false), m_fJumpPower(0), m_fTime(0), m_bFalling(false), m_bStep_Block(false), fY(0), fY2(0), m_iLife(0), m_bPlay(true), m_fPTime(0.f)
 {
 	ZeroMemory(&m_pGUIDE, sizeof(POINT));
 }
@@ -25,7 +27,7 @@ void CPlayer::Initialize(void)
 	m_fSpeed = 5.f;
 	m_fJumpPower = 15.f;
 	m_fkg = 9.8f;
-
+	m_iLife = 3;
 }
 
 int CPlayer::Update(void)
@@ -36,6 +38,7 @@ int CPlayer::Update(void)
 	if (!m_bJump)
 		m_fTime = 0;
 
+	
 	Jumping();
 	Key_Input();
 	Update_Rect();
@@ -50,6 +53,8 @@ void  CPlayer::Late_Update(void)
 		m_tInfo.fY = 0.f;
 	}
 	CBlockMgr::Get_Instance()->Collision_with_Direction(this);
+	Set_Dead_Moment();
+	
 }
 
 void CPlayer::Release(void)
@@ -62,6 +67,9 @@ void CPlayer::Render(HDC hDC)
 	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
 
 }
+
+
+
 
 void CPlayer::Key_Input(void)
 {
@@ -79,43 +87,66 @@ void CPlayer::Key_Input(void)
 
 void CPlayer::Jumping(void)
 {
-	
-	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
-	
-	bool b_BlockCol = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
-
-	if (m_bJump)
+	if (m_bPlay)
 	{
-		m_tInfo.fY -= m_fJumpPower*m_fTime - (9.8*m_fTime*m_fTime*0.5f);
-		m_fTime += 0.13f;
-		if (m_fTime > 3.9f)
-			m_fTime = 3.9f;
+		bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
 
-		if (b_BlockCol && m_tInfo.fY+m_tInfo.fCY*0.5f >= fY2) //플레이어의 Bottom 값이 블록의 Top이랑 미세하게 겹쳤을 때만 (즉 상단 접촉할 때)
+		bool b_BlockCol = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
+
+		if (m_bJump)
 		{
-			m_fTime = 0.0f;
-			m_bJump = false;
+			m_tInfo.fY -= m_fJumpPower*m_fTime - (9.8*m_fTime*m_fTime*0.5f);
+			m_fTime += 0.13f;
+			if (m_fTime > 3.9f)
+				m_fTime = 3.9f;
+
+			if (b_BlockCol && m_tInfo.fY + m_tInfo.fCY*0.5f >= fY2) //플레이어의 Bottom 값이 블록의 Top이랑 미세하게 겹쳤을 때만 (즉 상단 접촉할 때)
+			{
+				m_fTime = 0.0f;
+				m_bJump = false;
+			}
+			if (b_LineCol && m_tInfo.fY > fY) //땅보다 더 내려갈 수 있으니까
+			{
+				m_bJump = false;
+				m_fTime = 0.0f;
+				//m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
+			}
 		}
-		if (b_LineCol && m_tInfo.fY > fY) //땅보다 더 내려갈 수 있으니까
+		else if (b_LineCol)
 		{
-			m_bJump = false;
-			m_fTime = 0.0f;
-			//m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
-		}
-	}
-	else if (b_LineCol)
-	{
-		if (b_BlockCol)
-		{
-			m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
+			if (b_BlockCol)
+			{
+				m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
+			}
+			else
+				m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 		}
 		else
-			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
+		{
+			m_tInfo.fY += m_fSpeed;
+			m_bFalling = true;
+		}
 	}
-	else
+}
+
+
+
+void CPlayer::Set_Dead_Moment(void)
+{
+	if (m_bDead_Count)
 	{
-		m_tInfo.fY += m_fSpeed;
-		m_bFalling = true;
+		m_bPlay = false;
+		m_tInfo.fY -= m_fJumpPower*m_fPTime - (9.8*m_fPTime*m_fPTime*0.5f);
+		m_fPTime += 0.13f;
+		
+		if (m_tInfo.fY > WINCY)
+		{
+			m_iLife -= 1;
+			m_fPTime = 0.0f;
+			m_bPlay = true;
+			m_bJump = false;
+			m_bBye = true;
+			m_bDead_Count = false;
+		}
 	}
-	
 }
