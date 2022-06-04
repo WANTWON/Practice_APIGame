@@ -2,7 +2,7 @@
 #include "Line.h"
 
 
-CLine::CLine()
+CLine::CLine() 
 {
 }
 
