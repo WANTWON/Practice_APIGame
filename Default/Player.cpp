@@ -6,7 +6,7 @@
 #include "KeyMgr.h"
 
 
-CPlayer::CPlayer() : m_pShield_Angle(0), m_bJump(false), m_fJumpPower(0), m_fTime(0), m_bFalling(false), m_iActiveBuff(ITEM_END)
+CPlayer::CPlayer() : m_pShield_Angle(0), m_bJump(false), m_fJumpPower(0), m_fTime(0), m_bFalling(false), m_iActiveBuff(ITEM_END), m_dwBuffTime(GetTickCount()), m_bIsBuffActive(false)
 {
 	ZeroMemory(&m_pGUIDE, sizeof(POINT));
 }
@@ -60,17 +60,32 @@ void CPlayer::Render(HDC hDC)
 
 }
 
-void CPlayer::Buff_Mushroom(bool bActive)
+void CPlayer::Coin_Pickup()
 {
-	if (bActive)
+	// Increase Coin by 1
+	// Increase Points by 200
+}
+
+void CPlayer::Buff_Mushroom()
+{
+	if (GetTickCount() > m_dwBuffTime + 5000)
 	{
-		m_tInfo.fCX = 100.f;
-		m_tInfo.fCY = 100.f;
+		// Half Size
+		m_tInfo.fCX -= m_tInfo.fCX * .5f;
+		m_tInfo.fCY -= m_tInfo.fCY * .5f;
+
+		m_iActiveBuff = ITEM_END;
 	}
 	else
 	{
-		m_tInfo.fCX = 50.f;
-		m_tInfo.fCY = 50.f;
+		if (!m_bIsBuffActive)
+		{
+			// Double Size
+			m_tInfo.fCX += m_tInfo.fCX;
+			m_tInfo.fCY += m_tInfo.fCY;
+
+			m_bIsBuffActive = true;
+		}
 	}
 }
 
@@ -137,8 +152,11 @@ void CPlayer::Check_ActiveBuff(void)
 {
 	switch (m_iActiveBuff)
 	{
+	case ITEM_COIN:
+		Coin_Pickup();
+		break;
 	case ITEM_MUSHROOM:
-		Buff_Mushroom(true);
+		Buff_Mushroom();
 		break;
 	case ITEM_STAR:
 		Buff_Star(true);

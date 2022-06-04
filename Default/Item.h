@@ -9,7 +9,7 @@ public:
 	virtual ~CItem();
 
 	// 게터와 세터
-	int Get_Type() { return m_Type; }
+	ITEM_TYPE Get_Type() { return m_Type; }
 	void Set_Type(ITEM_TYPE type) { m_Type = type; }
 
 protected:

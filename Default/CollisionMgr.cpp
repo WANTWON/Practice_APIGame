@@ -135,23 +135,12 @@ void CCollisionMgr::Collision_Item(CObj * Player, list<CObj*> Items)
 
 		if (Check_Rect(Player, item, &fWidth, &fHeight))
 		{
+			// Set Active Buff and Buff Time
 			CPlayer* pPlayer = static_cast<CPlayer*>(Player);
+			pPlayer->Set_ActiveBuff(static_cast<CItem*>(item)->Get_Type());
+			pPlayer->Set_BuffTime(GetTickCount());
 
-			switch (static_cast<CItem*>(item)->Get_Type())
-			{
-			case ITEM_MUSHROOM:
-				pPlayer->Set_ActiveBuff(ITEM_MUSHROOM);
-				break;
-			case ITEM_STAR:
-				pPlayer->Set_ActiveBuff(ITEM_STAR);
-				break;
-			case ITEM_FLOWER:
-				pPlayer->Set_ActiveBuff(ITEM_FLOWER);
-				break;
-			default:
-				pPlayer->Set_ActiveBuff(ITEM_MUSHROOM);
-			}
-
+			// Destroy Item
 			item->Set_Dead(true);
 		}
 	}

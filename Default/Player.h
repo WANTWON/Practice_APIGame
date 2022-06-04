@@ -17,15 +17,16 @@ public:
 	
 	void Set_bJump(void) { m_bJump = true; }
 	void Set_ActiveBuff(ITEM_TYPE iBuff) { m_iActiveBuff = iBuff; }
-
-	void Buff_Mushroom(bool bActive);
-	void Buff_Star(bool bActive);
-	void Buff_Flower(bool bActive);
+	void Set_BuffTime(DWORD dwTime) { m_dwBuffTime = dwTime; }
 
 private:
 	void Key_Input(void);
 	void Jumping(void);
 	void Check_ActiveBuff(void);
+	void Coin_Pickup();
+	void Buff_Mushroom();
+	void Buff_Star(bool bActive);
+	void Buff_Flower(bool bActive);
 
 private:
 	float m_pShield_Angle;
@@ -35,6 +36,8 @@ private:
 	bool m_bFalling;
 
 	ITEM_TYPE m_iActiveBuff;
+	DWORD m_dwBuffTime;
+	bool m_bIsBuffActive;
 
 	POINT m_pGUIDE;
 };
