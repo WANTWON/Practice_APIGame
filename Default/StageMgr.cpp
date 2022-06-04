@@ -7,6 +7,7 @@
 #include "Stage4.h"
 
 
+
 CStageMgr* CStageMgr::m_pInstance = nullptr;
 
 CStageMgr::CStageMgr() : m_dwTime(GetTickCount()), m_eChoice_Stage(STAGE_END), m_bNewGame(false)
@@ -52,7 +53,13 @@ void CStageMgr::Update(void)
 		}
 	}
 	else if (m_eChoice_Stage == STAGE_END)
+	{	
+		if (m_bNewGame)
+		{
+			m_bNewGame = false;
+		}
 		m_Mouse->Update();
+	}
 }
 
 void CStageMgr::Late_Update(void)
@@ -66,7 +73,6 @@ void CStageMgr::Late_Update(void)
 	else if (m_eChoice_Stage == STAGE_END)
 	{
 		m_Mouse->Late_Update();
-
 		RECT rc_Temp = { 0,0,0,0 };
 
 		for (size_t i = 0; i < STAGE_END; ++i)
