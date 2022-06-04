@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="AbstractFactory.h" />
     <ClInclude Include="Block.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="BlockMgr.h" />
     <ClInclude Include="CollisionMgr.h" />
@@ -185,6 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="BlockMgr.cpp" />
     <ClCompile Include="CollisionMgr.cpp" />

@@ -5,9 +5,12 @@
 #include "LineMgr.h"
 #include "KeyMgr.h"
 #include "BlockMgr.h"
+#include "Bullet.h"
 
-
-CPlayer::CPlayer() : m_pShield_Angle(0), m_bJump(false), m_fJumpPower(0), m_fTime(0), m_bFalling(false), m_bStep_Block(false), fY(0), fY2(0), m_iActiveBuff(ITEM_END), m_dwBuffTime(GetTickCount()), m_bIsBuffActive(false)
+CPlayer::CPlayer() 
+	: m_pShield_Angle(0), m_bJump(false), m_fJumpPower(0), m_fTime(0), m_bFalling(false), 
+	m_bStep_Block(false), fY(0), fY2(0), m_iActiveBuff(ITEM_END), m_dwBuffTime(GetTickCount()), 
+	m_bIsBuffActive(false), m_bCanShoot(false), m_iLastDir(DIR_RIGHT)
 {
 	ZeroMemory(&m_pGUIDE, sizeof(POINT));
 }
@@ -59,8 +62,21 @@ void CPlayer::Release(void)
 }
 void CPlayer::Render(HDC hDC)
 {
+	if (m_bCanShoot)
+	{
+		HBRUSH myBrush = nullptr;
+		HBRUSH oldBrush = nullptr;
 
-	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+		myBrush = (HBRUSH)CreateSolidBrush(RGB(255, 0, 0));
+		oldBrush = (HBRUSH)SelectObject(hDC, myBrush);
+
+		Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+
+		SelectObject(hDC, oldBrush);
+		DeleteObject(myBrush);
+	}
+	else
+		Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
 
 }
 
@@ -74,17 +90,18 @@ void CPlayer::Buff_Mushroom()
 {
 	if (GetTickCount() > m_dwBuffTime + 5000)
 	{
-		// Half Size
+		// De-activate Buff
 		m_tInfo.fCX -= m_tInfo.fCX * .5f;
 		m_tInfo.fCY -= m_tInfo.fCY * .5f;
 
 		m_iActiveBuff = ITEM_END;
+		m_bIsBuffActive = false;
 	}
 	else
 	{
 		if (!m_bIsBuffActive)
 		{
-			// Double Size
+			// Activate Buff
 			m_tInfo.fCX += m_tInfo.fCX;
 			m_tInfo.fCY += m_tInfo.fCY;
 
@@ -93,33 +110,60 @@ void CPlayer::Buff_Mushroom()
 	}
 }
 
-void CPlayer::Buff_Star(bool bActive)
+void CPlayer::Buff_Star()
 {
-
+	// TODO
 }
 
-void CPlayer::Buff_Flower(bool bActive)
+void CPlayer::Buff_Flower()
 {
+	if (GetTickCount() > m_dwBuffTime + 100000)
+	{
+		// De-activate Buff
+		m_bCanShoot = false;
 
+		m_iActiveBuff = ITEM_END;
+		m_bIsBuffActive = false;
+	}
+	else
+	{
+		if (!m_bIsBuffActive)
+		{
+			// Activate Buff
+			m_bCanShoot = true;
+
+			m_bIsBuffActive = true;
+		}
+	}
+}
+
+void CPlayer::Shoot()
+{
 }
 
 void CPlayer::Key_Input(void)
 {
 	if (GetAsyncKeyState(VK_RIGHT))
-		m_tInfo.fX += m_fSpeed;
-	else if (GetAsyncKeyState(VK_LEFT))
-		m_tInfo.fX -= m_fSpeed;
-
-	if (CKeyMgr::Get_Instance()->Key_Down(VK_SPACE))
 	{
-		m_bJump = true;
+		m_tInfo.fX += m_fSpeed;
+		m_iLastDir = DIR_RIGHT;
 	}
 		
+	else if (GetAsyncKeyState(VK_LEFT))
+	{
+		m_tInfo.fX -= m_fSpeed;
+		m_iLastDir = DIR_LEFT;
+	}
+
+	if (CKeyMgr::Get_Instance()->Key_Down(VK_SPACE))
+		m_bJump = true;
+		
+	if (CKeyMgr::Get_Instance()->Key_Down('Z') && m_bCanShoot)
+		CObjMgr::Get_Instance()->Add_Object(OBJ_BULLET, CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, m_iLastDir));
 }
 
 void CPlayer::Jumping(void)
 {
-	
 	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
 	
 	bool b_BlockCol = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
@@ -140,7 +184,7 @@ void CPlayer::Jumping(void)
 		{
 			m_bJump = false;
 			m_fTime = 0.0f;
-			//m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
+			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 		}
 	}
 	else if (b_LineCol)
@@ -170,10 +214,10 @@ void CPlayer::Check_ActiveBuff(void)
 		Buff_Mushroom();
 		break;
 	case ITEM_STAR:
-		Buff_Star(true);
+		Buff_Star();
 		break;
 	case ITEM_FLOWER:
-		Buff_Flower(true);
+		Buff_Flower();
 		break;
 	}
 }

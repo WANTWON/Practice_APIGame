@@ -12,8 +12,8 @@ private:
 	~CObjMgr();
 
 	static CObjMgr* m_pInstance;
-
 	list<CObj*> m_pObjList[OBJ_END];
+
 	int m_iScore;
 
 public:
