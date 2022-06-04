@@ -111,7 +111,12 @@ void CCollisionMgr::Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest)
 			{
 				if (fWidth > fHeight)  //상하 충돌
 				{
-					if (Dest->Get_Rect().top <= Sour->Get_Rect().bottom)
+					if (true == dynamic_cast<CPlayer*>(Sour)->Get_Count())
+					{
+						continue;
+					}
+
+					if (Dest->Get_Info().fY >= Sour->Get_Info().fY)
 					{
 						Sour->Set_PosY(-fHeight);
 						dynamic_cast<CMonster*>(Dest)->Be_Attacked();

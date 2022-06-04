@@ -12,7 +12,7 @@
 CPlayer::CPlayer() 
 	: m_pShield_Angle(0), m_bJump(false), m_fJumpPower(0), m_fTime(0), m_bFalling(false), 
 	m_bStep_Monster(false), fY(0), fY2(0), m_iActiveBuff(ITEM_END), m_dwBuffTime(GetTickCount()),
-	m_bIsBuffActive(false), m_bCanShoot(false), m_iLastDir(DIR_RIGHT), m_bStep_Block(false), m_iLife(0), m_bPlay(true), m_fPTime(0.f)
+	m_bIsBuffActive(false), m_bCanShoot(false), m_iLastDir(DIR_RIGHT), m_iLife(0), m_bPlay(true), m_fPTime(0.f)
 {
 	ZeroMemory(&m_pGUIDE, sizeof(POINT));
 }
@@ -25,8 +25,7 @@ CPlayer::~CPlayer()
 
 void CPlayer::Initialize(void)
 {
-	//?Œë ˆ?´ì–´ ?¤ëª¨???¬ê¸°ë¥??•í•˜??ê²?
-	m_tInfo = { 400.f, 300.f, 30.f, 30.f }; //xì¢Œí‘œ, yì¢Œí‘œ, ê°€ë¡œê¸¸?? ?¸ë¡œê¸¸ì´
+	m_tInfo = { 400.f, 300.f, 30.f, 30.f };
 	m_fSpeed = 5.f;
 	m_fJumpPower = 15.f;
 	m_fkg = 9.8f;
@@ -44,9 +43,10 @@ int CPlayer::Update(void)
 		m_fTime = 0;
 
 	
-	Jumping();
+
 	Check_ActiveBuff();
 	Key_Input();
+	Jumping();
 	Update_Rect();
 
 
@@ -61,6 +61,16 @@ void  CPlayer::Late_Update(void)
 	CBlockMgr::Get_Instance()->Collision_with_Direction(this);
 	Set_Dead_Moment();
 	
+	if (m_bStep_Monster)
+	{
+		//m_bJump = false;
+		if (Jumping_Time + 10 < GetTickCount())
+		{
+			m_bJump = true;
+			m_bStep_Monster = false;
+		}
+	}
+
 }
 
 void CPlayer::Release(void)
@@ -159,15 +169,7 @@ void CPlayer::Key_Input(void)
 		m_iLastDir = DIR_RIGHT;
 	}
 
-	if (m_bStep_Monster)
-	{
-		//m_bJump = false;
-		if (Jumping_Time + 10 < GetTickCount())
-		{
-			m_bJump = true;
-			m_bStep_Monster = false;
-		}
-	}
+
 		
 	else if (GetAsyncKeyState(VK_LEFT))
 	{
@@ -191,6 +193,7 @@ void CPlayer::Jumping(void)
 		bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
 
 		bool b_BlockCol = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
+
 		if (m_bStep_Monster)
 		{
 			m_fJumpPower = 10;
@@ -200,7 +203,6 @@ void CPlayer::Jumping(void)
 				m_fTime = 1.2f;
 
 			if (b_BlockCol && m_tInfo.fY + m_tInfo.fCY*0.5f >= fY2)
-
 			{
 				m_fTime = 0.0f;
 			}
@@ -208,8 +210,10 @@ void CPlayer::Jumping(void)
 			{
 				m_fTime = 0.0f;
 			}
+		}
 		else if (m_bJump)
 		{
+			m_fJumpPower = 15;
 			m_tInfo.fY -= m_fJumpPower*m_fTime - (9.8*m_fTime*m_fTime*0.5f);
 			m_fTime += 0.13f;
 			if (m_fTime > 3.9f)
@@ -227,14 +231,14 @@ void CPlayer::Jumping(void)
 				m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 			}
 		}
-		if (b_LineCol && m_tInfo.fY > fY) 
+		else if (b_LineCol && m_tInfo.fY > fY) 
 		{
 			m_bJump = false;
 			m_fTime = 0.0f;
 
 			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 		}
-	}
+	
 		else if (b_LineCol)
 		{
 			if (b_BlockCol)
