@@ -46,6 +46,8 @@ int CObjMgr::Update()
 				++iter;
 		}
 	}
+
+
 	return iEvent;
 }
 

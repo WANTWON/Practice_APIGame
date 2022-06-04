@@ -17,4 +17,6 @@ public:
 
 	static void Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest);
 	
+	static DIRECTION	Col_ReturnDir(list<CObj*> _Sour, list<CObj*> _Dest);
+	static DIRECTION	Col_ReturnDir(list<CObj*> _Sour, CObj* _Dest);
 };
