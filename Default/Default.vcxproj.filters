@@ -118,6 +118,9 @@
     <Filter Include="01. Obj\02.Block\00. NormalBlock">
       <UniqueIdentifier>{0b1818ef-78c7-42d2-baba-d87e1e0dbfc3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\01.Monster\05.Boss_Monster">
+      <UniqueIdentifier>{a7dc9006-0c03-454f-91ca-da9f53ff7f5e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -249,6 +252,9 @@
     <ClInclude Include="FlyingMonster.h">
       <Filter>01. Obj\01.Monster\04.Fying_Monster</Filter>
     </ClInclude>
+    <ClInclude Include="BossMonster.h">
+      <Filter>01. Obj\01.Monster\05.Boss_Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -346,6 +352,9 @@
     </ClCompile>
     <ClCompile Include="FlyingMonster.cpp">
       <Filter>01. Obj\01.Monster\04.Fying_Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="BossMonster.cpp">
+      <Filter>01. Obj\01.Monster\05.Boss_Monster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

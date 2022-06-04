@@ -56,7 +56,7 @@ void CJumpingMonster::Late_Update(void)
 
 	}
 
-	if (m_dwTime + 2000 < GetTickCount())
+	if (m_dwTime + 2000 < GetTickCount() && m_tInfo.fY+ m_tInfo.fCY*0.5 >= fY)
 	{
 		if (m_bJump == true)
 			m_bJump = false;
