@@ -7,7 +7,7 @@
 #include "BlockMgr.h"
 
 
-CPlayer::CPlayer() : m_pShield_Angle(0), m_bJump(false), m_fJumpPower(0), m_fTime(0), m_bFalling(false), m_bStep_Block(false), fY(0), fY2(0)
+CPlayer::CPlayer() : m_pShield_Angle(0), m_bJump(false), m_fJumpPower(0), m_fTime(0), m_bFalling(false), m_bStep_Block(false), fY(0), fY2(0), m_iActiveBuff(ITEM_END), m_dwBuffTime(GetTickCount()), m_bIsBuffActive(false)
 {
 	ZeroMemory(&m_pGUIDE, sizeof(POINT));
 }
@@ -20,8 +20,8 @@ CPlayer::~CPlayer()
 
 void CPlayer::Initialize(void)
 {
-	//ÇÃ·¹ÀÌ¾î ³×¸ğÀÇ Å©±â¸¦ Á¤ÇÏ´Â °Í
-	m_tInfo = { 400.f, 300.f, 30.f, 30.f }; //xÁÂÇ¥, yÁÂÇ¥, °¡·Î±æÀÌ, ¼¼·Î±æÀÌ
+	//í”Œë ˆì´ì–´ ë„¤ëª¨ì˜ í¬ê¸°ë¥¼ ì •í•˜ëŠ” ê²ƒ
+	m_tInfo = { 400.f, 300.f, 30.f, 30.f }; //xì¢Œí‘œ, yì¢Œí‘œ, ê°€ë¡œê¸¸ì´, ì„¸ë¡œê¸¸ì´
 	m_fSpeed = 5.f;
 	m_fJumpPower = 15.f;
 	m_fkg = 9.8f;
@@ -37,6 +37,7 @@ int CPlayer::Update(void)
 		m_fTime = 0;
 
 	Jumping();
+	Check_ActiveBuff();
 	Key_Input();
 	Update_Rect();
 
@@ -60,6 +61,45 @@ void CPlayer::Render(HDC hDC)
 {
 
 	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+
+}
+
+void CPlayer::Coin_Pickup()
+{
+	// Increase Coin by 1
+	// Increase Points by 200
+}
+
+void CPlayer::Buff_Mushroom()
+{
+	if (GetTickCount() > m_dwBuffTime + 5000)
+	{
+		// Half Size
+		m_tInfo.fCX -= m_tInfo.fCX * .5f;
+		m_tInfo.fCY -= m_tInfo.fCY * .5f;
+
+		m_iActiveBuff = ITEM_END;
+	}
+	else
+	{
+		if (!m_bIsBuffActive)
+		{
+			// Double Size
+			m_tInfo.fCX += m_tInfo.fCX;
+			m_tInfo.fCY += m_tInfo.fCY;
+
+			m_bIsBuffActive = true;
+		}
+	}
+}
+
+void CPlayer::Buff_Star(bool bActive)
+{
+
+}
+
+void CPlayer::Buff_Flower(bool bActive)
+{
 
 }
 
@@ -91,12 +131,12 @@ void CPlayer::Jumping(void)
 		if (m_fTime > 3.9f)
 			m_fTime = 3.9f;
 
-		if (b_BlockCol && m_tInfo.fY+m_tInfo.fCY*0.5f >= fY2) //ÇÃ·¹ÀÌ¾îÀÇ Bottom °ªÀÌ ºí·ÏÀÇ TopÀÌ¶û ¹Ì¼¼ÇÏ°Ô °ãÃÆÀ» ¶§¸¸ (Áï »ó´Ü Á¢ÃËÇÒ ¶§)
+		if (b_BlockCol && m_tInfo.fY+m_tInfo.fCY*0.5f >= fY2) //í”Œë ˆì´ì–´ì˜ Bottom ê°’ì´ ë¸”ë¡ì˜ Topì´ë‘ ë¯¸ì„¸í•˜ê²Œ ê²¹ì³¤ì„ ë•Œë§Œ (ì¦‰ ìƒë‹¨ ì ‘ì´‰í•  ë•Œ)
 		{
 			m_fTime = 0.0f;
 			m_bJump = false;
 		}
-		if (b_LineCol && m_tInfo.fY > fY) //¶¥º¸´Ù ´õ ³»·Á°¥ ¼ö ÀÖÀ¸´Ï±î
+		if (b_LineCol && m_tInfo.fY > fY) //ë•…ë³´ë‹¤ ë” ë‚´ë ¤ê°ˆ ìˆ˜ ìˆìœ¼ë‹ˆê¹Œ
 		{
 			m_bJump = false;
 			m_fTime = 0.0f;
@@ -117,5 +157,23 @@ void CPlayer::Jumping(void)
 		m_tInfo.fY += m_fSpeed;
 		m_bFalling = true;
 	}
-	
+}
+
+void CPlayer::Check_ActiveBuff(void)
+{
+	switch (m_iActiveBuff)
+	{
+	case ITEM_COIN:
+		Coin_Pickup();
+		break;
+	case ITEM_MUSHROOM:
+		Buff_Mushroom();
+		break;
+	case ITEM_STAR:
+		Buff_Star(true);
+		break;
+	case ITEM_FLOWER:
+		Buff_Flower(true);
+		break;
+	}
 }

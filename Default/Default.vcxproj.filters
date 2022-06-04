@@ -85,6 +85,17 @@
     <Filter Include="98.Design\StageMgr">
       <UniqueIdentifier>{c84434f6-d826-4eef-9c26-523cdcd26ddc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\03.Item\031.Coin">
+      <UniqueIdentifier>{fec90c42-893e-4c7c-8ff3-379abc5d56aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\03.Item\032.Mushroom">
+      <UniqueIdentifier>{560fa323-c1dd-4145-a386-48ec24876962}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\03.Item\033.Star">
+      <UniqueIdentifier>{2aec992a-1bd7-41af-8e06-85918a96ab27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\03.Item\034.Flower">
+      <UniqueIdentifier>{2b254151-c149-40e6-8cfe-66503d0d314b}</UniqueIdentifier>
     <Filter Include="01. Obj\01.Monster\03.Jumping_Monster">
       <UniqueIdentifier>{9979f4a1-74a0-41a3-8172-b465c498b3fd}</UniqueIdentifier>
     </Filter>
@@ -189,6 +200,17 @@
     <ClInclude Include="StageMgr.h">
       <Filter>98.Design\StageMgr</Filter>
     </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>01. Obj\03.Item\031.Coin</Filter>
+    </ClInclude>
+    <ClInclude Include="Mushroom.h">
+      <Filter>01. Obj\03.Item\032.Mushroom</Filter>
+    </ClInclude>
+    <ClInclude Include="Flower.h">
+      <Filter>01. Obj\03.Item\034.Flower</Filter>
+    </ClInclude>
+    <ClInclude Include="Star.h">
+      <Filter>01. Obj\03.Item\033.Star</Filter>
     <ClInclude Include="JumpingMonster.h">
       <Filter>01. Obj\01.Monster\03.Jumping_Monster</Filter>
     </ClInclude>
@@ -260,6 +282,17 @@
     <ClCompile Include="StageMgr.cpp">
       <Filter>98.Design\StageMgr</Filter>
     </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>01. Obj\03.Item\031.Coin</Filter>
+    </ClCompile>
+    <ClCompile Include="Mushroom.cpp">
+      <Filter>01. Obj\03.Item\032.Mushroom</Filter>
+    </ClCompile>
+    <ClCompile Include="Flower.cpp">
+      <Filter>01. Obj\03.Item\034.Flower</Filter>
+    </ClCompile>
+    <ClCompile Include="Star.cpp">
+      <Filter>01. Obj\03.Item\033.Star</Filter>
     <ClCompile Include="JumpingMonster.cpp">
       <Filter>01. Obj\01.Monster\03.Jumping_Monster</Filter>
     </ClCompile>
