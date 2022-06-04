@@ -84,6 +84,7 @@ void CStageMgr::Late_Update(void)
 				case STAGE_1:
 					m_pStage[STAGE_1] = new CStage1;
 					m_pStage[STAGE_1]->Initialize();
+					m_pStage[STAGE_1]->Set_View();
 					m_eChoice_Stage = STAGE_1;
 					m_Mouse->Set_Pos(0.f, 0.f);
 					break;

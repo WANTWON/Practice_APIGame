@@ -36,6 +36,8 @@ public:
 	bool Get_Buff(void) { return m_bIsBuffActive; }
 	void Get_Active(bool bActive) { m_bActive = bActive; }
 	void Set_Item(void) { m_bItem = true; }
+	int Get_Life(void) { return m_iLife; }
+	void Set_Life(int _Life) { m_iLife = _Life; }
 
 	
 private:
@@ -74,10 +76,11 @@ private:
 	POINT m_pGUIDE;
 	
 	
-	int m_iLife;
+	
 	bool m_bPlay;
 	float m_fPTime;
 	bool m_bActive;
 	bool m_bItem;
+	int m_iLife;
 };
 

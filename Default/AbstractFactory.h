@@ -1,6 +1,7 @@
 #pragma once
 #include "Obj.h"
 #include "Bullet.h"
+#include "Player.h"
 
 template <typename T>
 class CAbstractFactory
@@ -71,6 +72,16 @@ public:
 		pInstance->Set_Pos(_fX, _fY);
 		static_cast<CItem*>(pInstance)->Set_Type(_type);
 	
+		return pInstance;
+	}
+
+
+
+	static CObj*  Create(int _Life) 
+	{
+		CObj* pInstance = new T;
+		pInstance->Initialize();
+		dynamic_cast<CPlayer*>(pInstance)->Set_Life(_Life);
 		return pInstance;
 	}
 };

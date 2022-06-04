@@ -4,7 +4,7 @@ class CStage
 {
 public:
 
-	CStage() : m_dwTime(GetTickCount()), m_bClear(false)
+	CStage() : m_dwTime(GetTickCount()), m_bClear(false), m_dwView(GetTickCount()), m_bView(false), m_iCount(3)
 	{
 	}
 
@@ -20,6 +20,7 @@ public:
 	virtual void Render(HDC hDC) PURE;
 public:
 	void	Set_Clear_true(void) { m_bClear = true; }
+	void	Set_View(void) { m_bView = true; }
 
 protected:
 	DWORD  m_dwTime;
@@ -27,6 +28,9 @@ protected:
 	bool m_bClear;
 	int m_iScore;
 	
+	DWORD m_dwView;
+	bool m_bView;
+	int m_iCount;
 
 };
 
