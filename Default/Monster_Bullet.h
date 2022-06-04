@@ -1,11 +1,13 @@
-#pragma once 
-#include "Obj.h"
-class CBullet : public CObj
+#pragma once
+#include "Bullet.h"
+class CMonsterBullet :
+	public CBullet
 {
 public:
-	CBullet();
-	virtual ~CBullet();
+	CMonsterBullet();
+	virtual ~CMonsterBullet();
 
+public:
 	void Initialize() override;
 	void Release() override;
 
@@ -16,12 +18,5 @@ public:
 
 	void Set_StartPos(float _fX, float _fY) { m_fBulletStartPosX = _fX; m_fBulletStartPosY = _fY; }
 
-protected:
-	float m_fAnimSpeed;
-	float m_fAnimTime;
-	float m_fAnimAccel;
-
-	float m_fBulletStartPosX;
-	float m_fBulletStartPosY;
 };
 

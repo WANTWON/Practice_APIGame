@@ -1,9 +1,13 @@
 #include "stdafx.h"
 #include "BossMonster.h"
 #include "LineMgr.h"
+#include "ObjMgr.h"
+#include "Monster_Bullet.h"
+#include "AbstractFactory.h"
+#include "Bullet.h"
 
 
-CBossMonster::CBossMonster() : fY(0)
+CBossMonster::CBossMonster() : fY(0), m_bMove(true), m_dwMoveTime(GetTickCount())
 {
 }
 
@@ -16,7 +20,7 @@ void CBossMonster::Initialize(void)
 {
 	m_tInfo = { 125.f,125.f, 100.f, 100.f };
 	m_fSpeed = 5.f;
-	m_iHp = 10;
+	m_iHp = 30;
 }
 
 int CBossMonster::Update(void)
@@ -38,6 +42,13 @@ void CBossMonster::Late_Update(void)
 	{
 			m_bDead = true;
 	}
+
+	if (m_dwMoveTime + 3000 < GetTickCount())
+	{
+		Set_bMove();
+		m_dwMoveTime = GetTickCount();
+	}
+
 }
 
 void CBossMonster::Release(void)
@@ -51,26 +62,34 @@ void CBossMonster::Render(HDC hDC)
 
 void CBossMonster::Move(void)
 {
+
 	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
 
 	if (b_LineCol)
 	{
+		m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 
-		if (m_bFalling)
-		{
-			m_tInfo.fY += m_fSpeed*1.3f;
-			if (m_tInfo.fY >= fY - m_tInfo.fCY*0.5f)
-				m_bFalling = false;
-		}
-		else
-			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
-
-		m_tInfo.fX += m_fSpeed;
+		if(m_bMove)
+			m_tInfo.fX += m_fSpeed;
 
 	}
 	else
 	{
-		m_fSpeed *= -1;
-		m_tInfo.fX += m_fSpeed;
+		if (m_bMove)
+		{
+			m_fSpeed *= -1;
+			m_tInfo.fX += m_fSpeed;
+		}
+			
 	}
 }
+
+void CBossMonster::Make_Bullet(void)
+{
+	if (m_bMove)
+		return;
+
+	/*CObjMgr::Get_Instance()->Add_Object(OBJ_BULLET, CAbstractFactory<CMonsterBullet>::Create_with_Target(m_tInfo.fX, m_tInfo.fY,
+		CObjMgr::Get_Instance()->Get_Player()));*/
+}
+

@@ -15,9 +15,12 @@ public:
 	void Render(HDC hDC);
 
 	void Move(void);
+	void Set_bMove(void) { if (m_bMove == true) m_bMove = false; else m_bMove = true; }
+	void Make_Bullet(void);
 
 private:
 	float fY;
-
+	DWORD m_dwMoveTime;
+	bool m_bMove;
 };
 
