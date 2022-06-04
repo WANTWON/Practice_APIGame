@@ -8,7 +8,7 @@
 #include "Player.h"
 
 
-CJumpingMonster::CJumpingMonster() : m_fTime(0), m_bJump(false)
+CJumpingMonster::CJumpingMonster() : m_fTime(0), m_bJump(true)
 {
 }
 
@@ -21,7 +21,7 @@ void CJumpingMonster::Initialize(void)
 {
 	m_tInfo = { 125.f,125.f, 40.f, 50.f };
 	m_fSpeed = 1.f;
-	m_fJumpPower = 12.f;
+	m_fJumpPower = 10.f;
 	m_dwTime = GetTickCount();
 }
 
@@ -56,7 +56,7 @@ void CJumpingMonster::Late_Update(void)
 
 	}
 
-	if (m_dwTime + 2000 < GetTickCount())
+	if (m_dwTime + 2000 < GetTickCount() && m_tInfo.fY+ m_tInfo.fCY*0.5 >= fY)
 	{
 		if (m_bJump == true)
 			m_bJump = false;
@@ -125,7 +125,7 @@ void CJumpingMonster::Move(void)
 
 void CJumpingMonster::Jumping(void)
 {
-	if (m_bJump && dynamic_cast<CPlayer*>(m_pTarget)->Get_bJump() )
+	if (m_bJump )//&& dynamic_cast<CPlayer*>(m_pTarget)->Get_bJump() )
 	{
 		m_tInfo.fY -= m_fJumpPower*m_fTime - (9.8f*m_fTime*m_fTime*0.5f);
 		m_fTime += 0.1f;
