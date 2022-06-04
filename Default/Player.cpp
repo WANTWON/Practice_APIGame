@@ -56,6 +56,16 @@ void  CPlayer::Late_Update(void)
 		m_tInfo.fY = 0.f;
 	}
 	CBlockMgr::Get_Instance()->Collision_with_Direction(this);
+
+	if (m_bStep_Monster)
+	{
+		//m_bJump = false;
+		if (Jumping_Time + 10 < GetTickCount())
+		{
+			m_bJump = true;
+			m_bStep_Monster = false;
+		}
+	}
 }
 
 void CPlayer::Release(void)
@@ -151,15 +161,6 @@ void CPlayer::Key_Input(void)
 		m_iLastDir = DIR_RIGHT;
 	}
 
-	if (m_bStep_Monster)
-	{
-		//m_bJump = false;
-		if (Jumping_Time + 10 < GetTickCount())
-		{
-			m_bJump = true;
-			m_bStep_Monster = false;
-		}
-	}
 		
 	else if (GetAsyncKeyState(VK_LEFT))
 	{
@@ -176,15 +177,13 @@ void CPlayer::Key_Input(void)
 
 void CPlayer::Jumping(void)
 {
-	
-	//���͸� ����� ���� ������ ���, ������ ���� ������ ��� �ٸ��� �����߽��ϴ�.
-	
+		
 	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
 	
 	bool b_BlockCol = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
 
 
-	if (m_bStep_Monster) // ���͸� ����� ��
+	if (m_bStep_Monster)
 	{
 		m_fJumpPower = 10;
 		m_tInfo.fY -= m_fJumpPower*m_fTime - (2.8f*m_fTime*m_fTime*0.5f);
@@ -193,17 +192,16 @@ void CPlayer::Jumping(void)
 			m_fTime = 1.2f;
 
 		if (b_BlockCol && m_tInfo.fY + m_tInfo.fCY*0.5f >= fY2) 
-			//�÷��̾��� Bottom ���� ������ Top�̶� �̼��ϰ� ������ ���� (�� ��� ������ ��)
 		{
 			m_fTime = 0.0f;
 		}
-		if (b_LineCol && m_tInfo.fY > fY) //������ �� ������ �� �����ϱ�
+		if (b_LineCol && m_tInfo.fY > fY) 
 		{
 			m_fTime = 0.0f;
 		}
 
 	}
-	else if (m_bJump)  //������ ���� ��
+	else if (m_bJump) 
 	{
 		m_fJumpPower = 15;
 		m_tInfo.fY -= m_fJumpPower*m_fTime - (9.8f*m_fTime*m_fTime*0.5f);
