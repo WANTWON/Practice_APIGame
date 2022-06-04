@@ -16,9 +16,10 @@ public:
 
 public:
 	bool		CollisionBlock(RECT Player, float _fX, float * Change_fY); //X값은 값을 받기 위한 것. Y값은 좌표값 변경을 위해서
-	void		Add_Object(OBJ_LIST _ID, CObj* pObj);
+	void		Add_Object(BLOCK_LIST _ID, CObj* pObj);
 	int			Check_Rect(INFO Player, INFO pTarget, float* _pX, float* _pY);
 	bool		Collision_with_Direction(CObj* _Sour);
+	void		Col_Player(DIRECTION _eDir);
 
 public:
 	static CBlockMgr* Get_Instance(void)
@@ -39,6 +40,8 @@ public:
 
 private:
 	static CBlockMgr* m_pInstance;
-	list<CObj*>		m_Blocklist;
+	list<CObj*>		m_Blocklist[BLOCK_END];
+	list<CObj*>		m_listPlayer;
+
 };
 
