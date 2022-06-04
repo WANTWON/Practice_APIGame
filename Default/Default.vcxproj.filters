@@ -46,6 +46,51 @@
     <Filter Include="98.Design\ObjMgr">
       <UniqueIdentifier>{39e281fd-baee-41a2-a6fa-fed72ddf56e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="98.Design\LineMgr">
+      <UniqueIdentifier>{44cc83c4-bfdd-4e8a-9d94-05ebd9ab2ef7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Design\LineMgr\Line">
+      <UniqueIdentifier>{b14d9b0a-efe7-41a8-8ba4-a62876d4ad93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Stage">
+      <UniqueIdentifier>{5dd72ac1-d315-4bbb-8214-ac6a95aa7341}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Stage\Stage1">
+      <UniqueIdentifier>{f9ae1c98-f9e5-4559-b3c7-5e4cb232e28d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Stage\Stage2">
+      <UniqueIdentifier>{1c6662cf-a1c9-4e37-a3ab-539f2c630c69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Stage\Stage3">
+      <UniqueIdentifier>{15eb53a5-9f2c-43e8-b388-7a09688a71a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Stage\Stage4">
+      <UniqueIdentifier>{d9421ace-32e3-4ec3-9f0e-bcd947f466a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\04.Mouse">
+      <UniqueIdentifier>{aba46bc4-fd46-4526-9177-b95bc95b992c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\01.Monster\00.Mushroom_Monster">
+      <UniqueIdentifier>{b255d26c-7899-4bb2-bb6b-03a1a0199094}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\01.Monster\01.Turtle_Monster">
+      <UniqueIdentifier>{5ac55a90-8daf-44f4-9182-0521398f95f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\01.Monster\02.Turtle_Back">
+      <UniqueIdentifier>{7a167971-0599-4c80-9bcc-e083765c8a27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Design\KeyMgr">
+      <UniqueIdentifier>{c98114bd-9750-4547-82bb-97160c120bb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Design\StageMgr">
+      <UniqueIdentifier>{c84434f6-d826-4eef-9c26-523cdcd26ddc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\01.Monster\03.Jumping_Monster">
+      <UniqueIdentifier>{9979f4a1-74a0-41a3-8172-b465c498b3fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Design\BlockMgr">
+      <UniqueIdentifier>{a9496093-2d81-4da6-a5b8-366a86aa3382}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -102,6 +147,54 @@
     <ClInclude Include="ObjMgr.h">
       <Filter>98.Design\ObjMgr</Filter>
     </ClInclude>
+    <ClInclude Include="MushroomMonster.h">
+      <Filter>01. Obj\01.Monster\00.Mushroom_Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="LineMgr.h">
+      <Filter>98.Design\LineMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Line.h">
+      <Filter>98.Design\LineMgr\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="Include.h">
+      <Filter>99. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>97.Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage1.h">
+      <Filter>97.Stage\Stage1</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage2.h">
+      <Filter>97.Stage\Stage2</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>01. Obj\04.Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="TurtleMonster.h">
+      <Filter>01. Obj\01.Monster\01.Turtle_Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="TurtleBack.h">
+      <Filter>01. Obj\01.Monster\02.Turtle_Back</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage3.h">
+      <Filter>97.Stage\Stage3</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage4.h">
+      <Filter>97.Stage\Stage4</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyMgr.h">
+      <Filter>98.Design\KeyMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="StageMgr.h">
+      <Filter>98.Design\StageMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="JumpingMonster.h">
+      <Filter>01. Obj\01.Monster\03.Jumping_Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockMgr.h">
+      <Filter>98.Design\BlockMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -119,9 +212,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>01. Obj\00.Player</Filter>
     </ClCompile>
-    <ClCompile Include="Monster.cpp">
-      <Filter>01. Obj\01.Monster</Filter>
-    </ClCompile>
     <ClCompile Include="Block.cpp">
       <Filter>01. Obj\02.Block</Filter>
     </ClCompile>
@@ -133,6 +223,48 @@
     </ClCompile>
     <ClCompile Include="ObjMgr.cpp">
       <Filter>98.Design\ObjMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="MushroomMonster.cpp">
+      <Filter>01. Obj\01.Monster\00.Mushroom_Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="LineMgr.cpp">
+      <Filter>98.Design\LineMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Line.cpp">
+      <Filter>98.Design\LineMgr\Line</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage1.cpp">
+      <Filter>97.Stage\Stage1</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage2.cpp">
+      <Filter>97.Stage\Stage2</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>01. Obj\04.Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="TurtleMonster.cpp">
+      <Filter>01. Obj\01.Monster\01.Turtle_Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="TurtleBack.cpp">
+      <Filter>01. Obj\01.Monster\02.Turtle_Back</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage3.cpp">
+      <Filter>97.Stage\Stage3</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage4.cpp">
+      <Filter>97.Stage\Stage4</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyMgr.cpp">
+      <Filter>98.Design\KeyMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="StageMgr.cpp">
+      <Filter>98.Design\StageMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="JumpingMonster.cpp">
+      <Filter>01. Obj\01.Monster\03.Jumping_Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockMgr.cpp">
+      <Filter>98.Design\BlockMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

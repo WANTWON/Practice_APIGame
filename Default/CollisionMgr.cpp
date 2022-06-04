@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "CollisionMgr.h"
-
+#include "Item.h"
+#include "Monster.h"
+#include "Player.h"
 
 CCollisionMgr::CCollisionMgr()
 {
@@ -21,10 +23,10 @@ int CCollisionMgr::Collision_Rect(list<CObj*> Sour, list<CObj*> Dest)
 		int iter_count = 0;
 		for (auto& Monster_iter = Dest.begin(); Monster_iter != Dest.end(); )
 		{
-			if ((Dest.size() != 0) && (IntersectRect(&rc, &((*iter)->Return_Rect()), &((*Monster_iter)->Return_Rect()))))
+			if ((Dest.size() != 0) && (IntersectRect(&rc, &((*iter)->Get_Rect()), &((*Monster_iter)->Get_Rect()))))
 			{
-				(*iter)->Set_bDead(true);
-				(*Monster_iter)->Set_bDead(true);
+				(*iter)->Set_Dead(true);
+				(*Monster_iter)->Set_Dead(true);
 				iScore += rand() % 10 + 5;
 			}
 			Monster_iter++;
@@ -33,6 +35,8 @@ int CCollisionMgr::Collision_Rect(list<CObj*> Sour, list<CObj*> Dest)
 	}
 	return iScore;
 }
+
+
 
 void CCollisionMgr::Collision_Rect_Ex(list<CObj*> _Sour, list<CObj*> _Dest)
 {
@@ -75,6 +79,7 @@ void CCollisionMgr::Collision_Rect_Ex(list<CObj*> _Sour, list<CObj*> _Dest)
 	}
 }
 
+
 int CCollisionMgr::Check_Rect(CObj* Sour, CObj* Dest, float* _pX, float* _pY)
 {
 	float fWidth = abs(Sour->Get_Info().fX - Dest->Get_Info().fX);
@@ -94,6 +99,48 @@ int CCollisionMgr::Check_Rect(CObj* Sour, CObj* Dest, float* _pX, float* _pY)
 }
 
 
+void CCollisionMgr::Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest)
+{
+
+	for (auto& Dest : _Dest)
+	{
+		for (auto& Sour : _Sour)
+		{
+			float fWidth = 0.f;
+			float fHeight = 0.f;
+
+			if (Check_Rect(Dest, Sour, &fWidth, &fHeight))
+			{
+				if (fWidth > fHeight)  //상하 충돌
+				{
+					if (Dest->Get_Info().fY >= Sour->Get_Info().fY)
+					{
+						dynamic_cast<CMonster*>(Dest)->Be_Attacked();
+						dynamic_cast<CPlayer*>(Sour)->Set_bJump(true);
+					}
+					else
+					{
+						Sour->Set_PosY(fHeight);
+					}
+					
+				}
+				else //좌우 충돌 
+				{
+					if (Dest->Get_Info().fX > Sour->Get_Info().fX)
+					{
+						Sour->Set_PosX(-fWidth);
+					}
+					else
+					{
+						Sour->Set_PosX(fWidth);
+					}
+				}
+			}
+		}
+	}
+}
+
+
 int CCollisionMgr::Collision_Sphere(list<CObj*> Sour, list<CObj*> Dest)
 {
 	int iScore = 0;
@@ -105,8 +152,8 @@ int CCollisionMgr::Collision_Sphere(list<CObj*> Sour, list<CObj*> Dest)
 		{
 			if ((Dest.size() != 0) && (ChecK_Sphere(*Sour_iter, *Dest_iter)))
 			{
-				(*Sour_iter)->Set_bDead(true);
-				(*Dest_iter)->Set_bDead(true);
+				(*Sour_iter)->Set_Dead(true);
+				(*Dest_iter)->Set_Dead(true);
 				iScore += rand() % 10 + 5;
 
 			}
@@ -117,46 +164,25 @@ int CCollisionMgr::Collision_Sphere(list<CObj*> Sour, list<CObj*> Dest)
 	return iScore;
 }
 
-void CCollisionMgr::Collision_Wall(list<CObj*> Sour, list<CObj*> Wall)
+int CCollisionMgr::Collision_Coin(CObj* Player, list<CObj*> Items)
 {
-	for (auto& iter = Sour.begin(); iter != Sour.end(); )
-	{
-		int iter_count = 0;
-		for (auto& Monster_iter = Wall.begin(); Monster_iter != Wall.end(); )
-		{
-			if ((Wall.size() != 0) && (IntersectRect(&rc, &((*iter)->Return_Rect()), &((*Monster_iter)->Return_Rect()))))
-			{
-				(*iter)->Set_bDead(true);
-				(*Monster_iter)->Set_bDead(true);
-			}
-			Monster_iter++;
-		}
-		iter++;
-	}
-}
+	int iScore = 0;
 
-void CCollisionMgr::Collision_Wall_Player(list<CObj*> Sour, list<CObj*> Wall)
-{
-	for (auto& Player_iter = Sour.begin(); Player_iter != Sour.end(); Player_iter++)
+	for (auto& item : Items )
 	{
-		for (auto& Wall_iter = Wall.begin(); Wall_iter != Wall.end(); Wall_iter++)
+		if (IntersectRect(&rc, &Player->Get_Rect(), &item->Get_Rect()))
 		{
-			if ((Wall.size() != 0) && (IntersectRect(&rc, &((*Player_iter)->Return_Rect()), &((*Wall_iter)->Return_Rect()))))
-			{
-				float fWidth = float(rc.right - rc.left);
-				float fHeight = float(rc.bottom - rc.top);
+			CItem* _Item = dynamic_cast<CItem*>(item);
 
-				if ((*Wall_iter)->Return_Dir() == DIR_RIGHT)
-					(*Player_iter)->Set_Pos((*Player_iter)->Get_Info().fX - fWidth, (*Player_iter)->Get_Info().fY);
-				if ((*Wall_iter)->Return_Dir() == DIR_LEFT)
-					(*Player_iter)->Set_Pos((*Player_iter)->Get_Info().fX + fWidth, (*Player_iter)->Get_Info().fY);
-				if ((*Wall_iter)->Return_Dir() == DIR_DOWN)
-					(*Player_iter)->Set_Pos((*Player_iter)->Get_Info().fX, (*Player_iter)->Get_Info().fY - fHeight);
-				if ((*Wall_iter)->Return_Dir() == DIR_UP)
-					(*Player_iter)->Set_Pos((*Player_iter)->Get_Info().fX, (*Player_iter)->Get_Info().fY + fHeight);
+			if (_Item->Get_Type() == ITEM_COIN)
+			{
+				iScore += 1;
+				_Item->Set_Dead(true);
 			}
 		}
 	}
+
+	return iScore;
 }
 
 bool CCollisionMgr::ChecK_Sphere(CObj* Sour, CObj* Dest)

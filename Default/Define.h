@@ -7,5 +7,10 @@ extern HWND  g_hWnd;
 
 #define PURE =0
 
-#define OBJ_NOEVENT	1
-#define OBJ_DEAD   0
+#define OBJ_NOEVENT	0
+#define OBJ_DEAD   1
+
+#define STAGE_CLEAR	1
+#define STAGE_NOEVENT  0
+
+#define VK_MAX 0xff

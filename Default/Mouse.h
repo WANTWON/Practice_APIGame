@@ -1,21 +1,21 @@
 #pragma once
 #include "Obj.h"
-class CBlock :
+class CMouse :
 	public CObj
 {
 public:
-	CBlock();
-	virtual ~CBlock();
+	CMouse();
+	virtual ~CMouse();
+
 
 public:
-	void Initialize(void) override;
+	void Initialize(void)  override;
 	int Update(void) override;
 	void Late_Update(void) override;
 	void Release(void) override;
 	void Render(HDC hDC) override;
 
-
 private:
-	bool m_bCreate;
+	int angle = 0;
 };
 
