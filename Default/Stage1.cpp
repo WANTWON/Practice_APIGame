@@ -46,7 +46,7 @@ void CStage1::Initialize(void)
 
 
 	// Test Coin
-	//CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CCoin>::Create(200, 300, ITEM_COIN));
+	CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CCoin>::Create(200, 300, ITEM_COIN));
 
 	// Test Mushroom
 	//CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CMushroom>::Create(200, 300, ITEM_MUSHROOM));
@@ -55,7 +55,7 @@ void CStage1::Initialize(void)
 	//CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CStar>::Create(200, 300, ITEM_STAR));
 
 	// Test Flower
-	CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CFlower>::Create(200, 300, ITEM_FLOWER));
+	//CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CFlower>::Create(200, 300, ITEM_FLOWER));
 
 	CLineMgr::Get_Instance()->Initialize();
 	CBlockMgr::Get_Instance()->Initialize();
