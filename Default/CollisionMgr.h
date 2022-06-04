@@ -19,4 +19,6 @@ public:
 	static DIRECTION	Col_ReturnDir(list<CObj*> _Sour, list<CObj*> _Dest);
 	static DIRECTION	Col_ReturnDir(list<CObj*> _Sour, CObj* _Dest);
 	static void			 Collision_Item(CObj* Player, list<CObj*> Items);
+
+	static int Collision_Bullet(CObj* _This, list<CObj*> _Bullet);
 };
