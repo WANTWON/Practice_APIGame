@@ -50,7 +50,6 @@ private:
 	CStage* m_pStage[STAGE_END];
 	STAGE_LIST m_eChoice_Stage;
 
-	CStage*  m_pStage[STAGE_END];
 	CStage*	m_pEditor;
 
 	CObj*   m_Mouse;
