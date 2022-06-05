@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "AbstractFactory.h"
-#include "CollisionMgr.h"
 #include "ObjMgr.h"
 #include "LineMgr.h"
 #include "KeyMgr.h"
@@ -76,9 +75,6 @@ void  CPlayer::Late_Update(void)
 			m_bStep_Monster = false;
 		}
 	}
-
-
-	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
 
 	Set_Dead_Moment();
 }
@@ -208,17 +204,13 @@ void CPlayer::Remove_Buff(ITEM_TYPE iBuff)
 	{
 		m_tInfo.fCX -= m_tInfo.fCX * 0.5f;
 		m_tInfo.fCY -= m_tInfo.fCY * 0.5f;
-		break;
 	}
 	case ITEM_STAR:
 		m_bIsInvincible = false;
-		break;
 	case ITEM_FLOWER:
 		m_bCanShoot = false;
-		break;
 	}
 }
-
 
 void CPlayer::Key_Input(void)
 {
@@ -252,6 +244,26 @@ void CPlayer::Key_Input(void)
 
 void CPlayer::Jumping(void)
 {
+	if (m_bFirst)
+	{
+		m_bBlock = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
+		if (m_bBlock)
+		{
+			m_bFirst = false;
+		}
+		if (m_bFirst)
+		{
+			m_tInfo.fX = m_tRect.left + 15.f;
+			m_tInfo.fY += 5.f;
+		}
+		for (auto& iter : CBlockMgr::Get_Instance()->Get_Flaglist())
+		{
+			if (true == dynamic_cast<CFlagBlock*>(iter)->Get_Number())
+			{
+				dynamic_cast<CFlagBlock*>(iter)->Set_Down(1);
+			}
+		}
+	}
 	if (m_bBlock)
 	{
 		m_tInfo.fX += 2.f;
@@ -267,8 +279,7 @@ void CPlayer::Jumping(void)
 		m_tInfo.fX += 0.5f;
 		m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 	}
-
-
+	//======================================================================================
 		if (m_bPlay)
 		{
 			bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(this, &fY);
@@ -353,7 +364,7 @@ void CPlayer::Set_Dead_Moment(void)
 	if (m_bDead_Count)
 	{
 		m_bPlay = false;
-		m_tInfo.fY -= m_fJumpPower*m_fPTime - (9.8f*m_fPTime*m_fPTime*0.5f);
+		m_tInfo.fY -= m_fJumpPower*m_fPTime - (9.8*m_fPTime*m_fPTime*0.5f);
 		m_fPTime += 0.13f;
 
 		if (m_tInfo.fY > WINCY)
