@@ -13,6 +13,7 @@
 #include "Flower.h"
 #include "JumpingMonster.h"
 #include "FlyingMonster.h"
+#include "BossMonster.h"
 #include "Item.h"
 #include "Block.h"
 #include "BlockMgr.h"
@@ -35,14 +36,12 @@ void CStage1::Initialize(void)
 	
 
 
-
-	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CMushroomMonster>::Create(600, 200));
-	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleMonster>::Create(500, 200));
-	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CJumpingMonster>::Create_with_Target(300, 300, CObjMgr::Get_Instance()->Get_Player()));
-
-
-	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFlyingMonster>::Create(100, 300));
-	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CMushroomMonster>::Create(600, 200));
+	// Test Monster
+	//CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CMushroomMonster>::Create(600, 200));
+	//CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleMonster>::Create(500, 200));
+	//CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CJumpingMonster>::Create_with_Target(300, 300, CObjMgr::Get_Instance()->Get_Player()));
+	//CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFlyingMonster>::Create(100, 300));
+	//CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CBossMonster>::Create_with_Target(300, 300, CObjMgr::Get_Instance()->Get_Player()));
 
 	CBlockMgr::Get_Instance()->Add_Object(BLOCK_NORMAL, CAbstractFactory<CNormalBlock>::Create(550, 150));
 	CBlockMgr::Get_Instance()->Add_Object(BLOCK_NORMAL, CAbstractFactory<CNormalBlock>::Create(500, 150));
@@ -57,7 +56,7 @@ void CStage1::Initialize(void)
 	// Test Star
 	//CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CStar>::Create(200, 300, ITEM_STAR));
 
-	//Test Flower
+	// Test Flower
 	CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CFlower>::Create(200, 300, ITEM_FLOWER));
 
 	CLineMgr::Get_Instance()->Initialize();

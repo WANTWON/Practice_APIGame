@@ -18,7 +18,7 @@ public:
 		return pInstance;
 	}
 
-	static CObj* Create(float _fX, float _fY, DIRECTION eDir = DIR_END)
+	static CObj* Create(float _fX, float _fY, DIRECTION eDir = DIR_END, OBJ_LIST eID = OBJ_END)
 	{
 		CObj* pInstance = new T;
 		pInstance->Initialize();
@@ -26,7 +26,12 @@ public:
 
 		CBullet* pBullet = dynamic_cast<CBullet*>(pInstance);
 		if (pBullet)
+		{
 			pBullet->Set_StartPos(_fX, _fY);
+			if (eID != OBJ_END)
+				pBullet->Set_ID(eID);
+		}
+			
 
 		if (eDir != DIR_END)
 			pInstance->Set_Dir(eDir);

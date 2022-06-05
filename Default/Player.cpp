@@ -182,7 +182,10 @@ void CPlayer::Key_Input(void)
 		m_bJump = true;
 
 	if (CKeyMgr::Get_Instance()->Key_Down('Z') && m_bCanShoot)
-		CObjMgr::Get_Instance()->Add_Object(OBJ_BULLET, CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, m_iLastDir));
+	{
+		CObjMgr::Get_Instance()->Add_Object(OBJ_BULLET, CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, m_iLastDir, OBJ_PLAYER));
+	}
+		
 }
 
 
