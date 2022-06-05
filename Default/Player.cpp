@@ -12,7 +12,8 @@
 CPlayer::CPlayer()
 	: m_pShield_Angle(0), m_bJump(false), m_fJumpPower(0), m_fTime(0), m_bFalling(false),
 	m_bStep_Monster(false), fY(0), fY2(0), m_iActiveBuff(ITEM_END), m_dwBuffTime(GetTickCount()),
-	m_bIsBuffActive(false), m_bCanShoot(false), m_iLastDir(DIR_RIGHT),  m_bPlay(true), m_fPTime(0.f), m_bActive(false), m_bItem(false), m_iLife(0)
+	m_bIsBuffActive(false), m_bCanShoot(false), m_iLastDir(DIR_RIGHT),  m_bPlay(true), m_fPTime(0.f), m_bActive(false), m_bItem(false), m_iLife(0),
+	m_iLevel(0)
 {
 	ZeroMemory(&m_pGUIDE, sizeof(POINT));
 }
@@ -121,6 +122,8 @@ void CPlayer::Buff_Mushroom()
 			// Activate Buff
 			m_tInfo.fCX += m_tInfo.fCX;
 			m_tInfo.fCY += m_tInfo.fCY;
+
+			m_iLevel = 1;
 		}
 		m_bItem = false;
 	}
@@ -150,6 +153,8 @@ void CPlayer::Buff_Flower()
 			m_tInfo.fCX += m_tInfo.fCX;
 			m_tInfo.fCY += m_tInfo.fCY;
 			m_bCanShoot = true;
+
+			m_iLevel = 2;
 		}
 		m_bItem = false;
 	}
@@ -219,6 +224,10 @@ void CPlayer::Jumping(void)
 		{
 			m_fJumpPower = 15;
 			m_tInfo.fY -= m_fJumpPower*m_fTime - (9.8*m_fTime*m_fTime*0.5f);
+			if ((m_fJumpPower*m_fTime) < (9.8*m_fTime*m_fTime*0.5f))
+			{
+				m_bJump = true;
+			}
 			m_fTime += 0.13f;
 			if (m_fTime > 3.9f)
 				m_fTime = 3.9f;
