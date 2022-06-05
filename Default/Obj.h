@@ -32,14 +32,13 @@ public:
 	void Set_Angle(int angle) { m_fAngle = float(angle); }
 	void Set_Rect(float _left, float _top, float _right, float _bottom) { m_tRect.left = int(_left); m_tRect.top = int(_top); m_tRect.right = int(_right); m_tRect.bottom = int(_bottom); }
 	void Set_Dir(DIRECTION _eDir) { m_eDir = _eDir; }
-	void Set_Dead(bool _dead) { m_bDead = _dead; }
+	void Set_Dead(bool _dead);
 	void Set_Target(CObj* _temp) { m_pTarget = _temp; }
 
 	bool Get_bDead(void) { return m_bDead; }
 	void Set_PosYTemp(float _fY) { m_tInfo.fY = _fY; }
 	bool Get_Bye(void) { return m_bBye; }
 	void Set_Bye(void) { m_bBye = false; }
-
 
 protected:
 	INFO m_tInfo;
@@ -51,6 +50,7 @@ protected:
 	bool m_bDead;
 	bool m_bBye;
 	bool m_bDead_Count;
-	
+	int m_iPoints_Given;
+	int m_iCoins_Given;
 };
 

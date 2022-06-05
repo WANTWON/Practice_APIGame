@@ -5,8 +5,8 @@
 class CItem abstract : public CObj
 {
 public:
-	CItem();
-	virtual ~CItem();
+	CItem() : m_Type(ITEM_END), m_bIsSpawned(false), m_fAnimSpeed(0.f), m_fAnimTime(0.f), m_fAnimAccel(9.8f), m_dwTime(GetTickCount()) {};
+	virtual ~CItem() {};
 
 	// 게터와 세터
 	ITEM_TYPE Get_Type() { return m_Type; }

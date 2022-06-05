@@ -176,6 +176,7 @@
     <ClInclude Include="Obj.h" />
     <ClInclude Include="ObjMgr.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PointNumbers.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Stage1.h" />
@@ -189,6 +190,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TurtleBack.h" />
     <ClInclude Include="TurtleMonster.h" />
+    <ClInclude Include="UIMgr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Block.cpp" />
@@ -201,7 +203,6 @@
     <ClCompile Include="Default.cpp" />
     <ClCompile Include="Flower.cpp" />
     <ClCompile Include="FlyingMonster.cpp" />
-    <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemBlock.cpp" />
     <ClCompile Include="JumpingMonster.cpp" />
     <ClCompile Include="KeyMgr.cpp" />
@@ -216,6 +217,7 @@
     <ClCompile Include="Obj.cpp" />
     <ClCompile Include="ObjMgr.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PointNumbers.cpp" />
     <ClCompile Include="Stage1.cpp" />
     <ClCompile Include="Stage2.cpp" />
     <ClCompile Include="Stage3.cpp" />
@@ -230,6 +232,7 @@
     </ClCompile>
     <ClCompile Include="TurtleBack.cpp" />
     <ClCompile Include="TurtleMonster.cpp" />
+    <ClCompile Include="UIMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Default.rc" />

@@ -196,11 +196,14 @@ void CPlayer::Remove_Buff(ITEM_TYPE iBuff)
 	{
 		m_tInfo.fCX -= m_tInfo.fCX * 0.5f;
 		m_tInfo.fCY -= m_tInfo.fCY * 0.5f;
+		break;
 	}
 	case ITEM_STAR:
 		m_bIsInvincible = false;
+		break;
 	case ITEM_FLOWER:
 		m_bCanShoot = false;
+		break;
 	}
 }
 
