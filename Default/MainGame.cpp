@@ -39,8 +39,6 @@ void CMainGame::Render(void)
 	Rectangle(m_hDc, 0, 0, WINCX, WINCY);
 
 	CStageMgr::Get_Instance()->Render(m_hDc);
-
-
 }
 
 void CMainGame::Release(void)

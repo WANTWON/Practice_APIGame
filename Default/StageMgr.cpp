@@ -6,11 +6,9 @@
 #include "Stage3.h"
 #include "Stage4.h"
 
-
-
 CStageMgr* CStageMgr::m_pInstance = nullptr;
 
-CStageMgr::CStageMgr() : m_dwTime(GetTickCount()), m_eChoice_Stage(STAGE_END), m_bNewGame(false)
+CStageMgr::CStageMgr() : m_dwTime(GetTickCount()), m_eChoice_Stage(STAGE_END), m_bNewGame(false), m_iScore(0), m_iCoins(0)
 {
 	for (size_t i = 0; i != STAGE_END; ++i)
 	{
@@ -19,7 +17,6 @@ CStageMgr::CStageMgr() : m_dwTime(GetTickCount()), m_eChoice_Stage(STAGE_END), m
 	m_Mouse = new CMouse;
 }
 
-
 CStageMgr::~CStageMgr()
 {
 	Release();
@@ -27,7 +24,6 @@ CStageMgr::~CStageMgr()
 
 void CStageMgr::Initialize(void)
 {
-	
 	int Temp = 0;
 	for (size_t i = 0; i != STAGE_END; ++i)
 	{
@@ -116,7 +112,6 @@ void CStageMgr::Late_Update(void)
 			}
 		}
 	}
-
 }
 
 void CStageMgr::Render(HDC hDC)
@@ -130,8 +125,22 @@ void CStageMgr::Render(HDC hDC)
 	{
 		for (size_t i = 0; i< STAGE_END; ++i)
 			Rectangle(hDC, m_tRect[i].left, m_tRect[i].top, m_tRect[i].right, m_tRect[i].bottom);
+
 		m_Mouse->Render(hDC);
 	}
+
+	Render_Points_Total(hDC);
+}
+
+void CStageMgr::Render_Points_Total(HDC hDC)
+{
+	TCHAR sztScore[32] = L"";
+	swprintf_s(sztScore, L"점수 : %d", m_iScore);
+	TextOut(hDC, 30, 30, sztScore, lstrlen(sztScore));
+
+	TCHAR sztCoins[32] = L"";
+	swprintf_s(sztCoins, L"코인 : %d", m_iCoins);
+	TextOut(hDC, 170, 30, sztCoins, lstrlen(sztCoins));
 }
 
 void CStageMgr::Release(void)
