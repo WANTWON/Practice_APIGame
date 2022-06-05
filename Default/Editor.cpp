@@ -3,9 +3,8 @@
 
 
 CEditor::CEditor()
-	:m_ObjMouse(nullptr)
+	:m_ObjMouse(nullptr), m_iChoiceNumber(-1)
 {
-	ZeroMemory(&m_ePt, sizeof(POINT));
 }
 
 
@@ -29,37 +28,33 @@ void CEditor::Initialize(void)
 		}
 	}
 
-	m_mapChoiceObj.emplace(1, CAbstractFactory<CPlayer>::Create(25.f, 75.f));
+	m_mapChoiceObj.emplace(0, OBJ_PLAYER);
 	//	Monster
-	m_mapChoiceObj.emplace(2, CAbstractFactory<CMushroomMonster>::Create(25.f, 150.f));
-	m_mapChoiceObj.emplace(3, CAbstractFactory<CTurtleMonster>::Create(75.f, 150.f));
-	m_mapChoiceObj.emplace(4, CAbstractFactory<CTurtleBack>::Create(125.f, 150.f));
-	//m_mapChoiceObj.emplace(5, CAbstractFactory<CJumpingMonster>::Create_with_Target(25.f, 200.f, m_mapChoiceObj.find(1));
-	m_mapChoiceObj.emplace(6, CAbstractFactory<CFlyingMonster>::Create(75.f, 200.f));
-	//m_mapChoiceObj.emplace(7, CAbstractFactory<CBossMonster>::Create_with_Target(125.f, 200.f, CObjMgr::Get_Instance()->Get_Player()));
+	m_mapChoiceObj.emplace(1, OBJ_MONSTER);
+	m_mapChoiceObj.emplace(2, OBJ_MONSTER);
+	m_mapChoiceObj.emplace(3, OBJ_MONSTER);
+	m_mapChoiceObj.emplace(4, OBJ_MONSTER);
+	m_mapChoiceObj.emplace(5, OBJ_MONSTER);
+	m_mapChoiceObj.emplace(6, OBJ_MONSTER);
 	//	Block
-	m_mapChoiceObj.emplace(8, CAbstractFactory<CNormalBlock>::Create(25.f, 275.f));
-	m_mapChoiceObj.emplace(9, CAbstractFactory<CCoinBlock>::Create(75.f, 275.f));
-	m_mapChoiceObj.emplace(10, CAbstractFactory<CItemBlock>::Create(125.f, 275.f));
+	m_mapChoiceObj.emplace(7, OBJ_BLOCK);
+	m_mapChoiceObj.emplace(8, OBJ_BLOCK);
+	m_mapChoiceObj.emplace(9, OBJ_BLOCK);
 	//	Item
-	m_mapChoiceObj.emplace(11, CAbstractFactory<CCoin>::Create(25.f, 350.f));
-	m_mapChoiceObj.emplace(12, CAbstractFactory<CMushroom>::Create(75.f, 350.f, ITEM_MUSHROOM));
-	m_mapChoiceObj.emplace(13, CAbstractFactory<CStar>::Create(125.f, 350.f, ITEM_STAR));
-	m_mapChoiceObj.emplace(14, CAbstractFactory<CFlower>::Create(25.f, 425.f, ITEM_FLOWER));
+	m_mapChoiceObj.emplace(10, OBJ_ITEM);
+	m_mapChoiceObj.emplace(11, OBJ_ITEM);
+	m_mapChoiceObj.emplace(12, OBJ_ITEM);
+	m_mapChoiceObj.emplace(13, OBJ_ITEM);
 }
 
 int CEditor::Update(void)
 {
-	GetCursorPos(&m_ePt);
-	ScreenToClient(g_hWnd, &m_ePt);
-
 	m_ObjMouse->Update();
 
+	if (false == Choice_Class())
+		Choice_Tile();
+
 	for (auto& iter : m_mapObj)
-	{
-		iter.second->Update();
-	}
-	for (auto& iter : m_mapChoiceObj)
 	{
 		iter.second->Update();
 	}
@@ -72,10 +67,6 @@ void CEditor::Late_Update(void)
 	m_ObjMouse->Late_Update();
 
 	for (auto& iter : m_mapObj)
-	{
-		iter.second->Late_Update();
-	}
-	for (auto& iter : m_mapChoiceObj)
 	{
 		iter.second->Late_Update();
 	}
@@ -100,10 +91,110 @@ void CEditor::Render(HDC hDC)
 	{
 		iter.second->Render(hDC);
 	}
-	for (auto& iter : m_mapChoiceObj)
-	{
-		iter.second->Render(hDC);
-	}
 
 	m_ObjMouse->Render(hDC);
+}
+
+bool CEditor::Choice_Class(void)
+{
+	int i = 0;
+
+	if (GetAsyncKeyState(VK_LBUTTON))
+	{
+		for (auto& iter : m_mapChoiceObj)
+		{
+			if (CCollisionMgr::Col_EditorClick(m_ObjMouse, iter.second));
+			{
+				m_iChoiceNumber = i;
+				return true;
+			}
+
+			++i;
+		}
+	}
+
+	m_iChoiceNumber = -1;
+	return false;
+
+}
+
+bool CEditor::Choice_Tile(void)
+{
+	int i = 0;
+
+	if (GetAsyncKeyState(VK_LBUTTON) || -1 != m_iChoiceNumber)
+	{
+		for (auto& iter : m_mapObj)
+		{
+			if (CCollisionMgr::Col_EditorClick(m_ObjMouse, iter.second));
+			{
+				switch (m_iChoiceNumber)
+				{
+				case 0:
+					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+					return true;
+					break;
+				case 1:
+					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+					return true;
+					break;
+				case 2:
+					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+					return true;
+					break;
+				case 3:
+					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+					return true;
+					break;
+				case 4:
+					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+					return true;
+					break;
+				case 5:
+					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+					return true;
+					break;
+				case 6:
+					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+					return true;
+					break;
+				case 7:
+					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+					return true;
+					break;
+				case 8:
+					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+					return true;
+					break;
+				case 9:
+					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+					return true;
+					break;
+				case 10:
+					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+					return true;
+					break;
+				case 11:
+					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+					return true;
+					break;
+				case 12:
+					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+					return true;
+					break;
+				case 13:
+					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+					return true;
+					break;
+				default:
+					break;
+				}
+			}
+
+			++i;
+		}
+	}
+
+	m_iChoiceNumber = -1;
+	return false;
 }

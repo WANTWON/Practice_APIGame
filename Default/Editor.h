@@ -44,14 +44,17 @@ public:
 	void	Release(void)		override;
 	void	Render(HDC hDC)		override;
 
+public:
+	bool	Choice_Class(void);
+	bool	Choice_Tile(void);
 
 
 private:
 	map<int, CObj*>		m_mapObj;
-	map<int, CObj*>		m_mapChoiceObj;
+	map<int, OBJ_LIST>		m_mapChoiceObj;
 	CObj*	m_ObjMouse;
-	POINT	m_ePt;
-
+	
+	int		m_iChoiceNumber;
 
 
 };

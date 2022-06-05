@@ -15,6 +15,9 @@ public:
 	void	Render(HDC hDC) override;
 
 
+private:
+	OBJ_LIST m_ObjID;
+
 
 };
 
