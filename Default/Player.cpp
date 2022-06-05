@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "AbstractFactory.h"
+#include "CollisionMgr.h"
 #include "ObjMgr.h"
 #include "LineMgr.h"
 #include "KeyMgr.h"
@@ -75,6 +76,9 @@ void  CPlayer::Late_Update(void)
 			m_bStep_Monster = false;
 		}
 	}
+
+
+	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
 
 	Set_Dead_Moment();
 }
@@ -215,6 +219,7 @@ void CPlayer::Remove_Buff(ITEM_TYPE iBuff)
 	}
 }
 
+
 void CPlayer::Key_Input(void)
 {
 	if (GetAsyncKeyState(VK_RIGHT))
@@ -285,7 +290,8 @@ void CPlayer::Jumping(void)
 		m_tInfo.fX += 0.5f;
 		m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 	}
-	//======================================================================================
+
+
 		if (m_bPlay)
 		{
 			bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
@@ -370,7 +376,7 @@ void CPlayer::Set_Dead_Moment(void)
 	if (m_bDead_Count)
 	{
 		m_bPlay = false;
-		m_tInfo.fY -= m_fJumpPower*m_fPTime - (9.8*m_fPTime*m_fPTime*0.5f);
+		m_tInfo.fY -= m_fJumpPower*m_fPTime - (9.8f*m_fPTime*m_fPTime*0.5f);
 		m_fPTime += 0.13f;
 
 		if (m_tInfo.fY > WINCY)

@@ -23,6 +23,7 @@ void CJumpingMonster::Initialize(void)
 	m_fSpeed = 1.f;
 	m_fJumpPower = 10.f;
 	m_dwTime = GetTickCount();
+	m_iHp = 3;
 }
 
 int CJumpingMonster::Update(void)

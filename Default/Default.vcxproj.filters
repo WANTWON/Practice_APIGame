@@ -280,6 +280,9 @@
     <ClInclude Include="UIMgr.h">
       <Filter>98.Design\UIMgr</Filter>
     </ClInclude>
+    <ClInclude Include="NormalBlock.h">
+      <Filter>01. Obj\02.Block\00. NormalBlock</Filter>
+    </ClInclude>
     <ClInclude Include="FlagBlock.h">
       <Filter>01. Obj\02.Block\03. FlagBlock</Filter>
     </ClInclude>
