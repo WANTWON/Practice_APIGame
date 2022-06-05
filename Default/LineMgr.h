@@ -13,7 +13,7 @@ public:
 	void		Release(void);
 
 	bool		CollisionLine(float _fX, float* _fY);
-	CLine*		CollisionLine_Bullet(float _fX, float _fY, float * _OutY);
+	CLine*		CollisionLine_Bullet(float _fX,float * _OutY);
 	bool		CollisionFlag(RECT rc, float* _fY);
 public:
 	static CLineMgr* Get_Instance(void)

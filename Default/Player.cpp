@@ -14,9 +14,7 @@ CPlayer::CPlayer()
 	: m_pShield_Angle(0), m_bJump(false), m_fJumpPower(0), m_fTime(0), m_bFalling(false),
 	m_bStep_Monster(false), fY(0), fY2(0), m_iActiveBuff(ITEM_END), m_dwBuffTime(GetTickCount()),
 	m_bIsBuffActive(false), m_bCanShoot(false), m_iLastDir(DIR_RIGHT), m_bPlay(true), m_fPTime(0.f), m_bActive(false), m_bItem(false), m_iLife(0), m_bFirst(false),
-	m_bLineCol(false), m_bFlag(false), m_bBlock(false)
- m_bIsInvincible(false), m_bColorSwitch(false), m_bCanShoot(false), 
-  m_iLastDir(DIR_RIGHT), m_iLife(0), m_bPlay(true), m_fPTime(0.f), m_bActive(false), m_bItem(false), m_iLevel(0)
+	m_bLineCol(false), m_bFlag(false), m_bBlock(false), m_bIsInvincible(false), m_bColorSwitch(false), m_iLevel(0)
 
 {
 	ZeroMemory(&m_pGUIDE, sizeof(POINT));
@@ -286,8 +284,8 @@ void CPlayer::Jumping(void)
 		m_tInfo.fX += 0.5f;
 		m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 	}
-	//======================================================================================
-=======
+	
+
 	if (m_bPlay)
 	{
 		bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
@@ -321,8 +319,8 @@ void CPlayer::Jumping(void)
 		else if (m_bJump)
 		{
 			m_fJumpPower = 15;
-			m_tInfo.fY -= m_fJumpPower*m_fTime - (9.8*m_fTime*m_fTime*0.5f);
-			if ((m_fJumpPower*m_fTime) < (9.8*m_fTime*m_fTime*0.5f))
+			m_tInfo.fY -= m_fJumpPower*m_fTime - (9.8f*m_fTime*m_fTime*0.5f);
+			if ((m_fJumpPower*m_fTime) < (9.8f*m_fTime*m_fTime*0.5f))
 			{
 				m_bJump = true;
 			}

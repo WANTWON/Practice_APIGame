@@ -31,13 +31,16 @@ void CLineMgr::Initialize(int _Number)
 		m_Linelist.push_back(new CLine(tPoint[1], tPoint[2]));
 		m_Linelist.push_back(new CLine(tPoint[2], tPoint[3]));
 	}
-
-
-		{ 10.f, 400.f },
-		{ 200.f, 500.f },
-		{ 700.f, 500.f },
-		{ 700.f, 100.f }
-	};
+	else if (2 == _Number)
+	{
+		LINEPOINT tPoint[4] =
+		{
+			{ 10.f, 400.f },
+			{ 200.f, 500.f },
+			{ 700.f, 500.f },
+			{ 700.f, 100.f }
+		};
+	}
 	else if (3 == _Number)
 	{
 
@@ -68,7 +71,7 @@ void CLineMgr::Render(HDC hDC)
 		iter->Render(hDC);
 	
 
-	//½ÇÇè¿ë
+	
 	for (auto& iter : m_Flagline)
 		iter->Render(hDC);
 }
@@ -78,7 +81,7 @@ void CLineMgr::Release(void)
 	for_each(m_Linelist.begin(), m_Linelist.end(), CDeleteObj());
 	m_Linelist.clear();
 
-	//½ÇÇè¿ë
+	
 	for_each(m_Flagline.begin(), m_Flagline.end(), CDeleteObj());
 	m_Flagline.clear();
 }

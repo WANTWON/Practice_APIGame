@@ -6,7 +6,7 @@
 #include "AbstractFactory.h"
 #include "Bullet.h"
 #include "CollisionMgr.h"
-
+#include "TurtleBack.h"
 
 
 
@@ -23,7 +23,7 @@ void CBossMonster::Initialize(void)
 {
 	m_tInfo = { 125.f,125.f, 60.f, 60.f };
 	m_fSpeed = 5.f;
-	m_iHp = 30;
+	m_iHp = 10;
 	m_fDistance = m_tInfo.fCX;
 }
 
@@ -123,6 +123,32 @@ void CBossMonster::Move(void)
 				break;
 			case LEVEL3:
 				
+				if (m_tInfo.fY > 100)
+				{
+					if (m_fSpeed < 0)
+						m_fSpeed *= -1;
+
+					m_bMake = false;
+					m_tInfo.fY -= m_fSpeed*1.05;
+				}
+				else
+				{
+					m_tInfo.fX += m_fSpeed;
+					m_bMake = true;
+				}
+
+				if (m_dwCreateBulletTime + 700 < GetTickCount() && m_bMake)
+				{
+					CObjMgr::Get_Instance()->Add_Object(OBJ_BULLET, CAbstractFactory<CMonsterBullet>::
+						Create_with_Target(m_tInfo.fX + m_fTargetPosX, m_tInfo.fY - m_fTargetPosY, CObjMgr::Get_Instance()->Get_Player(), OBJ_MONSTER));
+
+					dynamic_cast<CMonsterBullet*>(CObjMgr::Get_Instance()->Get_Bullets().back())->Set_MovePos(m_fTargetPosX, m_fTargetPosY);
+					dynamic_cast<CMonsterBullet*>(CObjMgr::Get_Instance()->Get_Bullets().back())->Set_State(m_eState);
+
+					m_dwCreateBulletTime = GetTickCount();
+				}
+
+
 				break;
 			default:
 				break;
@@ -184,7 +210,27 @@ void CBossMonster::Attack_Pattern(void)
 	{
 		if (m_fSpeed < 0)
 			m_fSpeed *= -1;
+		if (m_tInfo.fY >= fY)
+		{
+			m_tInfo.fY = fY - m_tInfo.fCY*0.5;
+			m_fSpeed = 0.f;
+			bStop = true;
+		}
+		else
+		{
+			m_tInfo.fY += m_fSpeed*1.5f;
+			if (!bStop)
+				m_tInfo.fX += m_fTargetPosX*0.1f;
+			else
+			{
+				if (m_dwCreateBulletTime + 1000 < GetTickCount())
+				{
+					CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleBack>::Create(m_tInfo.fX, m_tInfo.fY));
 
+					m_dwCreateBulletTime = GetTickCount();
+				}
+			}
+		}
 		
 
 	}
