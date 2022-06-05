@@ -1,12 +1,12 @@
 #pragma once
+
 #include "Obj.h"
-class CMouse :
-	public CObj
+
+class CMouse : public CObj
 {
 public:
 	CMouse();
 	virtual ~CMouse();
-
 
 public:
 	void Initialize(void)  override;
