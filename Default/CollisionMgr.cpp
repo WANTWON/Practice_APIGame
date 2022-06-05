@@ -185,15 +185,15 @@ int CCollisionMgr::Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest)
 						// Has Buff
 						if (pPlayer->Get_ActiveBuff() != ITEM_END)
 						{
-							//dynamic_cast<CMonster*>(Dest)->Set_Dead(true);
+							dynamic_cast<CMonster*>(Dest)->Set_Dead(true);
 
 							// Remove Buff if not Star
 							if (pPlayer->Get_ActiveBuff() != ITEM_STAR)
 								pPlayer->Remove_Buff(pPlayer->Get_ActiveBuff());
 						}
 						// Has no Buff
-						/*else
-							pPlayer->Set_Dead_Count();*/
+						else
+							pPlayer->Set_Dead_Count();
 					}
 				}
 				else //좌우 충돌 
@@ -210,8 +210,8 @@ int CCollisionMgr::Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest)
 							pPlayer->Remove_Buff(pPlayer->Get_ActiveBuff());
 					}
 					// Has no Buff
-					//else
-						//pPlayer->Set_Dead_Count();
+					else
+						pPlayer->Set_Dead_Count();
 
 					/*if (true == dynamic_cast<CPlayer*>(Sour)->Get_Buff())
 					{

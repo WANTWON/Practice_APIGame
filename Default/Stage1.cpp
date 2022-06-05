@@ -36,12 +36,12 @@ void CStage1::Initialize(void)
 	CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, CAbstractFactory<CPlayer>::Create(m_iCount));
 	
 	// Test Monster
-	/*CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CMushroomMonster>::Create(600, 200));
+	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CMushroomMonster>::Create(600, 200));
 	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleMonster>::Create(500, 200));
 	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CJumpingMonster>::Create_with_Target(300, 300, CObjMgr::Get_Instance()->Get_Player()));
-	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFlyingMonster>::Create(100, 300));*/
+	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFlyingMonster>::Create(100, 300));
 	//CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFlyingMonster>::Create(100, 300));
-	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CBossMonster>::Create_with_Target(200, 300, CObjMgr::Get_Instance()->Get_Player()));
+	//CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CBossMonster>::Create_with_Target(200, 300, CObjMgr::Get_Instance()->Get_Player()));
 
 	CBlockMgr::Get_Instance()->Add_Object(BLOCK_NORMAL, CAbstractFactory<CNormalBlock>::Create(550, 150));
 	CBlockMgr::Get_Instance()->Add_Object(BLOCK_NORMAL, CAbstractFactory<CNormalBlock>::Create(500, 150));
@@ -114,8 +114,8 @@ void CStage1::Render(HDC hDC)
 		TCHAR szBuff[32] = L"";
 		TCHAR szBuff1[32] = L"";
 
-		Rectangle(hDc, 0, 0, WINCX, WINCY);
-		Rectangle(hDc, 340, 250, 370, 280);
+		Rectangle(hDC, 0, 0, WINCX, WINCY);
+		Rectangle(hDC, 340, 250, 370, 280);
 
 		while (m_dwView + 2000 > GetTickCount())
 		{
