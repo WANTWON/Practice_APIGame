@@ -2,6 +2,7 @@
 #include "Obj.h"
 #include "Bullet.h"
 #include "Player.h"
+#include "FlagBlock.h"
 
 template <typename T>
 class CAbstractFactory
@@ -39,12 +40,15 @@ public:
 		return pInstance;
 	}
 
-	static CObj* Create_with_Target(float _fX, float _fY,CObj* pTarget)
+	static CObj* Create_with_Target(float _fX, float _fY,CObj* pTarget, OBJ_LIST eID = OBJ_END)
 	{
 		CObj* pInstance = new T;
 		pInstance->Initialize();
 		pInstance->Set_Pos(_fX, _fY);
 		pInstance->Set_Target(pTarget);
+
+		if (eID != OBJ_END)
+			pInstance->Set_ID(eID);
 
 		return pInstance;
 	}
@@ -91,11 +95,31 @@ public:
 	}
 
 
-	static CObj*  Create(int _Life) 
+
+
+	//½ÇÇè¿ë
+
+	static CObj*  Create(float _fX, float _fY, int _Life)
+	{
+		CObj* pInstance = new T;
+		pInstance->Initialize();
+		pInstance->Set_Pos(_fX, _fY);
+		dynamic_cast<CPlayer*>(pInstance)->Set_Life(_Life);
+		return pInstance;
+	}
+	static CObj*  Create(int _Life)
 	{
 		CObj* pInstance = new T;
 		pInstance->Initialize();
 		dynamic_cast<CPlayer*>(pInstance)->Set_Life(_Life);
+		return pInstance;
+	}
+	static CObj* Create(float _fX, float _fY,bool _Number)
+	{
+		CObj* pInstance = new T;
+		pInstance->Initialize();
+		pInstance->Set_Pos(_fX, _fY);
+		dynamic_cast<CFlagBlock*>(pInstance)->Set_Number(_Number);
 		return pInstance;
 	}
 };

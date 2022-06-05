@@ -41,9 +41,53 @@ int CCollisionMgr::Collision_Rect(list<CObj*> Sour, list<CObj*> Dest)
 int CCollisionMgr::Collision_Bullet(CObj* _This, list<CObj*> _Bullet)
 {
 	RECT rt{};
+	int iScore = 0;
+
+	if ( OBJ_PLAYER == _This->Get_ID()) //When the player gets hit by a bullet,
+	{
+		for (auto& iter : _Bullet)
+		{
+			if (OBJ_MONSTER == iter->Get_ID() && IntersectRect(&rt, &(_This->Get_Rect()), &(iter->Get_Rect())))	//When a bullet is a Monster's bullet,
+			{
+
+				(iter)->Set_Dead(true);
+				if (dynamic_cast<CPlayer*>(_This)->Get_Buff())
+					dynamic_cast<CPlayer*>(_This)->Get_Active(true);
+				else
+					dynamic_cast<CPlayer*>(_This)->Set_Dead_Count();
+				
+			}
+		}
+		return iScore;
+	}
+	else if (OBJ_MONSTER == _This->Get_ID()) //When the Monster gets hit by a bullet,
+	{
+		for (auto& iter : _Bullet)
+		{
+			if (OBJ_PLAYER == iter->Get_ID() && IntersectRect(&rt, &(_This->Get_Rect()), &(iter->Get_Rect())))	//When a bullet is a Player's bullet,
+			{
+				(iter)->Set_Dead(true);
+				dynamic_cast<CMonster*>(_This)->Be_Attacked();
+				iScore += rand() % 10 + 5;
+			}
+		}
+		return iScore;
+	}
+	else if (BLOCK_NORMAL == _This->Get_ID())
+	{
+		for (auto& iter : _Bullet)
+		{
+			if ( IntersectRect(&rt, &(_This->Get_Rect()), &(iter->Get_Rect())))	//When a bullet is a Player's bullet,
+			{
+				(iter)->Set_Dead(true);
+			}
+
+		}
+
+	}
 
 
-	return 0;
+	return iScore;
 }
 
 
@@ -141,15 +185,15 @@ int CCollisionMgr::Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest)
 						// Has Buff
 						if (pPlayer->Get_ActiveBuff() != ITEM_END)
 						{
-							dynamic_cast<CMonster*>(Dest)->Set_Dead(true);
+							//dynamic_cast<CMonster*>(Dest)->Set_Dead(true);
 
 							// Remove Buff if not Star
 							if (pPlayer->Get_ActiveBuff() != ITEM_STAR)
 								pPlayer->Remove_Buff(pPlayer->Get_ActiveBuff());
 						}
 						// Has no Buff
-						else
-							pPlayer->Set_Dead_Count();
+						/*else
+							pPlayer->Set_Dead_Count();*/
 					}
 				}
 				else //좌우 충돌 
@@ -159,15 +203,15 @@ int CCollisionMgr::Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest)
 					// Has Buff
 					if (pPlayer->Get_ActiveBuff() != ITEM_END)
 					{
-						dynamic_cast<CMonster*>(Dest)->Set_Dead(true);
+						//dynamic_cast<CMonster*>(Dest)->Set_Dead(true);
 
 						// Remove Buff if not Star
 						if (pPlayer->Get_ActiveBuff() != ITEM_STAR)
 							pPlayer->Remove_Buff(pPlayer->Get_ActiveBuff());
 					}
 					// Has no Buff
-					else
-						pPlayer->Set_Dead_Count();
+					//else
+						//pPlayer->Set_Dead_Count();
 
 					/*if (true == dynamic_cast<CPlayer*>(Sour)->Get_Buff())
 					{

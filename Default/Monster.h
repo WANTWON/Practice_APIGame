@@ -1,10 +1,9 @@
 #pragma once
 #include "Obj.h"
-class CMonster :
-	public CObj
+class CMonster : public CObj
 {
 public:
-	CMonster() : m_bFalling(true), m_bGet_Attacked(false), m_bCount(false), m_iHp(0), m_iMonsterNumder(0) {}
+	CMonster() : m_bFalling(true), m_bGet_Attacked(false), m_bCount(false), m_iHp(0), m_iMonsterNumder(0) { m_iPoints_Given = 100; }
 	virtual ~CMonster() {}
 
 public:

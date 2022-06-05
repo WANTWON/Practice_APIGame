@@ -13,14 +13,14 @@ public:
 	virtual void Initialize() PURE;
 	virtual void Release() PURE;
 
-	// ÇÁ·¹ÀÓ¸¶´Ù ½ÇÇàµÇ´Â ÇÔ¼ö 
+	// í”„ë ˆì„ë§ˆë‹¤ ì‹¤í–‰ë˜ëŠ” í•¨ìˆ˜ 
 	virtual int Update() PURE;
 	virtual void Late_Update() PURE;
 	virtual void Render(HDC hDC) PURE;
 
 	void Update_Rect();
 
-	// °ÔÅÍ¿Í ¼¼ÅÍ
+	// ê²Œí„°ì™€ ì„¸í„°
 	const RECT& Get_Rect() const { return m_tRect; }
 	const INFO& Get_Info() const { return m_tInfo; }
 	const DIRECTION& Get_Dir() const { return m_eDir; }
@@ -32,7 +32,7 @@ public:
 	void Set_Angle(int angle) { m_fAngle = float(angle); }
 	void Set_Rect(float _left, float _top, float _right, float _bottom) { m_tRect.left = int(_left); m_tRect.top = int(_top); m_tRect.right = int(_right); m_tRect.bottom = int(_bottom); }
 	void Set_Dir(DIRECTION _eDir) { m_eDir = _eDir; }
-	void Set_Dead(bool _dead) { m_bDead = _dead; }
+	void Set_Dead(bool _dead);
 	void Set_Target(CObj* _temp) { m_pTarget = _temp; }
 
 	bool Get_bDead(void) { return m_bDead; }
@@ -40,6 +40,11 @@ public:
 	bool Get_Bye(void) { return m_bBye; }
 	void Set_Bye(void) { m_bBye = false; }
 
+
+public:
+	//added an ID to distinguish between the monster's bullet and the player's bullet
+	void Set_ID(OBJ_LIST _eID) { m_eID = _eID; }
+	const OBJ_LIST& Get_ID(void) const { return m_eID; }
 
 protected:
 	INFO m_tInfo;
@@ -51,6 +56,11 @@ protected:
 	bool m_bDead;
 	bool m_bBye;
 	bool m_bDead_Count;
-	
+
+	OBJ_LIST  m_eID;
+
+	int m_iPoints_Given;
+	int m_iCoins_Given;
+
 };
 

@@ -7,10 +7,9 @@
 #include "Stage4.h"
 #include "Editor.h"
 
-
 CStageMgr* CStageMgr::m_pInstance = nullptr;
 
-CStageMgr::CStageMgr() : m_dwTime(GetTickCount()), m_eChoice_Stage(STAGE_END), m_bNewGame(false)
+CStageMgr::CStageMgr() : m_dwTime(GetTickCount()), m_eChoice_Stage(STAGE_END), m_bNewGame(false), m_iScore(0), m_iCoins(0)
 {
 	for (size_t i = 0; i != STAGE_END; ++i)
 	{
@@ -19,7 +18,6 @@ CStageMgr::CStageMgr() : m_dwTime(GetTickCount()), m_eChoice_Stage(STAGE_END), m
 	m_Mouse = new CMouse;
 }
 
-
 CStageMgr::~CStageMgr()
 {
 	Release();
@@ -27,7 +25,6 @@ CStageMgr::~CStageMgr()
 
 void CStageMgr::Initialize(void)
 {
-	
 	int Temp = 0;
 	for (size_t i = 0; i != STAGE_END; ++i)
 	{
@@ -91,18 +88,21 @@ void CStageMgr::Late_Update(void)
 				case STAGE_2:
 					m_pStage[STAGE_2] = new CStage2;
 					m_pStage[STAGE_2]->Initialize();
+															//m_pStage[STAGE_2]->Set_View();
 					m_eChoice_Stage = STAGE_2;
 					m_Mouse->Set_Pos(0.f, 0.f);
 					break;
 				case STAGE_3:
 					m_pStage[STAGE_3] = new CStage3;
 					m_pStage[STAGE_3]->Initialize();
+					m_pStage[STAGE_3]->Set_View();
 					m_eChoice_Stage = STAGE_3;
 					m_Mouse->Set_Pos(0.f, 0.f);
 					break;
 				case STAGE_4:
 					m_pStage[STAGE_4] = new CStage4;
 					m_pStage[STAGE_4]->Initialize();
+															//m_pStage[STAGE_4]->Set_View();
 					m_eChoice_Stage = STAGE_4;
 					m_Mouse->Set_Pos(0.f, 0.f);
 					break;
@@ -118,7 +118,6 @@ void CStageMgr::Late_Update(void)
 			}
 		}
 	}
-
 }
 
 void CStageMgr::Render(HDC hDC)
@@ -132,8 +131,22 @@ void CStageMgr::Render(HDC hDC)
 	{
 		for (size_t i = 0; i< STAGE_END; ++i)
 			Rectangle(hDC, m_tRect[i].left, m_tRect[i].top, m_tRect[i].right, m_tRect[i].bottom);
+
 		m_Mouse->Render(hDC);
 	}
+
+	Render_Points_Total(hDC);
+}
+
+void CStageMgr::Render_Points_Total(HDC hDC)
+{
+	TCHAR sztScore[32] = L"";
+	swprintf_s(sztScore, L"점수 : %d", m_iScore);
+	TextOut(hDC, 30, 30, sztScore, lstrlen(sztScore));
+
+	TCHAR sztCoins[32] = L"";
+	swprintf_s(sztCoins, L"코인 : %d", m_iCoins);
+	TextOut(hDC, 170, 30, sztCoins, lstrlen(sztCoins));
 }
 
 void CStageMgr::Release(void)

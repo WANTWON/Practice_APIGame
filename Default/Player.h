@@ -31,8 +31,10 @@ public:
 	void Set_JumpingTime(void) { Jumping_Time = GetTickCount(); }
 		
 	
+
 	void	Set_GravityTime(float _fTime) { m_fTime = _fTime; }
-	float	Get_Gravity(void){ return (m_fJumpPower*m_fTime - (9.8*m_fTime*m_fTime*0.5f)); }
+	float	Get_Gravity(void){ return (m_fJumpPower*m_fTime - (9.8f*m_fTime*m_fTime*0.5f)); }
+
 	void Set_Dead_Moment(void);
 	void Set_Dead_Count(void) { m_bDead_Count = true; }
 	bool Get_Count(void) { return m_bDead_Count; }
@@ -85,5 +87,9 @@ private:
 	bool m_bActive;
 	bool m_bItem;
 	int m_iLife;
+	bool m_bFirst;
+	bool m_bLineCol;
+	bool m_bBlock;
+	bool m_bFlag;
 };
 

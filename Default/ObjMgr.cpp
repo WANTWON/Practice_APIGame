@@ -7,8 +7,9 @@
 
 CObjMgr* CObjMgr::m_pInstance = nullptr;
 
-CObjMgr::CObjMgr() : m_iScore(0)
+CObjMgr::CObjMgr()
 {
+
 }
 
 CObjMgr::~CObjMgr()
@@ -25,6 +26,14 @@ void CObjMgr::Add_Object(OBJ_LIST _ID, CObj* pObj)
 {
 	if (_ID == OBJ_END || nullptr == pObj)
 		return;
+
+	if (_ID == OBJ_BULLET)
+	{
+		OBJ_LIST Bullet_ID = pObj->Get_ID();
+		pObj->Set_ID(Bullet_ID);
+	}
+	else
+		pObj->Set_ID(_ID);
 
 	m_pObjList[_ID].push_back(pObj);
 }
@@ -62,17 +71,15 @@ void CObjMgr::Late_Update()
 
 	CObjMgr* ObjMgr = CObjMgr::Get_Instance();
 	
-
 	//CCollisionMgr::Step_on_Mushroom(m_pObjList[OBJ_PLAYER], m_pObjList[OBJ_MONSTER]);
 	//CCollisionMgr::Collision_Item(Get_Player(), Get_Items());
 	//CCollisionMgr::Collision_Rect(Get_Bullets(), Get_Monsters());
 	//CCollisionMgr::Collision_Rect_Ex(m_pObjList[OBJ_MONSTER], m_pObjList[OBJ_PLAYER]);
-
-	m_iScore += CCollisionMgr::Step_on_Mushroom(m_pObjList[OBJ_PLAYER], m_pObjList[OBJ_MONSTER]);
+	CCollisionMgr::Step_on_Mushroom(m_pObjList[OBJ_PLAYER], m_pObjList[OBJ_MONSTER]);
 	//CCollisionMgr::Collision_Rect_Ex(Get_Monsters(), m_pObjList[OBJ_PLAYER]);
 	CCollisionMgr::Collision_Item(Get_Player(), Get_Items());
-	m_iScore += CCollisionMgr::Collision_Rect(Get_Bullets(), Get_Monsters());
 
+	//m_iScore += CCollisionMgr::Collision_Rect(Get_Bullets(), Get_Monsters());
 }
 
 void CObjMgr::Render(HDC hDC)
@@ -94,13 +101,6 @@ void CObjMgr::Render(HDC hDC)
 			Rectangle(hDC, rc.left, rc.top, rc.right, rc.bottom);
 		}
 	}
-
-
-	TCHAR sztScore[32] = L"";
-
-	swprintf_s(sztScore, L"Coin : %d", m_iScore);
-	TextOut(hDC, 650, 30, sztScore, lstrlen(sztScore));
-
 }
 
 void CObjMgr::Release()

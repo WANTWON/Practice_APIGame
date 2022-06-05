@@ -13,26 +13,8 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="99. Header">
-      <UniqueIdentifier>{cb53f111-9ac8-43f7-b05f-7521b89daa26}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00.MainGame">
       <UniqueIdentifier>{db47f27e-3f0b-476e-9859-a8ffe7074280}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Obj">
-      <UniqueIdentifier>{3117ff55-f4a9-4320-9446-447e9cba582d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Obj\00.Player">
-      <UniqueIdentifier>{85c4e69b-21e3-4afc-b99d-7a2e2a4b08bb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Obj\01.Monster">
-      <UniqueIdentifier>{2d32ca31-79cf-44bc-af27-568aa5f166bc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Obj\02.Block">
-      <UniqueIdentifier>{18353809-2afa-462c-bb75-b0512dc17e44}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Obj\03.Item">
-      <UniqueIdentifier>{077930c0-5775-4ce7-b5c9-134e32e585c9}</UniqueIdentifier>
     </Filter>
     <Filter Include="98.Design">
       <UniqueIdentifier>{2ebbb6b4-3087-40c4-989d-35cd6b010494}</UniqueIdentifier>
@@ -67,61 +49,82 @@
     <Filter Include="97.Stage\Stage4">
       <UniqueIdentifier>{d9421ace-32e3-4ec3-9f0e-bcd947f466a4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Obj\04.Mouse">
-      <UniqueIdentifier>{aba46bc4-fd46-4526-9177-b95bc95b992c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Obj\01.Monster\00.Mushroom_Monster">
-      <UniqueIdentifier>{b255d26c-7899-4bb2-bb6b-03a1a0199094}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Obj\01.Monster\01.Turtle_Monster">
-      <UniqueIdentifier>{5ac55a90-8daf-44f4-9182-0521398f95f7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Obj\01.Monster\02.Turtle_Back">
-      <UniqueIdentifier>{7a167971-0599-4c80-9bcc-e083765c8a27}</UniqueIdentifier>
-    </Filter>
     <Filter Include="98.Design\KeyMgr">
       <UniqueIdentifier>{c98114bd-9750-4547-82bb-97160c120bb5}</UniqueIdentifier>
     </Filter>
     <Filter Include="98.Design\StageMgr">
       <UniqueIdentifier>{c84434f6-d826-4eef-9c26-523cdcd26ddc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Obj\03.Item\031.Coin">
-      <UniqueIdentifier>{fec90c42-893e-4c7c-8ff3-379abc5d56aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Obj\03.Item\032.Mushroom">
-      <UniqueIdentifier>{560fa323-c1dd-4145-a386-48ec24876962}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Obj\03.Item\033.Star">
-      <UniqueIdentifier>{2aec992a-1bd7-41af-8e06-85918a96ab27}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Obj\03.Item\034.Flower">
-      <UniqueIdentifier>{2b254151-c149-40e6-8cfe-66503d0d314b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Obj\01.Monster\03.Jumping_Monster">
-      <UniqueIdentifier>{9979f4a1-74a0-41a3-8172-b465c498b3fd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="98.Design\BlockMgr">
       <UniqueIdentifier>{a9496093-2d81-4da6-a5b8-366a86aa3382}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Obj\01.Monster\04.Fying_Monster">
+    <Filter Include="96.UI">
+      <UniqueIdentifier>{a328d9de-85dc-423c-a2fe-5a5545a8ab23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.Header">
+      <UniqueIdentifier>{cb53f111-9ac8-43f7-b05f-7521b89daa26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj">
+      <UniqueIdentifier>{3117ff55-f4a9-4320-9446-447e9cba582d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\00.Player">
+      <UniqueIdentifier>{85c4e69b-21e3-4afc-b99d-7a2e2a4b08bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\01.Monster">
+      <UniqueIdentifier>{2d32ca31-79cf-44bc-af27-568aa5f166bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\01.Monster\00.Mushroom_Monster">
+      <UniqueIdentifier>{b255d26c-7899-4bb2-bb6b-03a1a0199094}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\01.Monster\01.Turtle_Monster">
+      <UniqueIdentifier>{5ac55a90-8daf-44f4-9182-0521398f95f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\01.Monster\02.Turtle_Back">
+      <UniqueIdentifier>{7a167971-0599-4c80-9bcc-e083765c8a27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\01.Monster\03.Jumping_Monster">
+      <UniqueIdentifier>{9979f4a1-74a0-41a3-8172-b465c498b3fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\01.Monster\04.Fying_Monster">
       <UniqueIdentifier>{c1a633c4-2d68-4b4e-802d-0e241cc6692e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Obj\05.Bullet">
-      <UniqueIdentifier>{decd3ad0-1177-46ee-97f8-0920cdd6b27d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Obj\02.Block\02. ItemBlock">
-      <UniqueIdentifier>{09e8fecc-9def-43f3-8eeb-479e49f08d13}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Obj\02.Block\01. CoinBlock">
-      <UniqueIdentifier>{fc3aa760-f0c9-4f34-af7c-7db191ec287e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Obj\02.Block\00. NormalBlock">
-      <UniqueIdentifier>{0b1818ef-78c7-42d2-baba-d87e1e0dbfc3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Obj\01.Monster\05.Boss_Monster">
+    <Filter Include="01.Obj\01.Monster\05.Boss_Monster">
       <UniqueIdentifier>{a7dc9006-0c03-454f-91ca-da9f53ff7f5e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Obj\05.Bullet\51.Monster_Bullet">
+    <Filter Include="01.Obj\02.Block">
+      <UniqueIdentifier>{18353809-2afa-462c-bb75-b0512dc17e44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\02.Block\02. ItemBlock">
+      <UniqueIdentifier>{09e8fecc-9def-43f3-8eeb-479e49f08d13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\02.Block\01. CoinBlock">
+      <UniqueIdentifier>{fc3aa760-f0c9-4f34-af7c-7db191ec287e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\02.Block\00. NormalBlock">
+      <UniqueIdentifier>{0b1818ef-78c7-42d2-baba-d87e1e0dbfc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\03.Item">
+      <UniqueIdentifier>{077930c0-5775-4ce7-b5c9-134e32e585c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\03.Item\031.Coin">
+      <UniqueIdentifier>{fec90c42-893e-4c7c-8ff3-379abc5d56aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\03.Item\032.Mushroom">
+      <UniqueIdentifier>{560fa323-c1dd-4145-a386-48ec24876962}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\03.Item\033.Star">
+      <UniqueIdentifier>{2aec992a-1bd7-41af-8e06-85918a96ab27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\03.Item\034.Flower">
+      <UniqueIdentifier>{2b254151-c149-40e6-8cfe-66503d0d314b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\04.Mouse">
+      <UniqueIdentifier>{aba46bc4-fd46-4526-9177-b95bc95b992c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\05.Bullet">
+      <UniqueIdentifier>{decd3ad0-1177-46ee-97f8-0920cdd6b27d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\05.Bullet\51.Monster_Bullet">
       <UniqueIdentifier>{69832269-9990-45a8-8797-5b5441afb455}</UniqueIdentifier>
     </Filter>
     <Filter Include="97.Stage\Editor">
@@ -129,6 +132,15 @@
     </Filter>
     <Filter Include="01. Obj\99. BlockEditor">
       <UniqueIdentifier>{253fa6cf-d980-4c33-a21d-c9a3e7469369}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.UI\PointNumbers">
+      <UniqueIdentifier>{b6b4d52b-0b69-4e6f-b274-285f507d2969}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Design\UIMgr">
+      <UniqueIdentifier>{eeb3bd1d-a2d6-482d-82f9-9dcabd40d82d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\02.Block\03. FlagBlock">
+      <UniqueIdentifier>{1de4dc06-ca2c-4833-8d7b-ffb9a9ee464c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -148,34 +160,34 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Define.h">
-      <Filter>99. Header</Filter>
+      <Filter>99.Header</Filter>
     </ClInclude>
     <ClInclude Include="MainGame.h">
       <Filter>00.MainGame</Filter>
     </ClInclude>
     <ClInclude Include="Function.h">
-      <Filter>99. Header</Filter>
+      <Filter>99.Header</Filter>
     </ClInclude>
     <ClInclude Include="Obj.h">
-      <Filter>01. Obj</Filter>
+      <Filter>01.Obj</Filter>
     </ClInclude>
     <ClInclude Include="Struct.h">
-      <Filter>99. Header</Filter>
+      <Filter>99.Header</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>01. Obj\00.Player</Filter>
+      <Filter>01.Obj\00.Player</Filter>
     </ClInclude>
     <ClInclude Include="Enum.h">
-      <Filter>99. Header</Filter>
+      <Filter>99.Header</Filter>
     </ClInclude>
     <ClInclude Include="Monster.h">
-      <Filter>01. Obj\01.Monster</Filter>
+      <Filter>01.Obj\01.Monster</Filter>
     </ClInclude>
     <ClInclude Include="Block.h">
-      <Filter>01. Obj\02.Block</Filter>
+      <Filter>01.Obj\02.Block</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
-      <Filter>01. Obj\03.Item</Filter>
+      <Filter>01.Obj\03.Item</Filter>
     </ClInclude>
     <ClInclude Include="AbstractFactory.h">
       <Filter>98.Design\AbstractFactory</Filter>
@@ -187,7 +199,7 @@
       <Filter>98.Design\ObjMgr</Filter>
     </ClInclude>
     <ClInclude Include="MushroomMonster.h">
-      <Filter>01. Obj\01.Monster\00.Mushroom_Monster</Filter>
+      <Filter>01.Obj\01.Monster\00.Mushroom_Monster</Filter>
     </ClInclude>
     <ClInclude Include="LineMgr.h">
       <Filter>98.Design\LineMgr</Filter>
@@ -196,7 +208,7 @@
       <Filter>98.Design\LineMgr\Line</Filter>
     </ClInclude>
     <ClInclude Include="Include.h">
-      <Filter>99. Header</Filter>
+      <Filter>99.Header</Filter>
     </ClInclude>
     <ClInclude Include="Stage.h">
       <Filter>97.Stage</Filter>
@@ -208,13 +220,13 @@
       <Filter>97.Stage\Stage2</Filter>
     </ClInclude>
     <ClInclude Include="Mouse.h">
-      <Filter>01. Obj\04.Mouse</Filter>
+      <Filter>01.Obj\04.Mouse</Filter>
     </ClInclude>
     <ClInclude Include="TurtleMonster.h">
-      <Filter>01. Obj\01.Monster\01.Turtle_Monster</Filter>
+      <Filter>01.Obj\01.Monster\01.Turtle_Monster</Filter>
     </ClInclude>
     <ClInclude Include="TurtleBack.h">
-      <Filter>01. Obj\01.Monster\02.Turtle_Back</Filter>
+      <Filter>01.Obj\01.Monster\02.Turtle_Back</Filter>
     </ClInclude>
     <ClInclude Include="Stage3.h">
       <Filter>97.Stage\Stage3</Filter>
@@ -229,43 +241,55 @@
       <Filter>98.Design\StageMgr</Filter>
     </ClInclude>
     <ClInclude Include="Coin.h">
-      <Filter>01. Obj\03.Item\031.Coin</Filter>
+      <Filter>01.Obj\03.Item\031.Coin</Filter>
     </ClInclude>
     <ClInclude Include="Mushroom.h">
-      <Filter>01. Obj\03.Item\032.Mushroom</Filter>
+      <Filter>01.Obj\03.Item\032.Mushroom</Filter>
     </ClInclude>
     <ClInclude Include="Flower.h">
-      <Filter>01. Obj\03.Item\034.Flower</Filter>
+      <Filter>01.Obj\03.Item\034.Flower</Filter>
     </ClInclude>
     <ClInclude Include="Star.h">
-      <Filter>01. Obj\03.Item\033.Star</Filter>
+      <Filter>01.Obj\03.Item\033.Star</Filter>
     </ClInclude>
     <ClInclude Include="JumpingMonster.h">
-      <Filter>01. Obj\01.Monster\03.Jumping_Monster</Filter>
+      <Filter>01.Obj\01.Monster\03.Jumping_Monster</Filter>
     </ClInclude>
     <ClInclude Include="BlockMgr.h">
       <Filter>98.Design\BlockMgr</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
-      <Filter>01. Obj\05.Bullet</Filter>
+      <Filter>01.Obj\05.Bullet</Filter>
     </ClInclude>
     <ClInclude Include="CoinBlock.h">
-      <Filter>01. Obj\02.Block\01. CoinBlock</Filter>
+      <Filter>01.Obj\02.Block\01. CoinBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="NormalBlock.h">
+      <Filter>01.Obj\02.Block\00. NormalBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemBlock.h">
+      <Filter>01.Obj\02.Block\02. ItemBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="FlyingMonster.h">
+      <Filter>01.Obj\01.Monster\04.Fying_Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="BossMonster.h">
+      <Filter>01.Obj\01.Monster\05.Boss_Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_Bullet.h">
+      <Filter>01.Obj\05.Bullet\51.Monster_Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="PointNumbers.h">
+      <Filter>96.UI\PointNumbers</Filter>
+    </ClInclude>
+    <ClInclude Include="UIMgr.h">
+      <Filter>98.Design\UIMgr</Filter>
     </ClInclude>
     <ClInclude Include="NormalBlock.h">
       <Filter>01. Obj\02.Block\00. NormalBlock</Filter>
     </ClInclude>
-    <ClInclude Include="ItemBlock.h">
-      <Filter>01. Obj\02.Block\02. ItemBlock</Filter>
-    </ClInclude>
-    <ClInclude Include="FlyingMonster.h">
-      <Filter>01. Obj\01.Monster\04.Fying_Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="BossMonster.h">
-      <Filter>01. Obj\01.Monster\05.Boss_Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="Monster_Bullet.h">
-      <Filter>01. Obj\05.Bullet\51.Monster_Bullet</Filter>
+    <ClInclude Include="FlagBlock.h">
+      <Filter>01. Obj\02.Block\03. FlagBlock</Filter>
     </ClInclude>
     <ClInclude Include="Editor.h">
       <Filter>97.Stage\Editor</Filter>
@@ -285,16 +309,13 @@
       <Filter>00.MainGame</Filter>
     </ClCompile>
     <ClCompile Include="Obj.cpp">
-      <Filter>01. Obj</Filter>
+      <Filter>01.Obj</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>01. Obj\00.Player</Filter>
+      <Filter>01.Obj\00.Player</Filter>
     </ClCompile>
     <ClCompile Include="Block.cpp">
-      <Filter>01. Obj\02.Block</Filter>
-    </ClCompile>
-    <ClCompile Include="Item.cpp">
-      <Filter>01. Obj\03.Item</Filter>
+      <Filter>01.Obj\02.Block</Filter>
     </ClCompile>
     <ClCompile Include="CollisionMgr.cpp">
       <Filter>98.Design\CollisionMgr</Filter>
@@ -303,7 +324,7 @@
       <Filter>98.Design\ObjMgr</Filter>
     </ClCompile>
     <ClCompile Include="MushroomMonster.cpp">
-      <Filter>01. Obj\01.Monster\00.Mushroom_Monster</Filter>
+      <Filter>01.Obj\01.Monster\00.Mushroom_Monster</Filter>
     </ClCompile>
     <ClCompile Include="LineMgr.cpp">
       <Filter>98.Design\LineMgr</Filter>
@@ -318,13 +339,13 @@
       <Filter>97.Stage\Stage2</Filter>
     </ClCompile>
     <ClCompile Include="Mouse.cpp">
-      <Filter>01. Obj\04.Mouse</Filter>
+      <Filter>01.Obj\04.Mouse</Filter>
     </ClCompile>
     <ClCompile Include="TurtleMonster.cpp">
-      <Filter>01. Obj\01.Monster\01.Turtle_Monster</Filter>
+      <Filter>01.Obj\01.Monster\01.Turtle_Monster</Filter>
     </ClCompile>
     <ClCompile Include="TurtleBack.cpp">
-      <Filter>01. Obj\01.Monster\02.Turtle_Back</Filter>
+      <Filter>01.Obj\01.Monster\02.Turtle_Back</Filter>
     </ClCompile>
     <ClCompile Include="Stage3.cpp">
       <Filter>97.Stage\Stage3</Filter>
@@ -339,43 +360,52 @@
       <Filter>98.Design\StageMgr</Filter>
     </ClCompile>
     <ClCompile Include="Coin.cpp">
-      <Filter>01. Obj\03.Item\031.Coin</Filter>
+      <Filter>01.Obj\03.Item\031.Coin</Filter>
     </ClCompile>
     <ClCompile Include="Mushroom.cpp">
-      <Filter>01. Obj\03.Item\032.Mushroom</Filter>
+      <Filter>01.Obj\03.Item\032.Mushroom</Filter>
     </ClCompile>
     <ClCompile Include="Flower.cpp">
-      <Filter>01. Obj\03.Item\034.Flower</Filter>
+      <Filter>01.Obj\03.Item\034.Flower</Filter>
     </ClCompile>
     <ClCompile Include="Star.cpp">
-      <Filter>01. Obj\03.Item\033.Star</Filter>
+      <Filter>01.Obj\03.Item\033.Star</Filter>
     </ClCompile>
     <ClCompile Include="JumpingMonster.cpp">
-      <Filter>01. Obj\01.Monster\03.Jumping_Monster</Filter>
+      <Filter>01.Obj\01.Monster\03.Jumping_Monster</Filter>
     </ClCompile>
     <ClCompile Include="BlockMgr.cpp">
       <Filter>98.Design\BlockMgr</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
-      <Filter>01. Obj\05.Bullet</Filter>
+      <Filter>01.Obj\05.Bullet</Filter>
     </ClCompile>
     <ClCompile Include="CoinBlock.cpp">
-      <Filter>01. Obj\02.Block\01. CoinBlock</Filter>
+      <Filter>01.Obj\02.Block\01. CoinBlock</Filter>
     </ClCompile>
     <ClCompile Include="NormalBlock.cpp">
-      <Filter>01. Obj\02.Block\00. NormalBlock</Filter>
+      <Filter>01.Obj\02.Block\00. NormalBlock</Filter>
     </ClCompile>
     <ClCompile Include="ItemBlock.cpp">
-      <Filter>01. Obj\02.Block\02. ItemBlock</Filter>
+      <Filter>01.Obj\02.Block\02. ItemBlock</Filter>
     </ClCompile>
     <ClCompile Include="FlyingMonster.cpp">
-      <Filter>01. Obj\01.Monster\04.Fying_Monster</Filter>
+      <Filter>01.Obj\01.Monster\04.Fying_Monster</Filter>
     </ClCompile>
     <ClCompile Include="BossMonster.cpp">
-      <Filter>01. Obj\01.Monster\05.Boss_Monster</Filter>
+      <Filter>01.Obj\01.Monster\05.Boss_Monster</Filter>
     </ClCompile>
     <ClCompile Include="Monster_Bullet.cpp">
-      <Filter>01. Obj\05.Bullet\51.Monster_Bullet</Filter>
+      <Filter>01.Obj\05.Bullet\51.Monster_Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="PointNumbers.cpp">
+      <Filter>96.UI\PointNumbers</Filter>
+    </ClCompile>
+    <ClCompile Include="UIMgr.cpp">
+      <Filter>98.Design\UIMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="FlagBlock.cpp">
+      <Filter>01. Obj\02.Block\03. FlagBlock</Filter>
     </ClCompile>
     <ClCompile Include="Editor.cpp">
       <Filter>97.Stage\Editor</Filter>

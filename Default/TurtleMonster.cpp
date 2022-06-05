@@ -115,10 +115,10 @@ void CTurtleMonster::Move(void)
 				m_bFalling = false;
 		}
 		else
+		{
+			m_tInfo.fX += m_fSpeed;
 			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
-
-		m_tInfo.fX += m_fSpeed;
-
+		}
 	}
 	else
 	{
