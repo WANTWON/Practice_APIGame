@@ -80,6 +80,15 @@ public:
 		return pInstance;
 	}
 
+	static CObj* Create(float _fX, float _fY, BLOCK_LIST _Block)
+	{
+		CObj* pInstance = new T;
+		pInstance->Initialize();
+		pInstance->Set_Pos(_fX, _fY);
+		static_cast<CBlock*>(pInstance)->Set_Type(_Block);
+
+		return pInstance;
+	}
 
 
 	static CObj*  Create(int _Life) 

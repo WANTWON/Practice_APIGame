@@ -5,7 +5,7 @@
 #include "Stage2.h"
 #include "Stage3.h"
 #include "Stage4.h"
-
+#include "Editor.h"
 
 
 CStageMgr* CStageMgr::m_pInstance = nullptr;
@@ -105,6 +105,11 @@ void CStageMgr::Late_Update(void)
 					m_pStage[STAGE_4]->Initialize();
 					m_eChoice_Stage = STAGE_4;
 					m_Mouse->Set_Pos(0.f, 0.f);
+					break;
+				case STAGE_EDITOR:
+					m_pStage[STAGE_EDITOR] = new CEditor;
+					m_pStage[STAGE_EDITOR]->Initialize();
+					m_eChoice_Stage = STAGE_EDITOR;
 					break;
 				default:
 					break;

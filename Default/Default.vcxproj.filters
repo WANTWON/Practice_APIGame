@@ -124,6 +124,12 @@
     <Filter Include="01. Obj\05.Bullet\51.Monster_Bullet">
       <UniqueIdentifier>{69832269-9990-45a8-8797-5b5441afb455}</UniqueIdentifier>
     </Filter>
+    <Filter Include="97.Stage\Editor">
+      <UniqueIdentifier>{016929d5-3280-4101-870d-a5f96839b008}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\99. BlockEditor">
+      <UniqueIdentifier>{253fa6cf-d980-4c33-a21d-c9a3e7469369}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -261,6 +267,12 @@
     <ClInclude Include="Monster_Bullet.h">
       <Filter>01. Obj\05.Bullet\51.Monster_Bullet</Filter>
     </ClInclude>
+    <ClInclude Include="Editor.h">
+      <Filter>97.Stage\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockNull.h">
+      <Filter>01. Obj\99. BlockEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -364,6 +376,12 @@
     </ClCompile>
     <ClCompile Include="Monster_Bullet.cpp">
       <Filter>01. Obj\05.Bullet\51.Monster_Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.cpp">
+      <Filter>97.Stage\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockNull.cpp">
+      <Filter>01. Obj\99. BlockEditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

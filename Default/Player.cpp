@@ -233,7 +233,7 @@ void CPlayer::Jumping(void)
 {
 	if (m_bPlay)
 	{
-		bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
+		bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(this, &fY);
 		bool b_BlockCol = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
 
 		if (m_bStep_Monster)

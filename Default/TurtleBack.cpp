@@ -72,7 +72,7 @@ void CTurtleBack::Move(void)
 {
 	float fY = 0.f;
 
-	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
+	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(this, &fY);
 
 	if (b_LineCol)
 	{

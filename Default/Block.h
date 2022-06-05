@@ -17,6 +17,7 @@ public:
 
 public:
 	bool	Get_IsItem(void) { return m_bItem; }
+	void	Set_Type(BLOCK_LIST _Block) { m_BlockType = _Block; }
 
 
 protected:
@@ -25,6 +26,7 @@ protected:
 
 private:
 	bool	m_bCreate;
+	BLOCK_LIST m_BlockType;
 
 };
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "Line.h"
+#include "Obj.h"
 
 class CLineMgr
 {
@@ -12,7 +13,7 @@ public:
 	void		Render(HDC hDC);
 	void		Release(void);
 
-	bool		CollisionLine(float _fX, float* _fY); //X��� ��� �ޱ� ��� ��. Y��� ��ǥ�� ����� ��ؼ�
+	bool		CollisionLine(CObj* _pObj, float* _fY); //X��� ��� �ޱ� ��� ��. Y��� ��ǥ�� ����� ��ؼ�
 	CLine*		CollisionLine_Bullet(float _fX, float * _OutY);
 
 public:
