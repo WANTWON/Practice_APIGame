@@ -5,9 +5,10 @@
 #include "Monster_Bullet.h"
 #include "AbstractFactory.h"
 #include "Bullet.h"
+#include "CollisionMgr.h"
 
 
-CBossMonster::CBossMonster() : fY(0), m_bMove(true), m_dwMoveTime(GetTickCount())
+CBossMonster::CBossMonster() : fY(0), m_bMove(true), m_dwMoveTime(GetTickCount()), m_dwCreateBulletTime(GetTickCount())
 {
 }
 
@@ -21,6 +22,7 @@ void CBossMonster::Initialize(void)
 	m_tInfo = { 125.f,125.f, 100.f, 100.f };
 	m_fSpeed = 5.f;
 	m_iHp = 30;
+	m_fDistance = m_tInfo.fCX;
 }
 
 int CBossMonster::Update(void)
@@ -31,6 +33,7 @@ int CBossMonster::Update(void)
 	
 
 	Move();
+	Set_TargetAngle();
 	Make_Bullet();
 	Update_Rect();
 
@@ -44,12 +47,13 @@ void CBossMonster::Late_Update(void)
 			m_bDead = true;
 	}
 
-	if (m_dwMoveTime + 3000 < GetTickCount())
+	if (m_dwMoveTime + 4000 < GetTickCount())
 	{
 		Set_bMove();
 		m_dwMoveTime = GetTickCount();
 	}
 
+	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
 }
 
 void CBossMonster::Release(void)
@@ -90,7 +94,32 @@ void CBossMonster::Make_Bullet(void)
 	if (m_bMove)
 		return;
 
-	//CObjMgr::Get_Instance()->Add_Object(OBJ_BULLET, CAbstractFactory<CMonsterBullet>::Create_with_Target(m_tInfo.fX, m_tInfo.fY,
-	//	CObjMgr::Get_Instance()->Get_Player()));
+	if (m_dwCreateBulletTime + 700 < GetTickCount())
+	{
+		CObjMgr::Get_Instance()->Add_Object(OBJ_BULLET, CAbstractFactory<CMonsterBullet>::
+			Create_with_Target(m_tInfo.fX + m_fTargetPosX, m_tInfo.fY - m_fTargetPosY, CObjMgr::Get_Instance()->Get_Player(), OBJ_MONSTER));
+
+		dynamic_cast<CMonsterBullet*>(CObjMgr::Get_Instance()->Get_Bullets().back())->Set_MovePos(m_fTargetPosX, m_fTargetPosY);
+
+		m_dwCreateBulletTime = GetTickCount();
+	}
+
+	
+
+}
+
+void CBossMonster::Set_TargetAngle(void)
+{
+	float fWidth = m_pTarget->Get_Info().fX - m_tInfo.fX;
+	float fHeight = m_pTarget->Get_Info().fY - m_tInfo.fY;
+	float fDiagonal = sqrtf(fWidth*fWidth + fHeight*fHeight);
+
+	float fRadian = acosf(fWidth / fDiagonal);
+	if (m_pTarget->Get_Info().fY > m_tInfo.fY)
+		fRadian *= -1;
+
+	m_fTargetPosX = cos(fRadian)*m_fDistance;
+	m_fTargetPosY = sin(fRadian)*m_fDistance;
+
 }
 

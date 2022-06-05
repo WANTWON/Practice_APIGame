@@ -41,9 +41,41 @@ int CCollisionMgr::Collision_Rect(list<CObj*> Sour, list<CObj*> Dest)
 int CCollisionMgr::Collision_Bullet(CObj* _This, list<CObj*> _Bullet)
 {
 	RECT rt{};
+	int iScore = 0;
+
+	if ( OBJ_PLAYER == _This->Get_ID()) //When the player gets hit by a bullet,
+	{
+		for (auto& iter : _Bullet)
+		{
+			if (OBJ_MONSTER == iter->Get_ID() && IntersectRect(&rt, &(_This->Get_Rect()), &(iter->Get_Rect())))	//When a bullet is a Monster's bullet,
+			{
+
+				(iter)->Set_Dead(true);
+				if (dynamic_cast<CPlayer*>(_This)->Get_Buff())
+					dynamic_cast<CPlayer*>(_This)->Get_Active(true);
+				else
+					dynamic_cast<CPlayer*>(_This)->Set_Dead_Count();
+				
+			}
+		}
+		return iScore;
+	}
+	else if (OBJ_MONSTER == _This->Get_ID()) //When the Monster gets hit by a bullet,
+	{
+		for (auto& iter : _Bullet)
+		{
+			if (OBJ_PLAYER == iter->Get_ID() && IntersectRect(&rt, &(_This->Get_Rect()), &(iter->Get_Rect())))	//When a bullet is a Player's bullet,
+			{
+				(iter)->Set_Dead(true);
+				dynamic_cast<CMonster*>(_This)->Be_Attacked();
+				iScore += rand() % 10 + 5;
+			}
+		}
+		return iScore;
+	}
 
 
-	return 0;
+	return iScore;
 }
 
 

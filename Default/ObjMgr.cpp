@@ -26,6 +26,14 @@ void CObjMgr::Add_Object(OBJ_LIST _ID, CObj* pObj)
 	if (_ID == OBJ_END || nullptr == pObj)
 		return;
 
+	if (_ID == OBJ_BULLET)
+	{
+		OBJ_LIST Bullet_ID = pObj->Get_ID();
+		pObj->Set_ID(Bullet_ID);
+	}
+	else
+		pObj->Set_ID(_ID);
+
 	m_pObjList[_ID].push_back(pObj);
 }
 
@@ -71,7 +79,7 @@ void CObjMgr::Late_Update()
 	m_iScore += CCollisionMgr::Step_on_Mushroom(m_pObjList[OBJ_PLAYER], m_pObjList[OBJ_MONSTER]);
 	//CCollisionMgr::Collision_Rect_Ex(Get_Monsters(), m_pObjList[OBJ_PLAYER]);
 	CCollisionMgr::Collision_Item(Get_Player(), Get_Items());
-	m_iScore += CCollisionMgr::Collision_Rect(Get_Bullets(), Get_Monsters());
+	//m_iScore += CCollisionMgr::Collision_Rect(Get_Bullets(), Get_Monsters());
 
 }
 

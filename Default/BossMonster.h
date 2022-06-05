@@ -17,10 +17,17 @@ public:
 	void Move(void);
 	void Set_bMove(void) { if (m_bMove == true) m_bMove = false; else m_bMove = true; }
 	void Make_Bullet(void);
+	void Set_TargetAngle(void);
 
 private:
 	float fY;
 	DWORD m_dwMoveTime;
+	DWORD m_dwCreateBulletTime;
+
 	bool m_bMove;
+
+	float m_fTargetPosX;
+	float m_fTargetPosY;
+	float m_fDistance;
 };
 

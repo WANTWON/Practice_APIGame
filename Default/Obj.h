@@ -40,6 +40,10 @@ public:
 	bool Get_Bye(void) { return m_bBye; }
 	void Set_Bye(void) { m_bBye = false; }
 
+public:
+	//added an ID to distinguish between the monster's bullet and the player's bullet
+	void Set_ID(OBJ_LIST _eID) { m_eID = _eID; }
+	const OBJ_LIST& Get_ID(void) const { return m_eID; }
 
 protected:
 	INFO m_tInfo;
@@ -51,6 +55,9 @@ protected:
 	bool m_bDead;
 	bool m_bBye;
 	bool m_bDead_Count;
+
+
+	OBJ_LIST  m_eID;
 	
 };
 

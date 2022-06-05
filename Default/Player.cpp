@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "AbstractFactory.h"
+#include "CollisionMgr.h"
 #include "ObjMgr.h"
 #include "LineMgr.h"
 #include "KeyMgr.h"
@@ -67,6 +68,9 @@ void  CPlayer::Late_Update(void)
 			m_bStep_Monster = false;
 		}
 	}
+
+
+	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
 
 	Set_Dead_Moment();
 	Check_Active();
@@ -168,8 +172,6 @@ void CPlayer::Shoot()
 
 
 
-
-
 void CPlayer::Key_Input(void)
 {
 	if (GetAsyncKeyState(VK_RIGHT))
@@ -224,7 +226,7 @@ void CPlayer::Jumping(void)
 		else if (m_bJump)
 		{
 			m_fJumpPower = 15;
-			m_tInfo.fY -= m_fJumpPower*m_fTime - (9.8*m_fTime*m_fTime*0.5f);
+			m_tInfo.fY -= m_fJumpPower*m_fTime - (9.8f*m_fTime*m_fTime*0.5f);
 			m_fTime += 0.13f;
 			if (m_fTime > 3.9f)
 				m_fTime = 3.9f;
@@ -273,7 +275,7 @@ void CPlayer::Set_Dead_Moment(void)
 	if (m_bDead_Count)
 	{
 		m_bPlay = false;
-		m_tInfo.fY -= m_fJumpPower*m_fPTime - (9.8*m_fPTime*m_fPTime*0.5f);
+		m_tInfo.fY -= m_fJumpPower*m_fPTime - (9.8f*m_fPTime*m_fPTime*0.5f);
 		m_fPTime += 0.13f;
 
 		if (m_tInfo.fY > WINCY)

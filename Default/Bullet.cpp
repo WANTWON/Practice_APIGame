@@ -64,7 +64,7 @@ int CBullet::Update()
 			}
 
 			m_tInfo.fY += m_fAnimSpeed * m_fAnimTime + (m_fAnimAccel * pow(m_fAnimTime, 2)) * 0.5f;
-			m_fAnimTime += bBounce ? -0.2 : 0.01f;
+			m_fAnimTime += bBounce ? -0.2f : 0.01f;
 			m_tInfo.fX += Get_Dir() == DIR_RIGHT ? m_fSpeed : -m_fSpeed;
 			bBounce = false;
 		}
