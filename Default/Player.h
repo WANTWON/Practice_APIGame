@@ -17,9 +17,12 @@ public:
 	void Render(HDC hDC) override;
 
 	void Set_bJump(void) { m_bJump = true; }
+
+	ITEM_TYPE Get_ActiveBuff() { return m_iActiveBuff; }
 	void Set_ActiveBuff(ITEM_TYPE iBuff) { m_iActiveBuff = iBuff; }
 	void Set_BuffTime(DWORD dwTime) { m_dwBuffTime = dwTime; }
 	void Set_IsBuffActive(bool bIsBuffActive) { m_bIsBuffActive = bIsBuffActive; }
+	void Remove_Buff(ITEM_TYPE iBuff);
 
 	void Set_bJump(bool temp) { m_bJump = temp; }
 	void Set_StepMonster(bool temp) { m_bStep_Monster = temp; }
@@ -35,7 +38,7 @@ public:
 	bool Get_Count(void) { return m_bDead_Count; }
 	bool Get_Buff(void) { return m_bIsBuffActive; }
 	void Get_Active(bool bActive) { m_bActive = bActive; }
-	void Set_Item(void) { m_bItem = true; }
+	void Set_Item(bool _bItem) { m_bItem = _bItem; }
 	int Get_Life(void) { return m_iLife; }
 	void Set_Life(int _Life) { m_iLife = _Life; }
 	int Get_Level(void) { return m_iLevel; }
@@ -48,8 +51,6 @@ private:
 	void Buff_Mushroom();
 	void Buff_Star();
 	void Buff_Flower();
-	void Shoot();
-	void Check_Active(void);
 
 private:
 	float m_pShield_Angle;
@@ -61,6 +62,8 @@ private:
 	ITEM_TYPE m_iActiveBuff;
 	DWORD m_dwBuffTime;
 	bool m_bIsBuffActive;
+	bool m_bIsInvincible;
+	bool m_bColorSwitch;
 	bool m_bCanShoot;
 	DIRECTION m_iLastDir;
 
@@ -71,7 +74,7 @@ private:
 	float fY;
 	float fY2;
 
-	DWORD m_dwTIme;
+	DWORD m_dwTime;
 	DWORD Jumping_Time;
 	POINT m_pGUIDE;
 	
