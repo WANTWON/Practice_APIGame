@@ -136,19 +136,37 @@ int CCollisionMgr::Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest)
 					}
 					else
 					{
+						if (true == dynamic_cast<CPlayer*>(Sour)->Get_Buff())
+						{
+							dynamic_cast<CMonster*>(Dest)->Be_Attacked();
+							dynamic_cast<CPlayer*>(Sour)->Get_Active(true);
+							continue;
+						}
 						dynamic_cast<CPlayer*>(Sour)->Set_Dead_Count();
 						//Sour->Set_PosY(fHeight);
 					}
 				}
 				else //좌우 충돌 
 				{
-				if (Dest->Get_Rect().left <= Sour->Get_Rect().right)
+					if (Dest->Get_Rect().left <= Sour->Get_Rect().right)
 					{
-					dynamic_cast<CPlayer*>(Sour)->Set_Dead_Count();
+						if (true == dynamic_cast<CPlayer*>(Sour)->Get_Buff())
+						{
+							dynamic_cast<CMonster*>(Dest)->Be_Attacked();
+							dynamic_cast<CPlayer*>(Sour)->Get_Active(true);
+							continue;
+						}
+						dynamic_cast<CPlayer*>(Sour)->Set_Dead_Count();
 					}
-				else
+					else
 					{
-					dynamic_cast<CPlayer*>(Sour)->Set_Dead_Count();
+						if (true == dynamic_cast<CPlayer*>(Sour)->Get_Buff())
+						{
+							dynamic_cast<CMonster*>(Dest)->Be_Attacked();
+							dynamic_cast<CPlayer*>(Sour)->Get_Active(true);
+							continue;
+						}
+						dynamic_cast<CPlayer*>(Sour)->Set_Dead_Count();
 					}
 				}
 
@@ -234,11 +252,11 @@ DIRECTION CCollisionMgr::Col_ReturnDir(list<CObj*> _Sour, CObj* _Dest)
 			{
 				return DIR_UP;
 			}
-    }
-  }
+		}
+	}
 }
 
-      
+
 void CCollisionMgr::Collision_Item(CObj * Player, list<CObj*> Items)
 {
 	for (auto& item : Items)
@@ -250,12 +268,12 @@ void CCollisionMgr::Collision_Item(CObj * Player, list<CObj*> Items)
 			// Set Active Buff and Buff Time
 			CPlayer* pPlayer = static_cast<CPlayer*>(Player);
 			pPlayer->Set_ActiveBuff(static_cast<CItem*>(item)->Get_Type());
-			pPlayer->Set_BuffTime(GetTickCount());
-			pPlayer->Set_IsBuffActive(false);
-
+			pPlayer->Set_IsBuffActive(true);
+			pPlayer->Set_Item();
 			// Destroy Item
 			item->Set_Dead(true);
 
+			//pPlayer->Set_BuffTime(GetTickCount());
 		}
 	}
 }

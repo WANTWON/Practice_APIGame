@@ -9,10 +9,10 @@
 #include "StageMgr.h"
 #include "Stage.h"
 
-CPlayer::CPlayer() 
-	: m_pShield_Angle(0), m_bJump(false), m_fJumpPower(0), m_fTime(0), m_bFalling(false), 
+CPlayer::CPlayer()
+	: m_pShield_Angle(0), m_bJump(false), m_fJumpPower(0), m_fTime(0), m_bFalling(false),
 	m_bStep_Monster(false), fY(0), fY2(0), m_iActiveBuff(ITEM_END), m_dwBuffTime(GetTickCount()),
-	m_bIsBuffActive(false), m_bCanShoot(false), m_iLastDir(DIR_RIGHT), m_iLife(0), m_bPlay(true), m_fPTime(0.f)
+	m_bIsBuffActive(false), m_bCanShoot(false), m_iLastDir(DIR_RIGHT),  m_bPlay(true), m_fPTime(0.f), m_bActive(false), m_bItem(false), m_iLife(0)
 {
 	ZeroMemory(&m_pGUIDE, sizeof(POINT));
 }
@@ -31,7 +31,6 @@ void CPlayer::Initialize(void)
 	m_fkg = 9.8f;
 	Jumping_Time = GetTickCount();
 	m_dwTIme = GetTickCount();
-	m_iLife = 3;
 }
 
 int CPlayer::Update(void)
@@ -42,7 +41,7 @@ int CPlayer::Update(void)
 	if (!m_bJump)
 		m_fTime = 0;
 
-	
+
 
 	Check_ActiveBuff();
 	Key_Input();
@@ -59,9 +58,6 @@ void  CPlayer::Late_Update(void)
 		m_tInfo.fY = 0.f;
 	}
 	CBlockMgr::Get_Instance()->Collision_with_Direction(this);
-
-	Set_Dead_Moment();
-	
 	if (m_bStep_Monster)
 	{
 		//m_bJump = false;
@@ -71,6 +67,9 @@ void  CPlayer::Late_Update(void)
 			m_bStep_Monster = false;
 		}
 	}
+
+	Set_Dead_Moment();
+	Check_Active();
 
 }
 
@@ -106,25 +105,24 @@ void CPlayer::Coin_Pickup()
 
 void CPlayer::Buff_Mushroom()
 {
-	if (GetTickCount() > m_dwBuffTime + 10000)
-	{
-		// De-activate Buff
-		m_tInfo.fCX -= m_tInfo.fCX * .5f;
-		m_tInfo.fCY -= m_tInfo.fCY * .5f;
+	//if (GetTickCount() > m_dwBuffTime + 10000)
+	//{
+	//	// De-activate Buff
+	//	m_tInfo.fCX -= m_tInfo.fCX * .5f;
+	//	m_tInfo.fCY -= m_tInfo.fCY * .5f;
 
-		m_iActiveBuff = ITEM_END;
-		m_bIsBuffActive = false;
-	}
-	else
+	//	m_iActiveBuff = ITEM_END;
+	//	m_bIsBuffActive = false;
+	//}
+	if (m_bItem)
 	{
-		if (!m_bIsBuffActive)
+		if (m_bIsBuffActive)
 		{
 			// Activate Buff
 			m_tInfo.fCX += m_tInfo.fCX;
 			m_tInfo.fCY += m_tInfo.fCY;
-
-			m_bIsBuffActive = true;
 		}
+		m_bItem = false;
 	}
 }
 
@@ -135,29 +133,33 @@ void CPlayer::Buff_Star()
 
 void CPlayer::Buff_Flower()
 {
-	if (GetTickCount() > m_dwBuffTime + 10000)
-	{
-		// De-activate Buff
-		m_bCanShoot = false;
+	//	if (GetTickCount() > m_dwBuffTime + 10000)
+	//	{
+	//		// De-activate Buff
+	//		m_bCanShoot = false;
+	//
+	//	m_iActiveBuff = ITEM_END;
+	//	m_bIsBuffActive = false;
+	//	}
 
-		m_iActiveBuff = ITEM_END;
-		m_bIsBuffActive = false;
-	}
-	else
+	if (m_bItem)
 	{
-		if (!m_bIsBuffActive)
+		if (m_bIsBuffActive)
 		{
 			// Activate Buff
+			m_tInfo.fCX += m_tInfo.fCX;
+			m_tInfo.fCY += m_tInfo.fCY;
 			m_bCanShoot = true;
-
-			m_bIsBuffActive = true;
 		}
+		m_bItem = false;
 	}
 }
 
 void CPlayer::Shoot()
 {
 }
+
+
 
 
 
@@ -169,7 +171,7 @@ void CPlayer::Key_Input(void)
 		m_tInfo.fX += m_fSpeed;
 		m_iLastDir = DIR_RIGHT;
 	}
-		
+
 	else if (GetAsyncKeyState(VK_LEFT))
 	{
 		m_tInfo.fX -= m_fSpeed;
@@ -178,7 +180,7 @@ void CPlayer::Key_Input(void)
 
 	if (CKeyMgr::Get_Instance()->Key_Down(VK_SPACE))
 		m_bJump = true;
-		
+
 	if (CKeyMgr::Get_Instance()->Key_Down('Z') && m_bCanShoot)
 	{
 		CObjMgr::Get_Instance()->Add_Object(OBJ_BULLET, CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, m_iLastDir, OBJ_PLAYER));
@@ -190,7 +192,7 @@ void CPlayer::Key_Input(void)
 
 void CPlayer::Jumping(void)
 {
-	
+
 	if (m_bPlay)
 	{
 		bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
@@ -208,7 +210,7 @@ void CPlayer::Jumping(void)
 			{
 				m_fTime = 0.0f;
 			}
-			if (b_LineCol && m_tInfo.fY > fY) //������ �� ������ �� �����ϱ�
+			if (b_LineCol && m_tInfo.fY > fY)
 			{
 				m_fTime = 0.0f;
 			}
@@ -221,26 +223,26 @@ void CPlayer::Jumping(void)
 			if (m_fTime > 3.9f)
 				m_fTime = 3.9f;
 
-			if (b_BlockCol && m_tInfo.fY + m_tInfo.fCY*0.5f >= fY2) 
+			if (b_BlockCol && m_tInfo.fY + m_tInfo.fCY*0.5f >= fY2)
 			{
 				m_fTime = 0.0f;
 				m_bJump = false;
 			}
-			if (b_LineCol && m_tInfo.fY > fY) 
+			if (b_LineCol && m_tInfo.fY > fY)
 			{
 				m_bJump = false;
 				m_fTime = 0.0f;
 				m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 			}
 		}
-		else if (b_LineCol && m_tInfo.fY > fY) 
+		else if (b_LineCol && m_tInfo.fY > fY)
 		{
 			m_bJump = false;
 			m_fTime = 0.0f;
 
 			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 		}
-	
+
 		else if (b_LineCol)
 		{
 			if (b_BlockCol)
@@ -267,7 +269,7 @@ void CPlayer::Set_Dead_Moment(void)
 		m_bPlay = false;
 		m_tInfo.fY -= m_fJumpPower*m_fPTime - (9.8*m_fPTime*m_fPTime*0.5f);
 		m_fPTime += 0.13f;
-		
+
 		if (m_tInfo.fY > WINCY)
 		{
 			m_iLife -= 1;
@@ -279,6 +281,8 @@ void CPlayer::Set_Dead_Moment(void)
 		}
 	}
 }
+
+
 
 
 
@@ -300,3 +304,21 @@ void CPlayer::Check_ActiveBuff(void)
 		break;
 	}
 }
+
+
+
+void CPlayer::Check_Active(void)
+{
+	if (m_bActive)
+	{
+		if (m_bIsBuffActive)
+		{
+			m_tInfo.fCX -= m_tInfo.fCX * 0.5f;
+			m_tInfo.fCY -= m_tInfo.fCY * 0.5f;
+			m_bCanShoot = false;
+			m_bIsBuffActive = false;
+			m_bActive = false;
+		}
+	}
+}
+
