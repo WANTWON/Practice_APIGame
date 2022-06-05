@@ -35,7 +35,7 @@ public:
 	bool Get_Count(void) { return m_bDead_Count; }
 	bool Get_Buff(void) { return m_bIsBuffActive; }
 	void Get_Active(bool bActive) { m_bActive = bActive; }
-	void Set_Item(void) { m_bItem = true; }
+	void Set_Item(bool _bItem) { m_bItem = _bItem; }
 	int Get_Life(void) { return m_iLife; }
 	void Set_Life(int _Life) { m_iLife = _Life; }
 

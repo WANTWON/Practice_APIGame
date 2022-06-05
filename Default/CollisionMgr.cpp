@@ -269,7 +269,7 @@ void CCollisionMgr::Collision_Item(CObj * Player, list<CObj*> Items)
 			CPlayer* pPlayer = static_cast<CPlayer*>(Player);
 			pPlayer->Set_ActiveBuff(static_cast<CItem*>(item)->Get_Type());
 			pPlayer->Set_IsBuffActive(true);
-			pPlayer->Set_Item();
+			pPlayer->Set_Item(true);
 			// Destroy Item
 			item->Set_Dead(true);
 

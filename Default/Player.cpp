@@ -121,6 +121,7 @@ void CPlayer::Buff_Mushroom()
 			// Activate Buff
 			m_tInfo.fCX += m_tInfo.fCX;
 			m_tInfo.fCY += m_tInfo.fCY;
+			
 		}
 		m_bItem = false;
 	}
@@ -141,6 +142,11 @@ void CPlayer::Buff_Flower()
 	//	m_iActiveBuff = ITEM_END;
 	//	m_bIsBuffActive = false;
 	//	}
+
+
+	
+
+
 
 	if (m_bItem)
 	{
