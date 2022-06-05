@@ -23,7 +23,7 @@ void CBossMonster::Initialize(void)
 {
 	m_tInfo = { 125.f,125.f, 60.f, 60.f };
 	m_fSpeed = 5.f;
-	m_iHp = 10;
+	m_iHp = 30;
 	m_fDistance = m_tInfo.fCX;
 }
 
