@@ -19,7 +19,9 @@ public:
 	void		Add_Object(BLOCK_LIST _ID, CObj* pObj);
 	int			Check_Rect(INFO Player, INFO pTarget, float* _pX, float* _pY);
 	bool		Collision_with_Direction(CObj* _Sour);
-	void		Col_Player(DIRECTION _eDir);
+	void		Col_Player(CObj* _thisBlock, DIRECTION _eDir);
+	void		Check_BreakBlock(CObj* _thisBlock);
+	void		Create_RandItem(CObj* _thisBlock);
 
 public:
 	static CBlockMgr* Get_Instance(void)

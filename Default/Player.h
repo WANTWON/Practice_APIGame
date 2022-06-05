@@ -29,8 +29,10 @@ public:
 
 	bool Get_bJump(void) { return m_bJump; }
 	void Set_JumpingTime(void) { Jumping_Time = GetTickCount(); }
-
-	float Get_Gravity(void){ return (m_fJumpPower*m_fTime - (9.8*m_fTime*m_fTime*0.5f)); }
+		
+	
+	void	Set_GravityTime(float _fTime) { m_fTime = _fTime; }
+	float	Get_Gravity(void){ return (m_fJumpPower*m_fTime - (9.8*m_fTime*m_fTime*0.5f)); }
 	void Set_Dead_Moment(void);
 	void Set_Dead_Count(void) { m_bDead_Count = true; }
 	bool Get_Count(void) { return m_bDead_Count; }
@@ -39,6 +41,7 @@ public:
 	void Set_Item(bool _bItem) { m_bItem = _bItem; }
 	int Get_Life(void) { return m_iLife; }
 	void Set_Life(int _Life) { m_iLife = _Life; }
+	int Get_Level(void) { return m_iLevel; }
 	
 private:
 	void Key_Input(void);
@@ -76,7 +79,7 @@ private:
 	POINT m_pGUIDE;
 	
 	
-	
+	int	m_iLevel;
 	bool m_bPlay;
 	float m_fPTime;
 	bool m_bActive;
