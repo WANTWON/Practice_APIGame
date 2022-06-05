@@ -269,83 +269,83 @@ void CPlayer::Jumping(void)
 	}
 
 
-		if (m_bPlay)
+	if (m_bPlay)
+	{
+		bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
+		bool b_BlockCol = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
+		m_bFlag = CLineMgr::Get_Instance()->CollisionFlag(m_tRect, &fY);
+
+		if (m_bFlag)
 		{
-			bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
-			bool b_BlockCol = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
-			m_bFlag = CLineMgr::Get_Instance()->CollisionFlag(m_tRect, &fY);
+			m_fTime = 0.0f;
+			m_bJump = false;
+			m_bPlay = false;
+			m_bFirst = true;
+		}
+		else if (m_bStep_Monster)
+		{
+			m_fJumpPower = 10;
+			m_tInfo.fY -= m_fJumpPower*m_fTime - (2.8f*m_fTime*m_fTime*0.5f);
+			m_fTime += 0.09f;
+			if (m_fTime > 1.2f)
+				m_fTime = 1.2f;
 
-			if (m_bFlag)
+			if (b_BlockCol && m_tInfo.fY + m_tInfo.fCY*0.5f >= fY2)
 			{
 				m_fTime = 0.0f;
-				m_bJump = false;
-				m_bPlay = false;
-				m_bFirst = true;
 			}
-			else if (m_bStep_Monster)
+			if (b_LineCol && m_tInfo.fY > fY)
 			{
-				m_fJumpPower = 10;
-				m_tInfo.fY -= m_fJumpPower*m_fTime - (2.8f*m_fTime*m_fTime*0.5f);
-				m_fTime += 0.09f;
-				if (m_fTime > 1.2f)
-					m_fTime = 1.2f;
-
-				if (b_BlockCol && m_tInfo.fY + m_tInfo.fCY*0.5f >= fY2)
-				{
-					m_fTime = 0.0f;
-				}
-				if (b_LineCol && m_tInfo.fY > fY)
-				{
-					m_fTime = 0.0f;
-				}
-			}
-			else if (m_bJump)
-			{
-				m_fJumpPower = 15;
-				m_tInfo.fY -= m_fJumpPower*m_fTime - (9.8f*m_fTime*m_fTime*0.5f);
-				if ((m_fJumpPower*m_fTime) < (9.8f*m_fTime*m_fTime*0.5f))
-				{
-					m_bJump = true;
-				}
-				m_fTime += 0.13f;
-				if (m_fTime > 3.9f)
-					m_fTime = 3.9f;
-
-				if (b_BlockCol && m_tInfo.fY + m_tInfo.fCY*0.5f >= fY2)
-				{
-					m_fTime = 0.0f;
-					m_bJump = false;
-				}
-				if (b_LineCol && m_tInfo.fY > fY)
-				{
-					m_bJump = false;
-					m_fTime = 0.0f;
-					m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
-				}
-			}
-			else if (b_LineCol && m_tInfo.fY > fY)
-			{
-				m_bJump = false;
 				m_fTime = 0.0f;
-
-				m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
-			}
-
-			else if (b_LineCol)
-			{
-				if (b_BlockCol)
-				{
-					m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
-				}
-				else
-					m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
-			}
-			else
-			{
-				m_tInfo.fY += m_fSpeed;
-				m_bFalling = true;
 			}
 		}
+		else if (m_bJump)
+		{
+			m_fJumpPower = 15;
+			m_tInfo.fY -= m_fJumpPower*m_fTime - (9.8f*m_fTime*m_fTime*0.5f);
+			if ((m_fJumpPower*m_fTime) < (9.8f*m_fTime*m_fTime*0.5f))
+			{
+				m_bJump = true;
+			}
+			m_fTime += 0.13f;
+			if (m_fTime > 3.9f)
+				m_fTime = 3.9f;
+
+			if (b_BlockCol && m_tInfo.fY + m_tInfo.fCY*0.5f >= fY2)
+			{
+				m_fTime = 0.0f;
+				m_bJump = false;
+			}
+			if (b_LineCol && m_tInfo.fY > fY)
+			{
+				m_bJump = false;
+				m_fTime = 0.0f;
+				m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
+			}
+		}
+		else if (b_LineCol && m_tInfo.fY > fY)
+		{
+			m_bJump = false;
+			m_fTime = 0.0f;
+
+			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
+		}
+
+		else if (b_LineCol)
+		{
+			if (b_BlockCol)
+			{
+				m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
+			}
+			else
+				m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
+		}
+		else 
+		{
+			m_tInfo.fY += m_fSpeed;
+			m_bFalling = true;
+		}
+	}
 }
 
 void CPlayer::Set_Dead_Moment(void)
