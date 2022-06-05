@@ -22,7 +22,7 @@ void CStage4::Initialize(void)
 
 	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CMonster>::Create(600, 200));
 
-	CLineMgr::Get_Instance()->Initialize();
+	CLineMgr::Get_Instance()->Initialize(4);
 
 }
 

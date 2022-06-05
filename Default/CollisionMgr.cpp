@@ -243,7 +243,7 @@ DIRECTION CCollisionMgr::Col_ReturnDir(list<CObj*> _Sour, CObj* _Dest)
 			if (Sour->Get_Info().fY <= _Dest->Get_Info().fY)
 				fAngle = 360 + (-1.f * fAngle);
 
-			if (fAngle > 316.f || fAngle < 44.f)
+			if (fAngle >= 316.f || fAngle < 44.f)
 			{
 				return DIR_RIGHT;
 			}
@@ -251,11 +251,11 @@ DIRECTION CCollisionMgr::Col_ReturnDir(list<CObj*> _Sour, CObj* _Dest)
 			{
 				return DIR_DOWN;
 			}
-			else if (fAngle > 136.f && fAngle < 224.f)
+			else if (fAngle > 136.f && fAngle <= 224.f)
 			{
 				return DIR_LEFT;
 			}
-			else if (fAngle >= 225.f && fAngle < 315.f)
+			else if (fAngle > 224.f && fAngle < 316.f)
 			{
 				return DIR_UP;
 			}

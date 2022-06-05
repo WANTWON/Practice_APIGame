@@ -127,11 +127,15 @@
     <Filter Include="01.Obj\05.Bullet\51.Monster_Bullet">
       <UniqueIdentifier>{69832269-9990-45a8-8797-5b5441afb455}</UniqueIdentifier>
     </Filter>
+
     <Filter Include="96.UI\PointNumbers">
       <UniqueIdentifier>{b6b4d52b-0b69-4e6f-b274-285f507d2969}</UniqueIdentifier>
     </Filter>
     <Filter Include="98.Design\UIMgr">
       <UniqueIdentifier>{eeb3bd1d-a2d6-482d-82f9-9dcabd40d82d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\02.Block\03. FlagBlock">
+      <UniqueIdentifier>{1de4dc06-ca2c-4833-8d7b-ffb9a9ee464c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -276,6 +280,9 @@
     <ClInclude Include="UIMgr.h">
       <Filter>98.Design\UIMgr</Filter>
     </ClInclude>
+    <ClInclude Include="FlagBlock.h">
+      <Filter>01. Obj\02.Block\03. FlagBlock</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -382,6 +389,9 @@
     </ClCompile>
     <ClCompile Include="UIMgr.cpp">
       <Filter>98.Design\UIMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="FlagBlock.cpp">
+      <Filter>01. Obj\02.Block\03. FlagBlock</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
