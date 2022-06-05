@@ -12,11 +12,11 @@
 CPlayer::CPlayer()
 	: m_pShield_Angle(0), m_bJump(false), m_fJumpPower(0), m_fTime(0), m_bFalling(false),
 	m_bStep_Monster(false), fY(0), fY2(0), m_iActiveBuff(ITEM_END), m_dwBuffTime(GetTickCount()),
-	m_bIsBuffActive(false), m_bCanShoot(false), m_iLastDir(DIR_RIGHT),  m_bPlay(true), m_fPTime(0.f), m_bActive(false), m_bItem(false), m_iLife(0)
+	m_bIsBuffActive(false), m_bIsInvincible(false), m_bColorSwitch(false), m_bCanShoot(false), 
+  m_iLastDir(DIR_RIGHT), m_iLife(0), m_bPlay(true), m_fPTime(0.f), m_bActive(false), m_bItem(false)
 {
 	ZeroMemory(&m_pGUIDE, sizeof(POINT));
 }
-
 
 CPlayer::~CPlayer()
 {
@@ -30,7 +30,8 @@ void CPlayer::Initialize(void)
 	m_fJumpPower = 15.f;
 	m_fkg = 9.8f;
 	Jumping_Time = GetTickCount();
-	m_dwTIme = GetTickCount();
+	m_dwTime = GetTickCount();
+	m_iLife = 3;
 }
 
 int CPlayer::Update(void)
@@ -51,6 +52,7 @@ int CPlayer::Update(void)
 
 	return OBJ_NOEVENT;
 }
+
 void  CPlayer::Late_Update(void)
 {
 	if (m_tInfo.fY >= WINCY)
@@ -69,17 +71,37 @@ void  CPlayer::Late_Update(void)
 	}
 
 	Set_Dead_Moment();
-	Check_Active();
-
 }
 
 void CPlayer::Release(void)
 {
 
 }
+
 void CPlayer::Render(HDC hDC)
 {
-	if (m_bCanShoot)
+	if (m_bIsInvincible)
+	{
+		if (GetTickCount() > m_dwTime + 400)
+		{
+			m_bColorSwitch = !m_bColorSwitch;
+			m_dwTime = GetTickCount();
+		}
+		else
+		{
+			HBRUSH myBrush = nullptr;
+			HBRUSH oldBrush = nullptr;
+
+			myBrush = m_bColorSwitch ? (HBRUSH)CreateSolidBrush(RGB(255, 255, 0)) : (HBRUSH)CreateSolidBrush(RGB(255, 215, 0));
+			oldBrush = (HBRUSH)SelectObject(hDC, myBrush);
+
+			Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+
+			SelectObject(hDC, oldBrush);
+			DeleteObject(myBrush);
+		}
+	}
+	else if (m_bCanShoot)
 	{
 		HBRUSH myBrush = nullptr;
 		HBRUSH oldBrush = nullptr;
@@ -97,6 +119,25 @@ void CPlayer::Render(HDC hDC)
 
 }
 
+void CPlayer::Check_ActiveBuff(void)
+{
+	switch (m_iActiveBuff)
+	{
+	case ITEM_COIN:
+		Coin_Pickup();
+		break;
+	case ITEM_MUSHROOM:
+		Buff_Mushroom();
+		break;
+	case ITEM_STAR:
+		Buff_Star();
+		break;
+	case ITEM_FLOWER:
+		Buff_Flower();
+		break;
+	}
+}
+
 void CPlayer::Coin_Pickup()
 {
 	// Increase Coin by 1
@@ -105,70 +146,63 @@ void CPlayer::Coin_Pickup()
 
 void CPlayer::Buff_Mushroom()
 {
-	//if (GetTickCount() > m_dwBuffTime + 10000)
-	//{
-	//	// De-activate Buff
-	//	m_tInfo.fCX -= m_tInfo.fCX * .5f;
-	//	m_tInfo.fCY -= m_tInfo.fCY * .5f;
-
-	//	m_iActiveBuff = ITEM_END;
-	//	m_bIsBuffActive = false;
-	//}
-	if (m_bItem)
+	if (!m_bIsBuffActive)
 	{
-		if (m_bIsBuffActive)
-		{
-			// Activate Buff
-			m_tInfo.fCX += m_tInfo.fCX;
-			m_tInfo.fCY += m_tInfo.fCY;
-			
-		}
-		m_bItem = false;
+		// Activate Buff
+		m_tInfo.fCX += m_tInfo.fCX;
+		m_tInfo.fCY += m_tInfo.fCY;
+		m_bIsBuffActive = true;
 	}
 }
 
 void CPlayer::Buff_Star()
 {
-	// TODO
+	if (GetTickCount() > m_dwBuffTime + 5000)
+	{
+		// De-activate Buff
+		m_bIsInvincible = false;
+		m_iActiveBuff = ITEM_END;
+		m_bIsBuffActive = false;
+	}
+	else
+	{
+		// Activate Buff
+		if (!m_bIsBuffActive)
+		{
+			m_bIsInvincible = true;
+			m_bIsBuffActive = true;
+		}
+	}
 }
 
 void CPlayer::Buff_Flower()
 {
-	//	if (GetTickCount() > m_dwBuffTime + 10000)
-	//	{
-	//		// De-activate Buff
-	//		m_bCanShoot = false;
-	//
-	//	m_iActiveBuff = ITEM_END;
-	//	m_bIsBuffActive = false;
-	//	}
-
-
-	
-
-
-
-	if (m_bItem)
+	if (!m_bIsBuffActive)
 	{
-		if (m_bIsBuffActive)
-		{
-			// Activate Buff
-			m_tInfo.fCX += m_tInfo.fCX;
-			m_tInfo.fCY += m_tInfo.fCY;
-			m_bCanShoot = true;
-		}
-		m_bItem = false;
+		// Activate Buff
+		m_bCanShoot = true;
+		m_bIsBuffActive = true;
 	}
 }
 
-void CPlayer::Shoot()
+void CPlayer::Remove_Buff(ITEM_TYPE iBuff)
 {
+	m_iActiveBuff = ITEM_END;
+	m_bIsBuffActive = false;
+
+	switch (iBuff)
+	{
+	case ITEM_MUSHROOM:
+	{
+		m_tInfo.fCX -= m_tInfo.fCX * 0.5f;
+		m_tInfo.fCY -= m_tInfo.fCY * 0.5f;
+	}
+	case ITEM_STAR:
+		m_bIsInvincible = false;
+	case ITEM_FLOWER:
+		m_bCanShoot = false;
+	}
 }
-
-
-
-
-
 
 void CPlayer::Key_Input(void)
 {
@@ -191,14 +225,10 @@ void CPlayer::Key_Input(void)
 	{
 		CObjMgr::Get_Instance()->Add_Object(OBJ_BULLET, CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, m_iLastDir, OBJ_PLAYER));
 	}
-		
 }
-
-
 
 void CPlayer::Jumping(void)
 {
-
 	if (m_bPlay)
 	{
 		bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
@@ -266,8 +296,6 @@ void CPlayer::Jumping(void)
 	}
 }
 
-
-
 void CPlayer::Set_Dead_Moment(void)
 {
 	if (m_bDead_Count)
@@ -287,44 +315,3 @@ void CPlayer::Set_Dead_Moment(void)
 		}
 	}
 }
-
-
-
-
-
-void CPlayer::Check_ActiveBuff(void)
-{
-	switch (m_iActiveBuff)
-	{
-	case ITEM_COIN:
-		Coin_Pickup();
-		break;
-	case ITEM_MUSHROOM:
-		Buff_Mushroom();
-		break;
-	case ITEM_STAR:
-		Buff_Star();
-		break;
-	case ITEM_FLOWER:
-		Buff_Flower();
-		break;
-	}
-}
-
-
-
-void CPlayer::Check_Active(void)
-{
-	if (m_bActive)
-	{
-		if (m_bIsBuffActive)
-		{
-			m_tInfo.fCX -= m_tInfo.fCX * 0.5f;
-			m_tInfo.fCY -= m_tInfo.fCY * 0.5f;
-			m_bCanShoot = false;
-			m_bIsBuffActive = false;
-			m_bActive = false;
-		}
-	}
-}
-

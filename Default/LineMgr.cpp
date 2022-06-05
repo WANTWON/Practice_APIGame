@@ -19,10 +19,10 @@ void CLineMgr::Initialize(void)
 {
 	LINEPOINT tPoint[4] =
 	{
-		{ 100.f, 450.f },
-		{ 300.f, 450.f },
-		{ 500.f, 250.f },
-		{ 700.f, 250.f }
+		{ 10.f, 400.f },
+		{ 200.f, 500.f },
+		{ 700.f, 500.f },
+		{ 700.f, 100.f }
 	};
 
 	m_Linelist.push_back(new CLine(tPoint[0], tPoint[1]));
@@ -75,7 +75,7 @@ bool CLineMgr::CollisionLine(float _fX, float *_fY)
 	return true;
 }
 
-CLine* CLineMgr::CollisionLine_Bullet(float _fX, float _fY, float * _OutY)
+CLine* CLineMgr::CollisionLine_Bullet(float _fX, float * _OutY)
 {
 	if (m_Linelist.empty())
 		return false;
@@ -84,7 +84,8 @@ CLine* CLineMgr::CollisionLine_Bullet(float _fX, float _fY, float * _OutY)
 
 	for (auto& iter : m_Linelist)
 	{
-		// Bullet is in the middle of a line (X axis oriented) 
+		// Bullet is in the middle of a line
+		// (X Axis) 
 		if (_fX >= iter->Get_Line().fLPoint.fX && _fX < iter->Get_Line().fRPoint.fX) 
 			pTarget = iter;
 	}
