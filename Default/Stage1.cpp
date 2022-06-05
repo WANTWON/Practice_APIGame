@@ -114,8 +114,8 @@ void CStage1::Render(HDC hDC)
 		TCHAR szBuff[32] = L"";
 		TCHAR szBuff1[32] = L"";
 
-		Rectangle(hDc, 0, 0, WINCX, WINCY);
-		Rectangle(hDc, 340, 250, 370, 280);
+		Rectangle(hDC, 0, 0, WINCX, WINCY);
+		Rectangle(hDC, 340, 250, 370, 280);
 
 		while (m_dwView + 2000 > GetTickCount())
 		{
