@@ -33,11 +33,11 @@ void CLineMgr::Initialize(int _Number)
 	}
 
 
-		{ 10.f, 400.f },
-		{ 200.f, 500.f },
-		{ 700.f, 500.f },
-		{ 700.f, 100.f }
-	};
+//	{ 10.f, 400.f },
+//	{ 200.f, 500.f },
+//	{ 700.f, 500.f },
+//	{ 700.f, 100.f }
+//};
 	else if (3 == _Number)
 	{
 
@@ -57,7 +57,7 @@ void CLineMgr::Initialize(int _Number)
 		m_Linelist.push_back(new CLine(tPoint[2], tPoint[3]));
 		m_Linelist.push_back(new CLine(tPoint[3], tPoint[4]));
 		m_Linelist.push_back(new CLine(tPoint[4], tPoint[5]));
-		m_Flagline.push_back(new CLine(tPoint[6] , tPoint[7]));
+		m_Flagline.push_back(new CLine(tPoint[6], tPoint[7]));
 	}
 
 }
@@ -66,7 +66,7 @@ void CLineMgr::Render(HDC hDC)
 {
 	for (auto& iter : m_Linelist)
 		iter->Render(hDC);
-	
+
 
 	//½ÇÇè¿ë
 	for (auto& iter : m_Flagline)
@@ -126,7 +126,7 @@ CLine* CLineMgr::CollisionLine_Bullet(float _fX, float * _OutY)
 	{
 		// Bullet is in the middle of a line
 		// (X Axis) 
-		if (_fX >= iter->Get_Line().fLPoint.fX && _fX < iter->Get_Line().fRPoint.fX) 
+		if (_fX >= iter->Get_Line().fLPoint.fX && _fX < iter->Get_Line().fRPoint.fX)
 			pTarget = iter;
 	}
 
@@ -140,7 +140,7 @@ CLine* CLineMgr::CollisionLine_Bullet(float _fX, float * _OutY)
 	float y2 = pTarget->Get_Line().fRPoint.fY;
 
 	*_OutY = ((y2 - y1) / (x2 - x1))*(_fX - x1) + y1;
-	
+
 	return pTarget;
 }
 
