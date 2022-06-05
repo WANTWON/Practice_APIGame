@@ -2,6 +2,18 @@
 #include "BlockMgr.h"
 #include "ObjMgr.h"
 #include "CollisionMgr.h"
+#include "Player.h"
+#include "NormalBlock.h"
+#include <typeinfo>
+#include "AbstractFactory.h"
+#include "Item.h"
+
+//	아이템
+#include "Coin.h"
+#include "Mushroom.h"
+#include "Star.h"
+#include "Flower.h"
+#include "CoinBlock.h"
 
 CBlockMgr* CBlockMgr::m_pInstance = nullptr;
 
@@ -30,18 +42,27 @@ void CBlockMgr::Update(void)
 	for (size_t i = 0; i < BLOCK_END; ++i)
 	{
 		for (auto& iter : m_Blocklist[i])
-			iter->Update();
-	}
-
-
-	for (size_t i = 0; i < BLOCK_END; ++i)
-	{
-		for (auto& iter : m_Blocklist[i])
 		{
-			Col_Player(CCollisionMgr::Col_ReturnDir(m_listPlayer, iter));
+			Col_Player(iter, CCollisionMgr::Col_ReturnDir(m_listPlayer, iter));
 		}
 	}
 
+	int iEvent = 0;
+	for (size_t i = 0; i < BLOCK_END; ++i)
+	{
+		for (auto& iter = m_Blocklist[i].begin(); iter != m_Blocklist[i].end(); )
+		{
+			iEvent = (*iter)->Update();
+
+			if (iEvent == OBJ_DEAD)
+			{
+				Safe_Delete<CObj*>(*iter);
+				iter = m_Blocklist[i].erase(iter);
+			}
+			else
+				++iter;
+		}
+	}
 }
 
 void CBlockMgr::Late_Update(void)
@@ -181,20 +202,20 @@ bool CBlockMgr::Collision_with_Direction(CObj* Player)
 		{
 			if (pTarget->Get_Info().fY >= Player->Get_Info().fY)
 				Player->Set_PosY(-fHeight);
-			else
-				Player->Set_PosY(fHeight);
+			//else
+				//Player->Set_PosY(fHeight);
 		}
 		else //좌우 충돌 
-		{
+		{/*
 			if (pTarget->Get_Info().fX > Player->Get_Info().fX)
 				Player->Set_PosX(-fWidth);
 			else
-				Player->Set_PosX(fWidth);
+				Player->Set_PosX(fWidth);*/
 		}
 	}
 }
 
-void CBlockMgr::Col_Player(DIRECTION _eDir)
+void CBlockMgr::Col_Player(CObj* _thisBlock, DIRECTION _eDir)
 {
 	switch (_eDir)
 	{
@@ -202,6 +223,8 @@ void CBlockMgr::Col_Player(DIRECTION _eDir)
 		break;
 
 	case DIR_DOWN:
+		static_cast<CPlayer*>(m_listPlayer.front())->Set_GravityTime(3.4f);
+		Check_BreakBlock(_thisBlock);
 		break;
 
 	case DIR_LEFT:
@@ -216,6 +239,45 @@ void CBlockMgr::Col_Player(DIRECTION _eDir)
 		break;
 	}
 
+}
+
+void CBlockMgr::Check_BreakBlock(CObj * _thisBlock)
+{
+	if ((true == static_cast<CBlock*>(_thisBlock)->Get_IsItem()) && (false == static_cast<CCoinBlock*>(_thisBlock)->Get_Used()))
+	{
+ 		Create_RandItem(_thisBlock);
+		_thisBlock->Set_Dead(OBJ_DEAD);
+	}
+
+	if (1 <= static_cast<CPlayer*>(m_listPlayer.front())->Get_Level())
+	{
+		_thisBlock->Set_Dead(OBJ_DEAD);
+	}
+	else
+		return;
+}
+
+void CBlockMgr::Create_RandItem(CObj* _thisBlock)
+{
+	ITEM_TYPE iItemNum = ITEM_TYPE(rand() % ITEM_END);
+
+	switch (iItemNum)
+	{
+	case ITEM_COIN:
+		CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CCoin>::Create(_thisBlock->Get_Info().fX, _thisBlock->Get_Info().fY - (_thisBlock->Get_Info().fCY * 0.5f), iItemNum));
+		break;
+	case ITEM_MUSHROOM:
+		CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CMushroom>::Create(_thisBlock->Get_Info().fX, _thisBlock->Get_Info().fY - (_thisBlock->Get_Info().fCY * 0.5f), iItemNum));
+		break;
+	case ITEM_STAR:
+		CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CStar>::Create(_thisBlock->Get_Info().fX, _thisBlock->Get_Info().fY - (_thisBlock->Get_Info().fCY * 0.5f), iItemNum));
+		break;
+	case ITEM_FLOWER:
+		CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CFlower>::Create(_thisBlock->Get_Info().fX, _thisBlock->Get_Info().fY - (_thisBlock->Get_Info().fCY * 0.5f), iItemNum));
+		break;
+	default:
+		break;
+	}
 }
 
 

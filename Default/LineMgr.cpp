@@ -33,11 +33,11 @@ void CLineMgr::Initialize(int _Number)
 	}
 
 
-
-
-
-
-	// ½ÇÇè¿ë 
+		{ 10.f, 400.f },
+		{ 200.f, 500.f },
+		{ 700.f, 500.f },
+		{ 700.f, 100.f }
+	};
 	else if (3 == _Number)
 	{
 
@@ -68,7 +68,7 @@ void CLineMgr::Render(HDC hDC)
 		iter->Render(hDC);
 	
 
-	//½ÇÇè¿ë
+	//Â½Ã‡Ã‡Ã¨Â¿Ã«
 	for (auto& iter : m_Flagline)
 		iter->Render(hDC);
 }
@@ -78,7 +78,7 @@ void CLineMgr::Release(void)
 	for_each(m_Linelist.begin(), m_Linelist.end(), CDeleteObj());
 	m_Linelist.clear();
 
-	//½ÇÇè¿ë
+	//Â½Ã‡Ã‡Ã¨Â¿Ã«
 	for_each(m_Flagline.begin(), m_Flagline.end(), CDeleteObj());
 	m_Flagline.clear();
 }
@@ -100,7 +100,7 @@ bool CLineMgr::CollisionLine(float _fX, float *_fY)
 	if (!pTarget)
 		return false;
 
-	// Á÷¼±ÀÇ ¹æÁ¤½Ä 
+	// ÃÃ·Â¼Â±Ã€Ã‡ Â¹Ã¦ÃÂ¤Â½Ã„ 
 	// Y - y1 = ((y2 - y1) / (x2 - x1)) * (X - x1)
 	// Y = ((y2 - y1) / (x2 - x1)) * (X - x1) + y1
 
@@ -115,7 +115,7 @@ bool CLineMgr::CollisionLine(float _fX, float *_fY)
 	return true;
 }
 
-CLine* CLineMgr::CollisionLine_Bullet(float _fX, float _fY, float * _OutY)
+CLine* CLineMgr::CollisionLine_Bullet(float _fX, float * _OutY)
 {
 	if (m_Linelist.empty())
 		return false;
@@ -124,7 +124,8 @@ CLine* CLineMgr::CollisionLine_Bullet(float _fX, float _fY, float * _OutY)
 
 	for (auto& iter : m_Linelist)
 	{
-		// Bullet is in the middle of a line (X axis oriented) 
+		// Bullet is in the middle of a line
+		// (X Axis) 
 		if (_fX >= iter->Get_Line().fLPoint.fX && _fX < iter->Get_Line().fRPoint.fX) 
 			pTarget = iter;
 	}
@@ -145,17 +146,6 @@ CLine* CLineMgr::CollisionLine_Bullet(float _fX, float _fY, float * _OutY)
 
 
 
-
-
-
-
-
-
-
-
-
-
-// ½ÇÇè¿ë
 bool CLineMgr::CollisionFlag(RECT rc, float * _fY)
 {
 	if (m_Flagline.empty())
@@ -176,7 +166,7 @@ bool CLineMgr::CollisionFlag(RECT rc, float * _fY)
 	if (!pTarget)
 		return false;
 
-	// Á÷¼±ÀÇ ¹æÁ¤½Ä 
+	// ÃÃ·Â¼Â±Ã€Ã‡ Â¹Ã¦ÃÂ¤Â½Ã„ 
 	// Y - y1 = ((y2 - y1) / (x2 - x1)) * (X - x1)
 	// Y = ((y2 - y1) / (x2 - x1)) * (X - x1) + y1
 
@@ -190,3 +180,4 @@ bool CLineMgr::CollisionFlag(RECT rc, float * _fY)
 
 	return true;
 }
+

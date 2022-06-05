@@ -55,14 +55,22 @@ void CMushroom::Animate()
 		float fY = 0.f;
 		bool bLineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
 
-		// Fall
-		if (m_tInfo.fY < fY)
-			m_tInfo.fY += m_fSpeed;
-		
-		// Move
-		if (m_tInfo.fY >= fY)
+		if (bLineCol)
 		{
-			m_tInfo.fY = fY;
+			// Fall
+			if (m_tInfo.fY < fY)
+				m_tInfo.fY += m_fSpeed;
+
+			// Move
+			if (m_tInfo.fY >= fY)
+			{
+				m_tInfo.fY = fY;
+				m_tInfo.fX += m_fSpeed;
+			}
+		}
+		else
+		{
+			m_fSpeed *= -1;
 			m_tInfo.fX += m_fSpeed;
 		}
 	}
