@@ -103,7 +103,7 @@ void CTurtleMonster::Move(void)
 {
 	float fY = 0.f;
 
-	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
+	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(this, &fY);
 
 	if (b_LineCol)
 	{
@@ -115,10 +115,10 @@ void CTurtleMonster::Move(void)
 				m_bFalling = false;
 		}
 		else
+		{
+			m_tInfo.fX += m_fSpeed;
 			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
-
-		m_tInfo.fX += m_fSpeed;
-
+		}
 	}
 	else
 	{

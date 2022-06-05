@@ -14,7 +14,7 @@ CTurtleBack::~CTurtleBack()
 
 void CTurtleBack::Initialize(void)
 {
-	m_tInfo = { 125.f,125.f, 40.f, 40.f };
+	m_tInfo = { 125.f,125.f, 40.f, 30.f };
 	m_fSpeed = 5.f;
 }
 int  CTurtleBack::Update(void)
@@ -72,7 +72,7 @@ void CTurtleBack::Move(void)
 {
 	float fY = 0.f;
 
-	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
+	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(this, &fY);
 
 	if (b_LineCol)
 	{
@@ -84,10 +84,11 @@ void CTurtleBack::Move(void)
 				m_bFalling = false;
 		}
 		else
+		{
+			m_tInfo.fX += m_fSpeed;
 			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
-
-		m_tInfo.fX += m_fSpeed;
-
+		}
+		
 	}
 	else
 	{

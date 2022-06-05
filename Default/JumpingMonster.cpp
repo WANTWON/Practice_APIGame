@@ -23,6 +23,7 @@ void CJumpingMonster::Initialize(void)
 	m_fSpeed = 1.f;
 	m_fJumpPower = 10.f;
 	m_dwTime = GetTickCount();
+	m_iHp = 3;
 }
 
 int CJumpingMonster::Update(void)
@@ -102,7 +103,7 @@ void CJumpingMonster::Move(void)
 	
 	 fY = 0.f;
 
-	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
+	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(this, &fY);
 
 	if (b_LineCol)
 	{

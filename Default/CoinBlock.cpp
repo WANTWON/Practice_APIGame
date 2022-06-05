@@ -50,5 +50,8 @@ void CCoinBlock::Render(HDC hDC)
 	if (false == m_bUsed)
 		Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
 	else
+	{
+		//	юс╫ц
 		Rectangle(hDC, m_tRect.left + 10.f, m_tRect.top + 10.f, m_tRect.right - 10.f, m_tRect.bottom - 10.f);
+	}
 }

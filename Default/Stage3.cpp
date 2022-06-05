@@ -27,7 +27,7 @@ void CStage3::Initialize(void)
 	CBlockMgr::Get_Instance()->Add_Object(BLOCK_FLAG, CAbstractFactory<CFlagBlock>::Create(535, 100, true));
 
 	m_dwView = GetTickCount();
-}
+} 
 
 int CStage3::Update(void)
 {

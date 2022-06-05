@@ -50,9 +50,13 @@ private:
 	CStage* m_pStage[STAGE_END];
 	STAGE_LIST m_eChoice_Stage;
 
-	CObj* m_Mouse;
-	DWORD m_dwTime;
+	CStage*	m_pEditor;
+
+	CObj*   m_Mouse;
+	DWORD  m_dwTime;
+
 	RECT m_tRect[4];
+	RECT m_tEditRect;
 
 	bool m_bNewGame;
 

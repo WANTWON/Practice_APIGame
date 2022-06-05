@@ -40,12 +40,15 @@ public:
 		return pInstance;
 	}
 
-	static CObj* Create_with_Target(float _fX, float _fY,CObj* pTarget)
+	static CObj* Create_with_Target(float _fX, float _fY,CObj* pTarget, OBJ_LIST eID = OBJ_END)
 	{
 		CObj* pInstance = new T;
 		pInstance->Initialize();
 		pInstance->Set_Pos(_fX, _fY);
 		pInstance->Set_Target(pTarget);
+
+		if (eID != OBJ_END)
+			pInstance->Set_ID(eID);
 
 		return pInstance;
 	}
@@ -81,6 +84,15 @@ public:
 		return pInstance;
 	}
 
+	static CObj* Create(float _fX, float _fY, BLOCK_LIST _Block)
+	{
+		CObj* pInstance = new T;
+		pInstance->Initialize();
+		pInstance->Set_Pos(_fX, _fY);
+		static_cast<CBlock*>(pInstance)->Set_Type(_Block);
+
+		return pInstance;
+	}
 
 
 

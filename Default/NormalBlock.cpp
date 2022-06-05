@@ -2,6 +2,7 @@
 #include "NormalBlock.h"
 
 
+
 CNormalBlock::CNormalBlock()
 {
 }
@@ -31,6 +32,7 @@ int CNormalBlock::Update(void)
 
 void CNormalBlock::Late_Update(void)
 {
+	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
 }
 
 void CNormalBlock::Release(void)

@@ -31,13 +31,16 @@ void CLineMgr::Initialize(int _Number)
 		m_Linelist.push_back(new CLine(tPoint[1], tPoint[2]));
 		m_Linelist.push_back(new CLine(tPoint[2], tPoint[3]));
 	}
-
-
-//	{ 10.f, 400.f },
-//	{ 200.f, 500.f },
-//	{ 700.f, 500.f },
-//	{ 700.f, 100.f }
-//};
+	else if (2 == _Number)
+	{
+		LINEPOINT tPoint[4] =
+		{
+			{ 10.f, 400.f },
+			{ 200.f, 500.f },
+			{ 700.f, 500.f },
+			{ 700.f, 100.f }
+		};
+  }
 	else if (3 == _Number)
 	{
 
@@ -68,7 +71,7 @@ void CLineMgr::Render(HDC hDC)
 		iter->Render(hDC);
 
 
-	//½ÇÇè¿ë
+	
 	for (auto& iter : m_Flagline)
 		iter->Render(hDC);
 }
@@ -78,12 +81,12 @@ void CLineMgr::Release(void)
 	for_each(m_Linelist.begin(), m_Linelist.end(), CDeleteObj());
 	m_Linelist.clear();
 
-	//½ÇÇè¿ë
+	
 	for_each(m_Flagline.begin(), m_Flagline.end(), CDeleteObj());
 	m_Flagline.clear();
 }
 
-bool CLineMgr::CollisionLine(float _fX, float *_fY)
+bool CLineMgr::CollisionLine(CObj*	_pObj, float* _fY)		//+
 {
 	if (m_Linelist.empty())
 		return false;
@@ -92,10 +95,15 @@ bool CLineMgr::CollisionLine(float _fX, float *_fY)
 
 	for (auto& iter : m_Linelist)
 	{
-		if (_fX >= iter->Get_Line().fLPoint.fX
-			&& _fX < iter->Get_Line().fRPoint.fX)
+		if (_pObj->Get_Info().fX >= iter->Get_Line().fLPoint.fX
+			&& _pObj->Get_Info().fX < iter->Get_Line().fRPoint.fX
+			&& _pObj->Get_Info().fY + (_pObj->Get_Info().fCY * 0.55f) >= iter->Get_Y(_pObj->Get_Info().fX)
+			&& _pObj->Get_Info().fY - (_pObj->Get_Info().fCY * 0.5f) < iter->Get_Y(_pObj->Get_Info().fX))
 			pTarget = iter;
 	}
+
+
+
 
 	if (!pTarget)
 		return false;
@@ -110,7 +118,8 @@ bool CLineMgr::CollisionLine(float _fX, float *_fY)
 	float x2 = pTarget->Get_Line().fRPoint.fX;
 	float y2 = pTarget->Get_Line().fRPoint.fY;
 
-	*_fY = ((y2 - y1) / (x2 - x1))*(_fX - x1) + y1;
+	//-	*_fY = ((y2 - y1) / (x2 - x1))*(_fX - x1) + y1;
+	*_fY = ((y2 - y1) / (x2 - x1))*(_pObj->Get_Info().fX - x1) + y1;
 
 	return true;
 }

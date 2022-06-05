@@ -127,7 +127,12 @@
     <Filter Include="01.Obj\05.Bullet\51.Monster_Bullet">
       <UniqueIdentifier>{69832269-9990-45a8-8797-5b5441afb455}</UniqueIdentifier>
     </Filter>
-
+    <Filter Include="97.Stage\Editor">
+      <UniqueIdentifier>{016929d5-3280-4101-870d-a5f96839b008}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\99. BlockEditor">
+      <UniqueIdentifier>{253fa6cf-d980-4c33-a21d-c9a3e7469369}</UniqueIdentifier>
+    </Filter>
     <Filter Include="96.UI\PointNumbers">
       <UniqueIdentifier>{b6b4d52b-0b69-4e6f-b274-285f507d2969}</UniqueIdentifier>
     </Filter>
@@ -280,8 +285,17 @@
     <ClInclude Include="UIMgr.h">
       <Filter>98.Design\UIMgr</Filter>
     </ClInclude>
+    <ClInclude Include="NormalBlock.h">
+      <Filter>01. Obj\02.Block\00. NormalBlock</Filter>
+    </ClInclude>
     <ClInclude Include="FlagBlock.h">
       <Filter>01. Obj\02.Block\03. FlagBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.h">
+      <Filter>97.Stage\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockNull.h">
+      <Filter>01. Obj\99. BlockEditor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -392,6 +406,12 @@
     </ClCompile>
     <ClCompile Include="FlagBlock.cpp">
       <Filter>01. Obj\02.Block\03. FlagBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.cpp">
+      <Filter>97.Stage\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockNull.cpp">
+      <Filter>01. Obj\99. BlockEditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

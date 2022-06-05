@@ -206,20 +206,17 @@ void CPlayer::Remove_Buff(ITEM_TYPE iBuff)
 	{
 		m_tInfo.fCX -= m_tInfo.fCX * 0.5f;
 		m_tInfo.fCY -= m_tInfo.fCY * 0.5f;
-		break;
 	}
 	case ITEM_STAR:
 	{
 		m_bIsInvincible = false;
 		break;
 	}
-		
 	case ITEM_FLOWER:
 	{
 		m_tInfo.fCX -= m_tInfo.fCX * 0.5f;
 		m_tInfo.fCY -= m_tInfo.fCY * 0.5f;
 		m_bCanShoot = false;
-		break;
 	}
 	}
 }
@@ -275,15 +272,12 @@ void CPlayer::Jumping(void)
 				dynamic_cast<CFlagBlock*>(iter)->Set_Down(1);
 			}
 		}
-		
-
-		
 	}
 	if (m_bBlock)
 	{
 		m_tInfo.fX += 2.f;
 		m_bBlock = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
-		m_bLineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
+		m_bLineCol = CLineMgr::Get_Instance()->CollisionLine(this, &fY);
 		if (m_bLineCol)
 		{
 			m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
@@ -297,7 +291,7 @@ void CPlayer::Jumping(void)
 	//======================================================================================
 		if (m_bPlay)
 		{
-			bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
+			bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(this, &fY);
 			bool b_BlockCol = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
 			m_bFlag = CLineMgr::Get_Instance()->CollisionFlag(m_tRect, &fY);
 
