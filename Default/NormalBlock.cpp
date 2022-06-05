@@ -13,6 +13,12 @@ CNormalBlock::~CNormalBlock()
 	Release();
 }
 
+void CNormalBlock::Initialize(void)
+{
+	m_tInfo.fCX = 50.f;
+	m_tInfo.fCY = 50.f;
+}
+
 int CNormalBlock::Update(void)
 {
 	if (OBJ_DEAD == m_bDead)
