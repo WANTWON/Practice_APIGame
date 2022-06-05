@@ -39,9 +39,7 @@ int CStage3::Update(void)
 
 void CStage3::Late_Update(void)
 {
-	if (m_dwTime + 3000 < GetTickCount())
-		m_bClear = true;
-
+	
 	CObjMgr::Get_Instance()->Late_Update();
 
 

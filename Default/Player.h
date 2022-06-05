@@ -35,6 +35,11 @@ public:
 	void Set_Dead_Moment(void);
 	void Set_Dead_Count(void) { m_bDead_Count = true; }
 	bool Get_Count(void) { return m_bDead_Count; }
+	bool Get_Buff(void) { return m_bIsBuffActive; }
+	void Get_Active(bool bActive) { m_bActive = bActive; }
+	void Set_Item(bool _bItem) { m_bItem = _bItem; }
+	int Get_Life(void) { return m_iLife; }
+	void Set_Life(int _Life) { m_iLife = _Life; }
 
 	
 private:
@@ -45,6 +50,7 @@ private:
 	void Buff_Mushroom();
 	void Buff_Star();
 	void Buff_Flower();
+	void Check_Active(void);
 
 private:
 	float m_pShield_Angle;
@@ -73,9 +79,11 @@ private:
 	POINT m_pGUIDE;
 	
 	
-	int m_iLife;
+	
 	bool m_bPlay;
 	float m_fPTime;
-	
+	bool m_bActive;
+	bool m_bItem;
+	int m_iLife;
 };
 

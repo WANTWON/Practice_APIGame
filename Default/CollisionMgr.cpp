@@ -27,7 +27,7 @@ int CCollisionMgr::Collision_Rect(list<CObj*> Sour, list<CObj*> Dest)
 			if ((Dest.size() != 0) && (IntersectRect(&rc, &((*iter)->Get_Rect()), &((*Monster_iter)->Get_Rect()))))
 			{
 				(*iter)->Set_Dead(true);
-				(*Monster_iter)->Set_Dead(true);
+				dynamic_cast<CMonster*>(*Monster_iter)->Be_Attacked();
 				iScore += rand() % 10 + 5;
 			}
 			Monster_iter++;
@@ -36,6 +36,16 @@ int CCollisionMgr::Collision_Rect(list<CObj*> Sour, list<CObj*> Dest)
 	}
 	return iScore;
 }
+
+
+int CCollisionMgr::Collision_Bullet(CObj* _This, list<CObj*> _Bullet)
+{
+	RECT rt{};
+
+
+	return 0;
+}
+
 
 
 
@@ -98,7 +108,7 @@ int CCollisionMgr::Check_Rect(CObj* Sour, CObj* Dest, float* _pX, float* _pY)
 		return false;
 }
 
-void CCollisionMgr::Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest)
+int CCollisionMgr::Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest)
 {
 	for (auto& Dest : _Dest)
 	{
@@ -122,12 +132,22 @@ void CCollisionMgr::Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest)
 						dynamic_cast<CMonster*>(Dest)->Be_Attacked();
 						dynamic_cast<CPlayer*>(Sour)->Set_StepMonster(true);
 						dynamic_cast<CPlayer*>(Sour)->Set_JumpingTime();
+						return rand() & 50 + 10;
 					}
 					else
 					{
+
 						CPlayer* pPlayer = dynamic_cast<CPlayer*>(Sour);
 						if (pPlayer && pPlayer->Get_ActiveBuff() != ITEM_STAR)
 							pPlayer->Set_Dead_Count();
+
+						if (true == dynamic_cast<CPlayer*>(Sour)->Get_Buff())
+						{
+							dynamic_cast<CMonster*>(Dest)->Be_Attacked();
+							dynamic_cast<CPlayer*>(Sour)->Get_Active(true);
+							continue;
+						}
+						dynamic_cast<CPlayer*>(Sour)->Set_Dead_Count();
 
 						//Sour->Set_PosY(fHeight);
 					}
@@ -139,10 +159,32 @@ void CCollisionMgr::Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest)
 						dynamic_cast<CPlayer*>(Sour)->Set_Dead_Count();
 					else
 						Dest->Set_Dead(true);
+
+					if (Dest->Get_Rect().left <= Sour->Get_Rect().right)
+					{
+						if (true == dynamic_cast<CPlayer*>(Sour)->Get_Buff())
+						{
+							dynamic_cast<CMonster*>(Dest)->Be_Attacked();
+							dynamic_cast<CPlayer*>(Sour)->Get_Active(true);
+							continue;
+						}
+						dynamic_cast<CPlayer*>(Sour)->Set_Dead_Count();
+					}
+					else
+					{
+						if (true == dynamic_cast<CPlayer*>(Sour)->Get_Buff())
+						{
+							dynamic_cast<CMonster*>(Dest)->Be_Attacked();
+							dynamic_cast<CPlayer*>(Sour)->Get_Active(true);
+							continue;
+						}
+						dynamic_cast<CPlayer*>(Sour)->Set_Dead_Count();
+					}
 				}
 			}
 		}
 	}
+	return 0;
 }
 
 DIRECTION CCollisionMgr::Col_ReturnDir(list<CObj*> _Sour, list<CObj*> _Dest)
@@ -221,11 +263,11 @@ DIRECTION CCollisionMgr::Col_ReturnDir(list<CObj*> _Sour, CObj* _Dest)
 			{
 				return DIR_UP;
 			}
-    }
-  }
+		}
+	}
 }
 
-      
+
 void CCollisionMgr::Collision_Item(CObj * Player, list<CObj*> Items)
 {
 	for (auto& item : Items)
@@ -237,12 +279,12 @@ void CCollisionMgr::Collision_Item(CObj * Player, list<CObj*> Items)
 			// Set Active Buff and Buff Time
 			CPlayer* pPlayer = static_cast<CPlayer*>(Player);
 			pPlayer->Set_ActiveBuff(static_cast<CItem*>(item)->Get_Type());
-			pPlayer->Set_BuffTime(GetTickCount());
-			pPlayer->Set_IsBuffActive(false);
-
+			pPlayer->Set_IsBuffActive(true);
+			pPlayer->Set_Item(true);
 			// Destroy Item
 			item->Set_Dead(true);
 
+			//pPlayer->Set_BuffTime(GetTickCount());
 		}
 	}
 }

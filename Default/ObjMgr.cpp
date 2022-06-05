@@ -62,11 +62,17 @@ void CObjMgr::Late_Update()
 
 	CObjMgr* ObjMgr = CObjMgr::Get_Instance();
 	
-	CCollisionMgr::Step_on_Mushroom(m_pObjList[OBJ_PLAYER], m_pObjList[OBJ_MONSTER]);
+
+	//CCollisionMgr::Step_on_Mushroom(m_pObjList[OBJ_PLAYER], m_pObjList[OBJ_MONSTER]);
+	//CCollisionMgr::Collision_Item(Get_Player(), Get_Items());
+	//CCollisionMgr::Collision_Rect(Get_Bullets(), Get_Monsters());
+	//CCollisionMgr::Collision_Rect_Ex(m_pObjList[OBJ_MONSTER], m_pObjList[OBJ_PLAYER]);
+
+	m_iScore += CCollisionMgr::Step_on_Mushroom(m_pObjList[OBJ_PLAYER], m_pObjList[OBJ_MONSTER]);
 	//CCollisionMgr::Collision_Rect_Ex(Get_Monsters(), m_pObjList[OBJ_PLAYER]);
 	CCollisionMgr::Collision_Item(Get_Player(), Get_Items());
-	CCollisionMgr::Collision_Rect_Ex(m_pObjList[OBJ_MONSTER], m_pObjList[OBJ_PLAYER]);
-	CCollisionMgr::Collision_Rect(Get_Bullets(), Get_Monsters());
+	m_iScore += CCollisionMgr::Collision_Rect(Get_Bullets(), Get_Monsters());
+
 }
 
 void CObjMgr::Render(HDC hDC)
@@ -91,7 +97,8 @@ void CObjMgr::Render(HDC hDC)
 
 
 	TCHAR sztScore[32] = L"";
-	swprintf_s(sztScore, L"ÄÚÀÎ : %d", m_iScore);
+
+	swprintf_s(sztScore, L"Coin : %d", m_iScore);
 	TextOut(hDC, 650, 30, sztScore, lstrlen(sztScore));
 
 }

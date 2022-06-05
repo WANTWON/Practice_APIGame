@@ -118,6 +118,12 @@
     <Filter Include="01. Obj\02.Block\00. NormalBlock">
       <UniqueIdentifier>{0b1818ef-78c7-42d2-baba-d87e1e0dbfc3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\01.Monster\05.Boss_Monster">
+      <UniqueIdentifier>{a7dc9006-0c03-454f-91ca-da9f53ff7f5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\05.Bullet\51.Monster_Bullet">
+      <UniqueIdentifier>{69832269-9990-45a8-8797-5b5441afb455}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -249,6 +255,12 @@
     <ClInclude Include="FlyingMonster.h">
       <Filter>01. Obj\01.Monster\04.Fying_Monster</Filter>
     </ClInclude>
+    <ClInclude Include="BossMonster.h">
+      <Filter>01. Obj\01.Monster\05.Boss_Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_Bullet.h">
+      <Filter>01. Obj\05.Bullet\51.Monster_Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -346,6 +358,12 @@
     </ClCompile>
     <ClCompile Include="FlyingMonster.cpp">
       <Filter>01. Obj\01.Monster\04.Fying_Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="BossMonster.cpp">
+      <Filter>01. Obj\01.Monster\05.Boss_Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_Bullet.cpp">
+      <Filter>01. Obj\05.Bullet\51.Monster_Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

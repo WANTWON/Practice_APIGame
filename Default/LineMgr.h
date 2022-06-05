@@ -36,4 +36,3 @@ private:
 	static CLineMgr* m_pInstance;
 	list<CLine*>		m_Linelist;
 };
-
