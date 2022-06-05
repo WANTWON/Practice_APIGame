@@ -3,11 +3,9 @@
 class CStage
 {
 public:
-
 	CStage() : m_dwTime(GetTickCount()), m_bClear(false), m_dwView(GetTickCount()), m_bView(false), m_iCount(3)
 	{
 	}
-
 	virtual ~CStage()
 	{
 	}
