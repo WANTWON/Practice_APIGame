@@ -17,6 +17,7 @@ void CEditor::Initialize(void)
 {
 	m_ObjMouse = new CMouse;
 	m_ObjMouse->Initialize();
+	static_cast<CMouse*>(m_ObjMouse)->Set_Radius(5.f, 5.f);
 
 	for (size_t i = 0; i < 12; ++i)
 	{
@@ -28,23 +29,35 @@ void CEditor::Initialize(void)
 		}
 	}
 
-	m_mapChoiceObj.emplace(0, OBJ_PLAYER);
-	//	Monster
-	m_mapChoiceObj.emplace(1, OBJ_MONSTER);
-	m_mapChoiceObj.emplace(2, OBJ_MONSTER);
-	m_mapChoiceObj.emplace(3, OBJ_MONSTER);
-	m_mapChoiceObj.emplace(4, OBJ_MONSTER);
-	m_mapChoiceObj.emplace(5, OBJ_MONSTER);
-	m_mapChoiceObj.emplace(6, OBJ_MONSTER);
-	//	Block
-	m_mapChoiceObj.emplace(7, OBJ_BLOCK);
-	m_mapChoiceObj.emplace(8, OBJ_BLOCK);
-	m_mapChoiceObj.emplace(9, OBJ_BLOCK);
-	//	Item
-	m_mapChoiceObj.emplace(10, OBJ_ITEM);
-	m_mapChoiceObj.emplace(11, OBJ_ITEM);
-	m_mapChoiceObj.emplace(12, OBJ_ITEM);
-	m_mapChoiceObj.emplace(13, OBJ_ITEM);
+	//	Player 1
+	for (size_t i = 0; i < 1; ++i)
+	{
+		m_mapChoiceObj.emplace(i, CAbstractFactory<CBlockNull>::Create(
+			25.f + (50.f * i),
+			25.f + (50.f * i)));
+	}
+	//	Monster 6
+	for (size_t i = 0; i < int(MONSTER_END); ++i)
+	{
+		m_mapChoiceObj.emplace(i + 1, CAbstractFactory<CBlockNull>::Create(
+			25.f + (50.f * float(i % 3)),
+			100.f + (50.f * float(i / 3))));
+	}
+	//	Block 3  /  except Flag
+	for (size_t i = 0; i < BLOCK_END - 1; ++i)
+	{
+		m_mapChoiceObj.emplace(i + 7, CAbstractFactory<CBlockNull>::Create(
+			25.f + (50.f * float(i % 3)),
+			250.f + (50.f * float(i / 3))));
+	}
+	//	Item 4
+	for (size_t i = 0; i < ITEM_END; ++i)
+	{
+		m_mapChoiceObj.emplace(i + 11, CAbstractFactory<CBlockNull>::Create(
+			25.f + (50.f * float(i % 3)),
+			400.f + (50.f * float(i / 3))));
+	}
+
 }
 
 int CEditor::Update(void)
@@ -58,7 +71,17 @@ int CEditor::Update(void)
 	{
 		iter.second->Update();
 	}
+	for (auto& iter : m_mapChoiceObj)
+	{
+		iter.second->Update();
+	}
+	CUIMgr::Get_Instance()->Update();
+	CObjMgr::Get_Instance()->Update();
+	CBlockMgr::Get_Instance()->Update();
 
+
+	Save_File();
+	Load_File();
 	return 0;
 }
 
@@ -70,6 +93,13 @@ void CEditor::Late_Update(void)
 	{
 		iter.second->Late_Update();
 	}
+	for (auto& iter : m_mapChoiceObj)
+	{
+		iter.second->Late_Update();
+	}
+	CUIMgr::Get_Instance()->Late_Update();
+	CObjMgr::Get_Instance()->Late_Update();
+	CBlockMgr::Get_Instance()->Late_Update();
 }
 
 void CEditor::Release(void)
@@ -81,8 +111,11 @@ void CEditor::Release(void)
 	}
 	for (auto& iter : m_mapChoiceObj)
 	{
-		for_each(m_mapObj.begin(), m_mapObj.end(), CDeleteMap());
+		for_each(m_mapChoiceObj.begin(), m_mapChoiceObj.end(), CDeleteMap());
 	}
+	CUIMgr::Get_Instance()->Release();
+	CObjMgr::Get_Instance()->Release();
+	CBlockMgr::Get_Instance()->Release();
 }
 
 void CEditor::Render(HDC hDC)
@@ -91,6 +124,13 @@ void CEditor::Render(HDC hDC)
 	{
 		iter.second->Render(hDC);
 	}
+	for (auto& iter : m_mapChoiceObj)
+	{
+		iter.second->Render(hDC);
+	}
+	CUIMgr::Get_Instance()->Render(hDC);
+	CObjMgr::Get_Instance()->Render(hDC);
+	CBlockMgr::Get_Instance()->Render(hDC);
 
 	m_ObjMouse->Render(hDC);
 }
@@ -99,92 +139,168 @@ bool CEditor::Choice_Class(void)
 {
 	int i = 0;
 
-	if (GetAsyncKeyState(VK_LBUTTON))
+	if (GetAsyncKeyState(VK_LBUTTON) && -1 == m_iChoiceNumber)
 	{
 		for (auto& iter : m_mapChoiceObj)
 		{
-			if (CCollisionMgr::Col_EditorClick(m_ObjMouse, iter.second));
+			if (true == CCollisionMgr::Col_EditorClick(m_ObjMouse, iter.second))
 			{
 				m_iChoiceNumber = i;
 				return true;
 			}
-
-			++i;
+			else
+			{
+				++i;
+				m_iChoiceNumber = -1;
+			}
 		}
 	}
+	if (GetAsyncKeyState(VK_RBUTTON))
+		m_iChoiceNumber = -1;
 
-	m_iChoiceNumber = -1;
 	return false;
 
 }
 
-bool CEditor::Choice_Tile(void)
+void CEditor::Choice_Tile(void)
 {
 	int i = 0;
+	CObj* ObjTemp = nullptr;
 
-	if (GetAsyncKeyState(VK_LBUTTON) || -1 != m_iChoiceNumber)
+	if (GetAsyncKeyState(VK_LBUTTON) && -1 != m_iChoiceNumber)
 	{
 		for (auto& iter : m_mapObj)
 		{
-			if (CCollisionMgr::Col_EditorClick(m_ObjMouse, iter.second));
+			if (CCollisionMgr::Col_EditorClick(m_ObjMouse, iter.second))
 			{
 				switch (m_iChoiceNumber)
 				{
 				case 0:
-					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
-					return true;
+					if (false == static_cast<CBlockNull*>(iter.second)->Get_Check()
+						&& (true == CObjMgr::Get_Instance()->Get_listPlayer().empty()))
+					{
+						ObjTemp = CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+						CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, ObjTemp);
+						static_cast<CBlockNull*>(iter.second)->Set_Check(true);
+						return;
+					}
 					break;
 				case 1:
-					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
-					return true;
+					if (false == static_cast<CBlockNull*>(iter.second)->Get_Check())
+					{
+						ObjTemp = CAbstractFactory<CMushroomMonster>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+						CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, ObjTemp);
+						static_cast<CBlockNull*>(iter.second)->Set_Check(true);
+						return;
+					}
 					break;
 				case 2:
-					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
-					return true;
+					if (false == static_cast<CBlockNull*>(iter.second)->Get_Check())
+					{
+						ObjTemp = CAbstractFactory<CTurtleBack>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+						CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, ObjTemp);
+						static_cast<CBlockNull*>(iter.second)->Set_Check(true);
+						return;
+					}
 					break;
 				case 3:
-					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
-					return true;
+					if (false == static_cast<CBlockNull*>(iter.second)->Get_Check())
+					{
+						ObjTemp = CAbstractFactory<CTurtleMonster>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+						CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, ObjTemp);
+						static_cast<CBlockNull*>(iter.second)->Set_Check(true);
+						return;
+					}
 					break;
 				case 4:
-					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
-					return true;
+					if (false == static_cast<CBlockNull*>(iter.second)->Get_Check())
+					{
+						ObjTemp = CAbstractFactory<CJumpingMonster>::Create_with_Target(iter.second->Get_Info().fX, iter.second->Get_Info().fY, CObjMgr::Get_Instance()->Get_Player());
+						CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, ObjTemp);
+						static_cast<CBlockNull*>(iter.second)->Set_Check(true);
+						return;
+					}
 					break;
 				case 5:
-					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
-					return true;
+					if (false == static_cast<CBlockNull*>(iter.second)->Get_Check())
+					{
+						ObjTemp = CAbstractFactory<CFlyingMonster>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+						CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, ObjTemp);
+						static_cast<CBlockNull*>(iter.second)->Set_Check(true);
+						return;
+					}
 					break;
 				case 6:
-					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
-					return true;
+					if (false == static_cast<CBlockNull*>(iter.second)->Get_Check())
+					{
+						ObjTemp = CAbstractFactory<CBossMonster>::Create_with_Target(iter.second->Get_Info().fX, iter.second->Get_Info().fY, CObjMgr::Get_Instance()->Get_Player());
+						CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, ObjTemp);
+						static_cast<CBlockNull*>(iter.second)->Set_Check(true);
+						return;
+					}
 					break;
 				case 7:
-					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
-					return true;
+					if (false == static_cast<CBlockNull*>(iter.second)->Get_Check())
+					{
+						ObjTemp = CAbstractFactory<CNormalBlock>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+						CBlockMgr::Get_Instance()->Add_Object(BLOCK_NORMAL, ObjTemp);
+						static_cast<CBlockNull*>(iter.second)->Set_Check(true);
+						return;
+					}
 					break;
 				case 8:
-					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
-					return true;
+					if (false == static_cast<CBlockNull*>(iter.second)->Get_Check())
+					{
+						ObjTemp = CAbstractFactory<CCoinBlock>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+						CBlockMgr::Get_Instance()->Add_Object(BLOCK_COIN, ObjTemp);
+						static_cast<CBlockNull*>(iter.second)->Set_Check(true);
+						return;
+					}
 					break;
 				case 9:
-					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
-					return true;
+					if (false == static_cast<CBlockNull*>(iter.second)->Get_Check())
+					{
+						ObjTemp = CAbstractFactory<CItemBlock>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+						CBlockMgr::Get_Instance()->Add_Object(BLOCK_ITEM, ObjTemp);
+						static_cast<CBlockNull*>(iter.second)->Set_Check(true);
+						return;
+					}
 					break;
 				case 10:
-					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
-					return true;
+					if (false == static_cast<CBlockNull*>(iter.second)->Get_Check())
+					{
+						ObjTemp = CAbstractFactory<CCoin>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+						CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, ObjTemp);
+						static_cast<CBlockNull*>(iter.second)->Set_Check(true);
+						return;
+					}
 					break;
 				case 11:
-					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
-					return true;
+					if (false == static_cast<CBlockNull*>(iter.second)->Get_Check())
+					{
+						ObjTemp = CAbstractFactory<CMushroom>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+						CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, ObjTemp);
+						static_cast<CBlockNull*>(iter.second)->Set_Check(true);
+						return;
+					}
 					break;
 				case 12:
-					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
-					return true;
+					if (false == static_cast<CBlockNull*>(iter.second)->Get_Check())
+					{
+						ObjTemp = CAbstractFactory<CStar>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+						CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, ObjTemp);
+						static_cast<CBlockNull*>(iter.second)->Set_Check(true);
+						return;
+					}
 					break;
 				case 13:
-					CAbstractFactory<CPlayer>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
-					return true;
+					if (false == static_cast<CBlockNull*>(iter.second)->Get_Check())
+					{
+						ObjTemp = CAbstractFactory<CFlower>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+						CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, ObjTemp);
+						static_cast<CBlockNull*>(iter.second)->Set_Check(true);
+						return;
+					}
 					break;
 				default:
 					break;
@@ -195,6 +311,21 @@ bool CEditor::Choice_Tile(void)
 		}
 	}
 
-	m_iChoiceNumber = -1;
-	return false;
+	return;
+}
+
+void CEditor::Save_File(void)
+{
+	if (GetAsyncKeyState('S'))
+	{
+		CBlockMgr::Get_Instance()->Save_File();
+	}
+}
+
+void CEditor::Load_File(void)
+{
+	if (GetAsyncKeyState('L'))
+	{
+		CBlockMgr::Get_Instance()->Load_File();
+	}
 }

@@ -18,6 +18,7 @@ void CCoinBlock::Initialize(void)
 	m_tInfo.fCX = 50.f;
 	m_tInfo.fCY = 50.f;
 
+	m_BlockType = BLOCK_COIN;
 	m_bItem = true;
 }
 
@@ -54,4 +55,6 @@ void CCoinBlock::Render(HDC hDC)
 		//	юс╫ц
 		Rectangle(hDC, m_tRect.left + 10.f, m_tRect.top + 10.f, m_tRect.right - 10.f, m_tRect.bottom - 10.f);
 	}
+
+	TextOut(hDC, m_tInfo.fX, m_tInfo.fY, L"C", DT_CENTER);
 }

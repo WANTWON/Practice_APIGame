@@ -129,11 +129,11 @@ bool CBlockMgr::CollisionBlock(RECT Player, float _fX, float * Change_fY)
 	{
 		for (auto& iter : m_Blocklist[i])
 		{
-		if ( Player.right >= iter->Get_Rect().left && Player.left < iter->Get_Rect().right
-			&& Player.bottom < iter->Get_Rect().top + 2 && Player.bottom > iter->Get_Rect().top - 2)
-			// 플레이어의 X값(중점)이 상자의 왼쪽과 오른쪽 사이에 있고, 플레이어의 Bottom이 상자의 Top보다 클 때
-			// (이때, 플레이어랑 상자의 X값만 조건으로 하면 바로 Jump가 false처리 되어 순간이동 할 수 있어서, Y값도 조건으로 주고 2를 임의적으로 추가함)
-			pTarget = iter;
+			if (Player.right >= iter->Get_Rect().left && Player.left < iter->Get_Rect().right
+				&& Player.bottom < iter->Get_Rect().top + 2 && Player.bottom > iter->Get_Rect().top - 2)
+				// 플레이어의 X값(중점)이 상자의 왼쪽과 오른쪽 사이에 있고, 플레이어의 Bottom이 상자의 Top보다 클 때
+				// (이때, 플레이어랑 상자의 X값만 조건으로 하면 바로 Jump가 false처리 되어 순간이동 할 수 있어서, Y값도 조건으로 주고 2를 임의적으로 추가함)
+				pTarget = iter;
 		}
 	}
 
@@ -239,7 +239,7 @@ void CBlockMgr::Check_BreakBlock(CObj * _thisBlock)
 {
 	if ((true == static_cast<CBlock*>(_thisBlock)->Get_IsItem()) && (false == static_cast<CCoinBlock*>(_thisBlock)->Get_Used()))
 	{
- 		Create_RandItem(_thisBlock);
+		Create_RandItem(_thisBlock);
 		_thisBlock->Set_Dead(OBJ_DEAD);
 	}
 
@@ -272,6 +272,66 @@ void CBlockMgr::Create_RandItem(CObj* _thisBlock)
 	default:
 		break;
 	}
+}
+
+void CBlockMgr::Save_File(void)
+{
+	//	Block
+	HANDLE hFile = CreateFile(L"../Data/SaveTemp/ObjBlock.dat",
+		GENERIC_WRITE,
+		NULL,
+		NULL,
+		CREATE_ALWAYS,
+		FILE_ATTRIBUTE_NORMAL,
+		NULL);
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		MessageBox(g_hWnd, L"Save Block", L"Error", MB_OK);
+		return;
+	}
+	DWORD dwByte = 0;
+	for (size_t i = 0; i < BLOCK_END - 1; ++i)
+	{
+		for (auto& iter : m_Blocklist[i])
+		{
+			WriteFile(hFile, &(iter->Get_Info()), sizeof(INFO), &dwByte, nullptr);
+		}
+	}
+	CloseHandle(hFile);
+
+	#ifdef _DEBUG
+		MessageBox(g_hWnd, L"Save 성공", L"성공", MB_OK);
+	#endif	//_DEBUG
+}
+
+void CBlockMgr::Load_File(void)
+{
+	//	Block
+	HANDLE	hFile = CreateFile(L"../Data/SaveTemp/ObjBlock.dat",
+		GENERIC_READ,
+		NULL,
+		NULL,
+		OPEN_EXISTING,
+		FILE_ATTRIBUTE_NORMAL,
+		NULL);
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		MessageBox(g_hWnd, L"Load Block", L"Error", MB_OK);
+		return;
+	}
+	DWORD	dwByte = 0;
+	INFO	tTemp = {};
+
+	while (true)
+	{
+		ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
+		if (0 == dwByte)
+			break;
+
+		m_Blocklist[BLOCK_NORMAL].push_back(CAbstractFactory<CNormalBlock>::Create(tTemp.fX, tTemp.fY));
+	}
+
+	CloseHandle(hFile);
 }
 
 

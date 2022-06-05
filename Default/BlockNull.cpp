@@ -3,7 +3,7 @@
 
 
 CBlockNull::CBlockNull()
-	:m_ObjID(OBJ_END)
+	:m_ObjID(OBJ_END), m_bCheck(false)
 {
 }
 

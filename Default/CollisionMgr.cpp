@@ -343,8 +343,10 @@ void CCollisionMgr::Collision_Item(CObj * Player, list<CObj*> Items)
 
 bool CCollisionMgr::Col_EditorClick(CObj * _Mouse, CObj * _pObj)
 {
-	if ((_Mouse->Get_Info().fX >= float(_pObj->Get_Rect().left) && _Mouse->Get_Info().fX <= float(_pObj->Get_Rect().right))
-		&& (_Mouse->Get_Info().fY >= float(_pObj->Get_Rect().top)	&& _Mouse->Get_Info().fY <= float(_pObj->Get_Rect().bottom)))
+	float fX = 0.f;
+	float fY = 0.f;
+
+	if (Check_Rect(_Mouse, _pObj, &fX, &fY))
 	{
 		return true;
 	}

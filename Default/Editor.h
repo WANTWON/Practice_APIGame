@@ -7,6 +7,7 @@
 #include "LineMgr.h"
 #include "ObjMgr.h"
 #include "StageMgr.h"
+#include "UIMgr.h"
 
 //Obj
 #include "Player.h"
@@ -46,16 +47,18 @@ public:
 
 public:
 	bool	Choice_Class(void);
-	bool	Choice_Tile(void);
+	void	Choice_Tile(void);
+
+	void	Save_File(void);
+	void	Load_File(void);
 
 
 private:
 	map<int, CObj*>		m_mapObj;
-	map<int, OBJ_LIST>		m_mapChoiceObj;
-	CObj*	m_ObjMouse;
+	map<int, CObj*>		m_mapChoiceObj;
+	CObj*				m_ObjMouse;
 	
 	int		m_iChoiceNumber;
-
 
 };
 

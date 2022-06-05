@@ -42,6 +42,9 @@ public:
 
 	CObj* Get_Target(OBJ_LIST _ID, CObj* pObj);
 
+	void	Save_File(void);
+	void	Load_File(void);
+
 	static void Destroy_Instance()
 	{
 		if (nullptr != m_pInstance)
