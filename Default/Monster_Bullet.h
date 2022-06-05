@@ -15,6 +15,7 @@ public:
 	int Update() override;
 	void Late_Update() override;
 	void Render(HDC hDC) override;
+	void Move(void);
 
 	void Set_StartPos(float _fX, float _fY) { m_fBulletStartPosX = _fX; m_fBulletStartPosY = _fY; }
 	void Set_MovePos(float _fX, float _fY) { m_tMovePoint.x = (long)_fX; m_tMovePoint.y = (long)_fY; }

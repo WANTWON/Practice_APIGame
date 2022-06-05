@@ -29,10 +29,7 @@ int CMonsterBullet::Update()
 	if (m_bDead)
 		return OBJ_DEAD;
 
-	m_tInfo.fX += m_tMovePoint.x*m_fSpeed;
-	m_tInfo.fY -= m_tMovePoint.y*m_fSpeed;
-
-
+	Move();
 	Update_Rect();
 	return OBJ_NOEVENT;
 }
@@ -41,13 +38,12 @@ void CMonsterBullet::Late_Update()
 {
 	bool bBounce = false;
 	float fY = 0.f;
-	CLine* b_ColLine = CLineMgr::Get_Instance()->CollisionLine_Bullet(m_tInfo.fX, m_tInfo.fY, &fY);
+	CLine* b_ColLine = CLineMgr::Get_Instance()->CollisionLine_Bullet(m_tInfo.fX, &fY);
 
 
 	// Line Collision
 	if (b_ColLine && m_tInfo.fY >= fY)
 	{
-
 		m_bDead = true;
 	}
 }
@@ -65,3 +61,24 @@ void CMonsterBullet::Render(HDC hDC)
 	SelectObject(hDC, oldBrush);
 	DeleteObject(myBrush);
 }
+
+void CMonsterBullet::Move(void)
+{
+	if (m_eState == LEVEL1)
+	{
+		m_fSpeed = 0.05f;
+	}
+	else if (m_eState == LEVEL2)
+	{
+		m_fSpeed = 0.1f;
+	}
+	else if (m_eState == LEVEL3)
+	{
+		m_fSpeed = 0.1f;
+	}
+
+	m_tInfo.fX += m_tMovePoint.x*m_fSpeed;
+	m_tInfo.fY -= m_tMovePoint.y*m_fSpeed;
+}
+
+

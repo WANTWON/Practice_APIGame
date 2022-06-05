@@ -16,10 +16,9 @@ public:
 
 	void Move(void);
 	void Set_bMove(void) { if (m_bMove == true) m_bMove = false; else m_bMove = true; }
-	void Make_Bullet(void);
+	void Attack_Pattern(void);
 	void Set_TargetAngle(void);
 
-	void Attack_Pattern(void);
 
 private:
 	float fY;
@@ -27,7 +26,8 @@ private:
 	DWORD m_dwCreateBulletTime;
 
 	bool m_bMove;
-
+	bool bStop = false;
+	bool m_bMake;
 
 	BOSS_STATE m_eState;
 
