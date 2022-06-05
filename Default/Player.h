@@ -22,6 +22,7 @@ public:
 	void Set_ActiveBuff(ITEM_TYPE iBuff) { m_iActiveBuff = iBuff; }
 	void Set_BuffTime(DWORD dwTime) { m_dwBuffTime = dwTime; }
 	void Set_IsBuffActive(bool bIsBuffActive) { m_bIsBuffActive = bIsBuffActive; }
+	void Remove_Buff(ITEM_TYPE iBuff);
 
 	void Set_bJump(bool temp) { m_bJump = temp; }
 	void Set_StepMonster(bool temp) { m_bStep_Monster = temp; }
@@ -29,9 +30,7 @@ public:
 	bool Get_bJump(void) { return m_bJump; }
 	void Set_JumpingTime(void) { Jumping_Time = GetTickCount(); }
 
-	
-
-	float	Get_Gravity(void){ return (m_fJumpPower*m_fTime - (9.8*m_fTime*m_fTime*0.5f)); }
+	float Get_Gravity(void){ return (m_fJumpPower*m_fTime - (9.8*m_fTime*m_fTime*0.5f)); }
 	void Set_Dead_Moment(void);
 	void Set_Dead_Count(void) { m_bDead_Count = true; }
 	bool Get_Count(void) { return m_bDead_Count; }
@@ -40,7 +39,6 @@ public:
 	void Set_Item(bool _bItem) { m_bItem = _bItem; }
 	int Get_Life(void) { return m_iLife; }
 	void Set_Life(int _Life) { m_iLife = _Life; }
-
 	
 private:
 	void Key_Input(void);
@@ -50,7 +48,6 @@ private:
 	void Buff_Mushroom();
 	void Buff_Star();
 	void Buff_Flower();
-	void Check_Active(void);
 
 private:
 	float m_pShield_Angle;
