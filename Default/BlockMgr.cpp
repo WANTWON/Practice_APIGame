@@ -122,18 +122,24 @@ bool CBlockMgr::CollisionBlock(RECT Player, float _fX, float * Change_fY)
 		}
 	}
 
-
 	CObj* pTarget = nullptr;
 
 	for (size_t i = 0; i < BLOCK_END; ++i)
 	{
 		for (auto& iter : m_Blocklist[i])
 		{
-		if ( Player.right >= iter->Get_Rect().left && Player.left < iter->Get_Rect().right
-			&& Player.bottom < iter->Get_Rect().top+2 && Player.bottom > iter->Get_Rect().top-2)
-			// 플레이어의 X값(중점)이 상자의 왼쪽과 오른쪽 사이에 있고, 플레이어의 Bottom이 상자의 Top보다 클 때
-			// (이때, 플레이어랑 상자의 X값만 조건으로 하면 바로 Jump가 false처리 되어 순간이동 할 수 있어서, Y값도 조건으로 주고 2를 임의적으로 추가함)
-			pTarget = iter;
+			if (Player.right >= iter->Get_Rect().left && Player.left < iter->Get_Rect().right
+				&& Player.bottom < iter->Get_Rect().top + 2 && Player.bottom > iter->Get_Rect().top - 2)
+			{
+				if (dynamic_cast<CFlagBlock*>(iter)->Get_Number())
+				{
+					continue;
+				}
+				// 플레이어의 X값(중점)이 상자의 왼쪽과 오른쪽 사이에 있고, 플레이어의 Bottom이 상자의 Top보다 클 때
+				// (이때, 플레이어랑 상자의 X값만 조건으로 하면 바로 Jump가 false처리 되어 순간이동 할 수 있어서, Y값도 조건으로 주고 2를 임의적으로 추가함)
+				pTarget = iter;
+			}
+			
 		}
 	}
 
