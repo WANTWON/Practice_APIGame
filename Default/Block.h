@@ -1,5 +1,7 @@
 #pragma once
 #include "Obj.h"
+#include "ObjMgr.h"
+#include "CollisionMgr.h"
 
 class CBlock abstract :
 	public CObj

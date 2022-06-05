@@ -19,12 +19,17 @@ public:
 	void Make_Bullet(void);
 	void Set_TargetAngle(void);
 
+	void Attack_Pattern(void);
+
 private:
 	float fY;
 	DWORD m_dwMoveTime;
 	DWORD m_dwCreateBulletTime;
 
 	bool m_bMove;
+
+
+	BOSS_STATE m_eState;
 
 	float m_fTargetPosX;
 	float m_fTargetPosY;

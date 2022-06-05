@@ -18,9 +18,11 @@ public:
 
 	void Set_StartPos(float _fX, float _fY) { m_fBulletStartPosX = _fX; m_fBulletStartPosY = _fY; }
 	void Set_MovePos(float _fX, float _fY) { m_tMovePoint.x = (long)_fX; m_tMovePoint.y = (long)_fY; }
+	void Set_State(BOSS_STATE State) { m_eState = State; }
 
 private:
 	POINT m_tMovePoint;
+	BOSS_STATE m_eState;
 
 };
 

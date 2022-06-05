@@ -16,7 +16,7 @@ void CMonsterBullet::Initialize()
 {
 	m_tInfo.fCX = 15.f;
 	m_tInfo.fCY = 15.f;
-	m_fSpeed = 0.1f;
+	m_fSpeed = 0.05f;
 }
 
 void CMonsterBullet::Release()

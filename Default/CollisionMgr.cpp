@@ -73,6 +73,18 @@ int CCollisionMgr::Collision_Bullet(CObj* _This, list<CObj*> _Bullet)
 		}
 		return iScore;
 	}
+	else if (BLOCK_NORMAL == _This->Get_ID())
+	{
+		for (auto& iter : _Bullet)
+		{
+			if ( IntersectRect(&rt, &(_This->Get_Rect()), &(iter->Get_Rect())))	//When a bullet is a Player's bullet,
+			{
+				(iter)->Set_Dead(true);
+			}
+
+		}
+
+	}
 
 
 	return iScore;
