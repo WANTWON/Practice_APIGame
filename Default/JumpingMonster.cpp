@@ -102,7 +102,7 @@ void CJumpingMonster::Move(void)
 	
 	 fY = 0.f;
 
-	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(this, &fY);
+	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
 
 	if (b_LineCol)
 	{

@@ -13,7 +13,8 @@ public:
 	void		Render(HDC hDC);
 	void		Release(void);
 
-	bool		CollisionLine(CObj* _pObj, float* _fY); //X��� ��� �ޱ� ��� ��. Y��� ��ǥ�� ����� ��ؼ�
+	//bool		CollisionLine(CObj* _pObj, float* _fY); 
+	bool        CollisionLine(float	_fX, float* _fY);
 	CLine*		CollisionLine_Bullet(float _fX, float * _OutY);
 
 	//bool		CollisionLine(float _fX, float* _fY);

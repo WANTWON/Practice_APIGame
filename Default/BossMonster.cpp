@@ -77,7 +77,7 @@ void CBossMonster::Render(HDC hDC)
 
 void CBossMonster::Move(void)
 {
-	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(this, &fY);
+	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
 
 	if (b_LineCol)
 	{
@@ -101,7 +101,7 @@ void CBossMonster::Move(void)
 						m_fSpeed *= -1;
 
 					m_bMake = false;
-					m_tInfo.fY -= m_fSpeed*1.05;
+					m_tInfo.fY -= m_fSpeed*1.05f;
 				}
 				else
 				{
@@ -129,7 +129,7 @@ void CBossMonster::Move(void)
 						m_fSpeed *= -1;
 
 					m_bMake = false;
-					m_tInfo.fY -= m_fSpeed*1.05;
+					m_tInfo.fY -= m_fSpeed*1.05f;
 				}
 				else
 				{
@@ -193,7 +193,7 @@ void CBossMonster::Attack_Pattern(void)
 		
 		if (m_tInfo.fY >= fY )
 		{
-			m_tInfo.fY = fY - m_tInfo.fCY*0.5;
+			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 			m_fSpeed = 0.f;
 			bStop = true;
 		}
@@ -212,7 +212,7 @@ void CBossMonster::Attack_Pattern(void)
 			m_fSpeed *= -1;
 		if (m_tInfo.fY >= fY)
 		{
-			m_tInfo.fY = fY - m_tInfo.fCY*0.5;
+			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 			m_fSpeed = 0.f;
 			bStop = true;
 		}
