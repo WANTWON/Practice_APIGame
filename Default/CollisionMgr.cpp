@@ -125,22 +125,21 @@ void CCollisionMgr::Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest)
 					}
 					else
 					{
-						dynamic_cast<CPlayer*>(Sour)->Set_Dead_Count();
+						CPlayer* pPlayer = dynamic_cast<CPlayer*>(Sour);
+						if (pPlayer && pPlayer->Get_ActiveBuff() != ITEM_STAR)
+							pPlayer->Set_Dead_Count();
+
 						//Sour->Set_PosY(fHeight);
 					}
 				}
 				else //좌우 충돌 
 				{
-				if (Dest->Get_Rect().left <= Sour->Get_Rect().right)
-					{
-					dynamic_cast<CPlayer*>(Sour)->Set_Dead_Count();
-					}
-				else
-					{
-					dynamic_cast<CPlayer*>(Sour)->Set_Dead_Count();
-					}
+					CPlayer* pPlayer = dynamic_cast<CPlayer*>(Sour);
+					if (pPlayer && pPlayer->Get_ActiveBuff() != ITEM_STAR)
+						dynamic_cast<CPlayer*>(Sour)->Set_Dead_Count();
+					else
+						Dest->Set_Dead(true);
 				}
-
 			}
 		}
 	}

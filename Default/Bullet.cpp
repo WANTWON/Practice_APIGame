@@ -40,7 +40,7 @@ int CBullet::Update()
 		float fY = 0.f;
 		CLine* b_ColLine = CLineMgr::Get_Instance()->CollisionLine_Bullet(m_tInfo.fX, &fY);
 
-		// Falling
+		// No Line
 		if (!b_ColLine)
 		{
 			m_bDead = true;
@@ -48,7 +48,7 @@ int CBullet::Update()
 			/*m_tInfo.fY += m_fSpeed;
 			m_tInfo.fX += Get_Dir() == DIR_RIGHT ? m_fSpeed : -m_fSpeed;*/
 		}
-		// Not Falling
+		// Line
 		else
 		{
 			// Line Collision

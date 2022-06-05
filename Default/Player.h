@@ -17,6 +17,8 @@ public:
 	void Render(HDC hDC) override;
 
 	void Set_bJump(void) { m_bJump = true; }
+
+	ITEM_TYPE Get_ActiveBuff() { return m_iActiveBuff; }
 	void Set_ActiveBuff(ITEM_TYPE iBuff) { m_iActiveBuff = iBuff; }
 	void Set_BuffTime(DWORD dwTime) { m_dwBuffTime = dwTime; }
 	void Set_IsBuffActive(bool bIsBuffActive) { m_bIsBuffActive = bIsBuffActive; }
@@ -43,7 +45,6 @@ private:
 	void Buff_Mushroom();
 	void Buff_Star();
 	void Buff_Flower();
-	void Shoot();
 
 private:
 	float m_pShield_Angle;
@@ -55,6 +56,8 @@ private:
 	ITEM_TYPE m_iActiveBuff;
 	DWORD m_dwBuffTime;
 	bool m_bIsBuffActive;
+	bool m_bIsInvincible;
+	bool m_bColorSwitch;
 	bool m_bCanShoot;
 	DIRECTION m_iLastDir;
 
@@ -65,7 +68,7 @@ private:
 	float fY;
 	float fY2;
 
-	DWORD m_dwTIme;
+	DWORD m_dwTime;
 	DWORD Jumping_Time;
 	POINT m_pGUIDE;
 	

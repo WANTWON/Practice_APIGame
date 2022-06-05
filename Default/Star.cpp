@@ -72,6 +72,7 @@ void CStar::Animate()
 
 		CLine* b_ColLine = CLineMgr::Get_Instance()->CollisionLine_Bullet(m_tInfo.fX, &fY);
 
+		// Line
 		if (b_ColLine)
 		{
 			// Line Collision
@@ -86,6 +87,7 @@ void CStar::Animate()
 			m_tInfo.fX += m_fSpeed;
 			bBounce = false;
 		}
+		// No Line
 		else
 		{
 			m_fSpeed *= -1;
