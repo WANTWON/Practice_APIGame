@@ -1,5 +1,8 @@
 #pragma once
 #include "Include.h"
+#include "BlockMgr.h"
+#include "MushroomMonster.h"
+
 class CStage
 {
 public:

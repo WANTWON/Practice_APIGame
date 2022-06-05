@@ -5,7 +5,6 @@
 #include <time.h>
 #include "ObjMgr.h"
 #include "LineMgr.h"
-#include "MushroomMonster.h"
 #include "TurtleMonster.h"
 #include "Coin.h"
 #include "Mushroom.h"
@@ -37,10 +36,10 @@ void CStage1::Initialize(void)
 
 
 	// Test Monster
-	//CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CMushroomMonster>::Create(600, 200));
-	//CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleMonster>::Create(500, 200));
-	//CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CJumpingMonster>::Create_with_Target(300, 300, CObjMgr::Get_Instance()->Get_Player()));
-	//CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFlyingMonster>::Create(100, 300));
+	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CMushroomMonster>::Create(600, 200));
+	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleMonster>::Create(500, 200));
+	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CJumpingMonster>::Create_with_Target(300, 300, CObjMgr::Get_Instance()->Get_Player()));
+	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFlyingMonster>::Create(100, 300));
 	//CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CBossMonster>::Create_with_Target(300, 300, CObjMgr::Get_Instance()->Get_Player()));
 
 	CBlockMgr::Get_Instance()->Add_Object(BLOCK_NORMAL, CAbstractFactory<CNormalBlock>::Create(550, 150));
@@ -59,7 +58,7 @@ void CStage1::Initialize(void)
 	// Test Flower
 	CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CFlower>::Create(200, 300, ITEM_FLOWER));
 
-	CLineMgr::Get_Instance()->Initialize();
+	CLineMgr::Get_Instance()->Initialize(1);
 	CBlockMgr::Get_Instance()->Initialize();
 	
 	m_dwView = GetTickCount();
@@ -91,8 +90,6 @@ void CStage1::Late_Update(void)
 			m_bClear = true;
 			m_bView = false;
 		}
-		
-		
 	}
 		
 		
@@ -117,7 +114,7 @@ void CStage1::Render(HDC hDc)
 		TCHAR szBuff1[32] = L"";
 		Rectangle(hDc, 0, 0, WINCX, WINCY);
 		Rectangle(hDc, 340, 250, 370, 280);
-		while (m_dwView + 5000 > GetTickCount())
+		while (m_dwView + 3000 > GetTickCount())
 		{
 			wsprintf(szBuff, L"WORLD  1-%d", 1);
 			TextOut(hDc, 350, 200, szBuff, lstrlen(szBuff));

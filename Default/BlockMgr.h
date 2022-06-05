@@ -1,5 +1,6 @@
 #pragma once
 #include "Block.h"
+#include "FlagBlock.h"
 
 class CBlockMgr
 {
@@ -20,7 +21,7 @@ public:
 	int			Check_Rect(INFO Player, INFO pTarget, float* _pX, float* _pY);
 	bool		Collision_with_Direction(CObj* _Sour);
 	void		Col_Player(DIRECTION _eDir);
-
+	list<CObj*> Get_Flaglist(void) { return m_Blocklist[BLOCK_FLAG]; }
 public:
 	static CBlockMgr* Get_Instance(void)
 	{
