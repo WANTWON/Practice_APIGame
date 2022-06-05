@@ -85,5 +85,9 @@ private:
 	bool m_bActive;
 	bool m_bItem;
 	int m_iLife;
+	bool m_bFirst;
+	bool m_bLineCol;
+	bool m_bBlock;
+	bool m_bFlag;
 };
 

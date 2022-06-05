@@ -39,7 +39,7 @@ void CStage2::Initialize(void)
 	CBlockMgr::Get_Instance()->Add_Object(BLOCK_NORMAL, CAbstractFactory<CCoinBlock>::Create(250, 350));
 	CBlockMgr::Get_Instance()->Add_Object(BLOCK_NORMAL, CAbstractFactory<CCoinBlock>::Create(300, 350));
 
-	CLineMgr::Get_Instance()->Initialize();
+	CLineMgr::Get_Instance()->Initialize(2);
 	CBlockMgr::Get_Instance()->Initialize();
 
 }

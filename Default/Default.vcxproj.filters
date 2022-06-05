@@ -124,6 +124,9 @@
     <Filter Include="01. Obj\05.Bullet\51.Monster_Bullet">
       <UniqueIdentifier>{69832269-9990-45a8-8797-5b5441afb455}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\02.Block\03. FlagBlock">
+      <UniqueIdentifier>{1de4dc06-ca2c-4833-8d7b-ffb9a9ee464c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -261,6 +264,9 @@
     <ClInclude Include="Monster_Bullet.h">
       <Filter>01. Obj\05.Bullet\51.Monster_Bullet</Filter>
     </ClInclude>
+    <ClInclude Include="FlagBlock.h">
+      <Filter>01. Obj\02.Block\03. FlagBlock</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -364,6 +370,9 @@
     </ClCompile>
     <ClCompile Include="Monster_Bullet.cpp">
       <Filter>01. Obj\05.Bullet\51.Monster_Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="FlagBlock.cpp">
+      <Filter>01. Obj\02.Block\03. FlagBlock</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
