@@ -17,7 +17,8 @@ public:
 
 public:
 	void Be_Attacked(void) { --m_iHp;  if (m_iHp <= 0)m_bGet_Attacked = true; }
-	int Get_Number(void) { return m_iMonsterNumber; }
+	int Get_Number(void) { return m_iMonsterNumder; }
+	int Get_Hp(void){ return m_iHp; }
 	const MONSTER_LIST& Get_MonsterType(void) const { return m_iType; }
 
 

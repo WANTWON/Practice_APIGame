@@ -182,6 +182,7 @@ void CEditor::Release(void)
 
 void CEditor::Render(HDC hDC)
 {
+	
 	for (auto& iter : m_mapObj)
 	{
 		iter.second->Render(hDC);
@@ -189,10 +190,13 @@ void CEditor::Render(HDC hDC)
 	for (auto& iter : m_mapChoiceObj)
 	{
 		iter.second->Render(hDC);
+
 	}
+
 	CUIMgr::Get_Instance()->Render(hDC);
 	CObjMgr::Get_Instance()->Render(hDC);
 	CBlockMgr::Get_Instance()->Render(hDC);
+
 
 	m_ObjMouse->Render(hDC);
 }

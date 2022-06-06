@@ -257,6 +257,28 @@ void CPlayer::Key_Input(void)
 
 void CPlayer::Jumping(void)
 {
+
+	if (m_bFirst)
+	{
+		m_bBlock = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
+		if (m_bBlock)
+		{
+			m_bFirst = false;
+		}
+		if (m_bFirst)
+		{
+			m_tInfo.fX = m_tRect.left + 15.f;
+			m_tInfo.fY += 5.f;
+		}
+		for (auto& iter : CBlockMgr::Get_Instance()->Get_Flaglist())
+		{
+			if (true == dynamic_cast<CFlagBlock*>(iter)->Get_Number())
+			{
+				dynamic_cast<CFlagBlock*>(iter)->Set_Down(1);
+			}
+		}
+	}
+
 	if (m_bBlock)
 	{
 		m_tInfo.fX += 2.f;
