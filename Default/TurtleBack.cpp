@@ -16,6 +16,8 @@ void CTurtleBack::Initialize(void)
 {
 	m_tInfo = { 125.f,125.f, 40.f, 30.f };
 	m_fSpeed = 5.f;
+
+	m_iType = MONSTER_TURTLEBACK;
 }
 int  CTurtleBack::Update(void)
 {
@@ -23,7 +25,13 @@ int  CTurtleBack::Update(void)
 		return OBJ_DEAD;
 
 
-	Move();
+	if (false == m_bEditMode)
+	{
+		Move();
+	}
+
+
+
 	Update_Rect();
 
 	return OBJ_NOEVENT;

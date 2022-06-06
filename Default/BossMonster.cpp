@@ -25,6 +25,8 @@ void CBossMonster::Initialize(void)
 	m_fSpeed = 5.f;
 	m_iHp = 30;
 	m_fDistance = m_tInfo.fCX;
+
+	m_iType = MONSTER_BOSS;
 }
 
 int CBossMonster::Update(void)
@@ -35,9 +37,15 @@ int CBossMonster::Update(void)
 	/*if (m_tInfo.fY >= 100 && m_eState == LEVEL2)
 		m_tInfo.fY -= m_fSpeed;*/
 
-	Set_TargetAngle();
-	Move();
-	Attack_Pattern();
+	if (false == m_bEditMode)
+	{
+		Set_TargetAngle();
+		Move();
+		Attack_Pattern();
+	}
+
+
+
 	Update_Rect();
 
 	return OBJ_NOEVENT;

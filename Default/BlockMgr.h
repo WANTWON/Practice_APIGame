@@ -4,7 +4,7 @@
 
 class CBlockMgr
 {
-public:
+private:
 	CBlockMgr();
 	~CBlockMgr();
 
@@ -25,6 +25,9 @@ public:
 	void		Check_BreakBlock(CObj* _thisBlock);
 	void		Create_RandItem(CObj* _thisBlock);
 
+public:
+	void	Save_File(void);
+	void	Load_File(int _iStage);
 
 public:
 	static CBlockMgr* Get_Instance(void)

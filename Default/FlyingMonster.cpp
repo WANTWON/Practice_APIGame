@@ -22,6 +22,8 @@ void CFlyingMonster::Initialize(void)
 {
 	m_tInfo = { 125.f,125.f, 40.f, 50.f };
 	m_fSpeed = 1.5f;
+
+	m_iType = MONSTER_FLYING;
 }
 
 int CFlyingMonster::Update(void)
@@ -29,19 +31,27 @@ int CFlyingMonster::Update(void)
 	if (m_bDead)
 		return OBJ_DEAD;
 
-	if (m_bGet_Attacked)
+
+	if (false == m_bEditMode)
 	{
-		if (!m_bCount)
+		if (m_bGet_Attacked)
 		{
-			CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleMonster>::Create(m_tInfo.fX + 70, m_tInfo.fY));
-			m_dwTime = GetTickCount();
-			m_bCount = true;
+			if (!m_bCount)
+			{
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleMonster>::Create(m_tInfo.fX + 70, m_tInfo.fY));
+				m_dwTime = GetTickCount();
+				m_bCount = true;
+			}
+
 		}
 
+		Jumping();
+		Move();
 	}
 
-	Jumping();
-	Move();
+
+
+
 	Update_Rect();
 
 	return OBJ_NOEVENT;

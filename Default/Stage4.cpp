@@ -17,18 +17,23 @@ CStage4::~CStage4()
 
 void CStage4::Initialize(void)
 {
-
+/*
 	CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, CAbstractFactory<CPlayer>::Create());
 
 	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CMonster>::Create(600, 200));
 
 	CLineMgr::Get_Instance()->Initialize(4);
 
+*/
+	CObjMgr::Get_Instance()->Load_File(4);
+	CBlockMgr::Get_Instance()->Load_File(4);
+
 }
 
 int CStage4::Update(void)
 {
 	CObjMgr::Get_Instance()->Update();
+	CBlockMgr::Get_Instance()->Update();
 
 	return STAGE_NOEVENT;
 }
@@ -38,6 +43,7 @@ void CStage4::Late_Update(void)
 
 
 	CObjMgr::Get_Instance()->Late_Update();
+	CBlockMgr::Get_Instance()->Late_Update();
 
 
 }
@@ -46,12 +52,14 @@ void CStage4::Render(HDC hDc)
 {
 	//Rectangle(hDc, 0, 0, WINCX, WINCY);
 	CObjMgr::Get_Instance()->Render(hDc);
-	CLineMgr::Get_Instance()->Render(hDc);
+	CBlockMgr::Get_Instance()->Render(hDc);
+
 }
 
 void CStage4::Release(void)
 {
 
 	CObjMgr::Get_Instance()->Release();
+	CBlockMgr::Get_Instance()->Release();
 	CLineMgr::Get_Instance()->Release();
 }

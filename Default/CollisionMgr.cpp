@@ -43,7 +43,7 @@ int CCollisionMgr::Collision_Bullet(CObj* _This, list<CObj*> _Bullet)
 	RECT rt{};
 	int iScore = 0;
 
-	if ( OBJ_PLAYER == _This->Get_ID()) //When the player gets hit by a bullet,
+	if (OBJ_PLAYER == _This->Get_ID()) //When the player gets hit by a bullet,
 	{
 		for (auto& iter : _Bullet)
 		{
@@ -55,7 +55,7 @@ int CCollisionMgr::Collision_Bullet(CObj* _This, list<CObj*> _Bullet)
 					dynamic_cast<CPlayer*>(_This)->Get_Active(true);
 				else
 					dynamic_cast<CPlayer*>(_This)->Set_Dead_Count();
-				
+
 			}
 		}
 		return iScore;
@@ -77,7 +77,7 @@ int CCollisionMgr::Collision_Bullet(CObj* _This, list<CObj*> _Bullet)
 	{
 		for (auto& iter : _Bullet)
 		{
-			if ( IntersectRect(&rt, &(_This->Get_Rect()), &(iter->Get_Rect())))	//When a bullet is a Player's bullet,
+			if (IntersectRect(&rt, &(_This->Get_Rect()), &(iter->Get_Rect())))	//When a bullet is a Player's bullet,
 			{
 				(iter)->Set_Dead(true);
 			}
@@ -339,6 +339,19 @@ void CCollisionMgr::Collision_Item(CObj * Player, list<CObj*> Items)
 			item->Set_Dead(true);
 		}
 	}
+}
+
+bool CCollisionMgr::Col_EditorClick(CObj * _Mouse, CObj * _pObj)
+{
+	float fX = 0.f;
+	float fY = 0.f;
+
+	if (Check_Rect(_Mouse, _pObj, &fX, &fY))
+	{
+		return true;
+	}
+
+	return false;
 }
 
 int CCollisionMgr::Collision_Sphere(list<CObj*> Sour, list<CObj*> Dest)

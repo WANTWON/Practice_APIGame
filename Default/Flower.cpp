@@ -29,7 +29,12 @@ int CFlower::Update()
 	if (m_bDead)
 		return OBJ_DEAD;
 
-	Animate();
+	if (false == m_bEditMode)
+	{
+		Animate();
+	}
+
+
 
 	Update_Rect();
 

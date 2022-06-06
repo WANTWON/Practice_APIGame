@@ -46,6 +46,8 @@ void CStage2::Initialize(void)
 	CLineMgr::Get_Instance()->Initialize(2);
 	CBlockMgr::Get_Instance()->Initialize();
 
+	CObjMgr::Get_Instance()->Load_File(2);
+	CBlockMgr::Get_Instance()->Load_File(2);
 }
 
 int CStage2::Update(void)

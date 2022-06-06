@@ -19,24 +19,34 @@ void CMushroomMonster::Initialize(void)
 {
 	m_tInfo = { 125.f,125.f, 40.f, 40.f };
 	m_fSpeed = 1.f;
+
+	m_iType = MONSTER_MUSHROOM;
+
 }
 int  CMushroomMonster::Update(void)
 {
-	if (m_bDead)
-		return OBJ_DEAD;
 
-	if (m_bGet_Attacked)
+	if (false == m_bEditMode)
 	{
-		m_iMonsterNumder = 1;
-		m_bDead = true;
+		if (m_bDead)
+			return OBJ_DEAD;
 
-	/*	if (!m_bCount)
+		if (m_bGet_Attacked)
 		{
-			m_dwTime = GetTickCount();
-			m_bCount = true;
-		}*/
+			m_iMonsterNumber = 1;
+			m_bDead = true;
+
+			/*	if (!m_bCount)
+				{
+					m_dwTime = GetTickCount();
+					m_bCount = true;
+				}*/
+		}
+		Move();
 	}
-	Move();
+
+
+
 	Update_Rect();
 
 	return OBJ_NOEVENT;
