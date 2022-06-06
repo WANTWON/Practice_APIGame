@@ -87,6 +87,8 @@ void  CPlayer::Late_Update(void)
 		}
 	}
 
+
+	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
 	Set_Dead_Moment();
 }
 
