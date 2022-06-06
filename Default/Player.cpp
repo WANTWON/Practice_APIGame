@@ -15,7 +15,7 @@ CPlayer::CPlayer()
 	m_bStep_Monster(false), fY(0), fY2(0), m_iActiveBuff(ITEM_END), m_dwBuffTime(GetTickCount()),
 	m_bIsBuffActive(false), m_bCanShoot(false), m_iLastDir(DIR_RIGHT), m_bPlay(true), m_fPTime(0.f), m_bActive(false), m_bItem(false), m_iLife(0), m_bFirst(false),
 	m_bLineCol(false), m_bFlag(false), m_bBlock(false),
-	m_bIsInvincible(false), m_bColorSwitch(false), m_iLevel(0), m_eType(PLAYER_END)
+	m_bIsInvincible(false), m_bColorSwitch(false), m_iLevel(0), m_eType(PLAYER_END), m_bCheck(false)
 
 {
 	ZeroMemory(&m_pGUIDE, sizeof(POINT));
@@ -65,15 +65,15 @@ int CPlayer::Update(void)
 
 void  CPlayer::Late_Update(void)
 {
-	if (m_tInfo.fY >= WINCY)
-	{
-		m_bPlay = false;
-		m_tInfo.fY -= m_fJumpPower*m_fPTime - (9.8*m_fPTime*m_fPTime*0.5f);
-		m_fPTime += 0.13f;
-		//m_tInfo.fY += 0.f;
-	}
+	
+
 	if (m_bPlay)
 	{
+		if (m_tInfo.fY > WINCY)
+		{
+			m_tInfo.fY = WINCY - 10.f;
+			m_bDead_Count = true;
+		}
 		CBlockMgr::Get_Instance()->Collision_with_Direction(this);
 	}
 
@@ -384,10 +384,11 @@ void CPlayer::Set_Dead_Moment(void)
 	if (m_bDead_Count)
 	{
 		m_bPlay = false;
+		m_fJumpPower = 13.f;
 		m_tInfo.fY -= m_fJumpPower*m_fPTime - (9.8*m_fPTime*m_fPTime*0.5f);
-		m_fPTime += 0.13f;
+		m_fPTime += 0.07f;
 
-		if (m_tInfo.fY > WINCY)
+		if (m_tInfo.fY > WINCY + 100.f)
 		{
 			m_iLife -= 1;
 			m_fPTime = 0.0f;

@@ -93,5 +93,6 @@ private:
 	bool m_bLineCol;
 	bool m_bBlock;
 	bool m_bFlag;
+	bool m_bCheck;
 };
 
