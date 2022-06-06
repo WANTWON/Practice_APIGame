@@ -244,6 +244,11 @@ void CBlockMgr::Check_BreakBlock(CObj * _thisBlock)
 		Create_RandItem(_thisBlock);
 		_thisBlock->Set_Dead(OBJ_DEAD);
 	}
+	if ((true == static_cast<CBlock*>(_thisBlock)->Get_IsItem()) && (false == static_cast<CItemBlock*>(_thisBlock)->Get_Used()))
+	{
+		Create_RandItem(_thisBlock);
+		_thisBlock->Set_Dead(OBJ_DEAD);
+	}
 
 	if (1 <= static_cast<CPlayer*>(m_listPlayer.front())->Get_Level())
 	{
