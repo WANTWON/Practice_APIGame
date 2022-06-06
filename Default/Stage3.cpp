@@ -36,6 +36,7 @@ void CStage3::Initialize(void)
 	CLineMgr::Get_Instance()->Load_File(3);
 	CBlockMgr::Get_Instance()->Initialize();
 	CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CFlower>::Create(200, 400, ITEM_FLOWER));
+	dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Life(m_iCount);
 }
 
 int CStage3::Update(void)

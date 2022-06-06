@@ -161,12 +161,12 @@ bool CLineMgr::CollisionLine(float	_fX, float _fY, float* _fYOut)
 		// Obj is in the middle of a Line (X Axis)
 		if (_fX >= iter->Get_Line().fLPoint.fX
 			&& _fX < iter->Get_Line().fRPoint.fX)
-
+			
 			// Line has way bigger/smaller Y compared to Obj
 			if (_fY > iter->Get_Line().fLPoint.fY + 20)
 				return false;
 			else
-				pTarget = iter;		
+				pTarget = iter;	
 	}
 
 

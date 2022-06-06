@@ -67,7 +67,10 @@ void  CPlayer::Late_Update(void)
 {
 	if (m_tInfo.fY >= WINCY)
 	{
-		m_tInfo.fY = 0.f;
+		m_bPlay = false;
+		m_tInfo.fY -= m_fJumpPower*m_fPTime - (9.8*m_fPTime*m_fPTime*0.5f);
+		m_fPTime += 0.13f;
+		//m_tInfo.fY += 0.f;
 	}
 	if (m_bPlay)
 	{
