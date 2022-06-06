@@ -2,6 +2,8 @@
 #include "TurtleBack.h"
 #include "LineMgr.h"
 #include "ScrollMgr.h"
+#include "BlockMgr.h"
+
 
 CTurtleBack::CTurtleBack()
 {
@@ -28,6 +30,7 @@ int  CTurtleBack::Update(void)
 
 	if (false == m_bEditMode)
 	{
+		Gravity();
 		Move();
 	}
 
@@ -40,6 +43,7 @@ int  CTurtleBack::Update(void)
 
 void CTurtleBack::Late_Update(void)
 {
+/*
 	if (m_tRect.right > WINCX - 50 || m_tRect.left < 50)
 	{
 		m_fSpeed *= -1.f;
@@ -49,7 +53,7 @@ void CTurtleBack::Late_Update(void)
 	{
 		m_fSpeed *= -1.f;
 	}
-
+*/
 	if (m_bGet_Attacked)
 		m_bDead = true;
 
@@ -86,6 +90,36 @@ void CTurtleBack::Move(void)
 
 	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
 
+
+	//	ColWithBlock
+	float fYDest = 0.f;
+	float fYTemp = 0.f;
+
+	//	Collision Up with block
+	if (CBlockMgr::Get_Instance()->CollisionBlock_Ex(m_tInfo, &fYDest))
+	{
+		Set_PosY(-fYDest);
+	}
+	// Collision L, R with block ( except Up, Down )
+
+	DIRECTION Dir = CBlockMgr::Get_Instance()->Col_ReturnDir_RecLR(m_tInfo);
+	switch (Dir)
+	{
+	case DIR_LEFT:
+		m_fSpeed *= -1;
+		break;
+
+	case DIR_RIGHT:
+		m_fSpeed *= -1;
+		break;
+
+	default:
+		break;
+	}
+
+
+
+
 	if (b_LineCol)
 	{
 
@@ -104,10 +138,20 @@ void CTurtleBack::Move(void)
 	}
 	else
 	{
-		m_fSpeed *= -1;
+		//m_fSpeed *= -1;
 		m_tInfo.fX += m_fSpeed;
 	}
 
 
 }
 
+
+void CTurtleBack::Gravity(void)
+{
+	m_fTime += 0.05f;
+
+	if (m_fTime >= 2.3f)
+		m_fTime = 2.3f;
+
+	m_tInfo.fY += 4.f * m_fTime * m_fTime;
+}

@@ -29,6 +29,8 @@ int  CMushroomMonster::Update(void)
 
 	if (false == m_bEditMode)
 	{
+		Gravity();
+
 		if (m_bDead)
 			return OBJ_DEAD;
 
@@ -54,7 +56,7 @@ int  CMushroomMonster::Update(void)
 }
 
 void CMushroomMonster::Late_Update(void)
-{
+{/*
 	if (m_tRect.right > WINCX - 50 || m_tRect.left < 50)
 	{
 		m_fSpeed *= -1.f;
@@ -64,7 +66,7 @@ void CMushroomMonster::Late_Update(void)
 	{
 		m_fSpeed *= -1.f;
 	}
-
+*/
 	/*if (m_bGet_Attacked && m_dwTime + 500 < GetTickCount())
 		m_bDead = true;*/
 
@@ -92,7 +94,20 @@ void CMushroomMonster::Move(void)
 	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
 	bool b_BlockCol = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
 
-	DIRECTION Dir = CBlockMgr::Get_Instance()->Col_ReturnDir(m_tInfo);
+
+
+	//	ColWithBlock
+	float fYDest = 0.f;
+	float fYTemp = 0.f;
+
+	//	Collision Up with block
+	if (CBlockMgr::Get_Instance()->CollisionBlock_Ex(m_tInfo, &fYDest))
+	{
+		Set_PosY(-fYDest);
+	}
+	// Collision L, R with block ( except Up, Down )
+
+	DIRECTION Dir = CBlockMgr::Get_Instance()->Col_ReturnDir_LR(m_tInfo);
 	switch (Dir)
 	{
 	case DIR_LEFT:
@@ -103,16 +118,10 @@ void CMushroomMonster::Move(void)
 		m_fSpeed *= -1;
 		break;
 
-	case DIR_UP:
-		m_fSpeed = 1.f;
-		break;
-
-	case DIR_DOWN:
-		break;
-
 	default:
 		break;
 	}
+
 
 	if (b_LineCol)
 	{
@@ -131,16 +140,26 @@ void CMushroomMonster::Move(void)
 		m_fSpeed *= -1;
 		m_tInfo.fX += m_fSpeed;
 	}*/
-/*
-	if (b_BlockCol && m_tInfo.fY < fY2)
-	{
-		m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
-	}
-	else
-		m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
-*/
+	/*
+		if (b_BlockCol && m_tInfo.fY < fY2)
+		{
+			m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
+		}
+		else
+			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
+	*/
 
 
 	m_tInfo.fX += m_fSpeed;
 
+}
+
+void CMushroomMonster::Gravity(void)
+{
+	m_fTime += 0.05f;
+
+	if (m_fTime >= 2.3f)
+		m_fTime = 2.3f;
+
+	m_tInfo.fY += 4.f * m_fTime * m_fTime;
 }

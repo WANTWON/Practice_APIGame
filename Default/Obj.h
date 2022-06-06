@@ -42,6 +42,8 @@ public:
 	void Set_EditorMode(void) { m_bEditMode = true; }
 	void Set_PlayMode(void) { m_bEditMode = false; }
 
+	void	Set_GravityTime(float _fTime) { m_fTime = _fTime; }
+
 public:
 	//added an ID to distinguish between the monster's bullet and the player's bullet
 	void Set_ID(OBJ_LIST _eID) { m_eID = _eID; }
@@ -64,5 +66,7 @@ protected:
 	int m_iCoins_Given;
 
 	bool	m_bEditMode;
+
+	float m_fTime;
 };
 

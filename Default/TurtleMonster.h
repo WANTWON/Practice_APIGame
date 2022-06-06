@@ -16,6 +16,9 @@ public:
 
 	void Move(void);
 
+public:
+	void		Gravity(void);
+
 private:
 	
 

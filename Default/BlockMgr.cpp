@@ -215,8 +215,13 @@ bool CBlockMgr::CollisionBlock_Ex(INFO Player, float * inputY)
 	// Y = ((y2 - y1) / (x2 - x1)) * (X - x1) + y1
 
 
-	RECT rcTemp{};
-	if (IntersectRect(&rcTemp, &(m_listPlayer.front()->Get_Rect()), &(pTarget->Get_Rect())))
+	RECT rcTemp;
+	RECT rcRect{ Player.fX - Player.fCX * 0.5f,
+		Player.fY - Player.fCY * 0.5f,
+		Player.fX + Player.fCX * 0.5f,
+		Player.fY + Player.fCY * 0.5f };
+
+	if (IntersectRect(&rcTemp, &rcRect, &(pTarget->Get_Rect())))
 	{
 		float x1 = rcTemp.left;
 		float y1 = rcTemp.top;
@@ -362,6 +367,41 @@ void CBlockMgr::Create_RandItem(CObj* _thisBlock)
 	}
 }
 
+DIRECTION CBlockMgr::Col_ReturnDir_LR(INFO _tInfo)
+{
+	for (size_t i = 0; i < BLOCK_END; ++i)
+	{
+		for (auto& _Dest : m_Blocklist[i])
+		{
+			float fWidth = 0.f;
+			float fHeight = 0.f;
+
+			if (Check_Rect(_Dest->Get_Info(), _tInfo, &fWidth, &fHeight))
+			{
+				float fX = _tInfo.fX - _Dest->Get_Info().fX;
+				float fY = _tInfo.fY - _Dest->Get_Info().fY;
+
+				float fR = sqrtf((fX * fX) + (fY * fY));
+
+				float fAngle = (180 / PI) * acos(fX / fR);
+				if (_tInfo.fY <= _Dest->Get_Info().fY)
+					fAngle = 360 + (-1.f * fAngle);
+
+				if (fAngle >= 316.f || fAngle < 44.f)
+				{
+					return DIR_RIGHT;
+				}
+				else if (fAngle > 136.f && fAngle <= 224.f)
+				{
+					return DIR_LEFT;
+				}
+			}
+		}
+	}
+
+	return DIR_END;
+}
+
 DIRECTION CBlockMgr::Col_ReturnDir(INFO _tInfo)
 {
 	for (size_t i = 0; i < BLOCK_END; ++i)
@@ -397,6 +437,38 @@ DIRECTION CBlockMgr::Col_ReturnDir(INFO _tInfo)
 				else if (fAngle > 224.f && fAngle < 316.f)
 				{
 					return DIR_UP;
+				}
+			}
+		}
+	}
+
+	return DIR_END;
+}
+
+DIRECTION CBlockMgr::Col_ReturnDir_RecLR(INFO _tInfo)
+{
+	RECT rc{};
+	RECT rcTemp = { _tInfo.fX - (_tInfo.fCX * 0.5f),
+		_tInfo.fY - (_tInfo.fCY * 0.5f),
+		_tInfo.fX + (_tInfo.fCX * 0.5f),
+		_tInfo.fY + (_tInfo.fCY * 0.5f) };
+
+	for (size_t i = 0; i < BLOCK_END; ++i)
+	{
+		for (auto& _Dest : m_Blocklist[i])
+		{
+			float fWidth = 0.f;
+			float fHeight = 0.f;
+
+			if (IntersectRect(&rc, &rcTemp, &(_Dest->Get_Rect())))
+			{
+				if (_tInfo.fX - (_tInfo.fCX * 0.5f) >= _Dest->Get_Info().fY)
+				{
+					return DIR_RIGHT;
+				}
+				else if (_tInfo.fX + (_tInfo.fCX * 0.5f) <= _Dest->Get_Info().fY)
+				{
+					return DIR_LEFT;
 				}
 			}
 		}

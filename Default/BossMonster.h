@@ -19,6 +19,8 @@ public:
 	void Attack_Pattern(void);
 	void Set_TargetAngle(void);
 
+public:
+	void		Gravity(void);
 
 private:
 	float fY;

@@ -15,5 +15,13 @@ public:
 	void Render(HDC hDC);
 
 	void Move(void);
+
+public:
+	void		Gravity(void);
+
+
+private:
+
+
 };
 

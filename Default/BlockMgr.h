@@ -26,7 +26,9 @@ public:
 	void		Col_Player(CObj* _thisBlock, DIRECTION _eDir);
 	void		Check_BreakBlock(CObj* _thisBlock);
 	void		Create_RandItem(CObj* _thisBlock);
+	DIRECTION		Col_ReturnDir_LR(INFO _tInfo);
 	DIRECTION		Col_ReturnDir(INFO _tInfo);
+	DIRECTION		Col_ReturnDir_RecLR(INFO _tInfo);
 
 public:
 	void	Save_File(void);

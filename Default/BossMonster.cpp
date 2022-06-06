@@ -8,7 +8,7 @@
 #include "CollisionMgr.h"
 #include "TurtleBack.h"
 #include "ScrollMgr.h"
-
+#include "BlockMgr.h"
 
 
 CBossMonster::CBossMonster() : fY(0), m_bMove(true), m_dwMoveTime(GetTickCount()), m_dwCreateBulletTime(GetTickCount()), m_eState(LEVEL1)
@@ -40,6 +40,8 @@ int CBossMonster::Update(void)
 
 	if (false == m_bEditMode)
 	{
+		Gravity();
+
 		Set_TargetAngle();
 		Move();
 		Attack_Pattern();
@@ -89,6 +91,37 @@ void CBossMonster::Render(HDC hDC)
 void CBossMonster::Move(void)
 {
 	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
+
+
+	//	ColWithBlock
+	float fYDest = 0.f;
+	float fYTemp = 0.f;
+
+	//	Collision Up with block
+	if (CBlockMgr::Get_Instance()->CollisionBlock_Ex(m_tInfo, &fYDest))
+	{
+		CBlockMgr::Get_Instance()->CollisionBlock_Ex(Get_Info(), &fYTemp);
+		Set_PosY(-fYTemp);
+	}
+	// Collision L, R with block ( except Up, Down )
+
+	DIRECTION Dir = CBlockMgr::Get_Instance()->Col_ReturnDir_LR(m_tInfo);
+	switch (Dir)
+	{
+	case DIR_LEFT:
+		m_fSpeed *= -1;
+		break;
+
+	case DIR_RIGHT:
+		m_fSpeed *= -1;
+		break;
+
+	default:
+		break;
+	}
+
+
+
 
 	if (b_LineCol)
 	{
@@ -170,7 +203,7 @@ void CBossMonster::Move(void)
 	{
 		if (m_bMove)
 		{
-			m_fSpeed *= -1;
+			//m_fSpeed *= -1;
 			m_tInfo.fX += m_fSpeed*1.5f;
 		}
 			
@@ -263,4 +296,14 @@ void CBossMonster::Set_TargetAngle(void)
 	m_fTargetPosX = cos(fRadian)*m_fDistance;
 	m_fTargetPosY = sin(fRadian)*m_fDistance;
 
+}
+
+void CBossMonster::Gravity(void)
+{
+	m_fTime += 0.05f;
+
+	if (m_fTime >= 2.3f)
+		m_fTime = 2.3f;
+
+	m_tInfo.fY += 4.f * m_fTime * m_fTime;
 }

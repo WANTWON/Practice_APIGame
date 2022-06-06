@@ -18,6 +18,11 @@ public:
 
 	void Jumping(void);
 
+public:
+	void		Gravity(void);
+
+
+
 private:
 	float m_fTime;
 	float m_fJumpPower;
