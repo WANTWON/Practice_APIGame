@@ -209,7 +209,7 @@ bool CLineMgr::CollisionLine(float	_fX, float _fY, float* _fYOut)
 			if (_fY > iter->Get_Line().fLPoint.fY + 20)
 				return false;
 			else
-				pTarget = iter;		
+				pTarget = iter;	
 	}
 
 	if (!pTarget)
