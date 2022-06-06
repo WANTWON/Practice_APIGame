@@ -16,8 +16,7 @@ CPlayer::CPlayer()
 	m_bStep_Monster(false), fY(0), fY2(0), m_iActiveBuff(ITEM_END), m_dwBuffTime(GetTickCount()),
 	m_bIsBuffActive(false), m_bCanShoot(false), m_iLastDir(DIR_RIGHT), m_bPlay(true), m_fPTime(0.f), m_bActive(false), m_bItem(false), m_iLife(0), m_bFirst(false),
 	m_bLineCol(false), m_bFlag(false), m_bBlock(false),
-	m_bIsInvincible(false), m_bColorSwitch(false), m_iLevel(0), m_eType(PLAYER_END)
-
+	m_bIsInvincible(false), m_bColorSwitch(false), m_iLevel(0), m_eType(PLAYER_END), m_bFlying(false)
 {
 	ZeroMemory(&m_pGUIDE, sizeof(POINT));
 }
@@ -31,7 +30,7 @@ void CPlayer::Initialize(void)
 {
 	m_tInfo = { 400.f, 300.f, 30.f, 30.f };
 	m_fSpeed = 5.f;
-	m_fJumpPower = 15.f;
+	m_fJumpPower = 9.2f;
 	m_fkg = 9.8f;
 	Jumping_Time = GetTickCount();
 	m_dwTime = GetTickCount();
@@ -45,16 +44,19 @@ int CPlayer::Update(void)
 	if (m_bDead)
 		return OBJ_DEAD;
 
-	if (!m_bJump)
-		m_fTime = 0;
-
-
 	if (false == m_bEditMode)
 	{
+		if (m_bFlying)
+			Gravity();
+		else
+			m_fTime = 0.f;
 		
 		Check_ActiveBuff();
 		Key_Input();
-		Jumping();
+
+		if (m_bJump)
+			Jumping();
+
 		Offset();
 	}
 
@@ -241,7 +243,6 @@ void CPlayer::Key_Input(void)
 			m_tInfo.fX += m_fSpeed;
 			m_iLastDir = DIR_RIGHT;
 		}
-		
 	}
 
 	else if (GetAsyncKeyState(VK_LEFT))
@@ -251,14 +252,13 @@ void CPlayer::Key_Input(void)
 			m_tInfo.fX -= m_fSpeed;
 			m_iLastDir = DIR_LEFT;
 		}
-
-	
-			
 	}
 
 	if (CKeyMgr::Get_Instance()->Key_Down(VK_SPACE))
+	{
 		m_bJump = true;
-
+		m_bFlying = true;
+	}
 	if (CKeyMgr::Get_Instance()->Key_Down('Z') && m_bCanShoot)
 	{
 		CObjMgr::Get_Instance()->Add_Object(OBJ_BULLET, CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, m_iLastDir, OBJ_PLAYER));
@@ -267,122 +267,8 @@ void CPlayer::Key_Input(void)
 
 void CPlayer::Jumping(void)
 {
-
-	if (m_bFirst)
-	{
-		m_bBlock = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
-		if (m_bBlock)
-		{
-			m_bFirst = false;
-		}
-		if (m_bFirst)
-		{
-			m_tInfo.fX = m_tRect.left + 15.f;
-			m_tInfo.fY += 5.f;
-		}
-		for (auto& iter : CBlockMgr::Get_Instance()->Get_Flaglist())
-		{
-			if (true == dynamic_cast<CFlagBlock*>(iter)->Get_Number())
-			{
-				dynamic_cast<CFlagBlock*>(iter)->Set_Down(1);
-			}
-		}
-	}
-
-	if (m_bBlock)
-	{
-		m_tInfo.fX += 2.f;
-		m_bBlock = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
-		m_bLineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
-		if (m_bLineCol)
-		{
-			m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
-		}
-	}
-	else if (m_bLineCol)
-	{
-		m_tInfo.fX += 0.5f;
-		m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
-	}
-
-
-	if (m_bPlay)
-	{
-		bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
-		bool b_BlockCol = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
-		m_bFlag = CLineMgr::Get_Instance()->CollisionFlag(m_tRect, &fY);
-
-		if (m_bFlag)
-		{
-			m_fTime = 0.0f;
-			m_bJump = false;
-			m_bPlay = false;
-			m_bFirst = true;
-		}
-		else if (m_bStep_Monster)
-		{
-			m_fJumpPower = 10;
-			m_tInfo.fY -= m_fJumpPower*m_fTime - (2.8f*m_fTime*m_fTime*0.5f);
-			m_fTime += 0.09f;
-			if (m_fTime > 1.2f)
-				m_fTime = 1.2f;
-
-			if (b_BlockCol && m_tInfo.fY + m_tInfo.fCY*0.5f >= fY2)
-			{
-				m_fTime = 0.0f;
-			}
-			if (b_LineCol && m_tInfo.fY > fY)
-			{
-				m_fTime = 0.0f;
-			}
-		}
-		else if (m_bJump)
-		{
-			m_fJumpPower = 15;
-			m_tInfo.fY -= m_fJumpPower*m_fTime - (9.8f*m_fTime*m_fTime*0.5f);
-			if ((m_fJumpPower*m_fTime) < (9.8f*m_fTime*m_fTime*0.5f))
-			{
-				m_bJump = true;
-			}
-			m_fTime += 0.13f;
-			if (m_fTime > 3.9f)
-				m_fTime = 3.9f;
-
-			if (b_BlockCol && m_tInfo.fY + m_tInfo.fCY*0.5f >= fY2)
-			{
-				m_fTime = 0.0f;
-				m_bJump = false;
-			}
-			if (b_LineCol && m_tInfo.fY > fY)
-			{
-				m_bJump = false;
-				m_fTime = 0.0f;
-				m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
-			}
-		}
-		else if (b_LineCol && m_tInfo.fY > fY)
-		{
-			m_bJump = false;
-			m_fTime = 0.0f;
-
-			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
-		}
-
-		else if (b_LineCol)
-		{
-			if (b_BlockCol)
-			{
-				m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
-			}
-			else
-				m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
-		}
-		else 
-		{
-			m_tInfo.fY += m_fSpeed;
-			m_bFalling = true;
-		}
-	}
+	m_tInfo.fY -= m_fJumpPower;
+	
 }
 
 void CPlayer::Set_Dead_Moment(void)
@@ -419,4 +305,14 @@ void CPlayer::Offset(void)
 	if (iOffsetMaxX < m_tInfo.fX + iScrollX)
 		CScrollMgr::Get_Instance()->Set_ScrollX(-m_fSpeed);
 
+}
+
+void CPlayer::Gravity(void)
+{
+	m_fTime += 0.05f;
+
+	if (m_fTime >= 2.3f)
+		m_fTime = 2.3f;
+
+  	m_tInfo.fY += 4.f * m_fTime * m_fTime;
 }

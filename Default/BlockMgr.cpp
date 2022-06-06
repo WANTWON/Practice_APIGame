@@ -40,14 +40,31 @@ void CBlockMgr::Initialize(void)
 
 void CBlockMgr::Update(void)
 {
+	//	Collision with Player-Block
+	static bool bPlayerFlying;
+
 	for (size_t i = 0; i < BLOCK_END; ++i)
 	{
 		for (auto& iter : m_Blocklist[i])
 		{
 			Col_Player(iter, CCollisionMgr::Col_ReturnDir(m_listPlayer, iter));
+			if (DIR_UP == CCollisionMgr::Col_ReturnDir(m_listPlayer, iter))
+				bPlayerFlying = false;
 		}
 	}
 
+	if (!m_listPlayer.empty())
+	{
+		if (false == bPlayerFlying)
+		{
+			static_cast<CPlayer*>(m_listPlayer.front())->Set_Flying(false);
+			bPlayerFlying = true;
+		}
+		else
+			static_cast<CPlayer*>(m_listPlayer.front())->Set_Flying(true);
+	}
+
+	//	Update
 	int iEvent = 0;
 	for (size_t i = 0; i < BLOCK_END; ++i)
 	{
@@ -180,8 +197,6 @@ bool CBlockMgr::CollisionBlock_Ex(INFO Player, float * inputY)
 		{
 			if (((Player.fX >= iter->Get_Rect().left) && (Player.fX < iter->Get_Rect().right))
 				&& (Player.fY < iter->Get_Rect().bottom))
-				// 플레이어의 X값(중점)이 상자의 왼쪽과 오른쪽 사이에 있고, 플레이어의 Bottom이 상자의 Top보다 클 때
-				// (이때, 플레이어랑 상자의 X값만 조건으로 하면 바로 Jump가 false처리 되어 순간이동 할 수 있어서, Y값도 조건으로 주고 2를 임의적으로 추가함)
 			{
 				if (NULL == pTarget)
 					pTarget = iter;
@@ -201,14 +216,14 @@ bool CBlockMgr::CollisionBlock_Ex(INFO Player, float * inputY)
 
 
 	RECT rcTemp{};
-	if(IntersectRect(&rcTemp, &(m_listPlayer.front()->Get_Rect()), &(pTarget->Get_Rect())))
+	if (IntersectRect(&rcTemp, &(m_listPlayer.front()->Get_Rect()), &(pTarget->Get_Rect())))
 	{
 		float x1 = rcTemp.left;
 		float y1 = rcTemp.top;
 
 		float x2 = rcTemp.right;
 		float y2 = rcTemp.bottom;
- 
+
 		*inputY = (y2 - y1);
 	}
 	return true;
@@ -275,18 +290,22 @@ void CBlockMgr::Col_Player(CObj* _thisBlock, DIRECTION _eDir)
 	{
 	case DIR_UP:
 		if (0.f == static_cast<CPlayer*>(m_listPlayer.front())->Get_Time())
-			m_listPlayer.front()->Set_PosY(-m_listPlayer.front()->Get_Speed());
-		else
 		{
-			static_cast<CPlayer*>(m_listPlayer.front())->Set_bJumpFalse();
-
 			CollisionBlock_Ex(m_listPlayer.front()->Get_Info(), &fY);
 			m_listPlayer.front()->Set_PosY(-fY);
+		}
+		else
+		{
+			static_cast<CPlayer*>(m_listPlayer.front())->Set_Flying(false);
+			static_cast<CPlayer*>(m_listPlayer.front())->Set_bJump(false);
+
 		}
 		break;
 
 	case DIR_DOWN:
-		static_cast<CPlayer*>(m_listPlayer.front())->Set_GravityTime(3.4f);
+		static_cast<CPlayer*>(m_listPlayer.front())->Set_GravityTime(2.3f);
+		static_cast<CPlayer*>(m_listPlayer.front())->Set_Flying(true);
+		static_cast<CPlayer*>(m_listPlayer.front())->Set_bJump(false);
 		Check_BreakBlock(_thisBlock);
 		break;
 
@@ -341,6 +360,49 @@ void CBlockMgr::Create_RandItem(CObj* _thisBlock)
 	default:
 		break;
 	}
+}
+
+DIRECTION CBlockMgr::Col_ReturnDir(INFO _tInfo)
+{
+	for (size_t i = 0; i < BLOCK_END; ++i)
+	{
+		for (auto& _Dest : m_Blocklist[i])
+		{
+			float fWidth = 0.f;
+			float fHeight = 0.f;
+
+			if (Check_Rect(_Dest->Get_Info(), _tInfo, &fWidth, &fHeight))
+			{
+				float fX = _tInfo.fX - _Dest->Get_Info().fX;
+				float fY = _tInfo.fY - _Dest->Get_Info().fY;
+
+				float fR = sqrtf((fX * fX) + (fY * fY));
+
+				float fAngle = (180 / PI) * acos(fX / fR);
+				if (_tInfo.fY <= _Dest->Get_Info().fY)
+					fAngle = 360 + (-1.f * fAngle);
+
+				if (fAngle >= 316.f || fAngle < 44.f)
+				{
+					return DIR_RIGHT;
+				}
+				else if (fAngle >= 44.f && fAngle <= 134.f)
+				{
+					return DIR_DOWN;
+				}
+				else if (fAngle > 136.f && fAngle <= 224.f)
+				{
+					return DIR_LEFT;
+				}
+				else if (fAngle > 224.f && fAngle < 316.f)
+				{
+					return DIR_UP;
+				}
+			}
+		}
+	}
+
+	return DIR_END;
 }
 
 void CBlockMgr::Save_File(void)
@@ -592,8 +654,8 @@ int CBlockMgr::Check_Rect(INFO Player, INFO pTarget, float* _pX, float* _pY)
 	float fWidth = abs(Player.fX - pTarget.fX);
 	float fHeight = abs(Player.fY - pTarget.fY);
 
-	float fRadiusX = (Player.fCX + pTarget.fCX*0.5f);
-	float fRadiusY = (Player.fCY + pTarget.fCY*0.5f);
+	float fRadiusX = (Player.fCX + pTarget.fCX)*0.5f;
+	float fRadiusY = (Player.fCY + pTarget.fCY)*0.5f;
 
 	if ((fWidth <= fRadiusX) && (fHeight <= fRadiusY))
 	{

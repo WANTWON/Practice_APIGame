@@ -50,6 +50,13 @@ public:
 	const PLAYER_LIST& Get_PlayerType(void) { return m_eType; }
 	void Offset(void);
 	
+
+	//New
+public:
+	void	Gravity(void);
+	void	Set_Flying(bool _fly) { m_bFlying = _fly; }
+
+
 private:
 	void Key_Input(void);
 	void Jumping(void);
@@ -61,9 +68,6 @@ private:
 
 private:
 	float m_pShield_Angle;
-	float m_fTime;
-	float m_fJumpPower;
-	bool m_bJump;
 	bool m_bFalling;
 
 	ITEM_TYPE m_iActiveBuff;
@@ -96,5 +100,16 @@ private:
 	bool m_bLineCol;
 	bool m_bBlock;
 	bool m_bFlag;
+
+
+private:
+	bool	m_bJump;
+	float m_fTime;
+	float m_fJumpPower;
+
+	bool m_bFlying;
+
+
+
 };
 
