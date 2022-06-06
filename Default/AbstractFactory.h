@@ -122,5 +122,19 @@ public:
 		dynamic_cast<CFlagBlock*>(pInstance)->Set_Number(_Number);
 		return pInstance;
 	}
+
+	static CObj*  Create(SAVEOBJ Temp) {
+		CObj* pInstance = new T;
+
+		pInstance->Initialize();
+		pInstance->Set_ID(Temp.m_eID);
+		pInstance->Set_Dead(Temp.m_bDead);
+		pInstance->Set_Dir(Temp.m_eDir);
+		pInstance->Set_Pos(Temp.m_tInfo.fX, Temp.m_tInfo.fY);
+		pInstance->Set_Rect(Temp.m_tRect.left, Temp.m_tRect.top, Temp.m_tRect.right, Temp.m_tRect.bottom);
+		pInstance->Set_Target(Temp.m_pTarget);
+
+		return pInstance;
+	}
 };
 
