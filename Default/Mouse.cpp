@@ -28,6 +28,8 @@ int CMouse::Update(void)
 
 	ScreenToClient(g_hWnd, &pt); //생성한 스크린 창을 기준으로 좌표를 반환함.
 
+	
+
 	m_tInfo.fX = (float)pt.x;
 	m_tInfo.fY = (float)pt.y;
 

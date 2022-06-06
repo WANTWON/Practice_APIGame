@@ -30,6 +30,7 @@ void CStage3::Initialize(void)
 
 	CObjMgr::Get_Instance()->Load_File(3);
 	CBlockMgr::Get_Instance()->Load_File(3);
+	CLineMgr::Get_Instance()->Load_File(3);
 	CBlockMgr::Get_Instance()->Initialize();
 } 
 

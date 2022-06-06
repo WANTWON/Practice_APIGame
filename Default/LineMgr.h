@@ -9,6 +9,8 @@ private:
 	~CLineMgr();
 
 public:
+	void		Add_Line(float _fX, float _fY);
+	void		Edit_NULL(float _fX, float _fY);
 	void		Initialize(int _Number);
 	void		Render(HDC hDC);
 	void		Release(void);
@@ -19,6 +21,10 @@ public:
 
 	//bool		CollisionLine(float _fX, float* _fY);
 	bool		CollisionFlag(RECT rc, float* _fY);
+
+	void		Save_File(void);
+	void		Load_File(int _iStage);
+
 public:
 	static CLineMgr* Get_Instance(void)
 	{
@@ -40,5 +46,8 @@ private:
 	static CLineMgr* m_pInstance;
 	list<CLine*>		m_Linelist;
 	list<CLine*>		m_Flagline;
+
+	LINEPOINT					m_tLinePoint[END];
 };
+
 
