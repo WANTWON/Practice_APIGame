@@ -15,7 +15,7 @@ CPlayer::CPlayer()
 	m_bStep_Monster(false), fY(0), fY2(0), m_iActiveBuff(ITEM_END), m_dwBuffTime(GetTickCount()),
 	m_bIsBuffActive(false), m_bCanShoot(false), m_iLastDir(DIR_RIGHT), m_bPlay(true), m_fPTime(0.f), m_bActive(false), m_bItem(false), m_iLife(0), m_bFirst(false),
 	m_bLineCol(false), m_bFlag(false), m_bBlock(false),
-	m_bIsInvincible(false), m_bColorSwitch(false), m_iLevel(0)
+	m_bIsInvincible(false), m_bColorSwitch(false), m_iLevel(0), m_eType(PLAYER_END)
 
 {
 	ZeroMemory(&m_pGUIDE, sizeof(POINT));
@@ -35,6 +35,8 @@ void CPlayer::Initialize(void)
 	Jumping_Time = GetTickCount();
 	m_dwTime = GetTickCount();
 	m_iLife = 3;
+
+	m_eType = PLAYER_NORMAL;
 }
 
 int CPlayer::Update(void)
@@ -46,10 +48,13 @@ int CPlayer::Update(void)
 		m_fTime = 0;
 
 
+	if (false == m_bEditMode)
+	{
+		Check_ActiveBuff();
+		Key_Input();
+		Jumping();
+	}
 
-	Check_ActiveBuff();
-	Key_Input();
-	Jumping();
 	Update_Rect();
 
 

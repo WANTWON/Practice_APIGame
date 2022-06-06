@@ -19,6 +19,8 @@ void CItemBlock::Initialize(void)
 
 	m_BlockType = BLOCK_ITEM;
 	m_bItem = true;
+
+	m_BlockType = BLOCK_ITEM;
 }
 
 int CItemBlock::Update(void)

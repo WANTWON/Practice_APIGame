@@ -28,6 +28,8 @@ public:
 	int Get_Coins() { return m_iCoins; }
 	void Increment_Coins(int iCoins) { m_iCoins += iCoins; }
 
+	void	Load_File(void);
+
 	static CStageMgr* Get_Instance(void)
 	{
 		if (m_pInstance == nullptr)

@@ -44,6 +44,8 @@ public:
 	int Get_Life(void) { return m_iLife; }
 	void Set_Life(int _Life) { m_iLife = _Life; }
 	int Get_Level(void) { return m_iLevel; }
+
+	const PLAYER_LIST& Get_PlayerType(void) { return m_eType; }
 	
 private:
 	void Key_Input(void);
@@ -79,7 +81,7 @@ private:
 	DWORD m_dwTime;
 	DWORD Jumping_Time;
 	POINT m_pGUIDE;
-	
+	PLAYER_LIST m_eType;
 	
 	int	m_iLevel;
 	bool m_bPlay;

@@ -17,6 +17,8 @@ void CNormalBlock::Initialize(void)
 {
 	m_tInfo.fCX = 50.f;
 	m_tInfo.fCY = 50.f;
+
+	m_BlockType = BLOCK_NORMAL;
 }
 
 int CNormalBlock::Update(void)

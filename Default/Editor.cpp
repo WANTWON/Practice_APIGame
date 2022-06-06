@@ -58,6 +58,8 @@ void CEditor::Initialize(void)
 			400.f + (50.f * float(i / 3))));
 	}
 
+
+	CObjMgr::Get_Instance()->Set_EditorMode();
 }
 
 int CEditor::Update(void)
@@ -318,6 +320,7 @@ void CEditor::Save_File(void)
 {
 	if (GetAsyncKeyState('S'))
 	{
+		CObjMgr::Get_Instance()->Save_File();
 		CBlockMgr::Get_Instance()->Save_File();
 	}
 }
@@ -326,6 +329,7 @@ void CEditor::Load_File(void)
 {
 	if (GetAsyncKeyState('L'))
 	{
+		CObjMgr::Get_Instance()->Load_File();
 		CBlockMgr::Get_Instance()->Load_File();
 	}
 }

@@ -20,29 +20,34 @@ void CTurtleMonster::Initialize(void)
 {
 	m_tInfo = { 125.f,125.f, 40.f, 50.f };
 	m_fSpeed = 2.f;
+
+	m_iType = MONSTER_TURTLE;
 }
 int  CTurtleMonster::Update(void)
 {
-	
-
-	if (m_bGet_Attacked)
+	if (false == m_bEditMode)
 	{
-		m_tInfo.fCY = 25;
-		
-		if (!m_bCount)
+		if (m_bGet_Attacked)
 		{
-			CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleBack>::Create(m_tInfo.fX+50, m_tInfo.fY));
-			m_dwTime = GetTickCount();
-			m_fSpeed *= 0.5f;
-			m_bCount = true;
+			m_tInfo.fCY = 25;
+
+			if (!m_bCount)
+			{
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleBack>::Create(m_tInfo.fX + 50, m_tInfo.fY));
+				m_dwTime = GetTickCount();
+				m_fSpeed *= 0.5f;
+				m_bCount = true;
+			}
 		}
 
+		if (m_bDead)
+			return OBJ_DEAD;
+
+		Move();
 	}
 
-	if (m_bDead)
-		return OBJ_DEAD;
+	
 
-	Move();
 	Update_Rect();
 
 	return OBJ_NOEVENT;

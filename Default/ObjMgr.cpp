@@ -6,6 +6,18 @@
 #include "Monster.h"
 #include "AbstractFactory.h"
 
+#include "Item.h"
+//	Monster
+#include "MushroomMonster.h"
+#include "TurtleMonster.h"
+#include "TurtleBack.h"
+#include "JumpingMonster.h"
+#include "FlyingMonster.h"
+#include "BossMonster.h"
+
+
+
+
 CObjMgr* CObjMgr::m_pInstance = nullptr;
 
 CObjMgr::CObjMgr()
@@ -23,66 +35,26 @@ CObj* CObjMgr::Get_Target(OBJ_LIST _ID, CObj* pObj)
 	return nullptr;
 }
 
-void CObjMgr::Save_File(void)
+void CObjMgr::Set_EditorMode(void)
 {
-	HANDLE hFile = CreateFile(L"../Data/Save1/ObjPlayer.dat",
-		GENERIC_WRITE,
-		NULL,
-		NULL,
-		CREATE_ALWAYS,
-		FILE_ATTRIBUTE_NORMAL,
-		NULL);
-
-	if (INVALID_HANDLE_VALUE == hFile)
+	for (size_t i = 0; i < OBJ_END; ++i)
 	{
-		MessageBox(g_hWnd, L"Save File", L"Error", MB_OK);
-		return;
+		for (auto& iter : m_pObjList[i])
+		{
+			iter->Set_EditorMode();
+		}
 	}
-
-	DWORD dwByte = 0;
-	for (auto& iter : m_pObjList[OBJ_PLAYER])
-	{
-		WriteFile(hFile, &(iter->Get_Info()), sizeof(INFO), &dwByte, nullptr);
-	}
-
-	CloseHandle(hFile);
-
-#ifdef _DEBUG
-	MessageBox(g_hWnd, L"Save 己傍", L"己傍", MB_OK);
-#endif	//_DEBUG
 }
 
-void CObjMgr::Load_File(void)
+void CObjMgr::Set_PlayMode(void)
 {
-	HANDLE	hFile = CreateFile(L"../Data/Save1/ObjPlayer.dat",
-		GENERIC_READ,
-		NULL,
-		NULL,
-		OPEN_EXISTING,
-		FILE_ATTRIBUTE_NORMAL,
-		NULL);
-
-	if (INVALID_HANDLE_VALUE == hFile)
+	for (size_t i = 0; i < OBJ_END; ++i)
 	{
-		MessageBox(g_hWnd, L"Load Player", L"Error", MB_OK);
-		return;
+		for (auto& iter : m_pObjList[i])
+		{
+			iter->Set_PlayMode();
+		}
 	}
-
-	DWORD	dwByte = 0;
-
-	INFO	tTemp{};
-
-	while (true)
-	{
-		ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
-
-		if (0 == dwByte)
-			break;
-
-		m_pObjList[OBJ_PLAYER].push_back(CAbstractFactory<CPlayer>::Create(tTemp.fX, tTemp.fY));
-	}
-
-
 }
 
 void CObjMgr::Add_Object(OBJ_LIST _ID, CObj* pObj)
@@ -178,4 +150,193 @@ void CObjMgr::Release()
 		}
 		m_pObjList[i].clear();
 	}
+}
+
+void CObjMgr::Save_File(void)
+{
+	//	Player
+	HANDLE hFile = CreateFile(L"../Data/SaveTemp/ObjPlayer.dat",
+		GENERIC_WRITE,
+		NULL,
+		NULL,
+		CREATE_ALWAYS,
+		FILE_ATTRIBUTE_NORMAL,
+		NULL);
+
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		MessageBox(g_hWnd, L"Save File", L"Error", MB_OK);
+		return;
+	}
+
+	DWORD	dwByte = 0;
+	DWORD	dwTypeByte = 0;
+
+	for (auto& iter : m_pObjList[OBJ_PLAYER])
+	{
+		WriteFile(hFile, &(iter->Get_Info()), sizeof(INFO), &dwByte, nullptr);
+		WriteFile(hFile, &(static_cast<CPlayer*>(iter)->Get_PlayerType()), sizeof(int), &dwTypeByte, nullptr);
+	}
+	CloseHandle(hFile);
+
+
+
+	//	Monster
+	hFile = CreateFile(L"../Data/SaveTemp/ObjMonster.dat",
+		GENERIC_WRITE,
+		NULL,
+		NULL,
+		CREATE_ALWAYS,
+		FILE_ATTRIBUTE_NORMAL,
+		NULL);
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		MessageBox(g_hWnd, L"Save Monster", L"Error", MB_OK);
+		return;
+	}
+
+	for (auto& iter : m_pObjList[OBJ_MONSTER])
+	{
+		WriteFile(hFile, &(iter->Get_Info()), sizeof(INFO), &dwByte, nullptr);
+		WriteFile(hFile, &(static_cast<CMonster*>(iter)->Get_MonsterType()), sizeof(int), &dwTypeByte, nullptr);
+	}
+	CloseHandle(hFile);
+
+
+
+	//	Item
+	hFile = CreateFile(L"../Data/SaveTemp/ObjItem.dat",
+		GENERIC_WRITE,
+		NULL,
+		NULL,
+		CREATE_ALWAYS,
+		FILE_ATTRIBUTE_NORMAL,
+		NULL);
+
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		MessageBox(g_hWnd, L"Save Item", L"Error", MB_OK);
+		return;
+	}
+
+	for (auto& iter : m_pObjList[OBJ_ITEM])
+	{
+		WriteFile(hFile, &(iter->Get_Info()), sizeof(INFO), &dwByte, nullptr);
+		WriteFile(hFile, &(static_cast<CItem*>(iter)->Get_Type()), sizeof(int), &dwTypeByte, nullptr);
+	}
+	CloseHandle(hFile);
+
+
+
+#ifdef _DEBUG
+	MessageBox(g_hWnd, L"Save 己傍", L"己傍", MB_OK);
+#endif	//_DEBUG
+
+	return;
+}
+
+void CObjMgr::Load_File(void)
+{
+	//	Player
+	HANDLE	hFile = CreateFile(L"../Data/SaveTemp/ObjPlayer.dat",
+		GENERIC_READ,
+		NULL,
+		NULL,
+		OPEN_EXISTING,
+		FILE_ATTRIBUTE_NORMAL,
+		NULL);
+
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		MessageBox(g_hWnd, L"Load Player", L"Error", MB_OK);
+		return;
+	}
+
+	DWORD	dwByte = 0;
+	DWORD	dwTypeByte = 0;
+	INFO	tTemp{};
+	int		iTypeTemp = 0;
+
+	while (true)
+	{
+		ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
+		ReadFile(hFile, &iTypeTemp, sizeof(int), &dwTypeByte, nullptr);
+
+		if (0 == dwByte)
+			break;
+		if (0 == dwTypeByte)
+			break;
+
+		switch (iTypeTemp)
+		{
+		case PLAYER_NORMAL:
+			m_pObjList[OBJ_PLAYER].push_back(CAbstractFactory<CPlayer>::Create(tTemp.fX, tTemp.fY));
+			break;
+
+		default:
+			break;
+		}
+	}
+	CloseHandle(hFile);
+
+
+
+	//	Monster
+	hFile = CreateFile(L"../Data/SaveTemp/ObjMonster.dat",
+		GENERIC_READ,
+		NULL,
+		NULL,
+		OPEN_EXISTING,
+		FILE_ATTRIBUTE_NORMAL,
+		NULL);
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		MessageBox(g_hWnd, L"Load Monster", L"Error", MB_OK);
+		return;
+	}
+	while (true)
+	{
+		ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
+		ReadFile(hFile, &iTypeTemp, sizeof(int), &dwTypeByte, nullptr);
+
+		if (0 == dwByte)
+			break;
+		if (0 == dwTypeByte)
+			break;
+
+
+		switch (iTypeTemp)
+		{
+		case MONSTER_MUSHROOM:
+			m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMushroomMonster>::Create(tTemp.fX, tTemp.fY));
+			break;
+
+		case MONSTER_TURTLE:
+			m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CTurtleMonster>::Create(tTemp.fX, tTemp.fY));
+			break;
+
+		case MONSTER_TURTLEBACK:
+			m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CTurtleBack>::Create(tTemp.fX, tTemp.fY));
+			break;
+
+		case MONSTER_JUMPING:
+			m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CJumpingMonster>::Create_with_Target(tTemp.fX, tTemp.fY, CObjMgr::Get_Instance()->Get_Player()));
+			break;
+
+		case MONSTER_FLYING:
+			m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CFlyingMonster>::Create(tTemp.fX, tTemp.fY));
+			break;
+
+		case MONSTER_BOSS:
+			m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CBossMonster>::Create_with_Target(tTemp.fX, tTemp.fY, CObjMgr::Get_Instance()->Get_Player()));
+			break;
+
+		default:
+			break;
+		}
+	}
+	CloseHandle(hFile);
+
+
+	return;
 }

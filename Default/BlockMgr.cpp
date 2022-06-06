@@ -7,6 +7,7 @@
 #include <typeinfo>
 #include "AbstractFactory.h"
 #include "Item.h"
+#include "ItemBlock.h"
 
 //	æ∆¿Ã≈€
 #include "Coin.h"
@@ -290,11 +291,14 @@ void CBlockMgr::Save_File(void)
 		return;
 	}
 	DWORD dwByte = 0;
+	DWORD dwTypeByte = 0;
+
 	for (size_t i = 0; i < BLOCK_END - 1; ++i)
 	{
 		for (auto& iter : m_Blocklist[i])
 		{
 			WriteFile(hFile, &(iter->Get_Info()), sizeof(INFO), &dwByte, nullptr);
+			WriteFile(hFile, &(static_cast<CBlock*>(iter)->Get_BlockType()), sizeof(int), &dwTypeByte, nullptr);
 		}
 	}
 	CloseHandle(hFile);
@@ -320,15 +324,34 @@ void CBlockMgr::Load_File(void)
 		return;
 	}
 	DWORD	dwByte = 0;
+	DWORD	dwTypeByte = 0;
 	INFO	tTemp = {};
+	int		iDest = 0;
+	BLOCK_LIST typeTemp = BLOCK_END;
 
 	while (true)
 	{
 		ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
+		ReadFile(hFile, &iDest, sizeof(int), &dwTypeByte, nullptr);
 		if (0 == dwByte)
 			break;
+		if (0 == dwTypeByte)
+			break;
 
-		m_Blocklist[BLOCK_NORMAL].push_back(CAbstractFactory<CNormalBlock>::Create(tTemp.fX, tTemp.fY));
+		switch (iDest)
+		{
+		case BLOCK_NORMAL:
+			m_Blocklist[BLOCK_NORMAL].push_back(CAbstractFactory<CNormalBlock>::Create(tTemp.fX, tTemp.fY));
+			break;
+
+		case BLOCK_COIN:
+			m_Blocklist[BLOCK_COIN].push_back(CAbstractFactory<CCoinBlock>::Create(tTemp.fX, tTemp.fY));
+			break;
+
+		case BLOCK_ITEM:
+			m_Blocklist[BLOCK_ITEM].push_back(CAbstractFactory<CItemBlock>::Create(tTemp.fX, tTemp.fY));
+			break;
+		}
 	}
 
 	CloseHandle(hFile);
