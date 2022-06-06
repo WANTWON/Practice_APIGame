@@ -102,7 +102,7 @@ void CTurtleMonster::Move(void)
 {
 	float fY = 0.f;
 
-	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
+	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, m_tInfo.fY, &fY);
 
 	if (b_LineCol)
 	{

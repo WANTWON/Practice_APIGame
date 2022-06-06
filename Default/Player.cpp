@@ -283,7 +283,7 @@ void CPlayer::Jumping(void)
 	{
 		m_tInfo.fX += 2.f;
 		m_bBlock = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
-		m_bLineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
+		m_bLineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, m_tInfo.fY, &fY);
 		if (m_bLineCol)
 		{
 			m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
@@ -296,7 +296,7 @@ void CPlayer::Jumping(void)
 	}
 	if (m_bPlay)
 	{
-		bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
+		bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, m_tInfo.fY, &fY);
 		bool b_BlockCol = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
 		m_bFlag = CLineMgr::Get_Instance()->CollisionFlag(m_tRect, &fY);
 
