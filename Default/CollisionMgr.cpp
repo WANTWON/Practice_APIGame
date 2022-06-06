@@ -185,7 +185,8 @@ int CCollisionMgr::Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest)
 						// Has Buff
 						if (pPlayer->Get_ActiveBuff() != ITEM_END)
 						{
-							dynamic_cast<CMonster*>(Dest)->Set_Dead(true);
+							if(dynamic_cast<CMonster*>(Dest)->Get_Hp() < 3)
+								dynamic_cast<CMonster*>(Dest)->Set_Dead(true);
 
 							// Remove Buff if not Star
 							if (pPlayer->Get_ActiveBuff() != ITEM_STAR)
@@ -203,7 +204,8 @@ int CCollisionMgr::Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest)
 					// Has Buff
 					if (pPlayer->Get_ActiveBuff() != ITEM_END)
 					{
-						//dynamic_cast<CMonster*>(Dest)->Set_Dead(true);
+						if (dynamic_cast<CMonster*>(Dest)->Get_Hp() < 3)
+							dynamic_cast<CMonster*>(Dest)->Set_Dead(true);
 
 						// Remove Buff if not Star
 						if (pPlayer->Get_ActiveBuff() != ITEM_STAR)
@@ -213,13 +215,13 @@ int CCollisionMgr::Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest)
 					else
 						pPlayer->Set_Dead_Count();
 
-					/*if (true == dynamic_cast<CPlayer*>(Sour)->Get_Buff())
+					if (true == dynamic_cast<CPlayer*>(Sour)->Get_Buff())
 					{
 						dynamic_cast<CMonster*>(Dest)->Be_Attacked();
 						pPlayer->Get_Active(true);
 					}
 					else
-						dynamic_cast<CPlayer*>(Sour)->Set_Dead_Count();*/
+						dynamic_cast<CPlayer*>(Sour)->Set_Dead_Count();
 				}
 			}
 		}

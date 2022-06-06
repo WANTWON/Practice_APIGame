@@ -20,6 +20,8 @@
 #include "Block.h"
 #include "BlockMgr.h"
 #include "NormalBlock.h"
+#include "KeyMgr.h"
+#include "ScrollMgr.h"
 
 CStage1::CStage1()
 {
@@ -44,6 +46,14 @@ int CStage1::Update(void)
 {
 	if (m_bClear)
 		return STAGE_CLEAR;
+
+
+	/*if (CKeyMgr::Get_Instance()->Key_Pressing(VK_LEFT))
+		CScrollMgr::Get_Instance()->Set_ScrollX(5.f);
+
+	if (CKeyMgr::Get_Instance()->Key_Pressing(VK_RIGHT))
+		CScrollMgr::Get_Instance()->Set_ScrollX(-5.f);*/
+
 
 	CUIMgr::Get_Instance()->Update();
 	CObjMgr::Get_Instance()->Update();

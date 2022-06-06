@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Editor.h"
+#include "ScrollMgr.h"
 
 /*
 /////////////////////////////////////
@@ -124,6 +125,14 @@ void CEditor::Initialize(void)
 
 int CEditor::Update(void)
 {
+
+	if (CKeyMgr::Get_Instance()->Key_Pressing(VK_LEFT))
+		CScrollMgr::Get_Instance()->Set_ScrollX(5.f);
+
+	if (CKeyMgr::Get_Instance()->Key_Pressing(VK_RIGHT))
+		CScrollMgr::Get_Instance()->Set_ScrollX(-5.f);
+
+
 	m_ObjMouse->Update();
 
 	if (false == Choice_Class())
@@ -182,6 +191,7 @@ void CEditor::Release(void)
 
 void CEditor::Render(HDC hDC)
 {
+	
 	for (auto& iter : m_mapObj)
 	{
 		iter.second->Render(hDC);
@@ -189,10 +199,13 @@ void CEditor::Render(HDC hDC)
 	for (auto& iter : m_mapChoiceObj)
 	{
 		iter.second->Render(hDC);
+
 	}
+
 	CUIMgr::Get_Instance()->Render(hDC);
 	CObjMgr::Get_Instance()->Render(hDC);
 	CBlockMgr::Get_Instance()->Render(hDC);
+
 
 	m_ObjMouse->Render(hDC);
 }

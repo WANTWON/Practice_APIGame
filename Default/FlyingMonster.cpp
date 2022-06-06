@@ -6,6 +6,7 @@
 #include "TurtleBack.h"
 #include "TurtleMonster.h"
 #include "Player.h"
+#include "ScrollMgr.h"
 
 
 
@@ -74,6 +75,9 @@ void CFlyingMonster::Release(void)
 
 void CFlyingMonster::Render(HDC hDC)
 {
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+
+
 	if (m_bGet_Attacked == false)
 	{
 		HBRUSH myBrush = nullptr;
@@ -82,7 +86,7 @@ void CFlyingMonster::Render(HDC hDC)
 		myBrush = (HBRUSH)CreateSolidBrush(RGB(0, 200, 0));
 		oldBrush = (HBRUSH)SelectObject(hDC, myBrush);
 
-		Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+		Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 
 		SelectObject(hDC, oldBrush);
 		DeleteObject(myBrush);
@@ -91,10 +95,7 @@ void CFlyingMonster::Render(HDC hDC)
 		Rectangle(hDC, m_tRect.left + 40, m_tRect.top + 20, m_tRect.right + 20, m_tRect.bottom - 20);
 
 	}
-	else
-	{
-		Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
-	}
+	
 }
 
 void CFlyingMonster::Move(void)

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Flower.h"
 #include "LineMgr.h"
+#include "ScrollMgr.h"
 
 CFlower::CFlower()
 {
@@ -48,9 +49,11 @@ void CFlower::Late_Update()
 
 void CFlower::Render(HDC hDC)
 {
-	MoveToEx(hDC, (int)m_tInfo.fX, (int)m_tInfo.fY, nullptr);
-	LineTo(hDC, (int)m_tInfo.fX, (int)m_tInfo.fY - 20);
-	Ellipse(hDC, m_tRect.left, m_tRect.top - 20, m_tRect.right, m_tRect.bottom - 20);
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+
+	MoveToEx(hDC, (int)m_tInfo.fX + iScrollX, (int)m_tInfo.fY, nullptr);
+	LineTo(hDC, (int)m_tInfo.fX + iScrollX, (int)m_tInfo.fY - 20);
+	Ellipse(hDC, m_tRect.left + iScrollX, m_tRect.top - 20, m_tRect.right + iScrollX, m_tRect.bottom - 20);
 }
 
 void CFlower::Animate()
