@@ -139,6 +139,9 @@
     <Filter Include="98.Design\LineMgr\Line">
       <UniqueIdentifier>{efa9f8dd-2bc0-42eb-8ae3-8ba050514808}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Obj\02.Block\03. FlagBlock">
+      <UniqueIdentifier>{c7f64f57-d1fc-4241-88b1-e49bdf3361ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -295,7 +298,7 @@
       <Filter>98.Design\LineMgr\Line</Filter>
     </ClInclude>
     <ClInclude Include="FlagBlock.h">
-      <Filter>소스 파일</Filter>
+      <Filter>01.Obj\02.Block\03. FlagBlock</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -414,7 +417,7 @@
       <Filter>98.Design\LineMgr\Line</Filter>
     </ClCompile>
     <ClCompile Include="FlagBlock.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>01.Obj\02.Block\03. FlagBlock</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

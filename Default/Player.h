@@ -52,7 +52,6 @@ private:
 	void Key_Input(void);
 	void Jumping(void);
 	void Check_ActiveBuff(void);
-	void Coin_Pickup();
 	void Buff_Mushroom();
 	void Buff_Star();
 	void Buff_Flower();
@@ -94,5 +93,6 @@ private:
 	bool m_bLineCol;
 	bool m_bBlock;
 	bool m_bFlag;
+	bool m_bCheck;
 };
 

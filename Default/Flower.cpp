@@ -18,6 +18,8 @@ void CFlower::Initialize()
 	m_tInfo.fCX = 15.f;
 	m_tInfo.fCY = 15.f;
 	m_fSpeed = 5.f;
+
+	m_iPoints_Given = 1000;
 }
 
 void CFlower::Release()

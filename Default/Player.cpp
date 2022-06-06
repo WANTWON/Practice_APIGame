@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "AbstractFactory.h"
-#include "CollisionMgr.h"
 #include "ObjMgr.h"
 #include "LineMgr.h"
 #include "KeyMgr.h"
@@ -16,7 +15,7 @@ CPlayer::CPlayer()
 	m_bStep_Monster(false), fY(0), fY2(0), m_iActiveBuff(ITEM_END), m_dwBuffTime(GetTickCount()),
 	m_bIsBuffActive(false), m_bCanShoot(false), m_iLastDir(DIR_RIGHT), m_bPlay(true), m_fPTime(0.f), m_bActive(false), m_bItem(false), m_iLife(0), m_bFirst(false),
 	m_bLineCol(false), m_bFlag(false), m_bBlock(false),
-	m_bIsInvincible(false), m_bColorSwitch(false), m_iLevel(0), m_eType(PLAYER_END)
+	m_bIsInvincible(false), m_bColorSwitch(false), m_iLevel(0), m_eType(PLAYER_END), m_bCheck(false)
 
 {
 	ZeroMemory(&m_pGUIDE, sizeof(POINT));
@@ -66,12 +65,15 @@ int CPlayer::Update(void)
 
 void  CPlayer::Late_Update(void)
 {
-	if (m_tInfo.fY >= WINCY)
-	{
-		m_tInfo.fY = 0.f;
-	}
+	
+
 	if (m_bPlay)
 	{
+		if (m_tInfo.fY > WINCY)
+		{
+			m_tInfo.fY = WINCY - 10.f;
+			m_bDead_Count = true;
+		}
 		CBlockMgr::Get_Instance()->Collision_with_Direction(this);
 	}
 
@@ -87,7 +89,6 @@ void  CPlayer::Late_Update(void)
 
 
 	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
-
 	Set_Dead_Moment();
 }
 
@@ -145,9 +146,6 @@ void CPlayer::Check_ActiveBuff(void)
 {
 	switch (m_iActiveBuff)
 	{
-	case ITEM_COIN:
-		Coin_Pickup();
-		break;
 	case ITEM_MUSHROOM:
 		Buff_Mushroom();
 		break;
@@ -158,12 +156,6 @@ void CPlayer::Check_ActiveBuff(void)
 		Buff_Flower();
 		break;
 	}
-}
-
-void CPlayer::Coin_Pickup()
-{
-	// Increase Coin by 1
-	// Increase Points by 200
 }
 
 void CPlayer::Buff_Mushroom()
@@ -204,6 +196,8 @@ void CPlayer::Buff_Flower()
 	if (!m_bIsBuffActive)
 	{
 		// Activate Buff
+		m_tInfo.fCX += m_tInfo.fCX;
+		m_tInfo.fCY += m_tInfo.fCY;
 		m_bCanShoot = true;
 		m_bIsBuffActive = true;
 	}
@@ -220,17 +214,20 @@ void CPlayer::Remove_Buff(ITEM_TYPE iBuff)
 	{
 		m_tInfo.fCX -= m_tInfo.fCX * 0.5f;
 		m_tInfo.fCY -= m_tInfo.fCY * 0.5f;
-		break;
 	}
 	case ITEM_STAR:
+	{
 		m_bIsInvincible = false;
 		break;
+	}
 	case ITEM_FLOWER:
+	{
+		m_tInfo.fCX -= m_tInfo.fCX * 0.5f;
+		m_tInfo.fCY -= m_tInfo.fCY * 0.5f;
 		m_bCanShoot = false;
-		break;
+	}
 	}
 }
-
 
 void CPlayer::Key_Input(void)
 {
@@ -267,7 +264,6 @@ void CPlayer::Key_Input(void)
 
 void CPlayer::Jumping(void)
 {
-
 	if (m_bFirst)
 	{
 		m_bBlock = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
@@ -288,12 +284,11 @@ void CPlayer::Jumping(void)
 			}
 		}
 	}
-
 	if (m_bBlock)
 	{
 		m_tInfo.fX += 2.f;
 		m_bBlock = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
-		m_bLineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
+		m_bLineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, m_tInfo.fY, &fY);
 		if (m_bLineCol)
 		{
 			m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
@@ -304,11 +299,9 @@ void CPlayer::Jumping(void)
 		m_tInfo.fX += 0.5f;
 		m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 	}
-
-
 	if (m_bPlay)
 	{
-		bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
+		bool b_LineCol = CLineMgr::Get_Instance()->CollisionLinePlayer(m_tInfo.fX, m_tInfo.fY, &m_tInfo.fX, &fY);
 		bool b_BlockCol = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
 		m_bFlag = CLineMgr::Get_Instance()->CollisionFlag(m_tRect, &fY);
 
@@ -338,13 +331,13 @@ void CPlayer::Jumping(void)
 		}
 		else if (m_bJump)
 		{
-			m_fJumpPower = 15;
+			m_fJumpPower = 14;
 			m_tInfo.fY -= m_fJumpPower*m_fTime - (9.8f*m_fTime*m_fTime*0.5f);
+			m_fTime += 0.11f;
 			if ((m_fJumpPower*m_fTime) < (9.8f*m_fTime*m_fTime*0.5f))
 			{
 				m_bJump = true;
 			}
-			m_fTime += 0.13f;
 			if (m_fTime > 3.9f)
 				m_fTime = 3.9f;
 
@@ -393,10 +386,11 @@ void CPlayer::Set_Dead_Moment(void)
 	if (m_bDead_Count)
 	{
 		m_bPlay = false;
-		m_tInfo.fY -= m_fJumpPower*m_fPTime - (9.8f*m_fPTime*m_fPTime*0.5f);
-		m_fPTime += 0.13f;
+		m_fJumpPower = 13.f;
+		m_tInfo.fY -= m_fJumpPower*m_fPTime - (9.8*m_fPTime*m_fPTime*0.5f);
+		m_fPTime += 0.07f;
 
-		if (m_tInfo.fY > WINCY)
+		if (m_tInfo.fY > WINCY + 100.f)
 		{
 			m_iLife -= 1;
 			m_fPTime = 0.0f;

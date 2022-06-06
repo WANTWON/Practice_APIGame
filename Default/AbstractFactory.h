@@ -77,10 +77,10 @@ public:
 	static CObj* Create(float _fX, float _fY, ITEM_TYPE _type)
 	{
 		CObj* pInstance = new T;
+		static_cast<CItem*>(pInstance)->Set_Type(_type);
 		pInstance->Initialize();
 		pInstance->Set_Pos(_fX, _fY);
-		static_cast<CItem*>(pInstance)->Set_Type(_type);
-	
+
 		return pInstance;
 	}
 
