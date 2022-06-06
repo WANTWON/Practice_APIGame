@@ -358,7 +358,7 @@ void CEditor::Choice_Tile(void)
 				case 10:
 					if (false == static_cast<CBlockNull*>(iter.second)->Get_Check())
 					{
-						ObjTemp = CAbstractFactory<CCoin>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+						ObjTemp = CAbstractFactory<CCoin>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY, ITEM_COIN);
 						CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, ObjTemp);
 						static_cast<CBlockNull*>(iter.second)->Set_Check(true);
 						return;
@@ -367,7 +367,7 @@ void CEditor::Choice_Tile(void)
 				case 11:
 					if (false == static_cast<CBlockNull*>(iter.second)->Get_Check())
 					{
-						ObjTemp = CAbstractFactory<CMushroom>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+						ObjTemp = CAbstractFactory<CMushroom>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY, ITEM_MUSHROOM);
 						CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, ObjTemp);
 						static_cast<CBlockNull*>(iter.second)->Set_Check(true);
 						return;
@@ -376,7 +376,7 @@ void CEditor::Choice_Tile(void)
 				case 12:
 					if (false == static_cast<CBlockNull*>(iter.second)->Get_Check())
 					{
-						ObjTemp = CAbstractFactory<CStar>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+						ObjTemp = CAbstractFactory<CStar>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY, ITEM_STAR);
 						CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, ObjTemp);
 						static_cast<CBlockNull*>(iter.second)->Set_Check(true);
 						return;
@@ -385,7 +385,7 @@ void CEditor::Choice_Tile(void)
 				case 13:
 					if (false == static_cast<CBlockNull*>(iter.second)->Get_Check())
 					{
-						ObjTemp = CAbstractFactory<CFlower>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+						ObjTemp = CAbstractFactory<CFlower>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY, ITEM_FLOWER);
 						CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, ObjTemp);
 						static_cast<CBlockNull*>(iter.second)->Set_Check(true);
 						return;
