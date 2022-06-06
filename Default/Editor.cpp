@@ -96,14 +96,15 @@ void CEditor::Release(void)
 
 void CEditor::Render(HDC hDC)
 {
+	
 	for (auto& iter : m_mapObj)
 	{
 		iter.second->Render(hDC);
 	}
-	for (auto& iter : m_mapChoiceObj)
+	/*for (auto& iter : m_mapChoiceObj)
 	{
 		iter.second->Render(hDC);
-	}
+	}*/
 
 	m_ObjMouse->Render(hDC);
 }

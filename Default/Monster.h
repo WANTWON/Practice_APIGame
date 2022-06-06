@@ -18,6 +18,7 @@ public:
 public:
 	void Be_Attacked(void) { --m_iHp;  if (m_iHp <= 0)m_bGet_Attacked = true; }
 	int Get_Number(void) { return m_iMonsterNumder; }
+	int Get_Hp(void){ return m_iHp; }
 
 protected:
 	bool m_bFalling;
