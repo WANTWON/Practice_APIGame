@@ -31,7 +31,7 @@ Save & Load
 	you must move that file on your Stage.
 	1 stage : Hyeyeon
 	2 stage : Seongjun
-	3 stage : Taegyeong
+	3 stage : Taekyung
 	4 stage : Gioi
 
 
