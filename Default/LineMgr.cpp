@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "LineMgr.h"
+#include "KeyMgr.h"
+#include "ScrollMgr.h"
 
 CLineMgr* CLineMgr::m_pInstance = nullptr;
 
@@ -67,6 +69,7 @@ void CLineMgr::Initialize(int _Number)
 
 void CLineMgr::Render(HDC hDC)
 {
+
 	for (auto& iter : m_Linelist)
 		iter->Render(hDC);
 

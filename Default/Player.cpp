@@ -9,6 +9,7 @@
 #include "Bullet.h"
 #include "StageMgr.h"
 #include "Stage.h"
+#include "ScrollMgr.h"
 
 CPlayer::CPlayer()
 	: m_pShield_Angle(0), m_bJump(false), m_fJumpPower(0), m_fTime(0), m_bFalling(false),
@@ -50,9 +51,11 @@ int CPlayer::Update(void)
 
 	if (false == m_bEditMode)
 	{
+		
 		Check_ActiveBuff();
 		Key_Input();
 		Jumping();
+		Offset();
 	}
 
 	Update_Rect();
@@ -95,6 +98,10 @@ void CPlayer::Release(void)
 
 void CPlayer::Render(HDC hDC)
 {
+
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+
+
 	if (m_bIsInvincible)
 	{
 		if (GetTickCount() > m_dwTime + 400)
@@ -110,7 +117,7 @@ void CPlayer::Render(HDC hDC)
 			myBrush = m_bColorSwitch ? (HBRUSH)CreateSolidBrush(RGB(255, 255, 0)) : (HBRUSH)CreateSolidBrush(RGB(255, 215, 0));
 			oldBrush = (HBRUSH)SelectObject(hDC, myBrush);
 
-			Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+			Rectangle(hDC, m_tRect.left +iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 
 			SelectObject(hDC, oldBrush);
 			DeleteObject(myBrush);
@@ -124,13 +131,13 @@ void CPlayer::Render(HDC hDC)
 		myBrush = (HBRUSH)CreateSolidBrush(RGB(255, 0, 0));
 		oldBrush = (HBRUSH)SelectObject(hDC, myBrush);
 
-		Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+		Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 
 		SelectObject(hDC, oldBrush);
 		DeleteObject(myBrush);
 	}
 	else
-		Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+		Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 
 }
 
@@ -234,7 +241,7 @@ void CPlayer::Key_Input(void)
 			m_tInfo.fX += m_fSpeed;
 			m_iLastDir = DIR_RIGHT;
 		}
-
+		
 	}
 
 	else if (GetAsyncKeyState(VK_LEFT))
@@ -244,6 +251,9 @@ void CPlayer::Key_Input(void)
 			m_tInfo.fX -= m_fSpeed;
 			m_iLastDir = DIR_LEFT;
 		}
+
+	
+			
 	}
 
 	if (CKeyMgr::Get_Instance()->Key_Down(VK_SPACE))
@@ -393,4 +403,20 @@ void CPlayer::Set_Dead_Moment(void)
 			m_bDead_Count = false;
 		}
 	}
+}
+
+void CPlayer::Offset(void)
+{
+	int iOffsetMinX = 300.f;
+	int iOffsetMaxX = 500.f;
+
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+
+	// 플레이어가 왼쪽을 향하는 경우
+	if (iOffsetMinX > m_tInfo.fX + iScrollX)
+		CScrollMgr::Get_Instance()->Set_ScrollX(m_fSpeed);
+
+	if (iOffsetMaxX < m_tInfo.fX + iScrollX)
+		CScrollMgr::Get_Instance()->Set_ScrollX(-m_fSpeed);
+
 }

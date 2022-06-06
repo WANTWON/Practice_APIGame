@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "NormalBlock.h"
+#include "ScrollMgr.h"
 
 
 
@@ -43,6 +44,8 @@ void CNormalBlock::Release(void)
 
 void CNormalBlock::Render(HDC hDC)
 {
-	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
-	TextOut(hDC, m_tInfo.fX, m_tInfo.fY, L"N", DT_CENTER);
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+
+	Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
+	TextOut(hDC, m_tInfo.fX + iScrollX, m_tInfo.fY, L"N", DT_CENTER);
 }

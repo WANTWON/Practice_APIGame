@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Line.h"
+#include "ScrollMgr.h"
 
 
 CLine::CLine() 
@@ -19,10 +20,15 @@ CLine::CLine(LINEPOINT & LeftPoint, LINEPOINT & RightPoint)
 
 void CLine::Render(HDC hDC)
 {
-	MoveToEx(hDC, (int)m_tInfo.fLPoint.fX, (int)m_tInfo.fLPoint.fY, nullptr);
-	LineTo(hDC, (int)m_tInfo.fRPoint.fX, (int)m_tInfo.fRPoint.fY);
+
+	int	iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+
+	MoveToEx(hDC, (int)m_tInfo.fLPoint.fX + iScrollX, (int)m_tInfo.fLPoint.fY, nullptr);
+	LineTo(hDC, (int)m_tInfo.fRPoint.fX + iScrollX, (int)m_tInfo.fRPoint.fY);
 }
 
 void CLine::Release(void)
 {
 }
+
+

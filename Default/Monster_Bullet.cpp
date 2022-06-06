@@ -3,6 +3,7 @@
 #include "MushroomMonster.h"
 #include "LineMgr.h"
 #include "AbstractFactory.h"
+#include "ScrollMgr.h"
 
 
 CMonsterBullet::CMonsterBullet() 
@@ -58,7 +59,8 @@ void CMonsterBullet::Late_Update()
 
 void CMonsterBullet::Render(HDC hDC)
 {
-	
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+
 	if (m_eState == LEVEL3)
 	{
 		HBRUSH myBrush = nullptr;
@@ -67,7 +69,7 @@ void CMonsterBullet::Render(HDC hDC)
 		myBrush = (HBRUSH)CreateSolidBrush(RGB(255, 235, 0));
 		oldBrush = (HBRUSH)SelectObject(hDC, myBrush);
 
-		Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+		Ellipse(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 
 		SelectObject(hDC, oldBrush);
 		DeleteObject(myBrush);
@@ -80,7 +82,7 @@ void CMonsterBullet::Render(HDC hDC)
 		myBrush = (HBRUSH)CreateSolidBrush(RGB(0, 0, 255));
 		oldBrush = (HBRUSH)SelectObject(hDC, myBrush);
 
-		Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+		Ellipse(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 
 		SelectObject(hDC, oldBrush);
 		DeleteObject(myBrush);

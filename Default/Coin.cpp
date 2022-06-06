@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Coin.h"
+#include "ScrollMgr.h"
 
 
 CCoin::CCoin()
@@ -44,13 +45,16 @@ void CCoin::Late_Update()
 
 void CCoin::Render(HDC hDC)
 {
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+
+
 	HBRUSH myBrush = nullptr;
 	HBRUSH oldBrush = nullptr;
 
 	myBrush = (HBRUSH)CreateSolidBrush(RGB(255, 255, 0));
 	oldBrush = (HBRUSH)SelectObject(hDC, myBrush);
 
-	Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+	Ellipse(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 
 	SelectObject(hDC, oldBrush);
 	DeleteObject(myBrush);
