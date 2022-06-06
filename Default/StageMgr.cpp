@@ -122,6 +122,8 @@ void CStageMgr::Late_Update(void)
 
 void CStageMgr::Render(HDC hDC)
 {
+	
+
 	if (m_eChoice_Stage != STAGE_END)
 	{
 		//m_Mouse->Render(m_hDc);
@@ -129,6 +131,7 @@ void CStageMgr::Render(HDC hDC)
 	}
 	else if (m_eChoice_Stage == STAGE_END)
 	{
+		Rectangle(hDC, 0, 0, WINCX, WINCY);
 		for (size_t i = 0; i< STAGE_END; ++i)
 			Rectangle(hDC, m_tRect[i].left, m_tRect[i].top, m_tRect[i].right, m_tRect[i].bottom);
 

@@ -131,7 +131,7 @@ bool CBlockMgr::CollisionBlock(RECT Player, float _fX, float * Change_fY)
 		for (auto& iter : m_Blocklist[i])
 		{
 			if (Player.right >= iter->Get_Rect().left && Player.left < iter->Get_Rect().right
-				&& Player.bottom < iter->Get_Rect().top + 2 && Player.bottom > iter->Get_Rect().top - 2)
+				&& Player.bottom < iter->Get_Rect().top + 3 && Player.bottom > iter->Get_Rect().top - 3 )
 				// 플레이어의 X값(중점)이 상자의 왼쪽과 오른쪽 사이에 있고, 플레이어의 Bottom이 상자의 Top보다 클 때
 				// (이때, 플레이어랑 상자의 X값만 조건으로 하면 바로 Jump가 false처리 되어 순간이동 할 수 있어서, Y값도 조건으로 주고 2를 임의적으로 추가함)
 				pTarget = iter;
@@ -201,11 +201,11 @@ bool CBlockMgr::Collision_with_Direction(CObj* Player)
 				//Player->Set_PosY(fHeight);
 		}
 		else //좌우 충돌 
-		{/*
+		{
 			if (pTarget->Get_Info().fX > Player->Get_Info().fX)
 				Player->Set_PosX(-fWidth);
 			else
-				Player->Set_PosX(fWidth);*/
+				Player->Set_PosX(fWidth);
 		}
 	}
 }
@@ -215,6 +215,7 @@ void CBlockMgr::Col_Player(CObj* _thisBlock, DIRECTION _eDir)
 	switch (_eDir)
 	{
 	case DIR_UP:
+ 	//	static_cast<CPlayer*>(m_listPlayer.front())->Set_PosY(_thisBlock->Get_Info().fY - (_thisBlock->Get_Info().fCY * 0.5f));
 		break;
 
 	case DIR_DOWN:

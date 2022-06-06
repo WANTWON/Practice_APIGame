@@ -192,16 +192,18 @@ void CEditor::Release(void)
 void CEditor::Render(HDC hDC)
 {
 	
-	for (auto& iter : m_mapObj)
-	{
-		iter.second->Render(hDC);
-	}
+	
+	Rectangle(hDC, 0, 0, 200, WINCY);
+
 	for (auto& iter : m_mapChoiceObj)
 	{
 		iter.second->Render(hDC);
 
 	}
-
+	for (auto& iter : m_mapObj)
+	{
+		iter.second->Render(hDC);
+	}
 	CUIMgr::Get_Instance()->Render(hDC);
 	CObjMgr::Get_Instance()->Render(hDC);
 	CBlockMgr::Get_Instance()->Render(hDC);

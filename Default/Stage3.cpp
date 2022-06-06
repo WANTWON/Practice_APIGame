@@ -66,7 +66,7 @@ void CStage3::Late_Update(void)
 
 void CStage3::Render(HDC hDc)
 {
-	//Rectangle(hDc, 0, 0, WINCX, WINCY);
+	Rectangle(hDc, 0, 0, WINCX, WINCY);
 	CObjMgr::Get_Instance()->Render(hDc);
 	CLineMgr::Get_Instance()->Render(hDc);
 	CBlockMgr::Get_Instance()->Render(hDc);
