@@ -165,7 +165,7 @@ void CObjMgr::Save_File(void)
 
 	if (INVALID_HANDLE_VALUE == hFile)
 	{
-		MessageBox(g_hWnd, L"Save File", L"Error", MB_OK);
+		MessageBox(g_hWnd, L"Save Player", L"Error", MB_OK);
 		return;
 	}
 
@@ -229,114 +229,433 @@ void CObjMgr::Save_File(void)
 
 
 #ifdef _DEBUG
-	MessageBox(g_hWnd, L"Save 己傍", L"己傍", MB_OK);
+	MessageBox(g_hWnd, L"Object Save 己傍", L"己傍", MB_OK);
 #endif	//_DEBUG
 
 	return;
 }
 
-void CObjMgr::Load_File(void)
+void CObjMgr::Load_File(int _iStage)
 {
-	//	Player
-	HANDLE	hFile = CreateFile(L"../Data/SaveTemp/ObjPlayer.dat",
-		GENERIC_READ,
-		NULL,
-		NULL,
-		OPEN_EXISTING,
-		FILE_ATTRIBUTE_NORMAL,
-		NULL);
-
-	if (INVALID_HANDLE_VALUE == hFile)
-	{
-		MessageBox(g_hWnd, L"Load Player", L"Error", MB_OK);
-		return;
-	}
-
+	HANDLE	hFile = nullptr;
 	DWORD	dwByte = 0;
 	DWORD	dwTypeByte = 0;
 	INFO	tTemp{};
 	int		iTypeTemp = 0;
 
-	while (true)
+	switch (_iStage)
 	{
-		ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
-		ReadFile(hFile, &iTypeTemp, sizeof(int), &dwTypeByte, nullptr);
+	case 1:
+		//	Player
+		hFile = CreateFile(L"../Data/Save1/ObjPlayer.dat",
+			GENERIC_READ,
+			NULL,
+			NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL);
 
-		if (0 == dwByte)
-			break;
-		if (0 == dwTypeByte)
-			break;
-
-		switch (iTypeTemp)
+		if (INVALID_HANDLE_VALUE == hFile)
 		{
-		case PLAYER_NORMAL:
-			m_pObjList[OBJ_PLAYER].push_back(CAbstractFactory<CPlayer>::Create(tTemp.fX, tTemp.fY));
-			break;
-
-		default:
-			break;
+			MessageBox(g_hWnd, L"Load Player", L"Error", MB_OK);
+			return;
 		}
-	}
-	CloseHandle(hFile);
+
+		dwByte = 0;
+		dwTypeByte = 0;
+		tTemp = {};
+		iTypeTemp = 0;
+
+		while (true)
+		{
+			ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
+			ReadFile(hFile, &iTypeTemp, sizeof(int), &dwTypeByte, nullptr);
+
+			if (0 == dwByte)
+				break;
+			if (0 == dwTypeByte)
+				break;
+
+			switch (iTypeTemp)
+			{
+			case PLAYER_NORMAL:
+				m_pObjList[OBJ_PLAYER].push_back(CAbstractFactory<CPlayer>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			default:
+				break;
+			}
+		}
+		CloseHandle(hFile);
 
 
 
-	//	Monster
-	hFile = CreateFile(L"../Data/SaveTemp/ObjMonster.dat",
-		GENERIC_READ,
-		NULL,
-		NULL,
-		OPEN_EXISTING,
-		FILE_ATTRIBUTE_NORMAL,
-		NULL);
-	if (INVALID_HANDLE_VALUE == hFile)
-	{
-		MessageBox(g_hWnd, L"Load Monster", L"Error", MB_OK);
+		//	Monster
+		hFile = CreateFile(L"../Data/Save1/ObjMonster.dat",
+			GENERIC_READ,
+			NULL,
+			NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL);
+		if (INVALID_HANDLE_VALUE == hFile)
+		{
+			MessageBox(g_hWnd, L"Load Monster", L"Error", MB_OK);
+			return;
+		}
+		while (true)
+		{
+			ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
+			ReadFile(hFile, &iTypeTemp, sizeof(int), &dwTypeByte, nullptr);
+
+			if (0 == dwByte)
+				break;
+			if (0 == dwTypeByte)
+				break;
+
+
+			switch (iTypeTemp)
+			{
+			case MONSTER_MUSHROOM:
+				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMushroomMonster>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			case MONSTER_TURTLE:
+				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CTurtleMonster>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			case MONSTER_TURTLEBACK:
+				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CTurtleBack>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			case MONSTER_JUMPING:
+				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CJumpingMonster>::Create_with_Target(tTemp.fX, tTemp.fY, CObjMgr::Get_Instance()->Get_Player()));
+				break;
+
+			case MONSTER_FLYING:
+				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CFlyingMonster>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			case MONSTER_BOSS:
+				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CBossMonster>::Create_with_Target(tTemp.fX, tTemp.fY, CObjMgr::Get_Instance()->Get_Player()));
+				break;
+
+			default:
+				break;
+			}
+		}
+		CloseHandle(hFile);
+
+
+		return;
+	case 2:
+		//	Player
+		hFile = CreateFile(L"../Data/Save2/ObjPlayer.dat",
+			GENERIC_READ,
+			NULL,
+			NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL);
+
+		if (INVALID_HANDLE_VALUE == hFile)
+		{
+			MessageBox(g_hWnd, L"Load Player", L"Error", MB_OK);
+			return;
+		}
+
+		dwByte = 0;
+		dwTypeByte = 0;
+		tTemp = {};
+		iTypeTemp = 0;
+
+		while (true)
+		{
+			ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
+			ReadFile(hFile, &iTypeTemp, sizeof(int), &dwTypeByte, nullptr);
+
+			if (0 == dwByte)
+				break;
+			if (0 == dwTypeByte)
+				break;
+
+			switch (iTypeTemp)
+			{
+			case PLAYER_NORMAL:
+				m_pObjList[OBJ_PLAYER].push_back(CAbstractFactory<CPlayer>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			default:
+				break;
+			}
+		}
+		CloseHandle(hFile);
+
+
+
+		//	Monster
+		hFile = CreateFile(L"../Data/Save2/ObjMonster.dat",
+			GENERIC_READ,
+			NULL,
+			NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL);
+		if (INVALID_HANDLE_VALUE == hFile)
+		{
+			MessageBox(g_hWnd, L"Load Monster", L"Error", MB_OK);
+			return;
+		}
+		while (true)
+		{
+			ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
+			ReadFile(hFile, &iTypeTemp, sizeof(int), &dwTypeByte, nullptr);
+
+			if (0 == dwByte)
+				break;
+			if (0 == dwTypeByte)
+				break;
+
+
+			switch (iTypeTemp)
+			{
+			case MONSTER_MUSHROOM:
+				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMushroomMonster>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			case MONSTER_TURTLE:
+				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CTurtleMonster>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			case MONSTER_TURTLEBACK:
+				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CTurtleBack>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			case MONSTER_JUMPING:
+				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CJumpingMonster>::Create_with_Target(tTemp.fX, tTemp.fY, CObjMgr::Get_Instance()->Get_Player()));
+				break;
+
+			case MONSTER_FLYING:
+				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CFlyingMonster>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			case MONSTER_BOSS:
+				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CBossMonster>::Create_with_Target(tTemp.fX, tTemp.fY, CObjMgr::Get_Instance()->Get_Player()));
+				break;
+
+			default:
+				break;
+			}
+		}
+		CloseHandle(hFile);
+
+
+		return;
+	case 3:
+		//	Player
+		hFile = CreateFile(L"../Data/Save3/ObjPlayer.dat",
+			GENERIC_READ,
+			NULL,
+			NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL);
+
+		if (INVALID_HANDLE_VALUE == hFile)
+		{
+			MessageBox(g_hWnd, L"Load Player", L"Error", MB_OK);
+			return;
+		}
+
+		dwByte = 0;
+		dwTypeByte = 0;
+		tTemp = {};
+		iTypeTemp = 0;
+
+		while (true)
+		{
+			ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
+			ReadFile(hFile, &iTypeTemp, sizeof(int), &dwTypeByte, nullptr);
+
+			if (0 == dwByte)
+				break;
+			if (0 == dwTypeByte)
+				break;
+
+			switch (iTypeTemp)
+			{
+			case PLAYER_NORMAL:
+				m_pObjList[OBJ_PLAYER].push_back(CAbstractFactory<CPlayer>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			default:
+				break;
+			}
+		}
+		CloseHandle(hFile);
+
+
+
+		//	Monster
+		hFile = CreateFile(L"../Data/Save3/ObjMonster.dat",
+			GENERIC_READ,
+			NULL,
+			NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL);
+		if (INVALID_HANDLE_VALUE == hFile)
+		{
+			MessageBox(g_hWnd, L"Load Monster", L"Error", MB_OK);
+			return;
+		}
+		while (true)
+		{
+			ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
+			ReadFile(hFile, &iTypeTemp, sizeof(int), &dwTypeByte, nullptr);
+
+			if (0 == dwByte)
+				break;
+			if (0 == dwTypeByte)
+				break;
+
+
+			switch (iTypeTemp)
+			{
+			case MONSTER_MUSHROOM:
+				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMushroomMonster>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			case MONSTER_TURTLE:
+				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CTurtleMonster>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			case MONSTER_TURTLEBACK:
+				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CTurtleBack>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			case MONSTER_JUMPING:
+				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CJumpingMonster>::Create_with_Target(tTemp.fX, tTemp.fY, CObjMgr::Get_Instance()->Get_Player()));
+				break;
+
+			case MONSTER_FLYING:
+				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CFlyingMonster>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			case MONSTER_BOSS:
+				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CBossMonster>::Create_with_Target(tTemp.fX, tTemp.fY, CObjMgr::Get_Instance()->Get_Player()));
+				break;
+
+			default:
+				break;
+			}
+		}
+		CloseHandle(hFile);
+
+
+		return;
+	case 4:
+		//	Player
+		hFile = CreateFile(L"../Data/Save4/ObjPlayer.dat",
+			GENERIC_READ,
+			NULL,
+			NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL);
+
+		if (INVALID_HANDLE_VALUE == hFile)
+		{
+			MessageBox(g_hWnd, L"Load Player", L"Error", MB_OK);
+			return;
+		}
+
+		dwByte = 0;
+		dwTypeByte = 0;
+		tTemp = {};
+		iTypeTemp = 0;
+
+		while (true)
+		{
+			ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
+			ReadFile(hFile, &iTypeTemp, sizeof(int), &dwTypeByte, nullptr);
+
+			if (0 == dwByte)
+				break;
+			if (0 == dwTypeByte)
+				break;
+
+			switch (iTypeTemp)
+			{
+			case PLAYER_NORMAL:
+				m_pObjList[OBJ_PLAYER].push_back(CAbstractFactory<CPlayer>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			default:
+				break;
+			}
+		}
+		CloseHandle(hFile);
+
+
+
+		//	Monster
+		hFile = CreateFile(L"../Data/Save4/ObjMonster.dat",
+			GENERIC_READ,
+			NULL,
+			NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL);
+		if (INVALID_HANDLE_VALUE == hFile)
+		{
+			MessageBox(g_hWnd, L"Load Monster", L"Error", MB_OK);
+			return;
+		}
+		while (true)
+		{
+			ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
+			ReadFile(hFile, &iTypeTemp, sizeof(int), &dwTypeByte, nullptr);
+
+			if (0 == dwByte)
+				break;
+			if (0 == dwTypeByte)
+				break;
+
+
+			switch (iTypeTemp)
+			{
+			case MONSTER_MUSHROOM:
+				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMushroomMonster>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			case MONSTER_TURTLE:
+				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CTurtleMonster>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			case MONSTER_TURTLEBACK:
+				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CTurtleBack>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			case MONSTER_JUMPING:
+				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CJumpingMonster>::Create_with_Target(tTemp.fX, tTemp.fY, CObjMgr::Get_Instance()->Get_Player()));
+				break;
+
+			case MONSTER_FLYING:
+				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CFlyingMonster>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			case MONSTER_BOSS:
+				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CBossMonster>::Create_with_Target(tTemp.fX, tTemp.fY, CObjMgr::Get_Instance()->Get_Player()));
+				break;
+
+			default:
+				break;
+			}
+		}
+		CloseHandle(hFile);
+
+
 		return;
 	}
-	while (true)
-	{
-		ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
-		ReadFile(hFile, &iTypeTemp, sizeof(int), &dwTypeByte, nullptr);
-
-		if (0 == dwByte)
-			break;
-		if (0 == dwTypeByte)
-			break;
-
-
-		switch (iTypeTemp)
-		{
-		case MONSTER_MUSHROOM:
-			m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMushroomMonster>::Create(tTemp.fX, tTemp.fY));
-			break;
-
-		case MONSTER_TURTLE:
-			m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CTurtleMonster>::Create(tTemp.fX, tTemp.fY));
-			break;
-
-		case MONSTER_TURTLEBACK:
-			m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CTurtleBack>::Create(tTemp.fX, tTemp.fY));
-			break;
-
-		case MONSTER_JUMPING:
-			m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CJumpingMonster>::Create_with_Target(tTemp.fX, tTemp.fY, CObjMgr::Get_Instance()->Get_Player()));
-			break;
-
-		case MONSTER_FLYING:
-			m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CFlyingMonster>::Create(tTemp.fX, tTemp.fY));
-			break;
-
-		case MONSTER_BOSS:
-			m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CBossMonster>::Create_with_Target(tTemp.fX, tTemp.fY, CObjMgr::Get_Instance()->Get_Player()));
-			break;
-
-		default:
-			break;
-		}
-	}
-	CloseHandle(hFile);
-
-
-	return;
 }

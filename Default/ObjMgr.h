@@ -46,7 +46,7 @@ public:
 
 
 	void	Save_File(void);
-	void	Load_File(void);
+	void	Load_File(int _iStage);
 
 	static void Destroy_Instance()
 	{

@@ -27,7 +27,7 @@ public:
 
 public:
 	void	Save_File(void);
-	void	Load_File(void);
+	void	Load_File(int _iStage);
 
 public:
 	static CBlockMgr* Get_Instance(void)

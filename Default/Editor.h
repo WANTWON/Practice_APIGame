@@ -50,7 +50,6 @@ public:
 	void	Choice_Tile(void);
 
 	void	Save_File(void);
-	void	Load_File(void);
 
 
 private:

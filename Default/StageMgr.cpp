@@ -37,7 +37,6 @@ void CStageMgr::Initialize(void)
 
 void CStageMgr::Update(void)
 {
-	Load_File();
 	int iEvent = 0;
 
 	if (m_eChoice_Stage != STAGE_END)
@@ -148,15 +147,6 @@ void CStageMgr::Render_Points_Total(HDC hDC)
 	TCHAR sztCoins[32] = L"";
 	swprintf_s(sztCoins, L"ÄÚÀÎ : %d", m_iCoins);
 	TextOut(hDC, 170, 30, sztCoins, lstrlen(sztCoins));
-}
-
-void CStageMgr::Load_File(void)
-{
-	if (GetAsyncKeyState('L'))
-	{
-		CObjMgr::Get_Instance()->Load_File();
-		CBlockMgr::Get_Instance()->Load_File();
-	}
 }
 
 void CStageMgr::Release(void)

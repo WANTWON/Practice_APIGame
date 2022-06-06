@@ -1,7 +1,70 @@
 #include "stdafx.h"
 #include "Editor.h"
 
+/*
+/////////////////////////////////////
+////////////   READ ME   ////////////
+/////////////////////////////////////
 
+Editor version 0.01
+How to Use Editor
+First
+	Left top 1 Block = Player
+	You can Only One Chance ( If you want to delete Player or Move Player Position, Close and Open File )
+	if you set Boss or Chasing Monster, It would be Error and close. ( Player = nullptr )
+
+
+Warning.
+	Choice class( Object ) by Left Click
+	if you want to set other class, you can change your mouse to NULL by Right Click
+
+	if you wrong set Object, Plz close and open file. ( DEBUGING . . . )
+
+	if you Save and load file, you can Overlap Object. so that don't set Object if there have object.
+
+
+
+Save & Load
+	In EditorMode, Save by 'S' on keyboard
+	File save on "../Data/SaveTemp/Obj~~.dat"
+	you must move that file on your Stage.
+	1 stage : Hyeyeon
+	2 stage : Seongjun
+	3 stage : Taegyeong
+	4 stage : Gioi
+
+
+
+Choice Class ( Left top )
+from the Top,
+Player 1 ps
+
+Monster 6 ps / Monster Order by right Folder( 01. Monster )
+//	1	2	3
+//	4	5	6
+1. Mushroom
+2. Turtle
+3. TurtleBack
+4. Jumping
+5. Flying
+6. Boss
+
+Block 3 ps
+//	1	2	3
+1. Normal
+2. Coin
+3. Item
+
+Item 4 ps
+//	1	2	3
+//	4
+1. Coin	- Don't Use. It would be delete soon.
+2. Mushroom
+3. Star
+4. Flower
+
+
+*/
 CEditor::CEditor()
 	:m_ObjMouse(nullptr), m_iChoiceNumber(-1)
 {
@@ -57,9 +120,6 @@ void CEditor::Initialize(void)
 			25.f + (50.f * float(i % 3)),
 			400.f + (50.f * float(i / 3))));
 	}
-
-
-	CObjMgr::Get_Instance()->Set_EditorMode();
 }
 
 int CEditor::Update(void)
@@ -83,7 +143,7 @@ int CEditor::Update(void)
 
 
 	Save_File();
-	Load_File();
+	CObjMgr::Get_Instance()->Set_EditorMode();
 	return 0;
 }
 
@@ -325,11 +385,3 @@ void CEditor::Save_File(void)
 	}
 }
 
-void CEditor::Load_File(void)
-{
-	if (GetAsyncKeyState('L'))
-	{
-		CObjMgr::Get_Instance()->Load_File();
-		CBlockMgr::Get_Instance()->Load_File();
-	}
-}
