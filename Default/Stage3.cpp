@@ -7,6 +7,7 @@
 #include "LineMgr.h"
 #include "FlagBlock.h"
 #include "NormalBlock.h"
+#include "UIMgr.h"
 
 CStage3::CStage3()
 {
@@ -19,12 +20,12 @@ CStage3::~CStage3()
 
 void CStage3::Initialize(void)
 {
-	CBlockMgr::Get_Instance()->Initialize();
-	CLineMgr::Get_Instance()->Initialize(3);
-	CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, CAbstractFactory<CPlayer>::Create(50.f, 460.f,m_iCount));
-	//CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CMushroomMonster>::Create(600, 200));
-	CBlockMgr::Get_Instance()->Add_Object(BLOCK_FLAG, CAbstractFactory<CFlagBlock>::Create(550, 445, false));
-	CBlockMgr::Get_Instance()->Add_Object(BLOCK_FLAG, CAbstractFactory<CFlagBlock>::Create(535, 100, true));
+	//CBlockMgr::Get_Instance()->Initialize();
+	//CLineMgr::Get_Instance()->Initialize(3);
+	//CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, CAbstractFactory<CPlayer>::Create(50.f, 460.f,m_iCount));
+	////CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CMushroomMonster>::Create(600, 200));
+	//CBlockMgr::Get_Instance()->Add_Object(BLOCK_FLAG, CAbstractFactory<CFlagBlock>::Create(550, 445, false));
+	//CBlockMgr::Get_Instance()->Add_Object(BLOCK_FLAG, CAbstractFactory<CFlagBlock>::Create(535, 100, true));
 
 	m_dwView = GetTickCount();
 
@@ -39,6 +40,7 @@ int CStage3::Update(void)
 	if (m_bClear)
 		return STAGE_CLEAR;
 
+	CUIMgr::Get_Instance()->Update();
 	CObjMgr::Get_Instance()->Update();
 	CBlockMgr::Get_Instance()->Update();
 
@@ -61,7 +63,8 @@ void CStage3::Late_Update(void)
 			m_bView = false;
 		}
 	}
-
+	
+	CUIMgr::Get_Instance()->Late_Update();
 	CObjMgr::Get_Instance()->Late_Update();
 	CBlockMgr::Get_Instance()->Late_Update();
 }
