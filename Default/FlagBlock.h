@@ -1,6 +1,8 @@
 #pragma once
 #include "Block.h"
 
+
+// ¼öÁ¤
 class CFlagBlock :	public CBlock
 {
 public:
