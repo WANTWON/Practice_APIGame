@@ -136,8 +136,8 @@
     <Filter Include="98.Design\UIMgr">
       <UniqueIdentifier>{eeb3bd1d-a2d6-482d-82f9-9dcabd40d82d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Obj\06.BlockNull">
-      <UniqueIdentifier>{293c0c43-68d5-44c4-b9fb-152ec3e16e7b}</UniqueIdentifier>
+    <Filter Include="98.Design\ScrollMgr">
+      <UniqueIdentifier>{e02ba10b-bc00-41aa-92fc-7e722f210002}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -292,7 +292,10 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="BlockNull.h">
-      <Filter>01.Obj\06.BlockNull</Filter>
+      <Filter>97.Stage\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="ScrollMgr.h">
+      <Filter>98.Design\ScrollMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -408,7 +411,10 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="BlockNull.cpp">
-      <Filter>01.Obj\06.BlockNull</Filter>
+      <Filter>97.Stage\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="ScrollMgr.cpp">
+      <Filter>98.Design\ScrollMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

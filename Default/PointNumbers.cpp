@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PointNumbers.h"
 #include "Define.h"
+#include "ScrollMgr.h"
 
 CPointNumbers::CPointNumbers()
 {
@@ -40,10 +41,12 @@ void CPointNumbers::Late_Update()
 
 void CPointNumbers::Render(HDC hDC)
 {
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+
 	if (m_iNumber != 0)
 	{
 		TCHAR sztPoints[32] = L"";
 		swprintf_s(sztPoints, L"%d", m_iNumber);
-		TextOut(hDC, m_fX, m_fY, sztPoints, lstrlen(sztPoints));
+		TextOut(hDC, m_fX + iScrollX, m_fY, sztPoints, lstrlen(sztPoints));
 	}
 }

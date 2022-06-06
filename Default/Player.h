@@ -46,6 +46,7 @@ public:
 	int Get_Level(void) { return m_iLevel; }
 
 	const PLAYER_LIST& Get_PlayerType(void) { return m_eType; }
+	void Offset(void);
 	
 private:
 	void Key_Input(void);

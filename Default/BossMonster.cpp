@@ -7,6 +7,7 @@
 #include "Bullet.h"
 #include "CollisionMgr.h"
 #include "TurtleBack.h"
+#include "ScrollMgr.h"
 
 
 
@@ -80,7 +81,9 @@ void CBossMonster::Release(void)
 
 void CBossMonster::Render(HDC hDC)
 {
-	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+
+	Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 }
 
 void CBossMonster::Move(void)

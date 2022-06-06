@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "TurtleBack.h"
 #include "LineMgr.h"
+#include "ScrollMgr.h"
 
 CTurtleBack::CTurtleBack()
 {
@@ -62,13 +63,16 @@ void CTurtleBack::Release(void)
 
 void CTurtleBack::Render(HDC hDC)
 {
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+
+
 	HBRUSH myBrush = nullptr;
 	HBRUSH oldBrush = nullptr;
 
 	myBrush = (HBRUSH)CreateSolidBrush(RGB(0, 200, 0));
 	oldBrush = (HBRUSH)SelectObject(hDC, myBrush);
 
-	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+	Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 
 	SelectObject(hDC, oldBrush);
 	DeleteObject(myBrush);

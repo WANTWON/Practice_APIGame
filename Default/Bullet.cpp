@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Bullet.h"
 #include "LineMgr.h"
+#include "ScrollMgr.h"
 
 // Bullet:
 // .Should bounce on horizontal surfaces; -OK
@@ -83,13 +84,16 @@ void CBullet::Late_Update()
 
 void CBullet::Render(HDC hDC)
 {
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+
+
 	HBRUSH myBrush = nullptr;
 	HBRUSH oldBrush = nullptr;
 
 	myBrush = (HBRUSH)CreateSolidBrush(RGB(255, 0, 0));
 	oldBrush = (HBRUSH)SelectObject(hDC, myBrush);
 
-	Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom); 
+	Ellipse(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom); 
 
 	SelectObject(hDC, oldBrush);
 	DeleteObject(myBrush);

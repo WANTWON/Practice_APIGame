@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ItemBlock.h"
+#include "ScrollMgr.h"
 
 
 CItemBlock::CItemBlock()
@@ -49,6 +50,8 @@ void CItemBlock::Release(void)
 
 void CItemBlock::Render(HDC hDC)
 {
-	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+
+	Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 	TextOut(hDC, m_tInfo.fX, m_tInfo.fY, L"I", DT_CENTER);
 }

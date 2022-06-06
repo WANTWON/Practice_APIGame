@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Mushroom.h"
 #include "LineMgr.h"
+#include "ScrollMgr.h"
 
 CMushroom::CMushroom()
 {
@@ -51,7 +52,9 @@ void CMushroom::Late_Update()
 
 void CMushroom::Render(HDC hDC)
 {
-	Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+
+	Ellipse(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 }
 
 void CMushroom::Animate()

@@ -6,6 +6,7 @@
 #include "TurtleBack.h"
 #include "TurtleMonster.h"
 #include "Player.h"
+#include "ScrollMgr.h"
 
 
 CJumpingMonster::CJumpingMonster() : m_fTime(0), m_bJump(true)
@@ -82,6 +83,8 @@ void CJumpingMonster::Release(void)
 
 void CJumpingMonster::Render(HDC hDC)
 {
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+
 	if (m_bGet_Attacked == false)
 	{
 		HBRUSH myBrush = nullptr;
@@ -90,7 +93,7 @@ void CJumpingMonster::Render(HDC hDC)
 		myBrush = (HBRUSH)CreateSolidBrush(RGB(0, 200, 0));
 		oldBrush = (HBRUSH)SelectObject(hDC, myBrush);
 
-		Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+		Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 
 		SelectObject(hDC, oldBrush);
 		DeleteObject(myBrush);
