@@ -319,22 +319,27 @@ void CCollisionMgr::Collision_Item(CObj * Player, list<CObj*> Items)
 		if (Check_Rect(Player, item, &fWidth, &fHeight))
 		{
 			CPlayer* pPlayer = static_cast<CPlayer*>(Player);
+			CItem* pItem = static_cast<CItem*>(item);
 
-			// No Buff
-			if (pPlayer->Get_ActiveBuff() == ITEM_END)
+			// If Item is not a Coin
+			if (pItem->Get_Type() != ITEM_COIN && pItem->Get_Type() != OBJ_COIN)
 			{
-				// Set Active Buff and Buff Time
-				pPlayer->Set_ActiveBuff(static_cast<CItem*>(item)->Get_Type());
-				pPlayer->Set_BuffTime(GetTickCount());
-			}
-			// Already have Buff
-			else
-			{
-				pPlayer->Remove_Buff(pPlayer->Get_ActiveBuff());
+				// Player has no Buff
+				if (pPlayer->Get_ActiveBuff() == ITEM_END)
+				{
+					// Set Active Buff and Buff Time
+					pPlayer->Set_ActiveBuff(pItem->Get_Type());
+					pPlayer->Set_BuffTime(GetTickCount());
+				}
+				// Player already has Buff
+				else
+				{
+					pPlayer->Remove_Buff(pPlayer->Get_ActiveBuff());
 
-				// Set Active Buff and Buff Time
-				pPlayer->Set_ActiveBuff(static_cast<CItem*>(item)->Get_Type());
-				pPlayer->Set_BuffTime(GetTickCount());
+					// Set Active Buff and Buff Time
+					pPlayer->Set_ActiveBuff(static_cast<CItem*>(item)->Get_Type());
+					pPlayer->Set_BuffTime(GetTickCount());
+				}
 			}
 
 			// Destroy Item

@@ -141,9 +141,6 @@ void CPlayer::Check_ActiveBuff(void)
 {
 	switch (m_iActiveBuff)
 	{
-	case ITEM_COIN:
-		Coin_Pickup();
-		break;
 	case ITEM_MUSHROOM:
 		Buff_Mushroom();
 		break;
@@ -154,12 +151,6 @@ void CPlayer::Check_ActiveBuff(void)
 		Buff_Flower();
 		break;
 	}
-}
-
-void CPlayer::Coin_Pickup()
-{
-	// Increase Coin by 1
-	// Increase Points by 200
 }
 
 void CPlayer::Buff_Mushroom()

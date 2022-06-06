@@ -2,8 +2,7 @@
 #include "Coin.h"
 #include "ScrollMgr.h"
 
-
-CCoin::CCoin()
+CCoin::CCoin() : m_bIsBlockItem(false)
 {
 
 }
@@ -18,12 +17,19 @@ void CCoin::Initialize()
 	m_tInfo.fCX = 10.f;
 	m_tInfo.fCY = 15.f;
 	m_fSpeed = 5.f;
-
 	m_fAnimSpeed = 15.f;
+	
+	m_iPoints_Given = 200;
+	m_iCoins_Given = 1;
+
+	// Is a Coin spawned from a Block
+	if (m_Type == ITEM_COIN)
+		m_bIsBlockItem = true; // If FALSE, is a Coin placed in the Level
 }
 
 void CCoin::Release()
 {
+
 }
 
 int CCoin::Update()
@@ -31,7 +37,8 @@ int CCoin::Update()
 	if (m_bDead)
 		return OBJ_DEAD;
 
-	Animate();
+	if (m_bIsBlockItem)
+		Animate();
 
 	Update_Rect();
 
@@ -47,7 +54,6 @@ void CCoin::Render(HDC hDC)
 {
 	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
 
-
 	HBRUSH myBrush = nullptr;
 	HBRUSH oldBrush = nullptr;
 
@@ -57,9 +63,7 @@ void CCoin::Render(HDC hDC)
 	Ellipse(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 
 	SelectObject(hDC, oldBrush);
-	DeleteObject(myBrush);
-
-	
+	DeleteObject(myBrush);	
 }
 
 void CCoin::Animate()
@@ -68,9 +72,8 @@ void CCoin::Animate()
 	m_tInfo.fY -= m_fAnimSpeed * m_fAnimTime - 0.5f * (pow(m_fAnimTime, 2) * m_fAnimAccel);
 	m_fAnimTime += .2f;
 
-	if (GetTickCount() > m_dwTime + 325)
-		m_bDead = true;
-
 	// TODO:
 	// Destroy on collision with source block (not based on time).
+	if (GetTickCount() > m_dwTime + 325)
+		this->Set_Dead(true);
 }
