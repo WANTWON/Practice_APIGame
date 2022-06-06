@@ -26,6 +26,7 @@ public:
 public:
 	float		Get_ScrollX(void) { return m_fScrollX; }
 	void		Set_ScrollX(float _x) { m_fScrollX += _x; }
+	void		Zero_Scroll(void) { m_fScrollX = 0; }
 
 private:
 	static		CScrollMgr*		m_pInstance;

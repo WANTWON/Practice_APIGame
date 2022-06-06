@@ -66,7 +66,8 @@ void CFlyingMonster::Late_Update(void)
 
 	}
 
-	
+	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
+
 }
 
 void CFlyingMonster::Release(void)

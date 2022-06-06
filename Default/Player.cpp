@@ -404,6 +404,7 @@ void CPlayer::Set_Dead_Moment(void)
 			m_bJump = false;
 			m_bBye = true;
 			m_bDead_Count = false;
+			CScrollMgr::Get_Instance()->Zero_Scroll();
 		}
 	}
 }

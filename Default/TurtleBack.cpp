@@ -2,6 +2,8 @@
 #include "TurtleBack.h"
 #include "LineMgr.h"
 #include "ScrollMgr.h"
+#include "CollisionMgr.h"
+#include "ObjMgr.h"
 
 CTurtleBack::CTurtleBack()
 {
@@ -40,19 +42,12 @@ int  CTurtleBack::Update(void)
 
 void CTurtleBack::Late_Update(void)
 {
-	if (m_tRect.right > WINCX - 50 || m_tRect.left < 50)
-	{
-		m_fSpeed *= -1.f;
-	}
-
-	if (m_tRect.bottom > WINCY - 50 || m_tRect.top < 50)
-	{
-		m_fSpeed *= -1.f;
-	}
+	
 
 	if (m_bGet_Attacked)
 		m_bDead = true;
 
+	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
 
 }
 
