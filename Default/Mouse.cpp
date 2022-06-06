@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Mouse.h"
+#include "ScrollMgr.h"
 
 
 CMouse::CMouse()
@@ -45,7 +46,8 @@ void CMouse::Release(void)
 }
 void CMouse::Render(HDC hDC)
 {
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
 
-	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+	Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 
 }

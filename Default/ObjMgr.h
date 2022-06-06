@@ -41,6 +41,12 @@ public:
 	list<CObj*> Get_Bullets() { return m_pObjList[OBJ_BULLET]; }
 
 	CObj* Get_Target(OBJ_LIST _ID, CObj* pObj);
+	void	Set_EditorMode(void);
+	void	Set_PlayMode(void);
+
+
+	void	Save_File(void);
+	void	Load_File(int _iStage);
 
 	static void Destroy_Instance()
 	{

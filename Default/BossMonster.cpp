@@ -7,6 +7,7 @@
 #include "Bullet.h"
 #include "CollisionMgr.h"
 #include "TurtleBack.h"
+#include "ScrollMgr.h"
 
 
 
@@ -23,8 +24,10 @@ void CBossMonster::Initialize(void)
 {
 	m_tInfo = { 125.f,125.f, 60.f, 60.f };
 	m_fSpeed = 5.f;
-	m_iHp = 10;
+	m_iHp = 30;
 	m_fDistance = m_tInfo.fCX;
+
+	m_iType = MONSTER_BOSS;
 }
 
 int CBossMonster::Update(void)
@@ -35,9 +38,15 @@ int CBossMonster::Update(void)
 	/*if (m_tInfo.fY >= 100 && m_eState == LEVEL2)
 		m_tInfo.fY -= m_fSpeed;*/
 
-	Set_TargetAngle();
-	Move();
-	Attack_Pattern();
+	if (false == m_bEditMode)
+	{
+		Set_TargetAngle();
+		Move();
+		Attack_Pattern();
+	}
+
+
+
 	Update_Rect();
 
 	return OBJ_NOEVENT;
@@ -72,12 +81,14 @@ void CBossMonster::Release(void)
 
 void CBossMonster::Render(HDC hDC)
 {
-	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+
+	Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 }
 
 void CBossMonster::Move(void)
 {
-	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(this, &fY);
+	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
 
 	if (b_LineCol)
 	{
@@ -101,7 +112,7 @@ void CBossMonster::Move(void)
 						m_fSpeed *= -1;
 
 					m_bMake = false;
-					m_tInfo.fY -= m_fSpeed*1.05;
+					m_tInfo.fY -= m_fSpeed*1.05f;
 				}
 				else
 				{
@@ -129,7 +140,7 @@ void CBossMonster::Move(void)
 						m_fSpeed *= -1;
 
 					m_bMake = false;
-					m_tInfo.fY -= m_fSpeed*1.05;
+					m_tInfo.fY -= m_fSpeed*1.05f;
 				}
 				else
 				{
@@ -193,7 +204,7 @@ void CBossMonster::Attack_Pattern(void)
 		
 		if (m_tInfo.fY >= fY )
 		{
-			m_tInfo.fY = fY - m_tInfo.fCY*0.5;
+			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 			m_fSpeed = 0.f;
 			bStop = true;
 		}
@@ -212,7 +223,7 @@ void CBossMonster::Attack_Pattern(void)
 			m_fSpeed *= -1;
 		if (m_tInfo.fY >= fY)
 		{
-			m_tInfo.fY = fY - m_tInfo.fCY*0.5;
+			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 			m_fSpeed = 0.f;
 			bStop = true;
 		}

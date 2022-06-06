@@ -181,6 +181,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PointNumbers.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="ScrollMgr.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Stage1.h" />
     <ClInclude Include="Stage2.h" />
@@ -224,6 +225,7 @@
     <ClCompile Include="ObjMgr.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PointNumbers.cpp" />
+    <ClCompile Include="ScrollMgr.cpp" />
     <ClCompile Include="Stage1.cpp" />
     <ClCompile Include="Stage2.cpp" />
     <ClCompile Include="Stage3.cpp" />

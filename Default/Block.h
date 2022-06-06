@@ -18,17 +18,20 @@ public:
 	virtual void Render(HDC hDC)	PURE;
 
 public:
-	bool	Get_IsItem(void) { return m_bItem; }
-	void	Set_Type(BLOCK_LIST _Block) { m_BlockType = _Block; }
+	bool				Get_IsItem(void) { return m_bItem; }
+	const BLOCK_LIST&	Get_BlockType(void) const { return m_BlockType; }
+
+public:
+	void				Set_Type(BLOCK_LIST _Block) { m_BlockType = _Block; }
 
 
 protected:
 	bool	m_bItem;
+	BLOCK_LIST m_BlockType;
 
 
 private:
 	bool	m_bCreate;
-	BLOCK_LIST m_BlockType;
 
 };
 

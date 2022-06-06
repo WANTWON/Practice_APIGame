@@ -6,6 +6,7 @@
 #include "TurtleBack.h"
 #include "TurtleMonster.h"
 #include "Player.h"
+#include "ScrollMgr.h"
 
 
 
@@ -22,6 +23,8 @@ void CFlyingMonster::Initialize(void)
 {
 	m_tInfo = { 125.f,125.f, 40.f, 50.f };
 	m_fSpeed = 1.5f;
+
+	m_iType = MONSTER_FLYING;
 }
 
 int CFlyingMonster::Update(void)
@@ -29,19 +32,27 @@ int CFlyingMonster::Update(void)
 	if (m_bDead)
 		return OBJ_DEAD;
 
-	if (m_bGet_Attacked)
+
+	if (false == m_bEditMode)
 	{
-		if (!m_bCount)
+		if (m_bGet_Attacked)
 		{
-			CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleMonster>::Create(m_tInfo.fX + 70, m_tInfo.fY));
-			m_dwTime = GetTickCount();
-			m_bCount = true;
+			if (!m_bCount)
+			{
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleMonster>::Create(m_tInfo.fX + 70, m_tInfo.fY));
+				m_dwTime = GetTickCount();
+				m_bCount = true;
+			}
+
 		}
 
+		Jumping();
+		Move();
 	}
 
-	Jumping();
-	Move();
+
+
+
 	Update_Rect();
 
 	return OBJ_NOEVENT;
@@ -64,6 +75,9 @@ void CFlyingMonster::Release(void)
 
 void CFlyingMonster::Render(HDC hDC)
 {
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+
+
 	if (m_bGet_Attacked == false)
 	{
 		HBRUSH myBrush = nullptr;
@@ -72,7 +86,7 @@ void CFlyingMonster::Render(HDC hDC)
 		myBrush = (HBRUSH)CreateSolidBrush(RGB(0, 200, 0));
 		oldBrush = (HBRUSH)SelectObject(hDC, myBrush);
 
-		Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+		Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 
 		SelectObject(hDC, oldBrush);
 		DeleteObject(myBrush);
@@ -81,10 +95,7 @@ void CFlyingMonster::Render(HDC hDC)
 		Rectangle(hDC, m_tRect.left + 40, m_tRect.top + 20, m_tRect.right + 20, m_tRect.bottom - 20);
 
 	}
-	else
-	{
-		Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
-	}
+	
 }
 
 void CFlyingMonster::Move(void)

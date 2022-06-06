@@ -39,7 +39,8 @@ public:
 	void Set_PosYTemp(float _fY) { m_tInfo.fY = _fY; }
 	bool Get_Bye(void) { return m_bBye; }
 	void Set_Bye(void) { m_bBye = false; }
-
+	void Set_EditorMode(void) { m_bEditMode = true; }
+	void Set_PlayMode(void) { m_bEditMode = false; }
 
 public:
 	//added an ID to distinguish between the monster's bullet and the player's bullet
@@ -62,5 +63,6 @@ protected:
 	int m_iPoints_Given;
 	int m_iCoins_Given;
 
+	bool	m_bEditMode;
 };
 

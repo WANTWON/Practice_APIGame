@@ -20,6 +20,8 @@
 #include "Block.h"
 #include "BlockMgr.h"
 #include "NormalBlock.h"
+#include "KeyMgr.h"
+#include "ScrollMgr.h"
 
 CStage1::CStage1()
 {
@@ -36,12 +38,12 @@ void CStage1::Initialize(void)
 	CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, CAbstractFactory<CPlayer>::Create(m_iCount));
 	
 	// Test Monster
-	/*CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CMushroomMonster>::Create(600, 200));
-	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleMonster>::Create(500, 200));
-	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CJumpingMonster>::Create_with_Target(300, 300, CObjMgr::Get_Instance()->Get_Player()));
-	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFlyingMonster>::Create(100, 300));*/
+	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CMushroomMonster>::Create(550, 50));
+	//CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleMonster>::Create(500, 200));
+	//CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CJumpingMonster>::Create_with_Target(300, 300, CObjMgr::Get_Instance()->Get_Player()));
 	//CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFlyingMonster>::Create(100, 300));
-	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CBossMonster>::Create_with_Target(300, 300, CObjMgr::Get_Instance()->Get_Player()));
+	//CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFlyingMonster>::Create(100, 300));
+	//CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CBossMonster>::Create_with_Target(300, 300, CObjMgr::Get_Instance()->Get_Player()));
 
 	CBlockMgr::Get_Instance()->Add_Object(BLOCK_NORMAL, CAbstractFactory<CNormalBlock>::Create(550, 150));
 	CBlockMgr::Get_Instance()->Add_Object(BLOCK_NORMAL, CAbstractFactory<CNormalBlock>::Create(500, 150));
@@ -60,6 +62,11 @@ void CStage1::Initialize(void)
 
 	CLineMgr::Get_Instance()->Initialize(1);
 	CBlockMgr::Get_Instance()->Initialize();
+
+
+
+	CObjMgr::Get_Instance()->Load_File(1);
+	CBlockMgr::Get_Instance()->Load_File(1);
 	
 	m_dwView = GetTickCount();
 }
@@ -68,6 +75,14 @@ int CStage1::Update(void)
 {
 	if (m_bClear)
 		return STAGE_CLEAR;
+
+
+	/*if (CKeyMgr::Get_Instance()->Key_Pressing(VK_LEFT))
+		CScrollMgr::Get_Instance()->Set_ScrollX(5.f);
+
+	if (CKeyMgr::Get_Instance()->Key_Pressing(VK_RIGHT))
+		CScrollMgr::Get_Instance()->Set_ScrollX(-5.f);*/
+
 
 	CUIMgr::Get_Instance()->Update();
 	CObjMgr::Get_Instance()->Update();

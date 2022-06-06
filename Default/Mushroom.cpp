@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Mushroom.h"
 #include "LineMgr.h"
+#include "ScrollMgr.h"
 
 CMushroom::CMushroom()
 {
@@ -31,7 +32,13 @@ int CMushroom::Update()
 	if (m_bDead)
 		return OBJ_DEAD;
 
-	Animate();
+
+	if (false == m_bEditMode)
+	{
+		Animate();
+	}
+
+
 
 	Update_Rect();
 
@@ -45,7 +52,9 @@ void CMushroom::Late_Update()
 
 void CMushroom::Render(HDC hDC)
 {
-	Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+
+	Ellipse(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 }
 
 void CMushroom::Animate()
@@ -53,7 +62,7 @@ void CMushroom::Animate()
 	if (m_bIsSpawned)
 	{
 		float fY = 0.f;
-		bool bLineCol = CLineMgr::Get_Instance()->CollisionLine(this, &fY);
+		bool bLineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
 
 		if (bLineCol)
 		{

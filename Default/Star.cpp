@@ -2,6 +2,7 @@
 #include "Star.h"
 #include "LineMgr.h"
 #include "Line.h"
+#include "ScrollMgr.h"
 
 CStar::CStar()
 {
@@ -31,7 +32,13 @@ int CStar::Update()
 	if (m_bDead)
 		return OBJ_DEAD;
 
-	Animate();
+
+	if (false == m_bEditMode)
+	{
+		Animate();
+	}
+
+
 
 	Update_Rect();
 
@@ -45,12 +52,15 @@ void CStar::Late_Update()
 
 void CStar::Render(HDC hDC)
 {
-	MoveToEx(hDC, m_tInfo.fX - 10.f, m_tInfo.fY, nullptr);
-	LineTo(hDC, m_tInfo.fX + 10.f, m_tInfo.fY);
-	LineTo(hDC, m_tInfo.fX - 5.f, m_tInfo.fY + 10.f);
-	LineTo(hDC, m_tInfo.fX, m_tInfo.fY - 8.f);
-	LineTo(hDC, m_tInfo.fX + 5.f, m_tInfo.fY + 10.f);
-	LineTo(hDC, m_tInfo.fX - 10.f, m_tInfo.fY);
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+
+
+	MoveToEx(hDC, m_tInfo.fX + iScrollX- 10.f, m_tInfo.fY, nullptr);
+	LineTo(hDC, m_tInfo.fX + iScrollX+ 10.f, m_tInfo.fY);
+	LineTo(hDC, m_tInfo.fX + iScrollX- 5.f, m_tInfo.fY + 10.f);
+	LineTo(hDC, m_tInfo.fX + iScrollX, m_tInfo.fY - 8.f);
+	LineTo(hDC, m_tInfo.fX + iScrollX+ 5.f, m_tInfo.fY + 10.f);
+	LineTo(hDC, m_tInfo.fX + iScrollX- 10.f, m_tInfo.fY);
 }
 
 void CStar::Animate()

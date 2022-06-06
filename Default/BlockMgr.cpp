@@ -7,6 +7,7 @@
 #include <typeinfo>
 #include "AbstractFactory.h"
 #include "Item.h"
+#include "ItemBlock.h"
 
 //	아이템
 #include "Coin.h"
@@ -129,11 +130,11 @@ bool CBlockMgr::CollisionBlock(RECT Player, float _fX, float * Change_fY)
 	{
 		for (auto& iter : m_Blocklist[i])
 		{
-		if ( Player.right >= iter->Get_Rect().left && Player.left < iter->Get_Rect().right
-			&& Player.bottom < iter->Get_Rect().top+2 && Player.bottom > iter->Get_Rect().top-2)
-			// 플레이어의 X값(중점)이 상자의 왼쪽과 오른쪽 사이에 있고, 플레이어의 Bottom이 상자의 Top보다 클 때
-			// (이때, 플레이어랑 상자의 X값만 조건으로 하면 바로 Jump가 false처리 되어 순간이동 할 수 있어서, Y값도 조건으로 주고 2를 임의적으로 추가함)
-			pTarget = iter;
+			if (Player.right >= iter->Get_Rect().left && Player.left < iter->Get_Rect().right
+				&& Player.bottom < iter->Get_Rect().top + 2 && Player.bottom > iter->Get_Rect().top - 2)
+				// 플레이어의 X값(중점)이 상자의 왼쪽과 오른쪽 사이에 있고, 플레이어의 Bottom이 상자의 Top보다 클 때
+				// (이때, 플레이어랑 상자의 X값만 조건으로 하면 바로 Jump가 false처리 되어 순간이동 할 수 있어서, Y값도 조건으로 주고 2를 임의적으로 추가함)
+				pTarget = iter;
 		}
 	}
 
@@ -239,7 +240,7 @@ void CBlockMgr::Check_BreakBlock(CObj * _thisBlock)
 {
 	if ((true == static_cast<CBlock*>(_thisBlock)->Get_IsItem()) && (false == static_cast<CCoinBlock*>(_thisBlock)->Get_Used()))
 	{
- 		Create_RandItem(_thisBlock);
+		Create_RandItem(_thisBlock);
 		_thisBlock->Set_Dead(OBJ_DEAD);
 	}
 
@@ -272,6 +273,246 @@ void CBlockMgr::Create_RandItem(CObj* _thisBlock)
 	default:
 		break;
 	}
+}
+
+void CBlockMgr::Save_File(void)
+{
+	//	Block
+	HANDLE hFile = CreateFile(L"../Data/SaveTemp/ObjBlock.dat",
+		GENERIC_WRITE,
+		NULL,
+		NULL,
+		CREATE_ALWAYS,
+		FILE_ATTRIBUTE_NORMAL,
+		NULL);
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		MessageBox(g_hWnd, L"Save Block", L"Error", MB_OK);
+		return;
+	}
+	DWORD dwByte = 0;
+	DWORD dwTypeByte = 0;
+
+	for (size_t i = 0; i < BLOCK_END - 1; ++i)
+	{
+		for (auto& iter : m_Blocklist[i])
+		{
+			WriteFile(hFile, &(iter->Get_Info()), sizeof(INFO), &dwByte, nullptr);
+			WriteFile(hFile, &(static_cast<CBlock*>(iter)->Get_BlockType()), sizeof(int), &dwTypeByte, nullptr);
+		}
+	}
+	CloseHandle(hFile);
+
+#ifdef _DEBUG
+	MessageBox(g_hWnd, L"Block Save 성공", L"성공", MB_OK);
+#endif	//_DEBUG
+}
+
+void CBlockMgr::Load_File(int _iStage)
+{
+	HANDLE	hFile = nullptr;
+	DWORD	dwByte = 0;
+	DWORD	dwTypeByte = 0;
+	INFO	tTemp{};
+	int		iDest = 0;
+	BLOCK_LIST typeTemp = BLOCK_END;
+
+	switch (_iStage)
+	{
+	case 1:
+		//	Block
+		hFile = CreateFile(L"../Data/Save1/ObjBlock.dat",
+			GENERIC_READ,
+			NULL,
+			NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL);
+		if (INVALID_HANDLE_VALUE == hFile)
+		{
+			MessageBox(g_hWnd, L"Load Block", L"Error", MB_OK);
+			return;
+		}
+		dwByte = 0;
+		dwTypeByte = 0;
+		tTemp = {};
+		iDest = 0;
+		typeTemp = BLOCK_END;
+
+		while (true)
+		{
+			ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
+			ReadFile(hFile, &iDest, sizeof(int), &dwTypeByte, nullptr);
+			if (0 == dwByte)
+				break;
+			if (0 == dwTypeByte)
+				break;
+
+			switch (iDest)
+			{
+			case BLOCK_NORMAL:
+				m_Blocklist[BLOCK_NORMAL].push_back(CAbstractFactory<CNormalBlock>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			case BLOCK_COIN:
+				m_Blocklist[BLOCK_COIN].push_back(CAbstractFactory<CCoinBlock>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			case BLOCK_ITEM:
+				m_Blocklist[BLOCK_ITEM].push_back(CAbstractFactory<CItemBlock>::Create(tTemp.fX, tTemp.fY));
+				break;
+			}
+		}
+		CloseHandle(hFile);
+
+		return;
+
+	case 2:
+		//	Block
+		hFile = CreateFile(L"../Data/Save2/ObjBlock.dat",
+			GENERIC_READ,
+			NULL,
+			NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL);
+		if (INVALID_HANDLE_VALUE == hFile)
+		{
+			MessageBox(g_hWnd, L"Load Block", L"Error", MB_OK);
+			return;
+		}
+		dwByte = 0;
+		dwTypeByte = 0;
+		tTemp = {};
+		iDest = 0;
+		typeTemp = BLOCK_END;
+
+		while (true)
+		{
+			ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
+			ReadFile(hFile, &iDest, sizeof(int), &dwTypeByte, nullptr);
+			if (0 == dwByte)
+				break;
+			if (0 == dwTypeByte)
+				break;
+
+			switch (iDest)
+			{
+			case BLOCK_NORMAL:
+				m_Blocklist[BLOCK_NORMAL].push_back(CAbstractFactory<CNormalBlock>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			case BLOCK_COIN:
+				m_Blocklist[BLOCK_COIN].push_back(CAbstractFactory<CCoinBlock>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			case BLOCK_ITEM:
+				m_Blocklist[BLOCK_ITEM].push_back(CAbstractFactory<CItemBlock>::Create(tTemp.fX, tTemp.fY));
+				break;
+			}
+		}
+		CloseHandle(hFile);
+
+		return;
+
+	case 3:
+		//	Block
+		hFile = CreateFile(L"../Data/Save3/ObjBlock.dat",
+			GENERIC_READ,
+			NULL,
+			NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL);
+		if (INVALID_HANDLE_VALUE == hFile)
+		{
+			MessageBox(g_hWnd, L"Load Block", L"Error", MB_OK);
+			return;
+		}
+		dwByte = 0;
+		dwTypeByte = 0;
+		tTemp = {};
+		iDest = 0;
+		typeTemp = BLOCK_END;
+
+		while (true)
+		{
+			ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
+			ReadFile(hFile, &iDest, sizeof(int), &dwTypeByte, nullptr);
+			if (0 == dwByte)
+				break;
+			if (0 == dwTypeByte)
+				break;
+
+			switch (iDest)
+			{
+			case BLOCK_NORMAL:
+				m_Blocklist[BLOCK_NORMAL].push_back(CAbstractFactory<CNormalBlock>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			case BLOCK_COIN:
+				m_Blocklist[BLOCK_COIN].push_back(CAbstractFactory<CCoinBlock>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			case BLOCK_ITEM:
+				m_Blocklist[BLOCK_ITEM].push_back(CAbstractFactory<CItemBlock>::Create(tTemp.fX, tTemp.fY));
+				break;
+			}
+		}
+		CloseHandle(hFile);
+
+		return;
+
+	case 4:
+		//	Block
+		hFile = CreateFile(L"../Data/Save4/ObjBlock.dat",
+			GENERIC_READ,
+			NULL,
+			NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL);
+		if (INVALID_HANDLE_VALUE == hFile)
+		{
+			MessageBox(g_hWnd, L"Load Block", L"Error", MB_OK);
+			return;
+		}
+		dwByte = 0;
+		dwTypeByte = 0;
+		tTemp = {};
+		iDest = 0;
+		typeTemp = BLOCK_END;
+
+		while (true)
+		{
+			ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
+			ReadFile(hFile, &iDest, sizeof(int), &dwTypeByte, nullptr);
+			if (0 == dwByte)
+				break;
+			if (0 == dwTypeByte)
+				break;
+
+			switch (iDest)
+			{
+			case BLOCK_NORMAL:
+				m_Blocklist[BLOCK_NORMAL].push_back(CAbstractFactory<CNormalBlock>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			case BLOCK_COIN:
+				m_Blocklist[BLOCK_COIN].push_back(CAbstractFactory<CCoinBlock>::Create(tTemp.fX, tTemp.fY));
+				break;
+
+			case BLOCK_ITEM:
+				m_Blocklist[BLOCK_ITEM].push_back(CAbstractFactory<CItemBlock>::Create(tTemp.fX, tTemp.fY));
+				break;
+			}
+		}
+		CloseHandle(hFile);
+
+		return;
+	}
+
+	return;
 }
 
 

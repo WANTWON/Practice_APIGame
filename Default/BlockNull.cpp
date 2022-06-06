@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "BlockNull.h"
+#include "ScrollMgr.h"
 
 
 CBlockNull::CBlockNull()
+	:m_ObjID(OBJ_END), m_bCheck(false)
 {
 }
 
@@ -39,5 +41,7 @@ void CBlockNull::Release(void)
 
 void CBlockNull::Render(HDC hDC)
 {
-	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+
+	Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 }

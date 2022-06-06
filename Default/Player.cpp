@@ -8,13 +8,14 @@
 #include "Bullet.h"
 #include "StageMgr.h"
 #include "Stage.h"
+#include "ScrollMgr.h"
 
 CPlayer::CPlayer()
 	: m_pShield_Angle(0), m_bJump(false), m_fJumpPower(0), m_fTime(0), m_bFalling(false),
 	m_bStep_Monster(false), fY(0), fY2(0), m_iActiveBuff(ITEM_END), m_dwBuffTime(GetTickCount()),
 	m_bIsBuffActive(false), m_bCanShoot(false), m_iLastDir(DIR_RIGHT), m_bPlay(true), m_fPTime(0.f), m_bActive(false), m_bItem(false), m_iLife(0), m_bFirst(false),
 	m_bLineCol(false), m_bFlag(false), m_bBlock(false),
-	m_bIsInvincible(false), m_bColorSwitch(false), m_iLevel(0)
+	m_bIsInvincible(false), m_bColorSwitch(false), m_iLevel(0), m_eType(PLAYER_END)
 
 {
 	ZeroMemory(&m_pGUIDE, sizeof(POINT));
@@ -34,6 +35,8 @@ void CPlayer::Initialize(void)
 	Jumping_Time = GetTickCount();
 	m_dwTime = GetTickCount();
 	m_iLife = 3;
+
+	m_eType = PLAYER_NORMAL;
 }
 
 int CPlayer::Update(void)
@@ -45,10 +48,15 @@ int CPlayer::Update(void)
 		m_fTime = 0;
 
 
+	if (false == m_bEditMode)
+	{
+		
+		Check_ActiveBuff();
+		Key_Input();
+		Jumping();
+		Offset();
+	}
 
-	Check_ActiveBuff();
-	Key_Input();
-	Jumping();
 	Update_Rect();
 
 
@@ -86,6 +94,10 @@ void CPlayer::Release(void)
 
 void CPlayer::Render(HDC hDC)
 {
+
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+
+
 	if (m_bIsInvincible)
 	{
 		if (GetTickCount() > m_dwTime + 400)
@@ -101,7 +113,7 @@ void CPlayer::Render(HDC hDC)
 			myBrush = m_bColorSwitch ? (HBRUSH)CreateSolidBrush(RGB(255, 255, 0)) : (HBRUSH)CreateSolidBrush(RGB(255, 215, 0));
 			oldBrush = (HBRUSH)SelectObject(hDC, myBrush);
 
-			Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+			Rectangle(hDC, m_tRect.left +iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 
 			SelectObject(hDC, oldBrush);
 			DeleteObject(myBrush);
@@ -115,13 +127,13 @@ void CPlayer::Render(HDC hDC)
 		myBrush = (HBRUSH)CreateSolidBrush(RGB(255, 0, 0));
 		oldBrush = (HBRUSH)SelectObject(hDC, myBrush);
 
-		Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+		Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 
 		SelectObject(hDC, oldBrush);
 		DeleteObject(myBrush);
 	}
 	else
-		Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+		Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 
 }
 
@@ -230,7 +242,7 @@ void CPlayer::Key_Input(void)
 			m_tInfo.fX += m_fSpeed;
 			m_iLastDir = DIR_RIGHT;
 		}
-
+		
 	}
 
 	else if (GetAsyncKeyState(VK_LEFT))
@@ -240,6 +252,9 @@ void CPlayer::Key_Input(void)
 			m_tInfo.fX -= m_fSpeed;
 			m_iLastDir = DIR_LEFT;
 		}
+
+	
+			
 	}
 
 	if (CKeyMgr::Get_Instance()->Key_Down(VK_SPACE))
@@ -277,7 +292,7 @@ void CPlayer::Jumping(void)
 	{
 		m_tInfo.fX += 2.f;
 		m_bBlock = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
-		m_bLineCol = CLineMgr::Get_Instance()->CollisionLine(this, &fY);
+		m_bLineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
 		if (m_bLineCol)
 		{
 			m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
@@ -288,84 +303,83 @@ void CPlayer::Jumping(void)
 		m_tInfo.fX += 0.5f;
 		m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 	}
-	//======================================================================================
-		if (m_bPlay)
+	if (m_bPlay)
+	{
+		bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
+		bool b_BlockCol = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
+		m_bFlag = CLineMgr::Get_Instance()->CollisionFlag(m_tRect, &fY);
+
+		if (m_bFlag)
 		{
-			bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(this, &fY);
-			bool b_BlockCol = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
-			m_bFlag = CLineMgr::Get_Instance()->CollisionFlag(m_tRect, &fY);
+			m_fTime = 0.0f;
+			m_bJump = false;
+			m_bPlay = false;
+			m_bFirst = true;
+		}
+		else if (m_bStep_Monster)
+		{
+			m_fJumpPower = 10;
+			m_tInfo.fY -= m_fJumpPower*m_fTime - (2.8f*m_fTime*m_fTime*0.5f);
+			m_fTime += 0.09f;
+			if (m_fTime > 1.2f)
+				m_fTime = 1.2f;
 
-			if (m_bFlag)
+			if (b_BlockCol && m_tInfo.fY + m_tInfo.fCY*0.5f >= fY2)
 			{
 				m_fTime = 0.0f;
-				m_bJump = false;
-				m_bPlay = false;
-				m_bFirst = true;
 			}
-			else if (m_bStep_Monster)
+			if (b_LineCol && m_tInfo.fY > fY)
 			{
-				m_fJumpPower = 10;
-				m_tInfo.fY -= m_fJumpPower*m_fTime - (2.8f*m_fTime*m_fTime*0.5f);
-				m_fTime += 0.09f;
-				if (m_fTime > 1.2f)
-					m_fTime = 1.2f;
-
-				if (b_BlockCol && m_tInfo.fY + m_tInfo.fCY*0.5f >= fY2)
-				{
-					m_fTime = 0.0f;
-				}
-				if (b_LineCol && m_tInfo.fY > fY)
-				{
-					m_fTime = 0.0f;
-				}
-			}
-			else if (m_bJump)
-			{
-				m_fJumpPower = 15;
-				m_tInfo.fY -= m_fJumpPower*m_fTime - (9.8*m_fTime*m_fTime*0.5f);
-				if ((m_fJumpPower*m_fTime) < (9.8*m_fTime*m_fTime*0.5f))
-				{
-					m_bJump = true;
-				}
-				m_fTime += 0.13f;
-				if (m_fTime > 3.9f)
-					m_fTime = 3.9f;
-
-				if (b_BlockCol && m_tInfo.fY + m_tInfo.fCY*0.5f >= fY2)
-				{
-					m_fTime = 0.0f;
-					m_bJump = false;
-				}
-				if (b_LineCol && m_tInfo.fY > fY)
-				{
-					m_bJump = false;
-					m_fTime = 0.0f;
-					m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
-				}
-			}
-			else if (b_LineCol && m_tInfo.fY > fY)
-			{
-				m_bJump = false;
 				m_fTime = 0.0f;
-
-				m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
-			}
-
-			else if (b_LineCol)
-			{
-				if (b_BlockCol)
-				{
-					m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
-				}
-				else
-					m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
-			}
-			else
-			{
-				m_tInfo.fY += m_fSpeed;
-				m_bFalling = true;
 			}
 		}
+		else if (m_bJump)
+		{
+			m_fJumpPower = 15;
+			m_tInfo.fY -= m_fJumpPower*m_fTime - (9.8f*m_fTime*m_fTime*0.5f);
+			if ((m_fJumpPower*m_fTime) < (9.8f*m_fTime*m_fTime*0.5f))
+			{
+				m_bJump = true;
+			}
+			m_fTime += 0.13f;
+			if (m_fTime > 3.9f)
+				m_fTime = 3.9f;
+
+			if (b_BlockCol && m_tInfo.fY + m_tInfo.fCY*0.5f >= fY2)
+			{
+				m_fTime = 0.0f;
+				m_bJump = false;
+			}
+			if (b_LineCol && m_tInfo.fY > fY)
+			{
+				m_bJump = false;
+				m_fTime = 0.0f;
+				m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
+			}
+		}
+		else if (b_LineCol && m_tInfo.fY > fY)
+		{
+			m_bJump = false;
+			m_fTime = 0.0f;
+
+			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
+		}
+
+		else if (b_LineCol)
+		{
+			if (b_BlockCol)
+			{
+				m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
+			}
+			else
+				m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
+		}
+		else 
+		{
+			m_tInfo.fY += m_fSpeed;
+			m_bFalling = true;
+		}
+	}
 }
 
 void CPlayer::Set_Dead_Moment(void)
@@ -386,4 +400,20 @@ void CPlayer::Set_Dead_Moment(void)
 			m_bDead_Count = false;
 		}
 	}
+}
+
+void CPlayer::Offset(void)
+{
+	int iOffsetMinX = 300.f;
+	int iOffsetMaxX = 500.f;
+
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+
+	// 플레이어가 왼쪽을 향하는 경우
+	if (iOffsetMinX > m_tInfo.fX + iScrollX)
+		CScrollMgr::Get_Instance()->Set_ScrollX(m_fSpeed);
+
+	if (iOffsetMaxX < m_tInfo.fX + iScrollX)
+		CScrollMgr::Get_Instance()->Set_ScrollX(-m_fSpeed);
+
 }

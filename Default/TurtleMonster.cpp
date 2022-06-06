@@ -4,6 +4,7 @@
 #include "AbstractFactory.h"
 #include "ObjMgr.h"
 #include "TurtleBack.h"
+#include "ScrollMgr.h"
 
 
 CTurtleMonster::CTurtleMonster() 
@@ -20,29 +21,34 @@ void CTurtleMonster::Initialize(void)
 {
 	m_tInfo = { 125.f,125.f, 40.f, 50.f };
 	m_fSpeed = 2.f;
+
+	m_iType = MONSTER_TURTLE;
 }
 int  CTurtleMonster::Update(void)
 {
-	
-
-	if (m_bGet_Attacked)
+	if (false == m_bEditMode)
 	{
-		m_tInfo.fCY = 25;
-		
-		if (!m_bCount)
+		if (m_bGet_Attacked)
 		{
-			CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleBack>::Create(m_tInfo.fX+50, m_tInfo.fY));
-			m_dwTime = GetTickCount();
-			m_fSpeed *= 0.5f;
-			m_bCount = true;
+			m_tInfo.fCY = 25;
+
+			if (!m_bCount)
+			{
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleBack>::Create(m_tInfo.fX + 50, m_tInfo.fY));
+				m_dwTime = GetTickCount();
+				m_fSpeed *= 0.5f;
+				m_bCount = true;
+			}
 		}
 
+		if (m_bDead)
+			return OBJ_DEAD;
+
+		Move();
 	}
 
-	if (m_bDead)
-		return OBJ_DEAD;
+	
 
-	Move();
 	Update_Rect();
 
 	return OBJ_NOEVENT;
@@ -77,7 +83,8 @@ void CTurtleMonster::Release(void)
 
 void CTurtleMonster::Render(HDC hDC)
 {
-
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+	
 	if (m_bGet_Attacked == false)
 	{
 		HBRUSH myBrush = nullptr;
@@ -86,14 +93,14 @@ void CTurtleMonster::Render(HDC hDC)
 		myBrush = (HBRUSH)CreateSolidBrush(RGB(0, 200, 0));
 		oldBrush = (HBRUSH)SelectObject(hDC, myBrush);
 
-		Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+		Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 
 		SelectObject(hDC, oldBrush);
 		DeleteObject(myBrush);
 	}
 	else
 	{
-		Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+		Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 	}
 
 }
@@ -103,7 +110,7 @@ void CTurtleMonster::Move(void)
 {
 	float fY = 0.f;
 
-	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(this, &fY);
+	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
 
 	if (b_LineCol)
 	{
