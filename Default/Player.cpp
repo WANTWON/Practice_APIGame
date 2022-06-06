@@ -355,7 +355,6 @@ void CPlayer::Jumping(void)
 
 			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 		}
-
 		else if (b_LineCol)
 		{
 			if (b_BlockCol)
@@ -364,6 +363,10 @@ void CPlayer::Jumping(void)
 			}
 			else
 				m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
+		}
+		else if (b_BlockCol)
+		{
+			m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
 		}
 		else 
 		{

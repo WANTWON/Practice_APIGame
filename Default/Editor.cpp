@@ -105,21 +105,29 @@ void CEditor::Initialize(void)
 	{
 		m_mapChoiceObj.emplace(i + 1, CAbstractFactory<CBlockNull>::Create(
 			25.f + (50.f * float(i % 3)),
-			100.f + (50.f * float(i / 3))));
+			125.f + (50.f * float(i / 3))));
 	}
 	//	Block 3  /  except Flag
 	for (size_t i = 0; i < BLOCK_END - 1; ++i)
 	{
 		m_mapChoiceObj.emplace(i + 7, CAbstractFactory<CBlockNull>::Create(
 			25.f + (50.f * float(i % 3)),
-			250.f + (50.f * float(i / 3))));
+			275.f + (50.f * float(i / 3))));
 	}
 	//	Item 4
 	for (size_t i = 0; i < ITEM_END; ++i)
 	{
 		m_mapChoiceObj.emplace(i + 11, CAbstractFactory<CBlockNull>::Create(
 			25.f + (50.f * float(i % 3)),
-			400.f + (50.f * float(i / 3))));
+			425.f + (50.f * float(i / 3))));
+	}
+
+	//	Line 1
+	for (size_t i = 0; i < 1; ++i)
+	{
+		m_mapChoiceObj.emplace(i + 15, CAbstractFactory<CBlockNull>::Create(
+			25.f + (50.f * i),
+			75.f + (50.f * i)));
 	}
 }
 
@@ -187,24 +195,29 @@ void CEditor::Release(void)
 	CUIMgr::Get_Instance()->Release();
 	CObjMgr::Get_Instance()->Release();
 	CBlockMgr::Get_Instance()->Release();
+	CLineMgr::Get_Instance()->Release();
 }
 
 void CEditor::Render(HDC hDC)
 {
 	
-	for (auto& iter : m_mapObj)
-	{
-		iter.second->Render(hDC);
-	}
+	
+	Rectangle(hDC, 0, 0, 200, WINCY);
+
+
 	for (auto& iter : m_mapChoiceObj)
 	{
 		iter.second->Render(hDC);
 
 	}
-
+	for (auto& iter : m_mapObj)
+	{
+		iter.second->Render(hDC);
+	}
 	CUIMgr::Get_Instance()->Render(hDC);
 	CObjMgr::Get_Instance()->Render(hDC);
 	CBlockMgr::Get_Instance()->Render(hDC);
+	CLineMgr::Get_Instance()->Render(hDC);
 
 
 	m_ObjMouse->Render(hDC);
@@ -241,6 +254,7 @@ void CEditor::Choice_Tile(void)
 {
 	int i = 0;
 	CObj* ObjTemp = nullptr;
+	CLine*	LineTemp = nullptr;
 
 	if (GetAsyncKeyState(VK_LBUTTON) && -1 != m_iChoiceNumber)
 	{
@@ -377,6 +391,14 @@ void CEditor::Choice_Tile(void)
 						return;
 					}
 					break;
+				case 14:	//Line
+					if (false == static_cast<CBlockNull*>(iter.second)->Get_Check())
+					{
+						CLineMgr::Get_Instance()->Add_Line(iter.second->Get_Info().fX, iter.second->Get_Info().fY);
+						static_cast<CBlockNull*>(iter.second)->Set_Check(true);
+						return;
+					}
+					break;
 				default:
 					break;
 				}
@@ -395,6 +417,7 @@ void CEditor::Save_File(void)
 	{
 		CObjMgr::Get_Instance()->Save_File();
 		CBlockMgr::Get_Instance()->Save_File();
+		CLineMgr::Get_Instance()->Save_File();
 	}
 }
 

@@ -48,6 +48,8 @@ void CStage2::Initialize(void)
 
 	CObjMgr::Get_Instance()->Load_File(2);
 	CBlockMgr::Get_Instance()->Load_File(2);
+	CLineMgr::Get_Instance()->Load_File(2);
+	CBlockMgr::Get_Instance()->Initialize();
 }
 
 int CStage2::Update(void)
@@ -73,7 +75,7 @@ void CStage2::Late_Update(void)
 
 void CStage2::Render(HDC hDc)
 {
-	//Rectangle(hDc, 0, 0, WINCX, WINCY);
+	Rectangle(hDc, 0, 0, WINCX, WINCY);
 	CObjMgr::Get_Instance()->Render(hDc);
 	CLineMgr::Get_Instance()->Render(hDc);
 	CBlockMgr::Get_Instance()->Render(hDc);

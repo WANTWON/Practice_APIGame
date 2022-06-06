@@ -8,6 +8,9 @@ public:
 	CLine();
 	~CLine();
 	CLine(LINEPOINT& RightPoint, LINEPOINT& LeftPoint);
+	CLine::CLine(const LINE& tInfo)
+		: m_tInfo(tInfo)
+	{}
 
 public:
 	const LINE& Get_Line(void) { return m_tInfo; }

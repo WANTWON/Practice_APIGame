@@ -27,6 +27,10 @@
 #include "Flower.h"
 #include "Mouse.h"
 
+//Line
+#include "LineMgr.h"
+#include "Line.h"
+
 //Header
 #include "Enum.h"
 #include "Function.h"

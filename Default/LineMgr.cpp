@@ -17,21 +17,43 @@ CLineMgr::~CLineMgr()
 
 
 
-void CLineMgr::Initialize(int _Number)
+void CLineMgr::Add_Line(float _fX, float _fY)
 {
+
+
+	// 처음 마우스 피킹을 한 경우
+	if ((!m_tLinePoint[LEFT].fX) && (!m_tLinePoint[LEFT].fY))
+	{
+		m_tLinePoint[LEFT].fX = _fX;
+		m_tLinePoint[LEFT].fY = _fY;
+	}
+	// 처음 피킹한 경우가 아닐 때
+	else
+	{
+		m_tLinePoint[RIGHT].fX = _fX;
+		m_tLinePoint[RIGHT].fY = _fY;
+
+		m_Linelist.push_back(new CLine(m_tLinePoint[LEFT], m_tLinePoint[RIGHT]));
+
+		m_tLinePoint[LEFT].fX = m_tLinePoint[RIGHT].fX;
+		m_tLinePoint[LEFT].fY = m_tLinePoint[RIGHT].fY;
+	}
+
+}	
+void CLineMgr::Edit_NULL(float _fX, float _fY)
+{
+	if (0 == _fX && 0 == _fY)
+	{
+		m_tLinePoint[LEFT].fX = 0;
+		m_tLinePoint[LEFT].fY = 0;
+	}
+}
+
+void CLineMgr::Initialize(int _Number)
+{/*
 	if (1 == _Number)
 	{
-		LINEPOINT tPoint[4] =
-		{
-			{ 100.f, 450.f },
-			{ 300.f, 450.f },
-			{ 500.f, 250.f },
-			{ 700.f, 250.f }
-		};
-
-		m_Linelist.push_back(new CLine(tPoint[0], tPoint[1]));
-		m_Linelist.push_back(new CLine(tPoint[1], tPoint[2]));
-		m_Linelist.push_back(new CLine(tPoint[2], tPoint[3]));
+		
 	}
 	else if (2 == _Number)
 	{
@@ -64,7 +86,7 @@ void CLineMgr::Initialize(int _Number)
 		m_Linelist.push_back(new CLine(tPoint[4], tPoint[5]));
 		m_Flagline.push_back(new CLine(tPoint[6], tPoint[7]));
 	}
-
+*/
 }
 
 void CLineMgr::Render(HDC hDC)
@@ -226,5 +248,162 @@ bool CLineMgr::CollisionFlag(RECT rc, float * _fY)
 	//*_fY = ((y2 - y1) / (x2 - x1))*(rc.right - x1) + y1;
 
 	return true;
+}
+
+void CLineMgr::Save_File(void)
+{
+	HANDLE hFile = CreateFile(L"../Data/SaveTemp/Line.dat",
+		GENERIC_WRITE,
+		NULL,
+		NULL,
+		CREATE_ALWAYS,
+		FILE_ATTRIBUTE_NORMAL,
+		NULL);
+
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		MessageBox(g_hWnd, L"Save Player", L"Error", MB_OK);
+		return;
+	}
+
+	DWORD	dwByte = 0;
+
+	for (auto& iter : m_Linelist)
+	{
+		WriteFile(hFile, &(iter->Get_Line()), sizeof(LINE), &dwByte, nullptr);
+	}
+
+	CloseHandle(hFile);
+}
+
+void CLineMgr::Load_File(int _iStage)
+{
+	HANDLE	hFile = nullptr;
+	DWORD	dwByte = 0;
+	LINE	tInfo{};
+
+	switch (_iStage)
+	{
+	case 1:
+		hFile = CreateFile(L"../Data/Save1/Line.dat",
+			GENERIC_READ,
+			NULL,
+			NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL);
+
+		if (INVALID_HANDLE_VALUE == hFile)
+		{
+			MessageBox(g_hWnd, L"Load Line", L"Error", MB_OK);
+			return;
+		}
+
+		dwByte = 0;
+		tInfo = {};
+
+		while (true)
+		{
+			ReadFile(hFile, &tInfo, sizeof(LINE), &dwByte, nullptr);
+
+			if (0 == dwByte)
+				break;
+
+			m_Linelist.push_back(new CLine(tInfo));
+		}
+
+		CloseHandle(hFile);
+		return;
+	case 2:
+		hFile = CreateFile(L"../Data/Save2/Line.dat",
+			GENERIC_READ,
+			NULL,
+			NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL);
+
+		if (INVALID_HANDLE_VALUE == hFile)
+		{
+			MessageBox(g_hWnd, L"Load Line", L"Error", MB_OK);
+			return;
+		}
+
+		dwByte = 0;
+		tInfo = {};
+
+		while (true)
+		{
+			ReadFile(hFile, &tInfo, sizeof(LINE), &dwByte, nullptr);
+
+			if (0 == dwByte)
+				break;
+
+			m_Linelist.push_back(new CLine(tInfo));
+		}
+
+		CloseHandle(hFile);
+		return;
+	case 3:
+		hFile = CreateFile(L"../Data/Save3/Line.dat",
+			GENERIC_READ,
+			NULL,
+			NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL);
+
+		if (INVALID_HANDLE_VALUE == hFile)
+		{
+			MessageBox(g_hWnd, L"Load Line", L"Error", MB_OK);
+			return;
+		}
+
+		dwByte = 0;
+		tInfo = {};
+
+		while (true)
+		{
+			ReadFile(hFile, &tInfo, sizeof(LINE), &dwByte, nullptr);
+
+			if (0 == dwByte)
+				break;
+
+			m_Linelist.push_back(new CLine(tInfo));
+		}
+
+		CloseHandle(hFile);
+		return;
+	case 4:
+		hFile = CreateFile(L"../Data/Save4/Line.dat",
+			GENERIC_READ,
+			NULL,
+			NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL);
+
+		if (INVALID_HANDLE_VALUE == hFile)
+		{
+			MessageBox(g_hWnd, L"Load Line", L"Error", MB_OK);
+			return;
+		}
+
+		dwByte = 0;
+		tInfo = {};
+
+		while (true)
+		{
+			ReadFile(hFile, &tInfo, sizeof(LINE), &dwByte, nullptr);
+
+			if (0 == dwByte)
+				break;
+
+			m_Linelist.push_back(new CLine(tInfo));
+		}
+
+		CloseHandle(hFile);
+		return;
+	}
 }
 
