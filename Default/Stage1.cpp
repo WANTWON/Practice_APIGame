@@ -44,7 +44,8 @@ void CStage1::Initialize(void)
 	CBlockMgr::Get_Instance()->Initialize();
 
 
-	
+
+	CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CFlower>::Create(200, 400, ITEM_FLOWER));
 	m_dwView = GetTickCount();
 }
 
