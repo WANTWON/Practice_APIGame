@@ -91,8 +91,8 @@ void CFlyingMonster::Render(HDC hDC)
 		SelectObject(hDC, oldBrush);
 		DeleteObject(myBrush);
 
-		Rectangle(hDC, m_tRect.left - 20, m_tRect.top + 20, m_tRect.right - 40, m_tRect.bottom - 20);
-		Rectangle(hDC, m_tRect.left + 40, m_tRect.top + 20, m_tRect.right + 20, m_tRect.bottom - 20);
+		Rectangle(hDC, m_tRect.left - 20 + iScrollX, m_tRect.top + 20, m_tRect.right - 40 + iScrollX, m_tRect.bottom - 20);
+		Rectangle(hDC, m_tRect.left + 40 + iScrollX, m_tRect.top + 20, m_tRect.right + 20 + iScrollX, m_tRect.bottom - 20);
 
 	}
 	
