@@ -45,6 +45,7 @@ int CBossMonster::Update(void)
 		Attack_Pattern();
 	}
 
+	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
 
 
 	Update_Rect();

@@ -55,20 +55,12 @@ int  CMushroomMonster::Update(void)
 
 void CMushroomMonster::Late_Update(void)
 {
-	if (m_tRect.right > WINCX - 50 || m_tRect.left < 50)
-	{
-		m_fSpeed *= -1.f;
-	}
-
-	if (m_tRect.bottom > WINCY - 50 || m_tRect.top < 50)
-	{
-		m_fSpeed *= -1.f;
-	}
 
 	/*if (m_bGet_Attacked && m_dwTime + 500 < GetTickCount())
 		m_bDead = true;*/
 
 	CBlockMgr::Get_Instance()->Collision_with_Direction(this);
+	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
 
 }
 
@@ -95,49 +87,25 @@ void CMushroomMonster::Move(void)
 	bool b_BlockCol = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
 
 
-	m_tInfo.fY += m_fSpeed*2;
-
 	if (b_LineCol)
 	{
 
-		/*if (m_bFalling)
+		if (m_bFalling)
 		{
 			m_tInfo.fY += m_fSpeed;
 			if (m_tInfo.fY >= fY - m_tInfo.fCY*0.5f)
 				m_bFalling = false;
-		}*/
-		//else
-		{
-			if (b_BlockCol && m_tInfo.fY < fY2  )
-			{
-				m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
-			}
-			else
-				m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
-			
-			m_tInfo.fX += m_fSpeed;
-		
 		}
-	
+		else
+			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 
-	}
-	else if (b_BlockCol)
-	{
-
-		m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
 		m_tInfo.fX += m_fSpeed;
-		
 
-		if (Direction_time + 3000 < GetTickCount())
-		{
-			m_fSpeed *= -1;
-			Direction_time = GetTickCount();
-		}
-		
 	}
-	else 
+	else
 	{
-		m_tInfo.fY += m_fSpeed * 18;
+		m_fSpeed *= -1;
+		m_tInfo.fX += m_fSpeed;
 	}
 
 

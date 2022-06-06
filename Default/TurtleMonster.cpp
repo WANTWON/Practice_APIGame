@@ -56,16 +56,7 @@ int  CTurtleMonster::Update(void)
 
 void CTurtleMonster::Late_Update(void)
 {
-	if (m_tRect.right > WINCX - 50 || m_tRect.left < 50)
-	{
-		m_fSpeed *= -1.f;
-	}
-
-	if (m_tRect.bottom > WINCY - 50 || m_tRect.top < 50)
-	{
-		m_fSpeed *= -1.f;
-	}
-
+	
 
 	if (m_bGet_Attacked )//&& m_dwTime + 500 < GetTickCount())
 	{
@@ -73,6 +64,7 @@ void CTurtleMonster::Late_Update(void)
 		
 	}
 
+	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
 
 }
 

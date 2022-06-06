@@ -48,6 +48,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	CMainGame*  MainGame = new CMainGame;
 	MainGame->Initialize();
 
+	srand(unsigned(time(NULL)));
+
 	DWORD  dwTime = GetTickCount();
 	while (true)
 	{
