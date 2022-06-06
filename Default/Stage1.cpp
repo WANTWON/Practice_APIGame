@@ -41,7 +41,7 @@ void CStage1::Initialize(void)
 	CLineMgr::Get_Instance()->Initialize(1);
 	CBlockMgr::Get_Instance()->Initialize();
 
-	
+
 	
 	m_dwView = GetTickCount();
 }

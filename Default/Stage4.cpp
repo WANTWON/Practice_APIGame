@@ -27,6 +27,8 @@ void CStage4::Initialize(void)
 */
 	CObjMgr::Get_Instance()->Load_File(4);
 	CBlockMgr::Get_Instance()->Load_File(4);
+	CLineMgr::Get_Instance()->Load_File(4);
+	CBlockMgr::Get_Instance()->Initialize();
 
 }
 
