@@ -20,6 +20,8 @@ void CStar::Initialize()
 	m_tInfo.fCY = 15.f;
 	m_fSpeed = 5.f;
 	m_fAnimSpeed = 10.f;
+
+	m_iPoints_Given = 1000;
 }
 
 void CStar::Release()

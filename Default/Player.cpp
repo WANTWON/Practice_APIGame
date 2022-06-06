@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "AbstractFactory.h"
-#include "CollisionMgr.h"
 #include "ObjMgr.h"
 #include "LineMgr.h"
 #include "KeyMgr.h"
@@ -85,9 +84,6 @@ void  CPlayer::Late_Update(void)
 		}
 	}
 
-
-	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
-
 	Set_Dead_Moment();
 }
 
@@ -145,9 +141,6 @@ void CPlayer::Check_ActiveBuff(void)
 {
 	switch (m_iActiveBuff)
 	{
-	case ITEM_COIN:
-		Coin_Pickup();
-		break;
 	case ITEM_MUSHROOM:
 		Buff_Mushroom();
 		break;
@@ -158,12 +151,6 @@ void CPlayer::Check_ActiveBuff(void)
 		Buff_Flower();
 		break;
 	}
-}
-
-void CPlayer::Coin_Pickup()
-{
-	// Increase Coin by 1
-	// Increase Points by 200
 }
 
 void CPlayer::Buff_Mushroom()
@@ -204,6 +191,8 @@ void CPlayer::Buff_Flower()
 	if (!m_bIsBuffActive)
 	{
 		// Activate Buff
+		m_tInfo.fCX += m_tInfo.fCX;
+		m_tInfo.fCY += m_tInfo.fCY;
 		m_bCanShoot = true;
 		m_bIsBuffActive = true;
 	}
@@ -220,17 +209,20 @@ void CPlayer::Remove_Buff(ITEM_TYPE iBuff)
 	{
 		m_tInfo.fCX -= m_tInfo.fCX * 0.5f;
 		m_tInfo.fCY -= m_tInfo.fCY * 0.5f;
-		break;
 	}
 	case ITEM_STAR:
+	{
 		m_bIsInvincible = false;
 		break;
+	}
 	case ITEM_FLOWER:
+	{
+		m_tInfo.fCX -= m_tInfo.fCX * 0.5f;
+		m_tInfo.fCY -= m_tInfo.fCY * 0.5f;
 		m_bCanShoot = false;
-		break;
+	}
 	}
 }
-
 
 void CPlayer::Key_Input(void)
 {
@@ -267,7 +259,6 @@ void CPlayer::Key_Input(void)
 
 void CPlayer::Jumping(void)
 {
-
 	if (m_bFirst)
 	{
 		m_bBlock = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
@@ -288,7 +279,6 @@ void CPlayer::Jumping(void)
 			}
 		}
 	}
-
 	if (m_bBlock)
 	{
 		m_tInfo.fX += 2.f;
@@ -304,8 +294,6 @@ void CPlayer::Jumping(void)
 		m_tInfo.fX += 0.5f;
 		m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 	}
-
-
 	if (m_bPlay)
 	{
 		bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
@@ -393,7 +381,7 @@ void CPlayer::Set_Dead_Moment(void)
 	if (m_bDead_Count)
 	{
 		m_bPlay = false;
-		m_tInfo.fY -= m_fJumpPower*m_fPTime - (9.8f*m_fPTime*m_fPTime*0.5f);
+		m_tInfo.fY -= m_fJumpPower*m_fPTime - (9.8*m_fPTime*m_fPTime*0.5f);
 		m_fPTime += 0.13f;
 
 		if (m_tInfo.fY > WINCY)

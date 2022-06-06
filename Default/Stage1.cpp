@@ -22,6 +22,7 @@
 #include "NormalBlock.h"
 #include "KeyMgr.h"
 #include "ScrollMgr.h"
+#include "CoinBlock.h"
 
 CStage1::CStage1()
 {

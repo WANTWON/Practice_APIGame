@@ -19,6 +19,8 @@ void CMushroom::Initialize()
 	m_tInfo.fCY = 15.f;
 	m_fSpeed = 2.f;
 
+	m_iPoints_Given = 1000;
+
 	m_fAnimSpeed = 15.f;
 }
 
