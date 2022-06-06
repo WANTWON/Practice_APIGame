@@ -31,9 +31,6 @@
     <Filter Include="98.Design\LineMgr">
       <UniqueIdentifier>{44cc83c4-bfdd-4e8a-9d94-05ebd9ab2ef7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="98.Design\LineMgr\Line">
-      <UniqueIdentifier>{b14d9b0a-efe7-41a8-8ba4-a62876d4ad93}</UniqueIdentifier>
-    </Filter>
     <Filter Include="97.Stage">
       <UniqueIdentifier>{5dd72ac1-d315-4bbb-8214-ac6a95aa7341}</UniqueIdentifier>
     </Filter>
@@ -139,6 +136,9 @@
     <Filter Include="01.Obj\06.BlockNull">
       <UniqueIdentifier>{293c0c43-68d5-44c4-b9fb-152ec3e16e7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="98.Design\LineMgr\Line">
+      <UniqueIdentifier>{efa9f8dd-2bc0-42eb-8ae3-8ba050514808}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -197,12 +197,6 @@
     </ClInclude>
     <ClInclude Include="MushroomMonster.h">
       <Filter>01.Obj\01.Monster\00.Mushroom_Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="LineMgr.h">
-      <Filter>98.Design\LineMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="Line.h">
-      <Filter>98.Design\LineMgr\Line</Filter>
     </ClInclude>
     <ClInclude Include="Include.h">
       <Filter>99.Header</Filter>
@@ -294,6 +288,12 @@
     <ClInclude Include="BlockNull.h">
       <Filter>01.Obj\06.BlockNull</Filter>
     </ClInclude>
+    <ClInclude Include="LineMgr.h">
+      <Filter>98.Design\LineMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Line.h">
+      <Filter>98.Design\LineMgr\Line</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -322,12 +322,6 @@
     </ClCompile>
     <ClCompile Include="MushroomMonster.cpp">
       <Filter>01.Obj\01.Monster\00.Mushroom_Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="LineMgr.cpp">
-      <Filter>98.Design\LineMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="Line.cpp">
-      <Filter>98.Design\LineMgr\Line</Filter>
     </ClCompile>
     <ClCompile Include="Stage1.cpp">
       <Filter>97.Stage\Stage1</Filter>
@@ -409,6 +403,12 @@
     </ClCompile>
     <ClCompile Include="BlockNull.cpp">
       <Filter>01.Obj\06.BlockNull</Filter>
+    </ClCompile>
+    <ClCompile Include="LineMgr.cpp">
+      <Filter>98.Design\LineMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Line.cpp">
+      <Filter>98.Design\LineMgr\Line</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

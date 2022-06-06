@@ -305,6 +305,9 @@ DIRECTION CCollisionMgr::Col_ReturnDir(list<CObj*> _Sour, CObj* _Dest)
 			}
 		}
 	}
+
+
+	return DIR_END;
 }
 
 
