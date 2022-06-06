@@ -23,6 +23,7 @@ int CMouse::Update(void)
 {
 	POINT pt = {}; //마우스 커서의 위치를 받아올 x좌표, y좌표
 
+	
 	GetCursorPos(&pt); //마우스 커서의 위치를 알아오는 함수
 					   //현재 이 상태는 Window 모니터 창을 기준으로 좌표를 반환하기 때문에 생성한 창을 기준으로 좌표를 반환하게 해야함
 

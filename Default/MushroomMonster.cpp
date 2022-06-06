@@ -4,7 +4,7 @@
 #include "BlockMgr.h"
 #include "ScrollMgr.h"
 
-CMushroomMonster::CMushroomMonster()
+CMushroomMonster::CMushroomMonster() : Direction_time(GetTickCount())
 {
 }
 
@@ -68,6 +68,8 @@ void CMushroomMonster::Late_Update(void)
 	/*if (m_bGet_Attacked && m_dwTime + 500 < GetTickCount())
 		m_bDead = true;*/
 
+	CBlockMgr::Get_Instance()->Collision_with_Direction(this);
+
 }
 
 void CMushroomMonster::Release(void)
@@ -92,6 +94,9 @@ void CMushroomMonster::Move(void)
 	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
 	bool b_BlockCol = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
 
+
+	m_tInfo.fY += m_fSpeed*2;
+
 	if (b_LineCol)
 	{
 
@@ -113,13 +118,28 @@ void CMushroomMonster::Move(void)
 			m_tInfo.fX += m_fSpeed;
 		
 		}
+	
 
 	}
-	else
+	else if (b_BlockCol)
 	{
-		m_fSpeed *= -1;
+
+		m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
 		m_tInfo.fX += m_fSpeed;
+		
+
+		if (Direction_time + 3000 < GetTickCount())
+		{
+			m_fSpeed *= -1;
+			Direction_time = GetTickCount();
+		}
+		
 	}
+	else 
+	{
+		m_tInfo.fY += m_fSpeed * 18;
+	}
+
 
 
 }

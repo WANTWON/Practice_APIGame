@@ -15,5 +15,8 @@ public:
 	void Render(HDC hDC);
 
 	void Move(void);
+
+private:
+	DWORD   Direction_time;
 };
 

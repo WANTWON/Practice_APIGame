@@ -37,8 +37,11 @@ void CStage1::Initialize(void)
 {
 	CObjMgr::Get_Instance()->Load_File(1);
 	CBlockMgr::Get_Instance()->Load_File(1);
-	CLineMgr::Get_Instance()->Load_File(1);
+
+	CLineMgr::Get_Instance()->Initialize(1);
 	CBlockMgr::Get_Instance()->Initialize();
+
+
 	
 	m_dwView = GetTickCount();
 }
@@ -88,7 +91,7 @@ void CStage1::Late_Update(void)
 void CStage1::Render(HDC hDC)
 {
 	//Rectangle(hDC, 0, 0, WINCX, WINCY);
-	
+	Rectangle(hDC, 0, 0, WINCX, WINCY);
 	CUIMgr::Get_Instance()->Render(hDC);
 	CObjMgr::Get_Instance()->Render(hDC);
 	CLineMgr::Get_Instance()->Render(hDC);
