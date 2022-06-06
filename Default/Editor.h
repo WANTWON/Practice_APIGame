@@ -53,6 +53,6 @@ private:
 	POINT	m_ePt;
 
 
-
+	int mapKey;
 };
 

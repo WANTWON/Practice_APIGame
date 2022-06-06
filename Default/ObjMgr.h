@@ -21,6 +21,7 @@ public:
 	int Update();
 	void Late_Update();
 	void Render(HDC hDC);
+	void Update_rect();
 	
 	void Add_Object(OBJ_LIST _ID, CObj* pObj);
 

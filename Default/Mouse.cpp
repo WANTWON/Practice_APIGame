@@ -15,8 +15,8 @@ CMouse::~CMouse()
 
 void CMouse::Initialize(void)
 {
-	m_tInfo.fCX = 30.f;
-	m_tInfo.fCY = 30.f;
+	m_tInfo.fCX = 10.f;
+	m_tInfo.fCY = 10.f;
 }
 int CMouse::Update(void)
 {

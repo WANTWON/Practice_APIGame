@@ -130,17 +130,11 @@
     <Filter Include="97.Stage\Editor">
       <UniqueIdentifier>{016929d5-3280-4101-870d-a5f96839b008}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Obj\99. BlockEditor">
-      <UniqueIdentifier>{253fa6cf-d980-4c33-a21d-c9a3e7469369}</UniqueIdentifier>
-    </Filter>
     <Filter Include="96.UI\PointNumbers">
       <UniqueIdentifier>{b6b4d52b-0b69-4e6f-b274-285f507d2969}</UniqueIdentifier>
     </Filter>
     <Filter Include="98.Design\UIMgr">
       <UniqueIdentifier>{eeb3bd1d-a2d6-482d-82f9-9dcabd40d82d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Obj\02.Block\03. FlagBlock">
-      <UniqueIdentifier>{1de4dc06-ca2c-4833-8d7b-ffb9a9ee464c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -288,14 +282,14 @@
     <ClInclude Include="NormalBlock.h">
       <Filter>01. Obj\02.Block\00. NormalBlock</Filter>
     </ClInclude>
-    <ClInclude Include="FlagBlock.h">
-      <Filter>01. Obj\02.Block\03. FlagBlock</Filter>
-    </ClInclude>
     <ClInclude Include="Editor.h">
       <Filter>97.Stage\Editor</Filter>
     </ClInclude>
+    <ClInclude Include="FlagBlock.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
     <ClInclude Include="BlockNull.h">
-      <Filter>01. Obj\99. BlockEditor</Filter>
+      <Filter>97.Stage\Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -404,14 +398,14 @@
     <ClCompile Include="UIMgr.cpp">
       <Filter>98.Design\UIMgr</Filter>
     </ClCompile>
-    <ClCompile Include="FlagBlock.cpp">
-      <Filter>01. Obj\02.Block\03. FlagBlock</Filter>
-    </ClCompile>
     <ClCompile Include="Editor.cpp">
       <Filter>97.Stage\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="FlagBlock.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="BlockNull.cpp">
-      <Filter>01. Obj\99. BlockEditor</Filter>
+      <Filter>97.Stage\Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

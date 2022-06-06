@@ -32,8 +32,13 @@ public:
 			if (eID != OBJ_END)
 				pBullet->Set_ID(eID);
 		}
+		else
+		{
+			if (eID != OBJ_END)
+				pInstance->Set_ID(eID);
+		}
 			
-
+		
 		if (eDir != DIR_END)
 			pInstance->Set_Dir(eDir);
 

@@ -39,5 +39,15 @@ void CBlockNull::Release(void)
 
 void CBlockNull::Render(HDC hDC)
 {
+	HBRUSH myBrush = nullptr;
+	HBRUSH oldBrush = nullptr;
+
+	myBrush = (HBRUSH)CreateSolidBrush(RGB(245, 245, 245));
+	oldBrush = (HBRUSH)SelectObject(hDC, myBrush);
+
 	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+
+	SelectObject(hDC, oldBrush);
+	DeleteObject(myBrush);
+	
 }

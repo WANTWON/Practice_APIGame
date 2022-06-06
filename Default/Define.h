@@ -16,3 +16,6 @@ extern HWND  g_hWnd;
 #define STAGE_NOEVENT  0
 
 #define VK_MAX 0xff
+
+
+#define EDITOR_MODE 1

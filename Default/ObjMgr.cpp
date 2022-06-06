@@ -71,16 +71,23 @@ void CObjMgr::Late_Update()
 
 	CObjMgr* ObjMgr = CObjMgr::Get_Instance();
 	
-	//CCollisionMgr::Step_on_Mushroom(m_pObjList[OBJ_PLAYER], m_pObjList[OBJ_MONSTER]);
-	//CCollisionMgr::Collision_Item(Get_Player(), Get_Items());
-	//CCollisionMgr::Collision_Rect(Get_Bullets(), Get_Monsters());
-	//CCollisionMgr::Collision_Rect_Ex(m_pObjList[OBJ_MONSTER], m_pObjList[OBJ_PLAYER]);
+	
 	CCollisionMgr::Step_on_Mushroom(m_pObjList[OBJ_PLAYER], m_pObjList[OBJ_MONSTER]);
-	//CCollisionMgr::Collision_Rect_Ex(Get_Monsters(), m_pObjList[OBJ_PLAYER]);
 	CCollisionMgr::Collision_Item(Get_Player(), Get_Items());
 
-	//m_iScore += CCollisionMgr::Collision_Rect(Get_Bullets(), Get_Monsters());
 }
+
+
+void CObjMgr::Update_rect()
+{
+	for (size_t i = 0; i != OBJ_END; ++i)
+	{
+		for (auto& iter : m_pObjList[i])
+			iter->Update_Rect();
+	}
+
+}
+
 
 void CObjMgr::Render(HDC hDC)
 {
