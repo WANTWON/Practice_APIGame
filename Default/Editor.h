@@ -7,6 +7,7 @@
 #include "LineMgr.h"
 #include "ObjMgr.h"
 #include "StageMgr.h"
+#include "UIMgr.h"
 
 //Obj
 #include "Player.h"
@@ -44,15 +45,19 @@ public:
 	void	Release(void)		override;
 	void	Render(HDC hDC)		override;
 
+public:
+	bool	Choice_Class(void);
+	void	Choice_Tile(void);
+
+	void	Save_File(void);
 
 
 private:
 	map<int, CObj*>		m_mapObj;
 	map<int, CObj*>		m_mapChoiceObj;
-	CObj*	m_ObjMouse;
-	POINT	m_ePt;
-
-
+	CObj*				m_ObjMouse;
+	
+	int		m_iChoiceNumber;
 
 };
 

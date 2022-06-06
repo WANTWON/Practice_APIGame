@@ -15,6 +15,13 @@ public:
 	void Release(void) override;
 	void Render(HDC hDC) override;
 
+public:
+	void Set_Radius(float _fCX, float _fCY)
+	{
+		m_tInfo.fCX = _fCX;
+		m_tInfo.fCY = _fCY;
+	}
+
 private:
 	int angle = 0;
 };

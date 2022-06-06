@@ -60,6 +60,11 @@ void CStage1::Initialize(void)
 
 	CLineMgr::Get_Instance()->Initialize(1);
 	CBlockMgr::Get_Instance()->Initialize();
+
+
+
+	CObjMgr::Get_Instance()->Load_File(1);
+	CBlockMgr::Get_Instance()->Load_File(1);
 	
 	m_dwView = GetTickCount();
 }

@@ -3,7 +3,7 @@
 #include "StageMgr.h"
 #include "UIMgr.h"
 
-CObj::CObj() : m_bDead(false), m_fSpeed(0.f), m_bDead_Count(false), m_bBye(false), m_iPoints_Given(0), m_iCoins_Given(0)
+CObj::CObj() : m_bDead(false), m_fSpeed(0.f), m_bDead_Count(false), m_bBye(false), m_iPoints_Given(0), m_iCoins_Given(0), m_bEditMode(false)
 {
 	ZeroMemory(&m_tInfo, sizeof(INFO));
 	ZeroMemory(&m_tRect, sizeof(RECT));
