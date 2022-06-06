@@ -17,6 +17,7 @@ public:
 	void Render(HDC hDC) override;
 
 	void Set_bJump(void) { m_bJump = true; }
+	void Set_bJumpFalse(void) { m_bJump = false; }
 
 	ITEM_TYPE Get_ActiveBuff() { return m_iActiveBuff; }
 	void Set_ActiveBuff(ITEM_TYPE iBuff) { m_iActiveBuff = iBuff; }
@@ -45,6 +46,7 @@ public:
 	void Set_Life(int _Life) { m_iLife = _Life; }
 	int Get_Level(void) { return m_iLevel; }
 
+	const float Get_Time(void) const { return m_fTime; }
 	const PLAYER_LIST& Get_PlayerType(void) { return m_eType; }
 	void Offset(void);
 	

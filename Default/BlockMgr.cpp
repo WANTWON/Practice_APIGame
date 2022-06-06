@@ -157,6 +157,63 @@ bool CBlockMgr::CollisionBlock(RECT Player, float _fX, float * Change_fY)
 
 }
 
+bool CBlockMgr::CollisionBlock_Ex(INFO Player, float * inputY)
+{
+	int iTemp = 0;
+	for (size_t i = 0; i < BLOCK_END; ++i)
+	{
+		if (m_Blocklist[i].empty())
+			++iTemp;
+
+		if (BLOCK_END == iTemp)
+		{
+			return false;
+		}
+	}
+
+
+	CObj* pTarget = nullptr;
+
+	for (size_t i = 0; i < BLOCK_END; ++i)
+	{
+		for (auto& iter : m_Blocklist[i])
+		{
+			if (((Player.fX >= iter->Get_Rect().left) && (Player.fX < iter->Get_Rect().right))
+				&& (Player.fY < iter->Get_Rect().bottom))
+				// 플레이어의 X값(중점)이 상자의 왼쪽과 오른쪽 사이에 있고, 플레이어의 Bottom이 상자의 Top보다 클 때
+				// (이때, 플레이어랑 상자의 X값만 조건으로 하면 바로 Jump가 false처리 되어 순간이동 할 수 있어서, Y값도 조건으로 주고 2를 임의적으로 추가함)
+			{
+				if (NULL == pTarget)
+					pTarget = iter;
+
+				if (pTarget && (iter->Get_Info().fY < pTarget->Get_Info().fY))
+					pTarget = iter;
+			}
+		}
+	}
+
+	if (!pTarget)
+		return false;
+
+	// 직선의 방정식 
+	// Y - y1 = ((y2 - y1) / (x2 - x1)) * (X - x1)
+	// Y = ((y2 - y1) / (x2 - x1)) * (X - x1) + y1
+
+
+	RECT rcTemp{};
+	if(IntersectRect(&rcTemp, &(m_listPlayer.front()->Get_Rect()), &(pTarget->Get_Rect())))
+	{
+		float x1 = rcTemp.left;
+		float y1 = rcTemp.top;
+
+		float x2 = rcTemp.right;
+		float y2 = rcTemp.bottom;
+ 
+		*inputY = (y2 - y1);
+	}
+	return true;
+
+}
 
 
 bool CBlockMgr::Collision_with_Direction(CObj* Player)
@@ -212,9 +269,20 @@ bool CBlockMgr::Collision_with_Direction(CObj* Player)
 
 void CBlockMgr::Col_Player(CObj* _thisBlock, DIRECTION _eDir)
 {
+	float fY = 0.f;
+
 	switch (_eDir)
 	{
 	case DIR_UP:
+		if (0.f == static_cast<CPlayer*>(m_listPlayer.front())->Get_Time())
+			m_listPlayer.front()->Set_PosY(-m_listPlayer.front()->Get_Speed());
+		else
+		{
+			static_cast<CPlayer*>(m_listPlayer.front())->Set_bJumpFalse();
+
+			CollisionBlock_Ex(m_listPlayer.front()->Get_Info(), &fY);
+			m_listPlayer.front()->Set_PosY(-fY);
+		}
 		break;
 
 	case DIR_DOWN:

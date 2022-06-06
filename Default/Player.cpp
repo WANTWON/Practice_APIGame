@@ -72,7 +72,7 @@ void  CPlayer::Late_Update(void)
 	}
 	if (m_bPlay)
 	{
-		CBlockMgr::Get_Instance()->Collision_with_Direction(this);
+		//CBlockMgr::Get_Instance()->Collision_with_Direction(this);
 	}
 
 	if (m_bStep_Monster)
