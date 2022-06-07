@@ -26,6 +26,9 @@ public:
 	void		Save_File(void);
 	void		Load_File(int _iStage);
 
+	void		Add_FlagLine(float _fX, float _fY, float flagBoxX, float flagBoxY);
+
+
 public:
 	static CLineMgr* Get_Instance(void)
 	{
