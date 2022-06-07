@@ -31,6 +31,7 @@ void CStage2::Initialize(void)
 	CBlockMgr::Get_Instance()->Load_File(2);
 
 	CBlockMgr::Get_Instance()->Initialize();
+	m_bClear = false;
 }
 
 int CStage2::Update(void)

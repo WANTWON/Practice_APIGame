@@ -77,6 +77,7 @@ void CStageMgr::Late_Update(void)
 					m_pStage[STAGE_1] = new CStage1;
 					m_pStage[STAGE_1]->Initialize();
 					m_pStage[STAGE_1]->Set_View(true);
+					dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Life(m_iCount);
 					m_eChoice_Stage = STAGE_1;
 					m_Mouse->Set_Pos(0.f, 0.f);
 					break;
@@ -84,6 +85,7 @@ void CStageMgr::Late_Update(void)
 					m_pStage[STAGE_2] = new CStage2;
 					m_pStage[STAGE_2]->Initialize();
 					m_pStage[STAGE_2]->Set_View(true);
+					dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Life(m_iCount);
 					m_eChoice_Stage = STAGE_2;
 					m_Mouse->Set_Pos(0.f, 0.f);
 					break;
@@ -91,6 +93,7 @@ void CStageMgr::Late_Update(void)
 					m_pStage[STAGE_3] = new CStage3;
 					m_pStage[STAGE_3]->Initialize();
 					m_pStage[STAGE_3]->Set_View(true);
+					dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Life(m_iCount);
 					m_eChoice_Stage = STAGE_3;
 					m_Mouse->Set_Pos(0.f, 0.f);
 					break;
@@ -98,6 +101,7 @@ void CStageMgr::Late_Update(void)
 					m_pStage[STAGE_4] = new CStage4;
 					m_pStage[STAGE_4]->Initialize();
 					m_pStage[STAGE_4]->Set_View(true);
+					dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Life(m_iCount);
 					m_eChoice_Stage = STAGE_4;
 					m_Mouse->Set_Pos(0.f, 0.f);
 					break;
@@ -205,7 +209,6 @@ void CStageMgr::View_End(HDC hDC)
 					swprintf_s(szBuff1, L"x       %d", dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Life());
 					TextOut(hDC, 390, 260, szBuff1, lstrlen(szBuff1));
 				}
-				break;
 			}
 			else if (m_pStage[i]->Get_Clear() && (0 > dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Life()))
 			{
@@ -219,7 +222,6 @@ void CStageMgr::View_End(HDC hDC)
 					TextOut(hDC, 350, 250, szBuff, lstrlen(szBuff));
 				}
 				m_iCount = 3;
-				break;
 			}
 			else if (m_pStage[i]->Get_Clear() && (dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Check()))
 			{
@@ -232,10 +234,7 @@ void CStageMgr::View_End(HDC hDC)
 					wsprintf(szBuff, L"GAME CLEAR", nullptr);
 					TextOut(hDC, 350, 250, szBuff, lstrlen(szBuff));
 				}
-				
 			dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Check(false);
-				m_iCount = 3;
-				break;
 			}
 
 		}

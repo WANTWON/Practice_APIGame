@@ -89,7 +89,9 @@ void  CPlayer::Late_Update(void)
 	if (m_bFlag && (m_dwClear + 8000 < GetTickCount()))
 	{
 		m_bCheck = true;
+		m_bFlag = false;
 		m_dwClear = GetTickCount();
+		
 	}
 
 	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
