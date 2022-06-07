@@ -7,8 +7,6 @@
 #include "LineMgr.h"
 #include "FlagBlock.h"
 #include "NormalBlock.h"
-#include "UIMgr.h"
-#include "Flower.h"
 
 CStage3::CStage3()
 {
