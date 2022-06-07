@@ -137,11 +137,11 @@ void CStageMgr::Render(HDC hDC)
 void CStageMgr::Render_Points_Total(HDC hDC)
 {
 	TCHAR sztScore[32] = L"";
-	swprintf_s(sztScore, L"Á¡¼ö : %d", m_iScore);
+	swprintf_s(sztScore, L"ï¿½ï¿½ï¿½ï¿½ : %d", m_iScore);
 	TextOut(hDC, 30, 30, sztScore, lstrlen(sztScore));
 
 	TCHAR sztCoins[32] = L"";
-	swprintf_s(sztCoins, L"ÄÚÀÎ : %d", m_iCoins);
+	swprintf_s(sztCoins, L"ï¿½ï¿½ï¿½ï¿½ : %d", m_iCoins);
 	TextOut(hDC, 170, 30, sztCoins, lstrlen(sztCoins));
 }
 
@@ -154,8 +154,10 @@ void CStageMgr::Stage_View(void)
 	for (size_t i = 0; i != STAGE_END; ++i)
 	{
 		if (i == STAGE_EDITOR)
+		{
 			break;
-		if (nullptr != m_pStage[i])
+		}
+		else if (nullptr != m_pStage[i])
 		{
 			if (CObjMgr::Get_Instance()->Get_Player()->Get_Bye())
 			{
@@ -166,7 +168,7 @@ void CStageMgr::Stage_View(void)
 				CObjMgr::Get_Instance()->Get_Player()->Set_Bye();
 				m_pStage[i]->Set_View(true);
 			}
-			if (0 > dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Life())
+			else if (0 > dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Life())
 			{
 				m_pStage[i]->Set_Clear_true();
 				m_pStage[i]->Set_View(false);

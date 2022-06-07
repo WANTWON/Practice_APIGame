@@ -37,8 +37,8 @@ CStage3::~CStage3()
 void CStage3::Initialize(void)
 {
 	CObjMgr::Get_Instance()->Load_File(3);
-	CBlockMgr::Get_Instance()->Load_File(3);
 	CLineMgr::Get_Instance()->Load_File(3);
+	CBlockMgr::Get_Instance()->Load_File(3);
 	CBlockMgr::Get_Instance()->Initialize();
 }
 
@@ -61,16 +61,18 @@ void CStage3::Late_Update(void)
 	CBlockMgr::Get_Instance()->Late_Update();
 }
 
-void CStage3::Render(HDC hDc)
+void CStage3::Render(HDC hDC)
 {
-	Rectangle(hDc, 0, 0, WINCX, WINCY);
-	CObjMgr::Get_Instance()->Render(hDc);
-	CLineMgr::Get_Instance()->Render(hDc);
-	CBlockMgr::Get_Instance()->Render(hDc);
+	Rectangle(hDC, 0, 0, WINCX, WINCY);
+	CUIMgr::Get_Instance()->Render(hDC);
+	CObjMgr::Get_Instance()->Render(hDC);
+	CLineMgr::Get_Instance()->Render(hDC);
+	CBlockMgr::Get_Instance()->Render(hDC);
 }
 
 void CStage3::Release(void)
 {
+	CUIMgr::Get_Instance()->Release();
 	CObjMgr::Get_Instance()->Release();
 	CLineMgr::Get_Instance()->Release();
 	CBlockMgr::Get_Instance()->Release();

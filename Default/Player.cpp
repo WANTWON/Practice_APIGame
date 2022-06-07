@@ -307,9 +307,9 @@ void CPlayer::Jumping(void)
 		}
 		else if (m_bJump)
 		{
-			m_fJumpPower = 14;
+			m_fJumpPower = 15;
 			m_tInfo.fY -= m_fJumpPower*m_fTime - (9.8f*m_fTime*m_fTime*0.5f);
-			m_fTime += 0.11f;
+			m_fTime += 0.1f;
 			if ((m_fJumpPower*m_fTime) < (9.8f*m_fTime*m_fTime*0.5f))
 			{
 				m_bJump = true;
