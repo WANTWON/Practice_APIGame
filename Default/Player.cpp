@@ -311,7 +311,7 @@ void CPlayer::Jumping(void)
 			m_bJump = false;
 			m_bPlay = false;
 			m_bFirst = true;
-			CScrollMgr::Get_Instance()->Zero_Scroll();
+			//CScrollMgr::Get_Instance()->Set_ScrollX();
 		}
 		else if (m_bStep_Monster)
 		{
