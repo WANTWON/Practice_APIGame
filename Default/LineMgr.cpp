@@ -85,7 +85,7 @@ void CLineMgr::Initialize(int _Number)
 		m_Linelist.push_back(new CLine(tPoint[2], tPoint[3]));
 		m_Linelist.push_back(new CLine(tPoint[3], tPoint[4]));
 		m_Linelist.push_back(new CLine(tPoint[4], tPoint[5]));
-		m_Flagline.push_back(new CLine(tPoint[6], tPoint[7]));
+		m_Flaglist.push_back(new CLine(tPoint[6], tPoint[7]));
 	}
 
 }
