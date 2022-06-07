@@ -94,26 +94,6 @@ public:
 		return pInstance;
 	}
 
-
-
-
-	//½ÇÇè¿ë
-
-	static CObj*  Create(float _fX, float _fY, int _Life)
-	{
-		CObj* pInstance = new T;
-		pInstance->Initialize();
-		pInstance->Set_Pos(_fX, _fY);
-		dynamic_cast<CPlayer*>(pInstance)->Set_Life(_Life);
-		return pInstance;
-	}
-	static CObj*  Create(int _Life)
-	{
-		CObj* pInstance = new T;
-		pInstance->Initialize();
-		dynamic_cast<CPlayer*>(pInstance)->Set_Life(_Life);
-		return pInstance;
-	}
 	static CObj* Create(float _fX, float _fY,bool _Number)
 	{
 		CObj* pInstance = new T;
@@ -123,9 +103,9 @@ public:
 		return pInstance;
 	}
 
-	static CObj*  Create(SAVEOBJ Temp) {
+	static CObj*  Create(SAVEOBJ Temp)
+	{
 		CObj* pInstance = new T;
-
 		pInstance->Initialize();
 		pInstance->Set_ID(Temp.m_eID);
 		//pInstance->Set_Dead(Temp.m_bDead);

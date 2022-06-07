@@ -114,8 +114,6 @@ void CObjMgr::Late_Update()
 	
 	if (false == m_pObjList[OBJ_PLAYER].empty())
 		CCollisionMgr::Collision_Item(Get_Player(), Get_Items());
-
-	//m_iScore += CCollisionMgr::Collision_Rect(Get_Bullets(), Get_Monsters());
 }
 
 void CObjMgr::Render(HDC hDC)

@@ -168,7 +168,7 @@ void CStageMgr::Stage_View(void)
 				CObjMgr::Get_Instance()->Get_Player()->Set_Bye();
 				m_pStage[i]->Set_View(true);
 			}
-			else if (0 > dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Life())
+			if (0 > dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Life())
 			{
 				m_pStage[i]->Set_Clear_true();
 				m_pStage[i]->Set_View(false);
