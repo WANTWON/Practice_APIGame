@@ -204,6 +204,7 @@ bool CBlockMgr::Collision_with_Direction(CObj* Player)
 			if (pTarget->Get_Info().fY >= Player->Get_Info().fY)
 			{
 				Player->Set_PosY(-fHeight);
+				//Player->Set_PosYTemp(pTarget->Get_Rect().top - (Player->Get_Info().fCY*0.5f));
 			}
 				//Player->Set_PosYTemp(pTarget->Get_Rect().top - Player->Get_Info().fCY);
 				
@@ -544,8 +545,8 @@ int CBlockMgr::Check_Rect(INFO Player, INFO pTarget, float* _pX, float* _pY)
 	float fWidth = abs(Player.fX - pTarget.fX);
 	float fHeight = abs(Player.fY - pTarget.fY);
 
-	float fRadiusX = (Player.fCX + pTarget.fCX*0.5f);
-	float fRadiusY = (Player.fCY + pTarget.fCY*0.5f);
+	float fRadiusX = (Player.fCX*0.5f + pTarget.fCX*0.5f);
+	float fRadiusY = (Player.fCY*0.5f + pTarget.fCY*0.5f);
 
 	if ((fWidth <= fRadiusX) && (fHeight <= fRadiusY))
 	{
