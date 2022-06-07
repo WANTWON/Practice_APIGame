@@ -5,35 +5,33 @@
 #include <time.h>
 #include "ObjMgr.h"
 #include "LineMgr.h"
+#include "UIMgr.h"
 
 CStage4::CStage4()
 {
-}
 
+}
 
 CStage4::~CStage4()
 {
+	Release();
 }
 
 void CStage4::Initialize(void)
 {
-/*
-	CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, CAbstractFactory<CPlayer>::Create());
-
-	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CMonster>::Create(600, 200));
-
-	CLineMgr::Get_Instance()->Initialize(4);
-
-*/
 	CObjMgr::Get_Instance()->Load_File(4);
-	CBlockMgr::Get_Instance()->Load_File(4);
 	CLineMgr::Get_Instance()->Load_File(4);
-	CBlockMgr::Get_Instance()->Initialize();
+	CBlockMgr::Get_Instance()->Load_File(4);
 
+	CBlockMgr::Get_Instance()->Initialize();
 }
 
 int CStage4::Update(void)
 {
+	if (m_bClear)
+		return STAGE_CLEAR;
+
+	CUIMgr::Get_Instance()->Update();
 	CObjMgr::Get_Instance()->Update();
 	CBlockMgr::Get_Instance()->Update();
 
@@ -42,26 +40,25 @@ int CStage4::Update(void)
 
 void CStage4::Late_Update(void)
 {
-
-
+	CUIMgr::Get_Instance()->Late_Update();
 	CObjMgr::Get_Instance()->Late_Update();
 	CBlockMgr::Get_Instance()->Late_Update();
-
-
 }
 
-void CStage4::Render(HDC hDc)
+void CStage4::Render(HDC hDC)
 {
-	Rectangle(hDc, 0, 0, WINCX, WINCY);
-	CObjMgr::Get_Instance()->Render(hDc);
-	CBlockMgr::Get_Instance()->Render(hDc);
+	Rectangle(hDC, 0, 0, WINCX, WINCY);
 
+	CUIMgr::Get_Instance()->Render(hDC);
+	CObjMgr::Get_Instance()->Render(hDC);
+	CLineMgr::Get_Instance()->Render(hDC);
+	CBlockMgr::Get_Instance()->Render(hDC);
 }
 
 void CStage4::Release(void)
 {
-
+	CUIMgr::Get_Instance()->Release();
 	CObjMgr::Get_Instance()->Release();
-	CBlockMgr::Get_Instance()->Release();
 	CLineMgr::Get_Instance()->Release();
+	CBlockMgr::Get_Instance()->Release();
 }

@@ -89,6 +89,7 @@ void  CPlayer::Late_Update(void)
 	if (m_bFlag && (m_dwClear + 8000 < GetTickCount()))
 	{
 		m_bCheck = true;
+		m_dwClear = GetTickCount();
 	}
 
 	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
@@ -219,6 +220,7 @@ void CPlayer::Remove_Buff(ITEM_TYPE iBuff)
 	{
 		m_tInfo.fCX -= m_tInfo.fCX * 0.5f;
 		m_tInfo.fCY -= m_tInfo.fCY * 0.5f;
+		break;
 	}
 	case ITEM_STAR:
 	{
@@ -230,6 +232,7 @@ void CPlayer::Remove_Buff(ITEM_TYPE iBuff)
 		m_tInfo.fCX -= m_tInfo.fCX * 0.5f;
 		m_tInfo.fCY -= m_tInfo.fCY * 0.5f;
 		m_bCanShoot = false;
+		break;
 	}
 	}
 }

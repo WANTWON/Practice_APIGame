@@ -23,7 +23,6 @@ public:
 
 	// 게터와 세터
 	void Set_Stage(STAGE_LIST _Stage) { m_eChoice_Stage = _Stage; }
-	void Set_NewGame(void) { m_bNewGame = true; }
 	int Get_Score() { return m_iScore; }
 	void Increment_Score(int iScore) { m_iScore += iScore; }
 	int Get_Coins() { return m_iCoins; }

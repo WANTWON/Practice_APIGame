@@ -2,6 +2,7 @@
 #include "Include.h"
 #include "BlockMgr.h"
 #include "MushroomMonster.h"
+#include "UIMgr.h"
 
 class CStage
 {

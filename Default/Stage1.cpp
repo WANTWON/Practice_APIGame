@@ -40,24 +40,12 @@ void CStage1::Initialize(void)
 	CLineMgr::Get_Instance()->Load_File(1);
 	CBlockMgr::Get_Instance()->Load_File(1);
 	CBlockMgr::Get_Instance()->Initialize();
-
-
-
-//	CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CFlower>::Create(200, 400, ITEM_FLOWER));
-
 }
 
 int CStage1::Update(void)
 {
 	if (m_bClear)
 		return STAGE_CLEAR;
-
-	/*if (CKeyMgr::Get_Instance()->Key_Pressing(VK_LEFT))
-		CScrollMgr::Get_Instance()->Set_ScrollX(5.f);
-
-	if (CKeyMgr::Get_Instance()->Key_Pressing(VK_RIGHT))
-		CScrollMgr::Get_Instance()->Set_ScrollX(-5.f);*/
-
 
 	CUIMgr::Get_Instance()->Update();
 	CObjMgr::Get_Instance()->Update();

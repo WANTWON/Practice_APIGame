@@ -21,10 +21,12 @@ void CObj::Update_Rect()
 	m_tRect.bottom = int(m_tInfo.fY + (m_tInfo.fCY * 0.5f));
 }
 
-void CObj::Set_Dead(bool _dead)
+void CObj::Set_Dead(bool _dead, bool b_JustDie)
 {
+	m_bDead = _dead;
+
+	if (!b_JustDie)
 	{
-		m_bDead = _dead;
 		CStageMgr* StageMgr = CStageMgr::Get_Instance();
 		StageMgr->Increment_Score(m_iPoints_Given);
 		StageMgr->Increment_Coins(m_iCoins_Given);
@@ -33,6 +35,6 @@ void CObj::Set_Dead(bool _dead)
 		{
 			CPointNumbers* pPointNumbers = new CPointNumbers(m_iPoints_Given, m_tInfo.fX, m_tInfo.fY);
 			CUIMgr::Get_Instance()->Add(pPointNumbers);
-		}	
+		}
 	}
 }

@@ -3,12 +3,26 @@
 #include "AbstractFactory.h"
 #include "CollisionMgr.h"
 #include <time.h>
+#include "StageMgr.h"
 #include "ObjMgr.h"
 #include "LineMgr.h"
-#include "FlagBlock.h"
-#include "NormalBlock.h"
 #include "UIMgr.h"
+#include "MushroomMonster.h"
+#include "TurtleMonster.h"
+#include "Coin.h"
+#include "Mushroom.h"
+#include "Star.h"
 #include "Flower.h"
+#include "JumpingMonster.h"
+#include "FlyingMonster.h"
+#include "BossMonster.h"
+#include "Item.h"
+#include "Block.h"
+#include "BlockMgr.h"
+#include "NormalBlock.h"
+#include "KeyMgr.h"
+#include "ScrollMgr.h"
+#include "CoinBlock.h"
 
 CStage3::CStage3()
 {
@@ -22,16 +36,9 @@ CStage3::~CStage3()
 
 void CStage3::Initialize(void)
 {
-
-	CLineMgr::Get_Instance()->Initialize(3);
-	CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, CAbstractFactory<CPlayer>::Create(50.f, 460.f));
-	//CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CMushroomMonster>::Create(600, 200));
-	CBlockMgr::Get_Instance()->Add_Object(BLOCK_FLAG, CAbstractFactory<CFlagBlock>::Create(550, 445, false));
-	CBlockMgr::Get_Instance()->Add_Object(BLOCK_FLAG, CAbstractFactory<CFlagBlock>::Create(535, 100, true));
-
-	/*CObjMgr::Get_Instance()->Load_File(3);
+	CObjMgr::Get_Instance()->Load_File(3);
 	CBlockMgr::Get_Instance()->Load_File(3);
-	CLineMgr::Get_Instance()->Load_File(3);*/
+	CLineMgr::Get_Instance()->Load_File(3);
 	CBlockMgr::Get_Instance()->Initialize();
 }
 

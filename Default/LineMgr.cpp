@@ -532,7 +532,6 @@ void CLineMgr::Load_File(int _iStage)
 				m_Flaglist.back()->Set_typeID(FLAG_LINE);
 				break;
 			}
-
 		}
 
 		CloseHandle(hFile);
