@@ -73,7 +73,7 @@ void  CPlayer::Late_Update(void)
 			m_tInfo.fY = WINCY - 10.f;
 			m_bDead_Count = true;
 		}
-		CBlockMgr::Get_Instance()->Collision_with_Direction(this);
+		//CBlockMgr::Get_Instance()->Collision_with_Direction(this);
 	}
 
 	if (m_bStep_Monster)
@@ -310,7 +310,7 @@ void CPlayer::Jumping(void)
 			if (m_fTime > 3.8f)
 				m_fTime = 3.8f;
 
-			if (b_BlockCol && m_tInfo.fY + m_tInfo.fCY*0.5f >= fY2)
+			if (b_BlockCol && m_tInfo.fY + m_tInfo.fCY*0.5f > fY2)
 			{
 				m_fTime = 0.0f;
 				m_bJump = false;
@@ -337,8 +337,11 @@ void CPlayer::Jumping(void)
 			{
 				m_tInfo.fY += m_fSpeed;
 
-				if (m_tInfo.fY > fY2)
-					m_tInfo.fY = fY2;// -m_tInfo.fCY*0.5f;
+				if (m_tInfo.fY + m_tInfo.fCY*0.5f >= fY2)
+				{
+					m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
+				}
+						
 			}
 			else // 선만 있는 경우
 			{
