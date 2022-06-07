@@ -87,6 +87,8 @@ void  CPlayer::Late_Update(void)
 		}
 	}
 
+
+	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
 	Set_Dead_Moment();
 }
 
@@ -329,13 +331,13 @@ void CPlayer::Jumping(void)
 		}
 		else if (m_bJump)
 		{
-			m_fJumpPower = 15;
+			m_fJumpPower = 14;
 			m_tInfo.fY -= m_fJumpPower*m_fTime - (9.8f*m_fTime*m_fTime*0.5f);
+			m_fTime += 0.11f;
 			if ((m_fJumpPower*m_fTime) < (9.8f*m_fTime*m_fTime*0.5f))
 			{
 				m_bJump = true;
 			}
-			m_fTime += 0.13f;
 			if (m_fTime > 3.9f)
 				m_fTime = 3.9f;
 

@@ -42,6 +42,10 @@ public:
 	void Set_EditorMode(void) { m_bEditMode = true; }
 	void Set_PlayMode(void) { m_bEditMode = false; }
 
+	CObj* Get_Target(void) { return m_pTarget; }
+	float Get_Angle(void) { return m_fAngle; }
+	
+
 public:
 	//added an ID to distinguish between the monster's bullet and the player's bullet
 	void Set_ID(OBJ_LIST _eID) { m_eID = _eID; }
