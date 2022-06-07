@@ -13,9 +13,9 @@
 CPlayer::CPlayer()
 	: m_pShield_Angle(0), m_bJump(false), m_fJumpPower(0), m_fTime(0), m_bFalling(false),
 	m_bStep_Monster(false), fY(0), fY2(0), m_iActiveBuff(ITEM_END), m_dwBuffTime(GetTickCount()),
-	m_bIsBuffActive(false), m_bCanShoot(false), m_iLastDir(DIR_RIGHT), m_bPlay(true), m_fPTime(0.f), m_bActive(false), m_bItem(false), m_iLife(0), m_bFirst(false),
+	m_bIsBuffActive(false), m_bCanShoot(false), m_iLastDir(DIR_RIGHT), m_bPlay(true), m_fPTime(0.f), m_bActive(false), m_bItem(false), m_iLife(3), m_bFirst(false),
 	m_bLineCol(false), m_bFlag(false), m_bBlock(false),
-	m_bIsInvincible(false), m_bColorSwitch(false), m_iLevel(0), m_eType(PLAYER_END), m_bCheck(false), m_fLeft(0.f)
+	m_bIsInvincible(false), m_bColorSwitch(false), m_iLevel(0), m_eType(PLAYER_END), m_bCheck(false), m_fLeft(0.f), m_dwClear(GetTickCount())
 
 {
 	ZeroMemory(&m_pGUIDE, sizeof(POINT));
@@ -34,7 +34,7 @@ void CPlayer::Initialize(void)
 	m_fkg = 9.8f;
 	Jumping_Time = GetTickCount();
 	m_dwTime = GetTickCount();
-	m_iLife = 3;
+	m_iLife = CStageMgr::Get_Instance()->Get_Count();
 	m_bFlag = false;
 
 	m_eType = PLAYER_NORMAL;
@@ -85,6 +85,12 @@ void  CPlayer::Late_Update(void)
 			m_bStep_Monster = false;
 		}
 	}
+
+	if (m_bFlag && (m_dwClear + 8000 < GetTickCount()))
+	{
+		m_bCheck = true;
+	}
+
 	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
 	Set_Dead_Moment();
 	Flag_On();
@@ -271,6 +277,7 @@ void CPlayer::Jumping(void)
 
 		if (m_bFlag)
 		{
+			m_dwClear = GetTickCount();
 			m_fLeft = m_tRect.left;
 			m_fTime = 0.0f;
 			m_bJump = false;
