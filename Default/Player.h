@@ -94,5 +94,6 @@ private:
 	bool m_bBlock;
 	bool m_bFlag;
 	bool m_bCheck;
+	float m_fLeft;
 };
 

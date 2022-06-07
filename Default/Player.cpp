@@ -15,7 +15,7 @@ CPlayer::CPlayer()
 	m_bStep_Monster(false), fY(0), fY2(0), m_iActiveBuff(ITEM_END), m_dwBuffTime(GetTickCount()),
 	m_bIsBuffActive(false), m_bCanShoot(false), m_iLastDir(DIR_RIGHT), m_bPlay(true), m_fPTime(0.f), m_bActive(false), m_bItem(false), m_iLife(0), m_bFirst(false),
 	m_bLineCol(false), m_bFlag(false), m_bBlock(false),
-	m_bIsInvincible(false), m_bColorSwitch(false), m_iLevel(0), m_eType(PLAYER_END), m_bCheck(false)
+	m_bIsInvincible(false), m_bColorSwitch(false), m_iLevel(0), m_eType(PLAYER_END), m_bCheck(false), m_fLeft(0.f)
 
 {
 	ZeroMemory(&m_pGUIDE, sizeof(POINT));
@@ -275,7 +275,7 @@ void CPlayer::Jumping(void)
 		}
 		if (m_bFirst)
 		{
-			m_tInfo.fX = m_tRect.left + 15.f;
+			m_tInfo.fX = m_fLeft + 15.f;
 			m_tInfo.fY += 5.f;
 		}
 		for (auto& iter : CBlockMgr::Get_Instance()->Get_Flaglist())
@@ -301,6 +301,7 @@ void CPlayer::Jumping(void)
 		m_tInfo.fX += 0.5f;
 		m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 	}
+	//===========================================================
 	if (m_bPlay)
 	{
 		bool b_LineCol = CLineMgr::Get_Instance()->CollisionLinePlayer(m_tInfo.fX, m_tInfo.fY, &m_tInfo.fX, &fY);
@@ -309,6 +310,7 @@ void CPlayer::Jumping(void)
 
 		if (m_bFlag)
 		{
+			m_fLeft = m_tRect.left;
 			m_fTime = 0.0f;
 			m_bJump = false;
 			m_bPlay = false;
