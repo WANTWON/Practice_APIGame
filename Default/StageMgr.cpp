@@ -83,7 +83,7 @@ void CStageMgr::Late_Update(void)
 				case STAGE_2:
 					m_pStage[STAGE_2] = new CStage2;
 					m_pStage[STAGE_2]->Initialize();
-					m_pStage[STAGE_2]->Set_View();
+					m_pStage[STAGE_2]->Set_View(true);
 					m_eChoice_Stage = STAGE_2;
 					m_Mouse->Set_Pos(0.f, 0.f);
 					break;
@@ -97,7 +97,7 @@ void CStageMgr::Late_Update(void)
 				case STAGE_4:
 					m_pStage[STAGE_4] = new CStage4;
 					m_pStage[STAGE_4]->Initialize();
-					m_pStage[STAGE_4]->Set_View();
+					m_pStage[STAGE_4]->Set_View(true);
 					m_eChoice_Stage = STAGE_4;
 					m_Mouse->Set_Pos(0.f, 0.f);
 					break;
@@ -153,7 +153,11 @@ void CStageMgr::Stage_View(void)
 {
 	for (size_t i = 0; i != STAGE_END; ++i)
 	{
-		if (nullptr != m_pStage[i])
+		if (i == STAGE_EDITOR)
+		{
+			break;
+		}
+		else if (nullptr != m_pStage[i])
 		{
 			if (CObjMgr::Get_Instance()->Get_Player()->Get_Bye())
 			{
@@ -164,7 +168,7 @@ void CStageMgr::Stage_View(void)
 				CObjMgr::Get_Instance()->Get_Player()->Set_Bye();
 				m_pStage[i]->Set_View(true);
 			}
-			if (0 > dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Life())
+			else if (0 > dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Life())
 			{
 				m_pStage[i]->Set_Clear_true();
 				m_pStage[i]->Set_View(false);
