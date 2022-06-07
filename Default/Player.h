@@ -55,7 +55,7 @@ private:
 	void Buff_Mushroom();
 	void Buff_Star();
 	void Buff_Flower();
-
+	void Flag_On(void);
 private:
 	float m_pShield_Angle;
 	float m_fTime;

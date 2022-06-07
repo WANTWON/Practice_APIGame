@@ -84,10 +84,9 @@ void  CPlayer::Late_Update(void)
 			m_bStep_Monster = false;
 		}
 	}
-
-
 	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
 	Set_Dead_Moment();
+	Flag_On();
 }
 
 void CPlayer::Release(void)
@@ -201,6 +200,7 @@ void CPlayer::Buff_Flower()
 	}
 }
 
+
 void CPlayer::Remove_Buff(ITEM_TYPE iBuff)
 {
 	m_iActiveBuff = ITEM_END;
@@ -262,45 +262,6 @@ void CPlayer::Key_Input(void)
 
 void CPlayer::Jumping(void)
 {
-	if (m_bFirst)
-	{
-		m_bBlock = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
-		if (m_bBlock)
-		{
-			m_bFirst = false;
-		}
-		if (m_bFirst)
-		{
-			m_tInfo.fX = m_fLeft + 15.f;
-			m_tInfo.fY += 5.f;
-		}
-		for (auto& iter : CBlockMgr::Get_Instance()->Get_Flaglist())
-		{
-			if (true == dynamic_cast<CFlagBlock*>(iter)->Get_Number())
-			{
-				dynamic_cast<CFlagBlock*>(iter)->Set_Down(1);
-			}
-		}
-	}
-	if (m_bBlock)
-	{
-		m_tInfo.fX += 2.f;
-		m_bBlock = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
-		m_bLineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, m_tInfo.fY, &fY);
-		if (m_bLineCol)
-		{
-			m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
-		}
-	}
-	else if (m_bLineCol)
-	{
-		m_tInfo.fX += 0.5f;
-		m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
-		if (m_tInfo.fX > WINCX)
-		{
-		}
-	}
-	//===========================================================
 	if (m_bPlay)
 	{
 		bool b_LineCol = CLineMgr::Get_Instance()->CollisionLinePlayer(m_tInfo.fX, m_tInfo.fY, &m_tInfo.fX, &fY);
@@ -423,6 +384,44 @@ void CPlayer::Offset(void)
 		if (iOffsetMaxX < m_tInfo.fX + iScrollX)
 			CScrollMgr::Get_Instance()->Set_ScrollX(-m_fSpeed);
 	}
-	
+}
 
+
+void CPlayer::Flag_On(void)
+{
+	if (m_bFirst)
+	{
+		m_bBlock = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
+		if (m_bBlock)
+		{
+			m_bFirst = false;
+		}
+		if (m_bFirst)
+		{
+			m_tInfo.fX = m_fLeft + 15.f;
+			m_tInfo.fY += 5.f;
+		}
+		for (auto& iter : CBlockMgr::Get_Instance()->Get_Flaglist())
+		{
+			if (true == dynamic_cast<CFlagBlock*>(iter)->Get_Number())
+			{
+				dynamic_cast<CFlagBlock*>(iter)->Set_Down(1);
+			}
+		}
+	}
+	if (m_bBlock)
+	{
+		m_tInfo.fX += 2.f;
+		m_bBlock = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
+		m_bLineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, m_tInfo.fY, &fY);
+		if (m_bLineCol)
+		{
+			m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
+		}
+	}
+	else if (m_bLineCol)
+	{
+		m_tInfo.fX += 0.5f;
+		m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
+	}
 }

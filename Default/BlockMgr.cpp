@@ -132,10 +132,10 @@ bool CBlockMgr::CollisionBlock(RECT Player, float _fX, float * Change_fY)
 	{
 		for (auto& iter : m_Blocklist[i])
 		{
-			if (dynamic_cast<CFlagBlock*>(iter)->Get_Number())
+			/*if (dynamic_cast<CFlagBlock*>(iter)->Get_Number())
 			{
 				continue;
-			}
+			}*/
 			if (Player.right >= iter->Get_Rect().left && Player.left < iter->Get_Rect().right
 				&& Player.bottom < iter->Get_Rect().top + 3 && Player.bottom > iter->Get_Rect().top - 3 )
 				// 플레이어의 X값(중점)이 상자의 왼쪽과 오른쪽 사이에 있고, 플레이어의 Bottom이 상자의 Top보다 클 때
