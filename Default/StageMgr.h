@@ -1,6 +1,7 @@
 #pragma once
 #include "Include.h"
 #include "Mouse.h"
+#include "ScrollMgr.h"
 
 class CStage;
 
