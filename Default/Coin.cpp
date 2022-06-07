@@ -75,5 +75,5 @@ void CCoin::Animate()
 	// TODO:
 	// Destroy on collision with source block (not based on time).
 	if (GetTickCount() > m_dwTime + 325)
-		this->Set_Dead(true);
+		Set_Dead(true);
 }

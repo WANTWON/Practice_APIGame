@@ -470,15 +470,32 @@ void CLineMgr::Load_File(int _iStage)
 
 		dwByte = 0;
 		tInfo = {};
+		dwByte = 0;
+		iDest = 0;
+		dwTypeByte = 0;
+		typeTemp = LINE_END;
 
 		while (true)
 		{
 			ReadFile(hFile, &tInfo, sizeof(LINE), &dwByte, nullptr);
+			ReadFile(hFile, &iDest, sizeof(int), &dwTypeByte, nullptr);
 
 			if (0 == dwByte)
 				break;
+			if (0 == dwTypeByte)
+				break;
 
-			m_Linelist.push_back(new CLine(tInfo));
+			switch (iDest)
+			{
+			case NORMAL_LINE:
+				m_Linelist.push_back(new CLine(tInfo));
+				m_Linelist.back()->Set_typeID(NORMAL_LINE);
+				break;
+			case FLAG_LINE:
+				m_Flaglist.push_back(new CLine(tInfo));
+				m_Flaglist.back()->Set_typeID(FLAG_LINE);
+				break;
+			}
 		}
 
 		CloseHandle(hFile);
