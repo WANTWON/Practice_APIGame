@@ -203,8 +203,8 @@ bool CBlockMgr::Collision_with_Direction(CObj* Player)
 		{
 			if (pTarget->Get_Info().fY >= Player->Get_Info().fY)
 				Player->Set_PosY(-fHeight);
-			//else
-				//Player->Set_PosY(fHeight);
+			else
+				Player->Set_PosY(fHeight);
 		}
 		else //ÁÂ¿ì Ãæµ¹ 
 		{
