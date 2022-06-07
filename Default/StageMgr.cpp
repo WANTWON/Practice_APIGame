@@ -9,7 +9,7 @@
 
 CStageMgr* CStageMgr::m_pInstance = nullptr;
 
-CStageMgr::CStageMgr() : m_dwTime(GetTickCount()), m_eChoice_Stage(STAGE_END), m_bNewGame(false), m_iScore(0), m_iCoins(0), m_iCount(3)
+CStageMgr::CStageMgr() : m_dwTime(GetTickCount()), m_eChoice_Stage(STAGE_END), m_iScore(0), m_iCoins(0), m_iCount(3)
 {
 	for (size_t i = 0; i != STAGE_END; ++i)
 	{
@@ -46,15 +46,12 @@ void CStageMgr::Update(void)
 		if (iEvent == STAGE_CLEAR)
 		{
 			Safe_Delete<CStage*>(m_pStage[m_eChoice_Stage]);
+			Initialize();
 			Set_Stage(STAGE_END);
 		}
 	}
 	else if (m_eChoice_Stage == STAGE_END)
 	{	
-		if (m_bNewGame)
-		{
-			m_bNewGame = false;
-		}
 		m_Mouse->Update();
 	}
 }
@@ -228,7 +225,8 @@ void CStageMgr::View_End(HDC hDC)
 					wsprintf(szBuff, L"GAME CLEAR", nullptr);
 					TextOut(hDC, 350, 250, szBuff, lstrlen(szBuff));
 				}
-				dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Check(false);
+			//	dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Check(false);
+				m_iCount = 3;
 			}
 
 		}
