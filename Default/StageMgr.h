@@ -1,6 +1,7 @@
 #pragma once
 #include "Include.h"
 #include "Mouse.h"
+#include "ScrollMgr.h"
 
 class CStage;
 
@@ -22,11 +23,13 @@ public:
 
 	// 게터와 세터
 	void Set_Stage(STAGE_LIST _Stage) { m_eChoice_Stage = _Stage; }
-	void Set_NewGame(void) { m_bNewGame = true; }
 	int Get_Score() { return m_iScore; }
 	void Increment_Score(int iScore) { m_iScore += iScore; }
 	int Get_Coins() { return m_iCoins; }
 	void Increment_Coins(int iCoins) { m_iCoins += iCoins; }
+	void Stage_View(void);
+	void View_End(HDC hDC);
+	int Get_Count(void) { return m_iCount; }
 
 	static CStageMgr* Get_Instance(void)
 	{
@@ -62,5 +65,6 @@ private:
 
 	int m_iScore;
 	int m_iCoins;
+	int m_iCount;
 };
 

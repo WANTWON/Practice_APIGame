@@ -8,6 +8,7 @@
 #include "AbstractFactory.h"
 #include "Item.h"
 #include "ItemBlock.h"
+#include "FlagBlock.h"
 
 //	아이템
 #include "Coin.h"
@@ -107,6 +108,7 @@ void CBlockMgr::Add_Object(BLOCK_LIST _ID, CObj* pObj)
 		return;
 
 	m_Blocklist[_ID].push_back(pObj);
+	dynamic_cast<CBlock*>(m_Blocklist[_ID].back())->Set_Type(_ID);
 }
 
 bool CBlockMgr::CollisionBlock(RECT Player, float _fX, float * Change_fY)
@@ -130,6 +132,10 @@ bool CBlockMgr::CollisionBlock(RECT Player, float _fX, float * Change_fY)
 	{
 		for (auto& iter : m_Blocklist[i])
 		{
+			/*if (dynamic_cast<CFlagBlock*>(iter)->Get_Number())
+			{
+				continue;
+			}*/
 			if (Player.right >= iter->Get_Rect().left && Player.left < iter->Get_Rect().right
 				&& Player.bottom < iter->Get_Rect().top + 3 && Player.bottom > iter->Get_Rect().top - 3 )
 				// 플레이어의 X값(중점)이 상자의 왼쪽과 오른쪽 사이에 있고, 플레이어의 Bottom이 상자의 Top보다 클 때
@@ -196,9 +202,13 @@ bool CBlockMgr::Collision_with_Direction(CObj* Player)
 		if (fWidth > fHeight)  //상하 충돌
 		{
 			if (pTarget->Get_Info().fY >= Player->Get_Info().fY)
+			{
 				Player->Set_PosY(-fHeight);
+			}
+				//Player->Set_PosYTemp(pTarget->Get_Rect().top - Player->Get_Info().fCY);
+				
 			//else
-				//Player->Set_PosY(fHeight);
+			//	Player->Set_PosY(fHeight);
 		}
 		else //좌우 충돌 
 		{
@@ -219,7 +229,7 @@ void CBlockMgr::Col_Player(CObj* _thisBlock, DIRECTION _eDir)
 		break;
 
 	case DIR_DOWN:
-		static_cast<CPlayer*>(m_listPlayer.front())->Set_GravityTime(3.4f);
+		static_cast<CPlayer*>(m_listPlayer.front())->Set_GravityTime(3.0f);
 		Check_BreakBlock(_thisBlock);
 		break;
 
@@ -240,6 +250,11 @@ void CBlockMgr::Col_Player(CObj* _thisBlock, DIRECTION _eDir)
 void CBlockMgr::Check_BreakBlock(CObj * _thisBlock)
 {
 	if ((true == static_cast<CBlock*>(_thisBlock)->Get_IsItem()) && (false == static_cast<CCoinBlock*>(_thisBlock)->Get_Used()))
+	{
+		Create_RandItem(_thisBlock);
+		_thisBlock->Set_Dead(OBJ_DEAD);
+	}
+	if ((true == static_cast<CBlock*>(_thisBlock)->Get_IsItem()) && (false == static_cast<CItemBlock*>(_thisBlock)->Get_Used()))
 	{
 		Create_RandItem(_thisBlock);
 		_thisBlock->Set_Dead(OBJ_DEAD);
@@ -294,7 +309,7 @@ void CBlockMgr::Save_File(void)
 	DWORD dwByte = 0;
 	DWORD dwTypeByte = 0;
 
-	for (size_t i = 0; i < BLOCK_END - 1; ++i)
+	for (size_t i = 0; i < BLOCK_END ; ++i)
 	{
 		for (auto& iter : m_Blocklist[i])
 		{
@@ -354,13 +369,14 @@ void CBlockMgr::Load_File(int _iStage)
 			case BLOCK_NORMAL:
 				m_Blocklist[BLOCK_NORMAL].push_back(CAbstractFactory<CNormalBlock>::Create(tTemp.fX, tTemp.fY));
 				break;
-
 			case BLOCK_COIN:
 				m_Blocklist[BLOCK_COIN].push_back(CAbstractFactory<CCoinBlock>::Create(tTemp.fX, tTemp.fY));
 				break;
-
 			case BLOCK_ITEM:
 				m_Blocklist[BLOCK_ITEM].push_back(CAbstractFactory<CItemBlock>::Create(tTemp.fX, tTemp.fY));
+				break;
+			case BLOCK_FLAG:
+				m_Blocklist[BLOCK_FLAG].push_back(CAbstractFactory <CFlagBlock> ::Create(tTemp.fX, tTemp.fY));
 				break;
 			}
 		}
@@ -402,13 +418,14 @@ void CBlockMgr::Load_File(int _iStage)
 			case BLOCK_NORMAL:
 				m_Blocklist[BLOCK_NORMAL].push_back(CAbstractFactory<CNormalBlock>::Create(tTemp.fX, tTemp.fY));
 				break;
-
 			case BLOCK_COIN:
 				m_Blocklist[BLOCK_COIN].push_back(CAbstractFactory<CCoinBlock>::Create(tTemp.fX, tTemp.fY));
 				break;
-
 			case BLOCK_ITEM:
 				m_Blocklist[BLOCK_ITEM].push_back(CAbstractFactory<CItemBlock>::Create(tTemp.fX, tTemp.fY));
+				break;
+			case BLOCK_FLAG:
+				m_Blocklist[BLOCK_FLAG].push_back(CAbstractFactory <CFlagBlock> ::Create(tTemp.fX, tTemp.fY));
 				break;
 			}
 		}
@@ -450,13 +467,14 @@ void CBlockMgr::Load_File(int _iStage)
 			case BLOCK_NORMAL:
 				m_Blocklist[BLOCK_NORMAL].push_back(CAbstractFactory<CNormalBlock>::Create(tTemp.fX, tTemp.fY));
 				break;
-
 			case BLOCK_COIN:
 				m_Blocklist[BLOCK_COIN].push_back(CAbstractFactory<CCoinBlock>::Create(tTemp.fX, tTemp.fY));
 				break;
-
 			case BLOCK_ITEM:
 				m_Blocklist[BLOCK_ITEM].push_back(CAbstractFactory<CItemBlock>::Create(tTemp.fX, tTemp.fY));
+				break;
+			case BLOCK_FLAG:
+				m_Blocklist[BLOCK_FLAG].push_back(CAbstractFactory <CFlagBlock> ::Create(tTemp.fX, tTemp.fY));
 				break;
 			}
 		}
@@ -498,13 +516,14 @@ void CBlockMgr::Load_File(int _iStage)
 			case BLOCK_NORMAL:
 				m_Blocklist[BLOCK_NORMAL].push_back(CAbstractFactory<CNormalBlock>::Create(tTemp.fX, tTemp.fY));
 				break;
-
 			case BLOCK_COIN:
 				m_Blocklist[BLOCK_COIN].push_back(CAbstractFactory<CCoinBlock>::Create(tTemp.fX, tTemp.fY));
 				break;
-
 			case BLOCK_ITEM:
 				m_Blocklist[BLOCK_ITEM].push_back(CAbstractFactory<CItemBlock>::Create(tTemp.fX, tTemp.fY));
+				break;
+			case BLOCK_FLAG:
+				m_Blocklist[BLOCK_FLAG].push_back(CAbstractFactory <CFlagBlock> ::Create(tTemp.fX, tTemp.fY));
 				break;
 			}
 		}

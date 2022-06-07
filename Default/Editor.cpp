@@ -129,6 +129,14 @@ void CEditor::Initialize(void)
 			25.f + (50.f * i),
 			75.f + (50.f * i)));
 	}
+
+	//Flag 1
+	for (size_t i = 0; i < 1; ++i)
+	{
+		m_mapChoiceObj.emplace(i + 16, CAbstractFactory<CBlockNull>::Create(
+			25.f + (50.f * i),
+			550.f + (50.f * i)));
+	}
 }
 
 int CEditor::Update(void)
@@ -399,6 +407,15 @@ void CEditor::Choice_Tile(void)
 						return;
 					}
 					break;
+				case 15:
+					if (false == static_cast<CBlockNull*>(iter.second)->Get_Check())
+					{
+						CBlockMgr::Get_Instance()->Add_Object(BLOCK_FLAG, CAbstractFactory<CFlagBlock>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY +50 , false));
+						CBlockMgr::Get_Instance()->Add_Object(BLOCK_FLAG, CAbstractFactory<CFlagBlock>::Create(iter.second->Get_Info().fX + 15, iter.second->Get_Info().fY - 345 + 50, true));
+						CLineMgr::Get_Instance()->Add_FlagLine(iter.second->Get_Info().fX, iter.second->Get_Info().fY - 7.5f + 50, iter.second->Get_Info().fX, iter.second->Get_Info().fY - 345 + 50);
+						static_cast<CBlockNull*>(iter.second)->Set_Check(true);
+						return;
+					}
 				default:
 					break;
 				}

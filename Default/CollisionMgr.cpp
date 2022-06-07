@@ -50,9 +50,12 @@ int CCollisionMgr::Collision_Bullet(CObj* _This, list<CObj*> _Bullet)
 			if (OBJ_MONSTER == iter->Get_ID() && IntersectRect(&rt, &(_This->Get_Rect()), &(iter->Get_Rect())))	//When a bullet is a Monster's bullet,
 			{
 
-				(iter)->Set_Dead(true);
+				(iter)->Set_Dead(true, true);
 				if (dynamic_cast<CPlayer*>(_This)->Get_Buff())
-					dynamic_cast<CPlayer*>(_This)->Get_Active(true);
+				{
+					if (dynamic_cast<CPlayer*>(_This)->Get_ActiveBuff() != ITEM_STAR)
+						dynamic_cast<CPlayer*>(_This)->Remove_Buff(dynamic_cast<CPlayer*>(_This)->Get_ActiveBuff());
+				}
 				else
 					dynamic_cast<CPlayer*>(_This)->Set_Dead_Count();
 
@@ -66,7 +69,7 @@ int CCollisionMgr::Collision_Bullet(CObj* _This, list<CObj*> _Bullet)
 		{
 			if (OBJ_PLAYER == iter->Get_ID() && IntersectRect(&rt, &(_This->Get_Rect()), &(iter->Get_Rect())))	//When a bullet is a Player's bullet,
 			{
-				(iter)->Set_Dead(true);
+				(iter)->Set_Dead(true, true);
 				dynamic_cast<CMonster*>(_This)->Be_Attacked();
 				iScore += rand() % 10 + 5;
 			}
@@ -79,7 +82,7 @@ int CCollisionMgr::Collision_Bullet(CObj* _This, list<CObj*> _Bullet)
 		{
 			if (IntersectRect(&rt, &(_This->Get_Rect()), &(iter->Get_Rect())))	//When a bullet is a Player's bullet,
 			{
-				(iter)->Set_Dead(true);
+				(iter)->Set_Dead(true, true);
 			}
 
 		}
@@ -89,9 +92,6 @@ int CCollisionMgr::Collision_Bullet(CObj* _This, list<CObj*> _Bullet)
 
 	return iScore;
 }
-
-
-
 
 void CCollisionMgr::Collision_Rect_Ex(list<CObj*> _Sour, list<CObj*> _Dest)
 {
@@ -186,7 +186,7 @@ int CCollisionMgr::Step_on_Mushroom(list<CObj*> _Sour, list<CObj*> _Dest)
 						if (pPlayer->Get_ActiveBuff() != ITEM_END)
 						{
 							if(dynamic_cast<CMonster*>(Dest)->Get_Hp() < 3)
-								dynamic_cast<CMonster*>(Dest)->Set_Dead(true);
+								dynamic_cast<CMonster*>(Dest)->Be_Attacked();
 
 							// Remove Buff if not Star
 							if (pPlayer->Get_ActiveBuff() != ITEM_STAR)
@@ -388,7 +388,7 @@ int CCollisionMgr::Collision_Sphere(list<CObj*> Sour, list<CObj*> Dest)
 
 int CCollisionMgr::Collision_Coin(CObj* Player, list<CObj*> Items)
 {
-	int iScore = 0;
+	
 
 	for (auto& item : Items)
 	{
@@ -398,13 +398,12 @@ int CCollisionMgr::Collision_Coin(CObj* Player, list<CObj*> Items)
 
 			if (_Item->Get_Type() == ITEM_COIN)
 			{
-				iScore += 1;
 				_Item->Set_Dead(true);
 			}
 		}
 	}
 
-	return iScore;
+	return 0;
 }
 
 bool CCollisionMgr::ChecK_Sphere(CObj* Sour, CObj* Dest)

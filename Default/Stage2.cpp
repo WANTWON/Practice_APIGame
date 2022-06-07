@@ -26,31 +26,11 @@ CStage2::~CStage2()
 
 void CStage2::Initialize(void)
 {
-	CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, CAbstractFactory<CPlayer>::Create());
-
-	CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CFlower>::Create(200, 300, ITEM_FLOWER));
-
-	CBlockMgr::Get_Instance()->Add_Object(BLOCK_NORMAL, CAbstractFactory<CNormalBlock>::Create(550, 150));
-	CBlockMgr::Get_Instance()->Add_Object(BLOCK_NORMAL, CAbstractFactory<CNormalBlock>::Create(500, 150));
-	CBlockMgr::Get_Instance()->Add_Object(BLOCK_NORMAL, CAbstractFactory<CNormalBlock>::Create(500, 100));
-	CBlockMgr::Get_Instance()->Add_Object(BLOCK_NORMAL, CAbstractFactory<CNormalBlock>::Create(500, 50));
-
-	CBlockMgr::Get_Instance()->Add_Object(BLOCK_NORMAL, CAbstractFactory<CNormalBlock>::Create(200, 350));
-	CBlockMgr::Get_Instance()->Add_Object(BLOCK_NORMAL, CAbstractFactory<CCoinBlock>::Create(250, 350));
-	CBlockMgr::Get_Instance()->Add_Object(BLOCK_NORMAL, CAbstractFactory<CCoinBlock>::Create(300, 350));
-
-	CBlockMgr::Get_Instance()->Add_Object(BLOCK_NORMAL, CAbstractFactory<CNormalBlock>::Create(350, 200));
-	CBlockMgr::Get_Instance()->Add_Object(BLOCK_NORMAL, CAbstractFactory<CNormalBlock>::Create(300, 250));
-	CBlockMgr::Get_Instance()->Add_Object(BLOCK_NORMAL, CAbstractFactory<CNormalBlock>::Create(250, 300));
-
-	
-	CBlockMgr::Get_Instance()->Initialize();
-
 	CObjMgr::Get_Instance()->Load_File(2);
-	CBlockMgr::Get_Instance()->Load_File(2);
 	CLineMgr::Get_Instance()->Load_File(2);
-	CBlockMgr::Get_Instance()->Initialize();
+	CBlockMgr::Get_Instance()->Load_File(2);
 
+	CBlockMgr::Get_Instance()->Initialize();
 }
 
 int CStage2::Update(void)
@@ -58,6 +38,7 @@ int CStage2::Update(void)
 	if (m_bClear)
 		return STAGE_CLEAR;
 
+	CUIMgr::Get_Instance()->Update();
 	CObjMgr::Get_Instance()->Update();
 	CBlockMgr::Get_Instance()->Update();
 
@@ -66,24 +47,25 @@ int CStage2::Update(void)
 
 void CStage2::Late_Update(void)
 {
-
-
+	CUIMgr::Get_Instance()->Late_Update();
 	CObjMgr::Get_Instance()->Late_Update();
 	CBlockMgr::Get_Instance()->Late_Update();
-
-
+	m_bClear = false;
 }
 
-void CStage2::Render(HDC hDc)
+void CStage2::Render(HDC hDC)
 {
-	Rectangle(hDc, 0, 0, WINCX, WINCY);
-	CObjMgr::Get_Instance()->Render(hDc);
-	CLineMgr::Get_Instance()->Render(hDc);
-	CBlockMgr::Get_Instance()->Render(hDc);
+	Rectangle(hDC, 0, 0, WINCX, WINCY);
+
+	CUIMgr::Get_Instance()->Render(hDC);
+	CObjMgr::Get_Instance()->Render(hDC);
+	CLineMgr::Get_Instance()->Render(hDC);
+	CBlockMgr::Get_Instance()->Render(hDC);
 }
 
 void CStage2::Release(void)
 {
+	CUIMgr::Get_Instance()->Release();
 	CObjMgr::Get_Instance()->Release();
 	CLineMgr::Get_Instance()->Release();
 	CBlockMgr::Get_Instance()->Release();

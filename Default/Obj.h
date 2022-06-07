@@ -27,12 +27,13 @@ public:
 	const float& Get_Speed() const { return m_fSpeed; }
 	void Set_Pos(float _fX, float _fY) { m_tInfo.fX = _fX; m_tInfo.fY = _fY; }
 	void Set_PosY(float _fY) { m_tInfo.fY += _fY; }
+	//void Set_PosYTemp(float _fY) { m_tInfo.fY = _fY; }
 	
 	void Set_PosX(float _fX) { m_tInfo.fX += _fX; }
 	void Set_Angle(int angle) { m_fAngle = float(angle); }
 	void Set_Rect(float _left, float _top, float _right, float _bottom) { m_tRect.left = int(_left); m_tRect.top = int(_top); m_tRect.right = int(_right); m_tRect.bottom = int(_bottom); }
 	void Set_Dir(DIRECTION _eDir) { m_eDir = _eDir; }
-	void Set_Dead(bool _dead);
+	void Set_Dead(bool _dead, bool b_JustDie = false);
 	void Set_Target(CObj* _temp) { m_pTarget = _temp; }
 
 	bool Get_bDead(void) { return m_bDead; }

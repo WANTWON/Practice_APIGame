@@ -21,10 +21,13 @@ public:
 	CLine*		CollisionLine_Bullet(float _fX, float * _OutY);
 
 	//bool		CollisionLine(float _fX, float* _fY);
-	bool		CollisionFlag(RECT rc, float* _fY);
+	bool		CollisionFlag(RECT rc);
 
 	void		Save_File(void);
 	void		Load_File(int _iStage);
+
+	void		Add_FlagLine(float _fX, float _fY, float flagBoxX, float flagBoxY);
+
 
 public:
 	static CLineMgr* Get_Instance(void)
@@ -46,7 +49,7 @@ public:
 private:
 	static CLineMgr* m_pInstance;
 	list<CLine*>		m_Linelist;
-	list<CLine*>		m_Flagline;
+	list<CLine*>		m_Flaglist;
 
 	LINEPOINT					m_tLinePoint[END];
 };

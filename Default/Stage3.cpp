@@ -3,12 +3,26 @@
 #include "AbstractFactory.h"
 #include "CollisionMgr.h"
 #include <time.h>
+#include "StageMgr.h"
 #include "ObjMgr.h"
 #include "LineMgr.h"
-#include "FlagBlock.h"
-#include "NormalBlock.h"
 #include "UIMgr.h"
+#include "MushroomMonster.h"
+#include "TurtleMonster.h"
+#include "Coin.h"
+#include "Mushroom.h"
+#include "Star.h"
 #include "Flower.h"
+#include "JumpingMonster.h"
+#include "FlyingMonster.h"
+#include "BossMonster.h"
+#include "Item.h"
+#include "Block.h"
+#include "BlockMgr.h"
+#include "NormalBlock.h"
+#include "KeyMgr.h"
+#include "ScrollMgr.h"
+#include "CoinBlock.h"
 
 CStage3::CStage3()
 {
@@ -17,26 +31,16 @@ CStage3::CStage3()
 
 CStage3::~CStage3()
 {
+	Release();
 }
 
 void CStage3::Initialize(void)
 {
-	//CBlockMgr::Get_Instance()->Initialize();
-	//CLineMgr::Get_Instance()->Initialize(3);
-	//CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, CAbstractFactory<CPlayer>::Create(50.f, 460.f,m_iCount));
-	////CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CMushroomMonster>::Create(600, 200));
-	//CBlockMgr::Get_Instance()->Add_Object(BLOCK_FLAG, CAbstractFactory<CFlagBlock>::Create(550, 445, false));
-	//CBlockMgr::Get_Instance()->Add_Object(BLOCK_FLAG, CAbstractFactory<CFlagBlock>::Create(535, 100, true));
-
-	
-	m_dwView = GetTickCount();
-
 	CObjMgr::Get_Instance()->Load_File(3);
-	CBlockMgr::Get_Instance()->Load_File(3);
 	CLineMgr::Get_Instance()->Load_File(3);
+	CBlockMgr::Get_Instance()->Load_File(3);
 	CBlockMgr::Get_Instance()->Initialize();
-	CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CFlower>::Create(200, 400, ITEM_FLOWER));
-	dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Life(m_iCount);
+	m_bClear = false;
 }
 
 int CStage3::Update(void)
@@ -53,65 +57,23 @@ int CStage3::Update(void)
 
 void CStage3::Late_Update(void)
 {
-	if (CObjMgr::Get_Instance()->Get_Player()->Get_Bye())
-	{
-		m_iCount -= 1;
-		Release();
-		Initialize();
-		CObjMgr::Get_Instance()->Get_Player()->Set_Bye();
-		m_bView = true;
-
-		if (m_iCount == -1)
-		{
-			m_bClear = true;
-			m_bView = false;
-		}
-	}
-
 	CUIMgr::Get_Instance()->Late_Update();
 	CObjMgr::Get_Instance()->Late_Update();
 	CBlockMgr::Get_Instance()->Late_Update();
 }
 
-void CStage3::Render(HDC hDc)
+void CStage3::Render(HDC hDC)
 {
-	Rectangle(hDc, 0, 0, WINCX, WINCY);
-	CObjMgr::Get_Instance()->Render(hDc);
-	CLineMgr::Get_Instance()->Render(hDc);
-	CBlockMgr::Get_Instance()->Render(hDc);
-
-	if (m_bView)
-	{
-		m_bView = false;
-		m_dwView = GetTickCount();
-		TCHAR szBuff[32] = L"";
-		TCHAR szBuff1[32] = L"";
-		Rectangle(hDc, 0, 0, WINCX, WINCY);
-		Rectangle(hDc, 340, 250, 370, 280);
-		while (m_dwView + 3000 > GetTickCount())
-		{
-			wsprintf(szBuff, L"WORLD  1-%d", 3);
-			TextOut(hDc, 350, 200, szBuff, lstrlen(szBuff));
-			swprintf_s(szBuff1, L"x       %d", dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Life());
-			TextOut(hDc, 390, 260, szBuff1, lstrlen(szBuff1));
-		}
-	}
-	else if (m_bClear)
-	{
-		m_dwView = GetTickCount();
-		TCHAR szBuff[32] = L"";
-		TCHAR szBuff1[32] = L"";
-		Rectangle(hDc, 0, 0, WINCX, WINCY);
-		while (m_dwView + 3000 > GetTickCount())
-		{
-			wsprintf(szBuff, L"GAME OVER", nullptr);
-			TextOut(hDc, 350, 250, szBuff, lstrlen(szBuff));
-		}
-	}
+	Rectangle(hDC, 0, 0, WINCX, WINCY);
+	CUIMgr::Get_Instance()->Render(hDC);
+	CObjMgr::Get_Instance()->Render(hDC);
+	CLineMgr::Get_Instance()->Render(hDC);
+	CBlockMgr::Get_Instance()->Render(hDC);
 }
 
 void CStage3::Release(void)
 {
+	CUIMgr::Get_Instance()->Release();
 	CObjMgr::Get_Instance()->Release();
 	CLineMgr::Get_Instance()->Release();
 	CBlockMgr::Get_Instance()->Release();

@@ -39,7 +39,7 @@ int CFlyingMonster::Update(void)
 		{
 			if (!m_bCount)
 			{
-				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleMonster>::Create(m_tInfo.fX + 70, m_tInfo.fY));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleMonster>::Create(m_tInfo.fX , m_tInfo.fY));
 				m_dwTime = GetTickCount();
 				m_bCount = true;
 			}
@@ -61,10 +61,7 @@ int CFlyingMonster::Update(void)
 void CFlyingMonster::Late_Update(void)
 {
 	if (m_bGet_Attacked)
-	{
-		m_bDead = true;
-
-	}
+		Set_Dead(true);
 
 	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
 

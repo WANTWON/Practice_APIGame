@@ -3,7 +3,7 @@
 class CMonster : public CObj
 {
 public:
-	CMonster() : m_bFalling(true), m_bGet_Attacked(false), m_bCount(false), m_iHp(0), m_iMonsterNumber(0) { m_iPoints_Given = 100; }
+	CMonster() : m_bFalling(true), m_bGet_Attacked(false), m_bCount(false), m_iHp(0), m_iMonsterNumber(0) { m_iPoints_Given = 200; }
 	virtual ~CMonster() {}
 
 public:

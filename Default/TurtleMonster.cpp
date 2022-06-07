@@ -59,10 +59,7 @@ void CTurtleMonster::Late_Update(void)
 	
 
 	if (m_bGet_Attacked )//&& m_dwTime + 500 < GetTickCount())
-	{
-			m_bDead = true;
-		
-	}
+		Set_Dead(true);
 
 	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
 

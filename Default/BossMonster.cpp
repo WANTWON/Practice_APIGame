@@ -23,7 +23,7 @@ CBossMonster::~CBossMonster()
 void CBossMonster::Initialize(void)
 {
 	m_tInfo = { 125.f,125.f, 60.f, 60.f };
-	m_fSpeed = 5.f;
+	m_fSpeed = 3.f;
 	m_iHp = 30;
 	m_fDistance = m_tInfo.fCX;
 
@@ -56,7 +56,7 @@ int CBossMonster::Update(void)
 void CBossMonster::Late_Update(void)
 {
 	if (m_bGet_Attacked)
-			m_bDead = true;
+		Set_Dead(true);
 
 	if (m_dwMoveTime + 4000 < GetTickCount()) //It moved every four seconds Stop
 	{

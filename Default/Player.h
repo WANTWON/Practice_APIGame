@@ -35,7 +35,7 @@ public:
 	void	Set_GravityTime(float _fTime) { m_fTime = _fTime; }
 	float	Get_Gravity(void){ return (m_fJumpPower*m_fTime - (9.8f*m_fTime*m_fTime*0.5f)); }
 
-	void Set_Dead_Moment(void);
+	
 	void Set_Dead_Count(void) { m_bDead_Count = true; }
 	bool Get_Count(void) { return m_bDead_Count; }
 	bool Get_Buff(void) { return m_bIsBuffActive; }
@@ -47,7 +47,8 @@ public:
 
 	const PLAYER_LIST& Get_PlayerType(void) { return m_eType; }
 	void Offset(void);
-	
+	bool Get_Check(void) { return m_bCheck; }
+	void Set_Check(bool _Check) { m_bCheck = _Check; }
 private:
 	void Key_Input(void);
 	void Jumping(void);
@@ -55,7 +56,8 @@ private:
 	void Buff_Mushroom();
 	void Buff_Star();
 	void Buff_Flower();
-
+	void Flag_On(void);
+	void Set_Dead_Moment(void);
 private:
 	float m_pShield_Angle;
 	float m_fTime;
@@ -80,6 +82,7 @@ private:
 
 	DWORD m_dwTime;
 	DWORD Jumping_Time;
+	DWORD m_dwClear;
 	POINT m_pGUIDE;
 	PLAYER_LIST m_eType;
 	
@@ -94,5 +97,6 @@ private:
 	bool m_bBlock;
 	bool m_bFlag;
 	bool m_bCheck;
+	float m_fLeft;
 };
 

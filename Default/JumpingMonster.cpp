@@ -40,7 +40,7 @@ int CJumpingMonster::Update(void)
 		{
 			if (!m_bCount)
 			{
-				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleMonster>::Create(m_tInfo.fX + 70, m_tInfo.fY));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleMonster>::Create(m_tInfo.fX , m_tInfo.fY));
 				m_dwTime = GetTickCount();
 				m_bCount = true;
 			}
@@ -61,10 +61,7 @@ int CJumpingMonster::Update(void)
 void CJumpingMonster::Late_Update(void)
 {
 	if (m_bGet_Attacked)
-	{
-		m_bDead = true;
-
-	}
+		Set_Dead(true);
 
 	if (m_dwTime + 2000 < GetTickCount() && m_tInfo.fY+ m_tInfo.fCY*0.5 >= fY)
 	{
