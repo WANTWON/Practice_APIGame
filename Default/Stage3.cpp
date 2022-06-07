@@ -36,7 +36,6 @@ void CStage3::Initialize(void)
 	CLineMgr::Get_Instance()->Load_File(3);*/
 	CBlockMgr::Get_Instance()->Initialize();
 	CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CFlower>::Create(200, 400, ITEM_FLOWER));
-	dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Life(m_iCount);
 }
 
 int CStage3::Update(void)
@@ -60,12 +59,17 @@ void CStage3::Late_Update(void)
 		Initialize();
 		CObjMgr::Get_Instance()->Get_Player()->Set_Bye();
 		m_bView = true;
-
-		if (m_iCount == -1)
-		{
-			m_bClear = true;
-			m_bView = false;
-		}
+	}
+	if (0 > dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Life())
+	{
+		m_bClear = true;
+		m_bView = false;
+		dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Life(3);
+	}
+	else if (dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_fX() > WINCX)
+	{
+		m_bClear = true;
+		m_bView = false;
 	}
 
 	CUIMgr::Get_Instance()->Late_Update();
@@ -96,7 +100,7 @@ void CStage3::Render(HDC hDc)
 			TextOut(hDc, 390, 260, szBuff1, lstrlen(szBuff1));
 		}
 	}
-	else if (m_bClear)
+	else if (m_bClear && (0 > dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Life()))
 	{
 		m_dwView = GetTickCount();
 		TCHAR szBuff[32] = L"";
@@ -105,6 +109,20 @@ void CStage3::Render(HDC hDc)
 		while (m_dwView + 3000 > GetTickCount())
 		{
 			wsprintf(szBuff, L"GAME OVER", nullptr);
+			TextOut(hDc, 350, 250, szBuff, lstrlen(szBuff));
+			
+		}
+		
+	}
+	else if (m_bClear && (dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_fX() > WINCX))
+	{
+		m_dwView = GetTickCount();
+		TCHAR szBuff[32] = L"";
+		TCHAR szBuff1[32] = L"";
+		Rectangle(hDc, 0, 0, WINCX, WINCY);
+		while (m_dwView + 3000 > GetTickCount())
+		{
+			wsprintf(szBuff, L"GAME CLEAR", nullptr);
 			TextOut(hDc, 350, 250, szBuff, lstrlen(szBuff));
 		}
 	}

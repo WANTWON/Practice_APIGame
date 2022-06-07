@@ -39,7 +39,7 @@ void CStage1::Initialize(void)
 	CObjMgr::Get_Instance()->Load_File(1);
 	CLineMgr::Get_Instance()->Load_File(1);
 	CBlockMgr::Get_Instance()->Load_File(1);
-	dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Life(m_iCount);
+	dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Life();
 	// CLineMgr::Get_Instance()->Initialize(1);
 	CBlockMgr::Get_Instance()->Initialize();
 
@@ -73,18 +73,17 @@ void CStage1::Late_Update(void)
 {
 	if (CObjMgr::Get_Instance()->Get_Player()->Get_Bye())
 	{
-		m_iCount -= 1;
+		dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Life(-1);
 		Release();
 		Initialize();
 		CObjMgr::Get_Instance()->Get_Player()->Set_Bye();
 		m_bView = true;
-
-		if (m_iCount == -1)
-		{
-			m_bClear = true;
-			m_bView = false;
-		}
 	}		
+	if (0 > dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Life())
+	{
+		m_bClear = true;
+		m_bView = false;
+	}
 
 	CUIMgr::Get_Instance()->Late_Update();
 	CObjMgr::Get_Instance()->Late_Update();

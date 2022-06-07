@@ -72,10 +72,6 @@ void  CPlayer::Late_Update(void)
 			m_tInfo.fY = WINCY - 10.f;
 			m_bDead_Count = true;
 		}
-		else if (m_tInfo.fX > WINCX)
-		{
-			m_iLife = -1;
-		}
 		CBlockMgr::Get_Instance()->Collision_with_Direction(this);
 	}
 
@@ -300,6 +296,9 @@ void CPlayer::Jumping(void)
 	{
 		m_tInfo.fX += 0.5f;
 		m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
+		if (m_tInfo.fX > WINCX)
+		{
+		}
 	}
 	//===========================================================
 	if (m_bPlay)

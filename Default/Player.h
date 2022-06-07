@@ -47,7 +47,7 @@ public:
 
 	const PLAYER_LIST& Get_PlayerType(void) { return m_eType; }
 	void Offset(void);
-	
+	int Get_fX(void) { return m_tInfo.fX; }
 private:
 	void Key_Input(void);
 	void Jumping(void);
