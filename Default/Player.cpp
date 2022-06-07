@@ -82,6 +82,7 @@ void  CPlayer::Late_Update(void)
 		//m_bJump = false;
 		if (Jumping_Time + 10 < GetTickCount())
 		{
+			m_fTime = 0.f;
 			m_bJump = true;
 			m_bStep_Monster = false;
 		}
@@ -267,6 +268,18 @@ void CPlayer::Key_Input(void)
 
 void CPlayer::Jumping(void)
 {
+
+	float fYtemp = 0;
+
+
+	if (CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, m_tInfo.fY, &fYtemp))
+	{
+		m_tInfo.fY = fYtemp - m_tInfo.fCY*0.5f;
+		m_fTime = 0.f;
+		m_bJump = false;
+	}
+	
+
 	m_tInfo.fY -= m_fJumpPower;
 	
 }

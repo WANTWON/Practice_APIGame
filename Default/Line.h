@@ -33,8 +33,12 @@ public:
 		float _fY = ((y2 - y1) / (x2 - x1))*(_fX - x1) + y1;
 		return _fY;
 	}
+	LINE_TYPE& Get_typeID(void) { return type; }
+	void Set_typeID(LINE_TYPE _type) { type = _type; }
 
 private:
 	LINE m_tInfo;
+
+	LINE_TYPE type;
 };
 
