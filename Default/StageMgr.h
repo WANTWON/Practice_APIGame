@@ -27,6 +27,9 @@ public:
 	void Increment_Score(int iScore) { m_iScore += iScore; }
 	int Get_Coins() { return m_iCoins; }
 	void Increment_Coins(int iCoins) { m_iCoins += iCoins; }
+	void Stage_View(void);
+	void View_End(HDC hDC);
+	int Get_Count(void) { return m_iCount; }
 
 	static CStageMgr* Get_Instance(void)
 	{
@@ -62,5 +65,6 @@ private:
 
 	int m_iScore;
 	int m_iCoins;
+	int m_iCount;
 };
 

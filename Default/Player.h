@@ -48,6 +48,8 @@ public:
 	const PLAYER_LIST& Get_PlayerType(void) { return m_eType; }
 	void Offset(void);
 	int Get_fX(void) { return m_tInfo.fX; }
+	bool Get_Check(void) { return m_bCheck; }
+	void Set_Check(bool _Check) { m_bCheck = _Check; }
 private:
 	void Key_Input(void);
 	void Jumping(void);
@@ -80,6 +82,7 @@ private:
 
 	DWORD m_dwTime;
 	DWORD Jumping_Time;
+	DWORD m_dwClear;
 	POINT m_pGUIDE;
 	PLAYER_LIST m_eType;
 	

@@ -9,7 +9,7 @@
 
 CStageMgr* CStageMgr::m_pInstance = nullptr;
 
-CStageMgr::CStageMgr() : m_dwTime(GetTickCount()), m_eChoice_Stage(STAGE_END), m_bNewGame(false), m_iScore(0), m_iCoins(0)
+CStageMgr::CStageMgr() : m_dwTime(GetTickCount()), m_eChoice_Stage(STAGE_END), m_bNewGame(false), m_iScore(0), m_iCoins(0), m_iCount(3)
 {
 	for (size_t i = 0; i != STAGE_END; ++i)
 	{
@@ -61,7 +61,6 @@ void CStageMgr::Update(void)
 
 void CStageMgr::Late_Update(void)
 {
-
 	if (m_eChoice_Stage != STAGE_END)
 	{
 		m_Mouse->Late_Update();
@@ -81,7 +80,7 @@ void CStageMgr::Late_Update(void)
 				case STAGE_1:
 					m_pStage[STAGE_1] = new CStage1;
 					m_pStage[STAGE_1]->Initialize();
-					m_pStage[STAGE_1]->Set_View();
+					m_pStage[STAGE_1]->Set_View(true);
 					m_eChoice_Stage = STAGE_1;
 					m_Mouse->Set_Pos(0.f, 0.f);
 					break;
@@ -95,7 +94,7 @@ void CStageMgr::Late_Update(void)
 				case STAGE_3:
 					m_pStage[STAGE_3] = new CStage3;
 					m_pStage[STAGE_3]->Initialize();
-					m_pStage[STAGE_3]->Set_View();
+					m_pStage[STAGE_3]->Set_View(true);
 					m_eChoice_Stage = STAGE_3;
 					m_Mouse->Set_Pos(0.f, 0.f);
 					break;
@@ -114,10 +113,10 @@ void CStageMgr::Late_Update(void)
 				default:
 					break;
 				}
-
 			}
 		}
 	}
+	Stage_View();
 }
 
 void CStageMgr::Render(HDC hDC)
@@ -135,7 +134,7 @@ void CStageMgr::Render(HDC hDC)
 
 		m_Mouse->Render(hDC);
 	}
-
+	View_End(hDC);
 	Render_Points_Total(hDC);
 }
 
@@ -149,6 +148,101 @@ void CStageMgr::Render_Points_Total(HDC hDC)
 	swprintf_s(sztCoins, L"ÄÚÀÎ : %d", m_iCoins);
 	TextOut(hDC, 170, 30, sztCoins, lstrlen(sztCoins));
 }
+
+
+
+
+
+void CStageMgr::Stage_View(void)
+{
+	for (size_t i = 0; i != STAGE_END; ++i)
+	{
+		if (nullptr != m_pStage[i])
+		{
+			if (CObjMgr::Get_Instance()->Get_Player()->Get_Bye())
+			{
+				m_iCount -= 1;
+				m_pStage[i]->Release();
+				m_pStage[i]->Initialize();
+				dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Life(m_iCount);
+				CObjMgr::Get_Instance()->Get_Player()->Set_Bye();
+				m_pStage[i]->Set_View(true);
+			}
+			if (0 > dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Life())
+			{
+				m_pStage[i]->Set_Clear_true();
+				m_pStage[i]->Set_View(false);
+			}
+			else if (dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Check())
+			{
+				m_pStage[i]->Set_Clear_true();
+				m_pStage[i]->Set_View(false);
+			}
+		}
+	}
+}
+
+void CStageMgr::View_End(HDC hDC)
+{
+	for (size_t i = 0; i != STAGE_END; ++i)
+	{
+		if (nullptr != m_pStage[i])
+		{
+			if (m_pStage[i]->Get_View())
+			{
+				m_pStage[i]->Set_View(false);
+				m_dwTime = GetTickCount();
+				TCHAR szBuff[32] = L"";
+				TCHAR szBuff1[32] = L"";
+				Rectangle(hDC, 0, 0, WINCX, WINCY);
+				Rectangle(hDC, 340, 250, 370, 280);
+				while (m_dwTime + 3000 > GetTickCount())
+				{
+					wsprintf(szBuff, L"WORLD  1-%d", i+1);
+					TextOut(hDC, 350, 200, szBuff, lstrlen(szBuff));
+					swprintf_s(szBuff1, L"x       %d", dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Life());
+					TextOut(hDC, 390, 260, szBuff1, lstrlen(szBuff1));
+				}
+			}
+			else if (m_pStage[i]->Get_Clear() && (0 > dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Life()))
+			{
+				m_dwTime = GetTickCount();
+				TCHAR szBuff[32] = L"";
+				TCHAR szBuff1[32] = L"";
+				Rectangle(hDC, 0, 0, WINCX, WINCY);
+				while (m_dwTime + 3000 > GetTickCount())
+				{
+					wsprintf(szBuff, L"GAME OVER", nullptr);
+					TextOut(hDC, 350, 250, szBuff, lstrlen(szBuff));
+				}
+				m_iCount = 3;
+			}
+			else if (m_pStage[i]->Get_Clear() && (dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Check()))
+			{
+				m_dwTime = GetTickCount();
+				TCHAR szBuff[32] = L"";
+				TCHAR szBuff1[32] = L"";
+				Rectangle(hDC, 0, 0, WINCX, WINCY);
+				while (m_dwTime + 3000 > GetTickCount())
+				{
+					wsprintf(szBuff, L"GAME CLEAR", nullptr);
+					TextOut(hDC, 350, 250, szBuff, lstrlen(szBuff));
+				}
+				dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Check(false);
+			}
+
+		}
+	}
+
+}
+
+
+
+
+
+
+
+
 
 void CStageMgr::Release(void)
 {
