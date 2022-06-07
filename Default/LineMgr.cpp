@@ -261,7 +261,7 @@ bool CLineMgr::CollisionFlag(RECT rc, float * _fY)
 
 	for (auto& iter : m_Linelist)
 	{
-		if (iter->Get_typeID != FLAG_LINE)
+		if (iter->Get_typeID() != FLAG_LINE)
 			return false;
 
 		if (rc.right >= iter->Get_Line().fLPoint.fX
@@ -309,7 +309,7 @@ void CLineMgr::Save_File(void)
 	DWORD	dwByte = 0;
 	DWORD dwTypeByte = 0;
 
-	for (size_t i = 0; i < LINE_END - 1; ++i)
+	for (size_t i = 0; i < LINE_END ; ++i)
 	{
 		for (auto& iter : m_Linelist)
 		{
@@ -326,7 +326,6 @@ void CLineMgr::Load_File(int _iStage)
 	HANDLE	hFile = nullptr;
 	DWORD	dwByte = 0;
 	LINE	tInfo{};
-	DWORD	dwByte = 0;
 	DWORD	dwTypeByte = 0;
 	int		iDest = 0;
 	LINE_TYPE typeTemp = LINE_END;
@@ -368,13 +367,15 @@ void CLineMgr::Load_File(int _iStage)
 			switch (iDest)
 			{
 			case NORMAL_LINE:
+				m_Linelist.push_back(new CLine(tInfo));
+				m_Linelist.back()->Set_typeID(NORMAL_LINE);
 				break;
 			case FLAG_LINE:
+				m_Linelist.push_back(new CLine(tInfo));
+				m_Linelist.back()->Set_typeID(FLAG_LINE);
 				break;
 			}
 
-
-			m_Linelist.push_back(new CLine(tInfo));
 		}
 
 		CloseHandle(hFile);
@@ -474,8 +475,6 @@ void CLineMgr::Load_File(int _iStage)
 
 void CLineMgr::Add_FlagLine(float _fX, float _fY, float flagBoxX, float flagBoxY)
 {
-
-
 		m_tLinePoint[LEFT].fX = _fX;
 		m_tLinePoint[LEFT].fY = _fY;
 	
@@ -484,9 +483,5 @@ void CLineMgr::Add_FlagLine(float _fX, float _fY, float flagBoxX, float flagBoxY
 
 		m_Linelist.push_back(new CLine(m_tLinePoint[LEFT], m_tLinePoint[RIGHT]));
 		m_Linelist.back()->Set_typeID(FLAG_LINE);
-
-	
-
-	
 }
 

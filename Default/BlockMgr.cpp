@@ -8,6 +8,7 @@
 #include "AbstractFactory.h"
 #include "Item.h"
 #include "ItemBlock.h"
+#include "FlagBlock.h"
 
 //	æ∆¿Ã≈€
 #include "Coin.h"
@@ -107,6 +108,7 @@ void CBlockMgr::Add_Object(BLOCK_LIST _ID, CObj* pObj)
 		return;
 
 	m_Blocklist[_ID].push_back(pObj);
+	dynamic_cast<CBlock*>(m_Blocklist[_ID].back())->Set_Type(_ID);
 }
 
 bool CBlockMgr::CollisionBlock(RECT Player, float _fX, float * Change_fY)
@@ -299,7 +301,7 @@ void CBlockMgr::Save_File(void)
 	DWORD dwByte = 0;
 	DWORD dwTypeByte = 0;
 
-	for (size_t i = 0; i < BLOCK_END - 1; ++i)
+	for (size_t i = 0; i < BLOCK_END ; ++i)
 	{
 		for (auto& iter : m_Blocklist[i])
 		{
@@ -359,13 +361,14 @@ void CBlockMgr::Load_File(int _iStage)
 			case BLOCK_NORMAL:
 				m_Blocklist[BLOCK_NORMAL].push_back(CAbstractFactory<CNormalBlock>::Create(tTemp.fX, tTemp.fY));
 				break;
-
 			case BLOCK_COIN:
 				m_Blocklist[BLOCK_COIN].push_back(CAbstractFactory<CCoinBlock>::Create(tTemp.fX, tTemp.fY));
 				break;
-
 			case BLOCK_ITEM:
 				m_Blocklist[BLOCK_ITEM].push_back(CAbstractFactory<CItemBlock>::Create(tTemp.fX, tTemp.fY));
+				break;
+			case BLOCK_FLAG:
+				m_Blocklist[BLOCK_FLAG].push_back(CAbstractFactory <CFlagBlock> ::Create(tTemp.fX, tTemp.fY));
 				break;
 			}
 		}

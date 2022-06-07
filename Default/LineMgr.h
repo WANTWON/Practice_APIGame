@@ -49,7 +49,6 @@ public:
 private:
 	static CLineMgr* m_pInstance;
 	list<CLine*>		m_Linelist;
-	list<CLine*>		m_Flagline;
 
 	LINEPOINT					m_tLinePoint[END];
 };

@@ -34,7 +34,11 @@ public:
 		return _fY;
 	}
 
+	void Set_typeID(LINE_TYPE _temp) { type = _temp; }
+	LINE_TYPE& Get_typeID(void) { return type; }
+
 private:
 	LINE m_tInfo;
+	LINE_TYPE type;
 };
 

@@ -413,7 +413,6 @@ void CEditor::Choice_Tile(void)
 						CBlockMgr::Get_Instance()->Add_Object(BLOCK_FLAG, CAbstractFactory<CFlagBlock>::Create(iter.second->Get_Info().fX, iter.second->Get_Info().fY, false));
 						CBlockMgr::Get_Instance()->Add_Object(BLOCK_FLAG, CAbstractFactory<CFlagBlock>::Create(iter.second->Get_Info().fX + 15, iter.second->Get_Info().fY - 345, true));
 						CLineMgr::Get_Instance()->Add_FlagLine(iter.second->Get_Info().fX, iter.second->Get_Info().fY - 7.5f, iter.second->Get_Info().fX, iter.second->Get_Info().fY - 345);
-						//CLineMgr::Get_Instance()->Add_FlagLine(500, 300.f, iter.second->Get_Info().fX, iter.second->Get_Info().fY);
 						static_cast<CBlockNull*>(iter.second)->Set_Check(true);
 						return;
 					}
