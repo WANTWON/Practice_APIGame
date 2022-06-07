@@ -61,10 +61,7 @@ int CJumpingMonster::Update(void)
 void CJumpingMonster::Late_Update(void)
 {
 	if (m_bGet_Attacked)
-	{
-		m_bDead = true;
-
-	}
+		Set_Dead(true);
 
 	if (m_dwTime + 2000 < GetTickCount() && m_tInfo.fY+ m_tInfo.fCY*0.5 >= fY)
 	{
