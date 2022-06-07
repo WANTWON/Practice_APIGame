@@ -54,7 +54,7 @@ int CPlayer::Update(void)
 		Check_ActiveBuff();
 		Key_Input();
 		Jumping();
-	//	Offset();
+		Offset();
 	}
 
 	Update_Rect();

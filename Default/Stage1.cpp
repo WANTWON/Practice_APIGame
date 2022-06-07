@@ -39,13 +39,11 @@ void CStage1::Initialize(void)
 	CObjMgr::Get_Instance()->Load_File(1);
 	CLineMgr::Get_Instance()->Load_File(1);
 	CBlockMgr::Get_Instance()->Load_File(1);
-	dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Life();
-	// CLineMgr::Get_Instance()->Initialize(1);
-	CBlockMgr::Get_Instance()->Initialize();
+//	CBlockMgr::Get_Instance()->Initialize();
 
 
 
-	CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CFlower>::Create(200, 400, ITEM_FLOWER));
+//	CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CFlower>::Create(200, 400, ITEM_FLOWER));
 	m_dwView = GetTickCount();
 }
 
