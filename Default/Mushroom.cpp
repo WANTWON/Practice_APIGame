@@ -64,7 +64,7 @@ void CMushroom::Animate()
 	if (m_bIsSpawned)
 	{
 		float fY = 0.f;
-		bool bLineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
+		bool bLineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, m_tInfo.fY, &fY);
 
 		if (bLineCol)
 		{

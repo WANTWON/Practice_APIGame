@@ -16,7 +16,8 @@ public:
 	void		Release(void);
 
 	//bool		CollisionLine(CObj* _pObj, float* _fY); 
-	bool        CollisionLine(float	_fX, float* _fY);
+	bool        CollisionLinePlayer(float	_fX, float _fY, float* _fXOut, float* _fYOut);
+	bool        CollisionLine(float	_fX, float _fY, float* _fYOut);
 	CLine*		CollisionLine_Bullet(float _fX, float * _OutY);
 
 	//bool		CollisionLine(float _fX, float* _fY);
