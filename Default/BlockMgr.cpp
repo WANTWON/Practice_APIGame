@@ -202,7 +202,11 @@ bool CBlockMgr::Collision_with_Direction(CObj* Player)
 		if (fWidth > fHeight)  //상하 충돌
 		{
 			if (pTarget->Get_Info().fY >= Player->Get_Info().fY)
+			{
 				Player->Set_PosY(-fHeight);
+			}
+				//Player->Set_PosYTemp(pTarget->Get_Rect().top - Player->Get_Info().fCY);
+				
 			//else
 			//	Player->Set_PosY(fHeight);
 		}
@@ -225,7 +229,7 @@ void CBlockMgr::Col_Player(CObj* _thisBlock, DIRECTION _eDir)
 		break;
 
 	case DIR_DOWN:
-		static_cast<CPlayer*>(m_listPlayer.front())->Set_GravityTime(3.4f);
+		static_cast<CPlayer*>(m_listPlayer.front())->Set_GravityTime(3.0f);
 		Check_BreakBlock(_thisBlock);
 		break;
 

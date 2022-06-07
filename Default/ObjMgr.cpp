@@ -108,8 +108,8 @@ void CObjMgr::Late_Update()
 
 	CObjMgr* ObjMgr = CObjMgr::Get_Instance();
 
-	CCollisionMgr::Collision_Rect(Get_Bullets(), Get_Monsters());
-	CCollisionMgr::Collision_Rect_Ex(m_pObjList[OBJ_MONSTER], m_pObjList[BLOCK_NORMAL]);
+	//CCollisionMgr::Collision_Rect(Get_Bullets(), Get_Monsters());
+	//CCollisionMgr::Collision_Rect_Ex(m_pObjList[OBJ_MONSTER], m_pObjList[BLOCK_NORMAL]);
 	CCollisionMgr::Step_on_Mushroom(m_pObjList[OBJ_PLAYER], m_pObjList[OBJ_MONSTER]);
 	
 	if (false == m_pObjList[OBJ_PLAYER].empty())

@@ -50,6 +50,7 @@ void CStage2::Late_Update(void)
 	CUIMgr::Get_Instance()->Late_Update();
 	CObjMgr::Get_Instance()->Late_Update();
 	CBlockMgr::Get_Instance()->Late_Update();
+	m_bClear = false;
 }
 
 void CStage2::Render(HDC hDC)

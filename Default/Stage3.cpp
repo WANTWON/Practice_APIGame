@@ -40,6 +40,7 @@ void CStage3::Initialize(void)
 	CLineMgr::Get_Instance()->Load_File(3);
 	CBlockMgr::Get_Instance()->Load_File(3);
 	CBlockMgr::Get_Instance()->Initialize();
+	m_bClear = false;
 }
 
 int CStage3::Update(void)

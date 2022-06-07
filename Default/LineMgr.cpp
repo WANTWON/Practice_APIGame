@@ -206,7 +206,7 @@ bool CLineMgr::CollisionLine(float	_fX, float _fY, float* _fYOut)
 			&& _fX < iter->Get_Line().fRPoint.fX)
 
 			// Line has way bigger Y compared to Obj
-			if (_fY > iter->Get_Line().fLPoint.fY + 20)
+			if (_fY > iter->Get_Line().fLPoint.fY + 20 )
 				return false;
 			else
 				pTarget = iter;	

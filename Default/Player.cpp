@@ -288,7 +288,7 @@ void CPlayer::Jumping(void)
 			m_bFirst = true;
 			//CScrollMgr::Get_Instance()->Set_ScrollX();
 		}
-		else if (m_bStep_Monster)
+		else if (m_bStep_Monster) 
 		{
 			m_fJumpPower = 10;
 			m_tInfo.fY -= m_fJumpPower*m_fTime - (2.8f*m_fTime*m_fTime*0.5f);
@@ -307,22 +307,24 @@ void CPlayer::Jumping(void)
 		}
 		else if (m_bJump)
 		{
-			m_fJumpPower = 15;
+			m_fJumpPower = 14;
 			m_tInfo.fY -= m_fJumpPower*m_fTime - (9.8f*m_fTime*m_fTime*0.5f);
 			m_fTime += 0.1f;
-			if ((m_fJumpPower*m_fTime) < (9.8f*m_fTime*m_fTime*0.5f))
+			/*if ((m_fJumpPower*m_fTime) < (9.8f*m_fTime*m_fTime*0.5f))
 			{
 				m_bJump = true;
-			}
-			if (m_fTime > 3.9f)
-				m_fTime = 3.9f;
+			}*/
+			if (m_fTime > 3.8f)
+				m_fTime = 3.8f;
 
 			if (b_BlockCol && m_tInfo.fY + m_tInfo.fCY*0.5f >= fY2)
 			{
 				m_fTime = 0.0f;
 				m_bJump = false;
+				m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
+
 			}
-			if (b_LineCol && m_tInfo.fY > fY)
+			else if (b_LineCol && m_tInfo.fY > fY)
 			{
 				m_bJump = false;
 				m_fTime = 0.0f;
@@ -336,14 +338,24 @@ void CPlayer::Jumping(void)
 
 			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 		}
-		else if (b_LineCol)
+		else if (b_LineCol) // 점프중이 아니고 선이 있는경우
 		{
-			if (b_BlockCol)
+			if (b_BlockCol) // 선과 블럭이 같이 있는경우
 			{
-				m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
+				m_tInfo.fY += m_fSpeed;
+
+				if (m_tInfo.fY > fY2)
+					m_tInfo.fY = fY2;// -m_tInfo.fCY*0.5f;
 			}
-			else
-				m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
+			else // 선만 있는 경우
+			{
+				m_tInfo.fY += m_fSpeed;
+
+				if (m_tInfo.fY + m_tInfo.fCY*0.5f> fY)
+					m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
+			}
+
+
 		}
 		else if (b_BlockCol)
 		{
