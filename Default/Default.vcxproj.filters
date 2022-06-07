@@ -148,6 +148,27 @@
     <Filter Include="98.Design\BmpMgr\MyBmp">
       <UniqueIdentifier>{5ea1885b-a299-4a12-9612-81edecd04c23}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{b413f31e-55c3-4072-bac3-18d71a95b6c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Logo">
+      <UniqueIdentifier>{fe2c71f1-65ac-477e-b38b-4cfcc3a4462b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Edit">
+      <UniqueIdentifier>{eb8ea734-0f9b-4bcd-8a0e-b26802ae7e80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Stage">
+      <UniqueIdentifier>{e032a06b-a50e-419b-ae1a-5627b693efed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\MyMenu">
+      <UniqueIdentifier>{3dedb2fb-080b-4b69-8dc1-b88eab46f935}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Design\SceneMgr">
+      <UniqueIdentifier>{a915a84d-cf6c-4c57-91c2-4afefd7594fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\MyButton">
+      <UniqueIdentifier>{41f87666-cf27-479b-b502-9a24bdedd2a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -312,6 +333,21 @@
     <ClInclude Include="MyBmp.h">
       <Filter>98.Design\BmpMgr\MyBmp</Filter>
     </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Logo.h">
+      <Filter>Scene\Logo</Filter>
+    </ClInclude>
+    <ClInclude Include="MyMenu.h">
+      <Filter>Scene\MyMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneMgr.h">
+      <Filter>98.Design\SceneMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="MyButton.h">
+      <Filter>01.Obj\MyButton</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -436,6 +472,21 @@
     </ClCompile>
     <ClCompile Include="MyBmp.cpp">
       <Filter>98.Design\BmpMgr\MyBmp</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Logo.cpp">
+      <Filter>Scene\Logo</Filter>
+    </ClCompile>
+    <ClCompile Include="MyMenu.cpp">
+      <Filter>Scene\MyMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneMgr.cpp">
+      <Filter>98.Design\SceneMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="MyButton.cpp">
+      <Filter>01.Obj\MyButton</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

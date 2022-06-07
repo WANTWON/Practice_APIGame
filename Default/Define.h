@@ -5,7 +5,7 @@
 
 extern HWND  g_hWnd;
 
-#define PURE =0
+#define PURE	= 0
 
 #define PI 3.141592f
 

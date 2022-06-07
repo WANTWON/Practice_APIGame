@@ -51,6 +51,8 @@ public:
 	void Set_ID(OBJ_LIST _eID) { m_eID = _eID; }
 	const OBJ_LIST& Get_ID(void) const { return m_eID; }
 
+	void Set_FrameKey(TCHAR* _pFrameKey) { m_pFrameKey = _pFrameKey; }
+
 protected:
 	INFO m_tInfo;
 	RECT m_tRect;
@@ -68,5 +70,7 @@ protected:
 	int m_iCoins_Given;
 
 	bool	m_bEditMode;
+
+	TCHAR*		m_pFrameKey;
 };
 
