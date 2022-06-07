@@ -137,11 +137,11 @@ void CStageMgr::Render(HDC hDC)
 void CStageMgr::Render_Points_Total(HDC hDC)
 {
 	TCHAR sztScore[32] = L"";
-	swprintf_s(sztScore, L"Á¡¼ö : %d", m_iScore);
+	swprintf_s(sztScore, L"ï¿½ï¿½ï¿½ï¿½ : %d", m_iScore);
 	TextOut(hDC, 30, 30, sztScore, lstrlen(sztScore));
 
 	TCHAR sztCoins[32] = L"";
-	swprintf_s(sztCoins, L"ÄÚÀÎ : %d", m_iCoins);
+	swprintf_s(sztCoins, L"ï¿½ï¿½ï¿½ï¿½ : %d", m_iCoins);
 	TextOut(hDC, 170, 30, sztCoins, lstrlen(sztCoins));
 }
 

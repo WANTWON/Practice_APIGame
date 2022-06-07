@@ -3,10 +3,26 @@
 #include "AbstractFactory.h"
 #include "CollisionMgr.h"
 #include <time.h>
+#include "StageMgr.h"
 #include "ObjMgr.h"
 #include "LineMgr.h"
-#include "FlagBlock.h"
+#include "UIMgr.h"
+#include "MushroomMonster.h"
+#include "TurtleMonster.h"
+#include "Coin.h"
+#include "Mushroom.h"
+#include "Star.h"
+#include "Flower.h"
+#include "JumpingMonster.h"
+#include "FlyingMonster.h"
+#include "BossMonster.h"
+#include "Item.h"
+#include "Block.h"
+#include "BlockMgr.h"
 #include "NormalBlock.h"
+#include "KeyMgr.h"
+#include "ScrollMgr.h"
+#include "CoinBlock.h"
 
 CStage3::CStage3()
 {
