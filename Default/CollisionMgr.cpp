@@ -52,7 +52,10 @@ int CCollisionMgr::Collision_Bullet(CObj* _This, list<CObj*> _Bullet)
 
 				(iter)->Set_Dead(true);
 				if (dynamic_cast<CPlayer*>(_This)->Get_Buff())
-					dynamic_cast<CPlayer*>(_This)->Get_Active(true);
+				{
+					if (dynamic_cast<CPlayer*>(_This)->Get_ActiveBuff() != ITEM_STAR)
+						dynamic_cast<CPlayer*>(_This)->Remove_Buff(dynamic_cast<CPlayer*>(_This)->Get_ActiveBuff());
+				}
 				else
 					dynamic_cast<CPlayer*>(_This)->Set_Dead_Count();
 

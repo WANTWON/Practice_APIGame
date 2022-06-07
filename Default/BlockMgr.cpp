@@ -203,8 +203,8 @@ bool CBlockMgr::Collision_with_Direction(CObj* Player)
 		{
 			if (pTarget->Get_Info().fY >= Player->Get_Info().fY)
 				Player->Set_PosY(-fHeight);
-			else
-				Player->Set_PosY(fHeight);
+			//else
+			//	Player->Set_PosY(fHeight);
 		}
 		else //ÁÂ¿ì Ãæµ¹ 
 		{
@@ -414,13 +414,14 @@ void CBlockMgr::Load_File(int _iStage)
 			case BLOCK_NORMAL:
 				m_Blocklist[BLOCK_NORMAL].push_back(CAbstractFactory<CNormalBlock>::Create(tTemp.fX, tTemp.fY));
 				break;
-
 			case BLOCK_COIN:
 				m_Blocklist[BLOCK_COIN].push_back(CAbstractFactory<CCoinBlock>::Create(tTemp.fX, tTemp.fY));
 				break;
-
 			case BLOCK_ITEM:
 				m_Blocklist[BLOCK_ITEM].push_back(CAbstractFactory<CItemBlock>::Create(tTemp.fX, tTemp.fY));
+				break;
+			case BLOCK_FLAG:
+				m_Blocklist[BLOCK_FLAG].push_back(CAbstractFactory <CFlagBlock> ::Create(tTemp.fX, tTemp.fY));
 				break;
 			}
 		}
@@ -462,13 +463,14 @@ void CBlockMgr::Load_File(int _iStage)
 			case BLOCK_NORMAL:
 				m_Blocklist[BLOCK_NORMAL].push_back(CAbstractFactory<CNormalBlock>::Create(tTemp.fX, tTemp.fY));
 				break;
-
 			case BLOCK_COIN:
 				m_Blocklist[BLOCK_COIN].push_back(CAbstractFactory<CCoinBlock>::Create(tTemp.fX, tTemp.fY));
 				break;
-
 			case BLOCK_ITEM:
 				m_Blocklist[BLOCK_ITEM].push_back(CAbstractFactory<CItemBlock>::Create(tTemp.fX, tTemp.fY));
+				break;
+			case BLOCK_FLAG:
+				m_Blocklist[BLOCK_FLAG].push_back(CAbstractFactory <CFlagBlock> ::Create(tTemp.fX, tTemp.fY));
 				break;
 			}
 		}
@@ -510,13 +512,14 @@ void CBlockMgr::Load_File(int _iStage)
 			case BLOCK_NORMAL:
 				m_Blocklist[BLOCK_NORMAL].push_back(CAbstractFactory<CNormalBlock>::Create(tTemp.fX, tTemp.fY));
 				break;
-
 			case BLOCK_COIN:
 				m_Blocklist[BLOCK_COIN].push_back(CAbstractFactory<CCoinBlock>::Create(tTemp.fX, tTemp.fY));
 				break;
-
 			case BLOCK_ITEM:
 				m_Blocklist[BLOCK_ITEM].push_back(CAbstractFactory<CItemBlock>::Create(tTemp.fX, tTemp.fY));
+				break;
+			case BLOCK_FLAG:
+				m_Blocklist[BLOCK_FLAG].push_back(CAbstractFactory <CFlagBlock> ::Create(tTemp.fX, tTemp.fY));
 				break;
 			}
 		}
