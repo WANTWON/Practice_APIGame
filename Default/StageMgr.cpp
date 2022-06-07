@@ -46,7 +46,6 @@ void CStageMgr::Update(void)
 		if (iEvent == STAGE_CLEAR)
 		{
 			Safe_Delete<CStage*>(m_pStage[m_eChoice_Stage]);
-			Initialize();
 			Set_Stage(STAGE_END);
 		}
 	}
@@ -169,11 +168,13 @@ void CStageMgr::Stage_View(void)
 			{
 				m_pStage[i]->Set_Clear_true();
 				m_pStage[i]->Set_View(false);
+				CScrollMgr::Get_Instance()->Zero_Scroll();
 			}
 			else if (dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Check())
 			{
 				m_pStage[i]->Set_Clear_true();
 				m_pStage[i]->Set_View(false);
+				CScrollMgr::Get_Instance()->Zero_Scroll();
 			}
 		}
 	}
@@ -200,6 +201,7 @@ void CStageMgr::View_End(HDC hDC)
 					swprintf_s(szBuff1, L"x       %d", dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Life());
 					TextOut(hDC, 390, 260, szBuff1, lstrlen(szBuff1));
 				}
+				break;
 			}
 			else if (m_pStage[i]->Get_Clear() && (0 > dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Life()))
 			{
@@ -213,6 +215,7 @@ void CStageMgr::View_End(HDC hDC)
 					TextOut(hDC, 350, 250, szBuff, lstrlen(szBuff));
 				}
 				m_iCount = 3;
+				break;
 			}
 			else if (m_pStage[i]->Get_Clear() && (dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Check()))
 			{
@@ -225,8 +228,10 @@ void CStageMgr::View_End(HDC hDC)
 					wsprintf(szBuff, L"GAME CLEAR", nullptr);
 					TextOut(hDC, 350, 250, szBuff, lstrlen(szBuff));
 				}
-			//	dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Check(false);
+				
+			dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Check(false);
 				m_iCount = 3;
+				break;
 			}
 
 		}
