@@ -22,6 +22,7 @@ CStage2::CStage2()
 
 CStage2::~CStage2()
 {
+	Release();
 }
 
 void CStage2::Initialize(void)
