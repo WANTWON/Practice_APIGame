@@ -314,6 +314,7 @@ void CPlayer::Jumping(void)
 			m_bJump = false;
 			m_bPlay = false;
 			m_bFirst = true;
+			//CScrollMgr::Get_Instance()->Set_ScrollX();
 		}
 		else if (m_bStep_Monster)
 		{
@@ -413,11 +414,15 @@ void CPlayer::Offset(void)
 
 	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
 
-	// 플레이어가 왼쪽을 향하는 경우
-	if (iOffsetMinX > m_tInfo.fX + iScrollX)
-		CScrollMgr::Get_Instance()->Set_ScrollX(m_fSpeed);
+	if (!m_bFlag)
+	{
+		// 플레이어가 왼쪽을 향하는 경우
+		if (iOffsetMinX > m_tInfo.fX + iScrollX)
+			CScrollMgr::Get_Instance()->Set_ScrollX(m_fSpeed);
 
-	if (iOffsetMaxX < m_tInfo.fX + iScrollX)
-		CScrollMgr::Get_Instance()->Set_ScrollX(-m_fSpeed);
+		if (iOffsetMaxX < m_tInfo.fX + iScrollX)
+			CScrollMgr::Get_Instance()->Set_ScrollX(-m_fSpeed);
+	}
+	
 
 }
