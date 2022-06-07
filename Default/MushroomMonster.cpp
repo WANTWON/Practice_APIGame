@@ -35,7 +35,7 @@ int  CMushroomMonster::Update(void)
 		if (m_bGet_Attacked)
 		{
 			m_iMonsterNumber = 1;
-			m_bDead = true;
+			Set_Dead(true);
 
 			/*	if (!m_bCount)
 				{
