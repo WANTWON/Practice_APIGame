@@ -73,7 +73,7 @@ void  CPlayer::Late_Update(void)
 			m_tInfo.fY = WINCY - 10.f;
 			m_bDead_Count = true;
 		}
-		//CBlockMgr::Get_Instance()->Collision_with_Direction(this);
+		CBlockMgr::Get_Instance()->Collision_with_Direction(this);
 	}
 
 	if (m_bStep_Monster)
@@ -165,8 +165,8 @@ void CPlayer::Buff_Mushroom()
 	if (!m_bIsBuffActive)
 	{
 		// Activate Buff
-		m_tInfo.fCX += m_tInfo.fCX;
-		m_tInfo.fCY += m_tInfo.fCY;
+		m_tInfo.fCX = 60;
+		m_tInfo.fCY = 60;
 		m_bIsBuffActive = true;
 		m_iLevel = 1;
 	}
@@ -198,8 +198,8 @@ void CPlayer::Buff_Flower()
 	if (!m_bIsBuffActive)
 	{
 		// Activate Buff
-		m_tInfo.fCX += m_tInfo.fCX;
-		m_tInfo.fCY += m_tInfo.fCY;
+		m_tInfo.fCX  = 60;
+		m_tInfo.fCY  = 60;
 		m_bCanShoot = true;
 		m_bIsBuffActive = true;
 	}
@@ -215,8 +215,8 @@ void CPlayer::Remove_Buff(ITEM_TYPE iBuff)
 	{
 	case ITEM_MUSHROOM:
 	{
-		m_tInfo.fCX -= m_tInfo.fCX * 0.5f;
-		m_tInfo.fCY -= m_tInfo.fCY * 0.5f;
+		m_tInfo.fCX = 30;
+		m_tInfo.fCY = 30;
 		break;
 	}
 	case ITEM_STAR:
@@ -226,8 +226,8 @@ void CPlayer::Remove_Buff(ITEM_TYPE iBuff)
 	}
 	case ITEM_FLOWER:
 	{
-		m_tInfo.fCX -= m_tInfo.fCX * 0.5f;
-		m_tInfo.fCY -= m_tInfo.fCY * 0.5f;
+		m_tInfo.fCX = 30;
+		m_tInfo.fCY = 30;
 		m_bCanShoot = false;
 		break;
 	}
