@@ -139,6 +139,9 @@
     <Filter Include="98.Design\LineMgr\Line">
       <UniqueIdentifier>{efa9f8dd-2bc0-42eb-8ae3-8ba050514808}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Obj\02.Block\03. FlagBlock">
+      <UniqueIdentifier>{c7f64f57-d1fc-4241-88b1-e49bdf3361ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -282,9 +285,6 @@
     <ClInclude Include="Editor.h">
       <Filter>97.Stage\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="FlagBlock.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="BlockNull.h">
       <Filter>97.Stage\Editor</Filter>
     </ClInclude>
@@ -296,6 +296,9 @@
     </ClInclude>
     <ClInclude Include="Line.h">
       <Filter>98.Design\LineMgr\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="FlagBlock.h">
+      <Filter>01.Obj\02.Block\03. FlagBlock</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -401,9 +404,6 @@
     <ClCompile Include="Editor.cpp">
       <Filter>97.Stage\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="FlagBlock.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="BlockNull.cpp">
       <Filter>97.Stage\Editor</Filter>
     </ClCompile>
@@ -415,6 +415,9 @@
     </ClCompile>
     <ClCompile Include="Line.cpp">
       <Filter>98.Design\LineMgr\Line</Filter>
+    </ClCompile>
+    <ClCompile Include="FlagBlock.cpp">
+      <Filter>01.Obj\02.Block\03. FlagBlock</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

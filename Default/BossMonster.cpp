@@ -47,6 +47,7 @@ int CBossMonster::Update(void)
 		Attack_Pattern();
 	}
 
+	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
 
 
 	Update_Rect();
@@ -90,7 +91,7 @@ void CBossMonster::Render(HDC hDC)
 
 void CBossMonster::Move(void)
 {
-	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
+	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, m_tInfo.fY, &fY);
 
 
 	//	ColWithBlock

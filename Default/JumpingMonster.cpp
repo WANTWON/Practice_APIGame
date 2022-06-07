@@ -75,6 +75,9 @@ void CJumpingMonster::Late_Update(void)
 
 		m_dwTime = GetTickCount();
 	}
+
+	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
+
 }
 
 void CJumpingMonster::Release(void)
@@ -98,8 +101,8 @@ void CJumpingMonster::Render(HDC hDC)
 		SelectObject(hDC, oldBrush);
 		DeleteObject(myBrush);
 
-		Rectangle(hDC, m_tRect.left-20, m_tRect.top+20, m_tRect.right-40, m_tRect.bottom-20);
-		Rectangle(hDC, m_tRect.left + 40, m_tRect.top + 20, m_tRect.right + 20, m_tRect.bottom - 20);
+		Rectangle(hDC, m_tRect.left-20 + iScrollX, m_tRect.top+20, m_tRect.right-40 + iScrollX, m_tRect.bottom-20);
+		Rectangle(hDC, m_tRect.left + 40 + iScrollX, m_tRect.top + 20, m_tRect.right + 20 + iScrollX, m_tRect.bottom - 20);
 
 	}
 	else
@@ -114,7 +117,7 @@ void CJumpingMonster::Move(void)
 	
 	 fY = 0.f;
 
-	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
+	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, m_tInfo.fY, &fY);
 
 	if (b_LineCol)
 	{

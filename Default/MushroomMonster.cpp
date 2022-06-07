@@ -4,7 +4,7 @@
 #include "BlockMgr.h"
 #include "ScrollMgr.h"
 
-CMushroomMonster::CMushroomMonster()
+CMushroomMonster::CMushroomMonster() : Direction_time(GetTickCount())
 {
 }
 
@@ -56,19 +56,12 @@ int  CMushroomMonster::Update(void)
 }
 
 void CMushroomMonster::Late_Update(void)
-{/*
-	if (m_tRect.right > WINCX - 50 || m_tRect.left < 50)
-	{
-		m_fSpeed *= -1.f;
-	}
-
-	if (m_tRect.bottom > WINCY - 50 || m_tRect.top < 50)
-	{
-		m_fSpeed *= -1.f;
-	}
-*/
+{
 	/*if (m_bGet_Attacked && m_dwTime + 500 < GetTickCount())
 		m_bDead = true;*/
+
+	CBlockMgr::Get_Instance()->Collision_with_Direction(this);
+	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
 
 }
 
@@ -91,7 +84,7 @@ void CMushroomMonster::Move(void)
 	float fY = 0.f;
 	float fY2 = 0.f;
 
-	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, &fY);
+	bool b_LineCol = CLineMgr::Get_Instance()->CollisionLine(m_tInfo.fX, m_tInfo.fY, &fY);
 	bool b_BlockCol = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
 
 
@@ -126,13 +119,18 @@ void CMushroomMonster::Move(void)
 	if (b_LineCol)
 	{
 
-		/*if (m_bFalling)
+		if (m_bFalling)
 		{
 			m_tInfo.fY += m_fSpeed;
 			if (m_tInfo.fY >= fY - m_tInfo.fCY*0.5f)
 				m_bFalling = false;
 		}*/
 		//else
+		}
+		else
+			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
+
+		m_tInfo.fX += m_fSpeed;
 
 	}/*
 	else

@@ -18,5 +18,7 @@ public:
 
 private:
 	void Animate() override;
+
+	bool m_bIsBlockItem;
 };
 

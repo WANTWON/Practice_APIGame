@@ -22,6 +22,7 @@
 #include "NormalBlock.h"
 #include "KeyMgr.h"
 #include "ScrollMgr.h"
+#include "CoinBlock.h"
 
 CStage1::CStage1()
 {
@@ -36,10 +37,15 @@ CStage1::~CStage1()
 void CStage1::Initialize(void)
 {
 	CObjMgr::Get_Instance()->Load_File(1);
-	CBlockMgr::Get_Instance()->Load_File(1);
 	CLineMgr::Get_Instance()->Load_File(1);
+	CBlockMgr::Get_Instance()->Load_File(1);
+	dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Life(m_iCount);
+	// CLineMgr::Get_Instance()->Initialize(1);
 	CBlockMgr::Get_Instance()->Initialize();
-	
+
+
+
+	CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CFlower>::Create(200, 400, ITEM_FLOWER));
 	m_dwView = GetTickCount();
 }
 
@@ -88,7 +94,7 @@ void CStage1::Late_Update(void)
 void CStage1::Render(HDC hDC)
 {
 	//Rectangle(hDC, 0, 0, WINCX, WINCY);
-	
+	Rectangle(hDC, 0, 0, WINCX, WINCY);
 	CUIMgr::Get_Instance()->Render(hDC);
 	CObjMgr::Get_Instance()->Render(hDC);
 	CLineMgr::Get_Instance()->Render(hDC);

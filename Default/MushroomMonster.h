@@ -16,12 +16,14 @@ public:
 
 	void Move(void);
 
+
 public:
 	void		Gravity(void);
 
 
-private:
 
+private:
+	DWORD   Direction_time;
 
 };
 

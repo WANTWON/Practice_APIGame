@@ -42,7 +42,13 @@ public:
 	void Set_EditorMode(void) { m_bEditMode = true; }
 	void Set_PlayMode(void) { m_bEditMode = false; }
 
+
 	void	Set_GravityTime(float _fTime) { m_fTime = _fTime; }
+
+	CObj* Get_Target(void) { return m_pTarget; }
+	float Get_Angle(void) { return m_fAngle; }
+	
+
 
 public:
 	//added an ID to distinguish between the monster's bullet and the player's bullet

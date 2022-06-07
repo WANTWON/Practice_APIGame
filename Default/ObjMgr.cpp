@@ -14,9 +14,11 @@
 #include "JumpingMonster.h"
 #include "FlyingMonster.h"
 #include "BossMonster.h"
-
-
-
+//iTem
+#include "Coin.h"
+#include "Flower.h"
+#include "Mushroom.h"
+#include "Star.h"
 
 CObjMgr* CObjMgr::m_pInstance = nullptr;
 
@@ -106,12 +108,10 @@ void CObjMgr::Late_Update()
 
 	CObjMgr* ObjMgr = CObjMgr::Get_Instance();
 
-	//CCollisionMgr::Step_on_Mushroom(m_pObjList[OBJ_PLAYER], m_pObjList[OBJ_MONSTER]);
-	//CCollisionMgr::Collision_Item(Get_Player(), Get_Items());
-	//CCollisionMgr::Collision_Rect(Get_Bullets(), Get_Monsters());
-	//CCollisionMgr::Collision_Rect_Ex(m_pObjList[OBJ_MONSTER], m_pObjList[OBJ_PLAYER]);
+	CCollisionMgr::Collision_Rect(Get_Bullets(), Get_Monsters());
+	CCollisionMgr::Collision_Rect_Ex(m_pObjList[OBJ_MONSTER], m_pObjList[BLOCK_NORMAL]);
 	CCollisionMgr::Step_on_Mushroom(m_pObjList[OBJ_PLAYER], m_pObjList[OBJ_MONSTER]);
-	//CCollisionMgr::Collision_Rect_Ex(Get_Monsters(), m_pObjList[OBJ_PLAYER]);
+	
 	if (false == m_pObjList[OBJ_PLAYER].empty())
 		CCollisionMgr::Collision_Item(Get_Player(), Get_Items());
 
@@ -174,7 +174,10 @@ void CObjMgr::Save_File(void)
 
 	for (auto& iter : m_pObjList[OBJ_PLAYER])
 	{
-		WriteFile(hFile, &(iter->Get_Info()), sizeof(INFO), &dwByte, nullptr);
+		SAVEOBJ  Temp = { iter->Get_Info(), iter->Get_Rect() , iter->Get_Dir(), iter->Get_Speed(),
+			iter->Get_bDead(), iter->Get_Angle(), iter->Get_Target(), iter->Get_ID() };
+
+		WriteFile(hFile, &(Temp), sizeof(SAVEOBJ), &dwByte, nullptr);
 		WriteFile(hFile, &(static_cast<CPlayer*>(iter)->Get_PlayerType()), sizeof(int), &dwTypeByte, nullptr);
 	}
 	CloseHandle(hFile);
@@ -195,9 +198,16 @@ void CObjMgr::Save_File(void)
 		return;
 	}
 
+
+	
+
+	
 	for (auto& iter : m_pObjList[OBJ_MONSTER])
 	{
-		WriteFile(hFile, &(iter->Get_Info()), sizeof(INFO), &dwByte, nullptr);
+		SAVEOBJ  Temp = { iter->Get_Info(), iter->Get_Rect() , iter->Get_Dir(), iter->Get_Speed(), 
+			iter->Get_bDead(), iter->Get_Angle(), iter->Get_Target(), iter->Get_ID() };
+
+		WriteFile(hFile, &(Temp), sizeof(SAVEOBJ), &dwByte, nullptr);
 		WriteFile(hFile, &(static_cast<CMonster*>(iter)->Get_MonsterType()), sizeof(int), &dwTypeByte, nullptr);
 	}
 	CloseHandle(hFile);
@@ -221,7 +231,10 @@ void CObjMgr::Save_File(void)
 
 	for (auto& iter : m_pObjList[OBJ_ITEM])
 	{
-		WriteFile(hFile, &(iter->Get_Info()), sizeof(INFO), &dwByte, nullptr);
+		SAVEOBJ  Temp = { iter->Get_Info(), iter->Get_Rect() , iter->Get_Dir(), iter->Get_Speed(),
+			iter->Get_bDead(), iter->Get_Angle(), iter->Get_Target(), iter->Get_ID() };
+
+		WriteFile(hFile, &(Temp), sizeof(SAVEOBJ), &dwByte, nullptr);
 		WriteFile(hFile, &(static_cast<CItem*>(iter)->Get_Type()), sizeof(int), &dwTypeByte, nullptr);
 	}
 	CloseHandle(hFile);
@@ -268,7 +281,9 @@ void CObjMgr::Load_File(int _iStage)
 
 		while (true)
 		{
-			ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
+			SAVEOBJ m_tInfo;
+
+			ReadFile(hFile, &m_tInfo, sizeof(SAVEOBJ), &dwByte, nullptr);
 			ReadFile(hFile, &iTypeTemp, sizeof(int), &dwTypeByte, nullptr);
 
 			if (0 == dwByte)
@@ -279,7 +294,7 @@ void CObjMgr::Load_File(int _iStage)
 			switch (iTypeTemp)
 			{
 			case PLAYER_NORMAL:
-				m_pObjList[OBJ_PLAYER].push_back(CAbstractFactory<CPlayer>::Create(tTemp.fX, tTemp.fY));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, CAbstractFactory<CPlayer>::Create(m_tInfo));
 				break;
 
 			default:
@@ -305,7 +320,10 @@ void CObjMgr::Load_File(int _iStage)
 		}
 		while (true)
 		{
-			ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
+
+			SAVEOBJ m_tInfo;
+
+			ReadFile(hFile, &m_tInfo, sizeof(SAVEOBJ), &dwByte, nullptr);
 			ReadFile(hFile, &iTypeTemp, sizeof(int), &dwTypeByte, nullptr);
 
 			if (0 == dwByte)
@@ -317,27 +335,28 @@ void CObjMgr::Load_File(int _iStage)
 			switch (iTypeTemp)
 			{
 			case MONSTER_MUSHROOM:
-				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMushroomMonster>::Create(tTemp.fX, tTemp.fY));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CMushroomMonster>::Create(m_tInfo));
 				break;
 
 			case MONSTER_TURTLE:
-				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CTurtleMonster>::Create(tTemp.fX, tTemp.fY));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleMonster>::Create(m_tInfo));
 				break;
 
 			case MONSTER_TURTLEBACK:
-				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CTurtleBack>::Create(tTemp.fX, tTemp.fY));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleBack>::Create(m_tInfo));
 				break;
 
 			case MONSTER_JUMPING:
-				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CJumpingMonster>::Create_with_Target(tTemp.fX, tTemp.fY, CObjMgr::Get_Instance()->Get_Player()));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CJumpingMonster>::Create(m_tInfo));
+				CObjMgr::Get_Instance()->Get_Monsters().back()->Set_Target(CObjMgr::Get_Instance()->Get_Player());
 				break;
 
 			case MONSTER_FLYING:
-				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CFlyingMonster>::Create(tTemp.fX, tTemp.fY));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFlyingMonster>::Create(m_tInfo));
 				break;
-
 			case MONSTER_BOSS:
-				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CBossMonster>::Create_with_Target(tTemp.fX, tTemp.fY, CObjMgr::Get_Instance()->Get_Player()));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CBossMonster>::Create(m_tInfo));
+				CObjMgr::Get_Instance()->Get_Monsters().back()->Set_Target(CObjMgr::Get_Instance()->Get_Player());
 				break;
 
 			default:
@@ -346,6 +365,61 @@ void CObjMgr::Load_File(int _iStage)
 		}
 		CloseHandle(hFile);
 
+		//Item
+		hFile = CreateFile(L"../Data/Save1/ObjItem.dat",
+			GENERIC_READ,
+			NULL,
+			NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL);
+
+		if (INVALID_HANDLE_VALUE == hFile)
+		{
+			MessageBox(g_hWnd, L"Load Player", L"Error", MB_OK);
+			return;
+		}
+
+		dwByte = 0;
+		dwTypeByte = 0;
+		tTemp = {};
+		iTypeTemp = 0;
+
+		while (true)
+		{
+			SAVEOBJ m_tInfo;
+
+			ReadFile(hFile, &m_tInfo, sizeof(SAVEOBJ), &dwByte, nullptr);
+			ReadFile(hFile, &iTypeTemp, sizeof(int), &dwTypeByte, nullptr);
+
+			if (0 == dwByte)
+				break;
+			if (0 == dwTypeByte)
+				break;
+
+			switch (iTypeTemp)
+			{
+			case ITEM_COIN:
+				CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CCoin>::Create(m_tInfo));
+				dynamic_cast<CItem*>(CObjMgr::Get_Instance()->Get_Items().back())->Set_Type(ITEM_COIN);
+				break;
+			case ITEM_MUSHROOM:
+				CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CMushroom>::Create(m_tInfo));
+				dynamic_cast<CItem*>(CObjMgr::Get_Instance()->Get_Items().back())->Set_Type(ITEM_MUSHROOM);
+				break;
+			case ITEM_STAR:
+				CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CStar>::Create(m_tInfo));
+				dynamic_cast<CItem*>(CObjMgr::Get_Instance()->Get_Items().back())->Set_Type(ITEM_STAR);
+				break;
+			case ITEM_FLOWER:
+				CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CFlower>::Create(m_tInfo));
+				dynamic_cast<CItem*>(CObjMgr::Get_Instance()->Get_Items().back())->Set_Type(ITEM_FLOWER);
+				break;
+			default:
+				break;
+			}
+		}
+		CloseHandle(hFile);
 
 		return;
 	case 2:
@@ -371,7 +445,9 @@ void CObjMgr::Load_File(int _iStage)
 
 		while (true)
 		{
-			ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
+			SAVEOBJ m_tInfo;
+
+			ReadFile(hFile, &m_tInfo, sizeof(SAVEOBJ), &dwByte, nullptr);
 			ReadFile(hFile, &iTypeTemp, sizeof(int), &dwTypeByte, nullptr);
 
 			if (0 == dwByte)
@@ -382,7 +458,7 @@ void CObjMgr::Load_File(int _iStage)
 			switch (iTypeTemp)
 			{
 			case PLAYER_NORMAL:
-				m_pObjList[OBJ_PLAYER].push_back(CAbstractFactory<CPlayer>::Create(tTemp.fX, tTemp.fY));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, CAbstractFactory<CPlayer>::Create(m_tInfo));
 				break;
 
 			default:
@@ -408,7 +484,10 @@ void CObjMgr::Load_File(int _iStage)
 		}
 		while (true)
 		{
-			ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
+
+			SAVEOBJ m_tInfo;
+
+			ReadFile(hFile, &m_tInfo, sizeof(SAVEOBJ), &dwByte, nullptr);
 			ReadFile(hFile, &iTypeTemp, sizeof(int), &dwTypeByte, nullptr);
 
 			if (0 == dwByte)
@@ -420,27 +499,28 @@ void CObjMgr::Load_File(int _iStage)
 			switch (iTypeTemp)
 			{
 			case MONSTER_MUSHROOM:
-				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMushroomMonster>::Create(tTemp.fX, tTemp.fY));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CMushroomMonster>::Create(m_tInfo));
 				break;
 
 			case MONSTER_TURTLE:
-				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CTurtleMonster>::Create(tTemp.fX, tTemp.fY));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleMonster>::Create(m_tInfo));
 				break;
 
 			case MONSTER_TURTLEBACK:
-				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CTurtleBack>::Create(tTemp.fX, tTemp.fY));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleBack>::Create(m_tInfo));
 				break;
 
 			case MONSTER_JUMPING:
-				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CJumpingMonster>::Create_with_Target(tTemp.fX, tTemp.fY, CObjMgr::Get_Instance()->Get_Player()));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CJumpingMonster>::Create(m_tInfo));
+				CObjMgr::Get_Instance()->Get_Monsters().back()->Set_Target(CObjMgr::Get_Instance()->Get_Player());
 				break;
 
 			case MONSTER_FLYING:
-				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CFlyingMonster>::Create(tTemp.fX, tTemp.fY));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFlyingMonster>::Create(m_tInfo));
 				break;
-
 			case MONSTER_BOSS:
-				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CBossMonster>::Create_with_Target(tTemp.fX, tTemp.fY, CObjMgr::Get_Instance()->Get_Player()));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CBossMonster>::Create(m_tInfo));
+				CObjMgr::Get_Instance()->Get_Monsters().back()->Set_Target(CObjMgr::Get_Instance()->Get_Player());
 				break;
 
 			default:
@@ -449,6 +529,61 @@ void CObjMgr::Load_File(int _iStage)
 		}
 		CloseHandle(hFile);
 
+		//Item
+		hFile = CreateFile(L"../Data/Save2/ObjItem.dat",
+			GENERIC_READ,
+			NULL,
+			NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL);
+
+		if (INVALID_HANDLE_VALUE == hFile)
+		{
+			MessageBox(g_hWnd, L"Load Player", L"Error", MB_OK);
+			return;
+		}
+
+		dwByte = 0;
+		dwTypeByte = 0;
+		tTemp = {};
+		iTypeTemp = 0;
+
+		while (true)
+		{
+			SAVEOBJ m_tInfo;
+
+			ReadFile(hFile, &m_tInfo, sizeof(SAVEOBJ), &dwByte, nullptr);
+			ReadFile(hFile, &iTypeTemp, sizeof(int), &dwTypeByte, nullptr);
+
+			if (0 == dwByte)
+				break;
+			if (0 == dwTypeByte)
+				break;
+
+			switch (iTypeTemp)
+			{
+			case ITEM_COIN:
+				CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CCoin>::Create(m_tInfo));
+				dynamic_cast<CItem*>(CObjMgr::Get_Instance()->Get_Items().back())->Set_Type(ITEM_COIN);
+				break;
+			case ITEM_MUSHROOM:
+				CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CMushroom>::Create(m_tInfo));
+				dynamic_cast<CItem*>(CObjMgr::Get_Instance()->Get_Items().back())->Set_Type(ITEM_MUSHROOM);
+				break;
+			case ITEM_STAR:
+				CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CStar>::Create(m_tInfo));
+				dynamic_cast<CItem*>(CObjMgr::Get_Instance()->Get_Items().back())->Set_Type(ITEM_STAR);
+				break;
+			case ITEM_FLOWER:
+				CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CFlower>::Create(m_tInfo));
+				dynamic_cast<CItem*>(CObjMgr::Get_Instance()->Get_Items().back())->Set_Type(ITEM_FLOWER);
+				break;
+			default:
+				break;
+			}
+		}
+		CloseHandle(hFile);
 
 		return;
 	case 3:
@@ -474,7 +609,9 @@ void CObjMgr::Load_File(int _iStage)
 
 		while (true)
 		{
-			ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
+			SAVEOBJ m_tInfo;
+
+			ReadFile(hFile, &m_tInfo, sizeof(SAVEOBJ), &dwByte, nullptr);
 			ReadFile(hFile, &iTypeTemp, sizeof(int), &dwTypeByte, nullptr);
 
 			if (0 == dwByte)
@@ -485,7 +622,7 @@ void CObjMgr::Load_File(int _iStage)
 			switch (iTypeTemp)
 			{
 			case PLAYER_NORMAL:
-				m_pObjList[OBJ_PLAYER].push_back(CAbstractFactory<CPlayer>::Create(tTemp.fX, tTemp.fY));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, CAbstractFactory<CPlayer>::Create(m_tInfo));
 				break;
 
 			default:
@@ -511,7 +648,10 @@ void CObjMgr::Load_File(int _iStage)
 		}
 		while (true)
 		{
-			ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
+
+			SAVEOBJ m_tInfo;
+
+			ReadFile(hFile, &m_tInfo, sizeof(SAVEOBJ), &dwByte, nullptr);
 			ReadFile(hFile, &iTypeTemp, sizeof(int), &dwTypeByte, nullptr);
 
 			if (0 == dwByte)
@@ -523,27 +663,28 @@ void CObjMgr::Load_File(int _iStage)
 			switch (iTypeTemp)
 			{
 			case MONSTER_MUSHROOM:
-				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMushroomMonster>::Create(tTemp.fX, tTemp.fY));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CMushroomMonster>::Create(m_tInfo));
 				break;
 
 			case MONSTER_TURTLE:
-				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CTurtleMonster>::Create(tTemp.fX, tTemp.fY));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleMonster>::Create(m_tInfo));
 				break;
 
 			case MONSTER_TURTLEBACK:
-				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CTurtleBack>::Create(tTemp.fX, tTemp.fY));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleBack>::Create(m_tInfo));
 				break;
 
 			case MONSTER_JUMPING:
-				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CJumpingMonster>::Create_with_Target(tTemp.fX, tTemp.fY, CObjMgr::Get_Instance()->Get_Player()));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CJumpingMonster>::Create(m_tInfo));
+				CObjMgr::Get_Instance()->Get_Monsters().back()->Set_Target(CObjMgr::Get_Instance()->Get_Player());
 				break;
 
 			case MONSTER_FLYING:
-				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CFlyingMonster>::Create(tTemp.fX, tTemp.fY));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFlyingMonster>::Create(m_tInfo));
 				break;
-
 			case MONSTER_BOSS:
-				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CBossMonster>::Create_with_Target(tTemp.fX, tTemp.fY, CObjMgr::Get_Instance()->Get_Player()));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CBossMonster>::Create(m_tInfo));
+				CObjMgr::Get_Instance()->Get_Monsters().back()->Set_Target(CObjMgr::Get_Instance()->Get_Player());
 				break;
 
 			default:
@@ -552,6 +693,61 @@ void CObjMgr::Load_File(int _iStage)
 		}
 		CloseHandle(hFile);
 
+		//Item
+		hFile = CreateFile(L"../Data/Save3/ObjItem.dat",
+			GENERIC_READ,
+			NULL,
+			NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL);
+
+		if (INVALID_HANDLE_VALUE == hFile)
+		{
+			MessageBox(g_hWnd, L"Load Player", L"Error", MB_OK);
+			return;
+		}
+
+		dwByte = 0;
+		dwTypeByte = 0;
+		tTemp = {};
+		iTypeTemp = 0;
+
+		while (true)
+		{
+			SAVEOBJ m_tInfo;
+
+			ReadFile(hFile, &m_tInfo, sizeof(SAVEOBJ), &dwByte, nullptr);
+			ReadFile(hFile, &iTypeTemp, sizeof(int), &dwTypeByte, nullptr);
+
+			if (0 == dwByte)
+				break;
+			if (0 == dwTypeByte)
+				break;
+
+			switch (iTypeTemp)
+			{
+			case ITEM_COIN:
+				CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CCoin>::Create(m_tInfo));
+				dynamic_cast<CItem*>(CObjMgr::Get_Instance()->Get_Items().back())->Set_Type(ITEM_COIN);
+				break;
+			case ITEM_MUSHROOM:
+				CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CMushroom>::Create(m_tInfo));
+				dynamic_cast<CItem*>(CObjMgr::Get_Instance()->Get_Items().back())->Set_Type(ITEM_MUSHROOM);
+				break;
+			case ITEM_STAR:
+				CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CStar>::Create(m_tInfo));
+				dynamic_cast<CItem*>(CObjMgr::Get_Instance()->Get_Items().back())->Set_Type(ITEM_STAR);
+				break;
+			case ITEM_FLOWER:
+				CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CFlower>::Create(m_tInfo));
+				dynamic_cast<CItem*>(CObjMgr::Get_Instance()->Get_Items().back())->Set_Type(ITEM_FLOWER);
+				break;
+			default:
+				break;
+			}
+		}
+		CloseHandle(hFile);
 
 		return;
 	case 4:
@@ -577,7 +773,9 @@ void CObjMgr::Load_File(int _iStage)
 
 		while (true)
 		{
-			ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
+			SAVEOBJ m_tInfo;
+
+			ReadFile(hFile, &m_tInfo, sizeof(SAVEOBJ), &dwByte, nullptr);
 			ReadFile(hFile, &iTypeTemp, sizeof(int), &dwTypeByte, nullptr);
 
 			if (0 == dwByte)
@@ -588,7 +786,7 @@ void CObjMgr::Load_File(int _iStage)
 			switch (iTypeTemp)
 			{
 			case PLAYER_NORMAL:
-				m_pObjList[OBJ_PLAYER].push_back(CAbstractFactory<CPlayer>::Create(tTemp.fX, tTemp.fY));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, CAbstractFactory<CPlayer>::Create(m_tInfo));
 				break;
 
 			default:
@@ -614,7 +812,10 @@ void CObjMgr::Load_File(int _iStage)
 		}
 		while (true)
 		{
-			ReadFile(hFile, &tTemp, sizeof(INFO), &dwByte, nullptr);
+
+			SAVEOBJ m_tInfo;
+
+			ReadFile(hFile, &m_tInfo, sizeof(SAVEOBJ), &dwByte, nullptr);
 			ReadFile(hFile, &iTypeTemp, sizeof(int), &dwTypeByte, nullptr);
 
 			if (0 == dwByte)
@@ -626,27 +827,28 @@ void CObjMgr::Load_File(int _iStage)
 			switch (iTypeTemp)
 			{
 			case MONSTER_MUSHROOM:
-				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CMushroomMonster>::Create(tTemp.fX, tTemp.fY));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CMushroomMonster>::Create(m_tInfo));
 				break;
 
 			case MONSTER_TURTLE:
-				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CTurtleMonster>::Create(tTemp.fX, tTemp.fY));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleMonster>::Create(m_tInfo));
 				break;
 
 			case MONSTER_TURTLEBACK:
-				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CTurtleBack>::Create(tTemp.fX, tTemp.fY));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CTurtleBack>::Create(m_tInfo));
 				break;
 
 			case MONSTER_JUMPING:
-				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CJumpingMonster>::Create_with_Target(tTemp.fX, tTemp.fY, CObjMgr::Get_Instance()->Get_Player()));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CJumpingMonster>::Create(m_tInfo));
+				CObjMgr::Get_Instance()->Get_Monsters().back()->Set_Target(CObjMgr::Get_Instance()->Get_Player());
 				break;
 
 			case MONSTER_FLYING:
-				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CFlyingMonster>::Create(tTemp.fX, tTemp.fY));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFlyingMonster>::Create(m_tInfo));
 				break;
-
 			case MONSTER_BOSS:
-				m_pObjList[OBJ_MONSTER].push_back(CAbstractFactory<CBossMonster>::Create_with_Target(tTemp.fX, tTemp.fY, CObjMgr::Get_Instance()->Get_Player()));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CBossMonster>::Create(m_tInfo));
+				CObjMgr::Get_Instance()->Get_Monsters().back()->Set_Target(CObjMgr::Get_Instance()->Get_Player());
 				break;
 
 			default:
@@ -655,6 +857,61 @@ void CObjMgr::Load_File(int _iStage)
 		}
 		CloseHandle(hFile);
 
+		//Item
+		hFile = CreateFile(L"../Data/Save4/ObjItem.dat",
+			GENERIC_READ,
+			NULL,
+			NULL,
+			OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL);
+
+		if (INVALID_HANDLE_VALUE == hFile)
+		{
+			MessageBox(g_hWnd, L"Load Player", L"Error", MB_OK);
+			return;
+		}
+
+		dwByte = 0;
+		dwTypeByte = 0;
+		tTemp = {};
+		iTypeTemp = 0;
+
+		while (true)
+		{
+			SAVEOBJ m_tInfo;
+
+			ReadFile(hFile, &m_tInfo, sizeof(SAVEOBJ), &dwByte, nullptr);
+			ReadFile(hFile, &iTypeTemp, sizeof(int), &dwTypeByte, nullptr);
+
+			if (0 == dwByte)
+				break;
+			if (0 == dwTypeByte)
+				break;
+
+			switch (iTypeTemp)
+			{
+			case ITEM_COIN:
+				CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CCoin>::Create(m_tInfo));
+				dynamic_cast<CItem*>(CObjMgr::Get_Instance()->Get_Items().back())->Set_Type(ITEM_COIN);
+				break;
+			case ITEM_MUSHROOM:
+				CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CMushroom>::Create(m_tInfo));
+				dynamic_cast<CItem*>(CObjMgr::Get_Instance()->Get_Items().back())->Set_Type(ITEM_MUSHROOM);
+				break;
+			case ITEM_STAR:
+				CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CStar>::Create(m_tInfo));
+				dynamic_cast<CItem*>(CObjMgr::Get_Instance()->Get_Items().back())->Set_Type(ITEM_STAR);
+				break;
+			case ITEM_FLOWER:
+				CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CFlower>::Create(m_tInfo));
+				dynamic_cast<CItem*>(CObjMgr::Get_Instance()->Get_Items().back())->Set_Type(ITEM_FLOWER);
+				break;
+			default:
+				break;
+			}
+		}
+		CloseHandle(hFile);
 
 		return;
 	}

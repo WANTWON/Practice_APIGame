@@ -53,17 +53,7 @@ void CLineMgr::Initialize(int _Number)
 {/*
 	if (1 == _Number)
 	{
-		LINEPOINT tPoint[4] =
-		{
-			{ 100.f, 450.f },
-			{ 300.f, 450.f },
-			{ 500.f, 250.f },
-			{ 700.f, 250.f }
-		};
-
-		m_Linelist.push_back(new CLine(tPoint[0], tPoint[1]));
-		m_Linelist.push_back(new CLine(tPoint[1], tPoint[2]));
-		m_Linelist.push_back(new CLine(tPoint[2], tPoint[3]));
+		
 	}
 	else if (2 == _Number)
 	{
@@ -159,7 +149,7 @@ void CLineMgr::Release(void)
 //	return true;
 //}
 
-bool CLineMgr::CollisionLine(float	_fX, float* _fY)		//+
+bool CLineMgr::CollisionLinePlayer(float _fX, float _fY, float * _fXOut, float * _fYOut)
 {
 	if (m_Linelist.empty())
 		return false;
@@ -168,18 +158,28 @@ bool CLineMgr::CollisionLine(float	_fX, float* _fY)		//+
 
 	for (auto& iter : m_Linelist)
 	{
+		// Obj is in the middle of a Line (X Axis)
 		if (_fX >= iter->Get_Line().fLPoint.fX
 			&& _fX < iter->Get_Line().fRPoint.fX)
-			pTarget = iter;
-	}
 
+			// Line has way bigger Y compared to Obj
+			if (_fY > iter->Get_Line().fLPoint.fY + 20)
+			{
+				float fDistanceL = abs(_fX - iter->Get_Line().fLPoint.fX);
+				float fDistanceR = abs(_fX - iter->Get_Line().fRPoint.fX);
+				
+				if (fDistanceL > fDistanceR)
+					*_fXOut = iter->Get_Line().fRPoint.fX + 25;
+				
+				else
+					*_fXOut = iter->Get_Line().fLPoint.fX - 25;
+			}
+			else
+				pTarget = iter;
+	}
 
 	if (!pTarget)
 		return false;
-
-	// Á÷¼±ÀÇ ¹æÁ¤½Ä 
-	// Y - y1 = ((y2 - y1) / (x2 - x1)) * (X - x1)
-	// Y = ((y2 - y1) / (x2 - x1)) * (X - x1) + y1
 
 	float x1 = pTarget->Get_Line().fLPoint.fX;
 	float y1 = pTarget->Get_Line().fLPoint.fY;
@@ -187,8 +187,41 @@ bool CLineMgr::CollisionLine(float	_fX, float* _fY)		//+
 	float x2 = pTarget->Get_Line().fRPoint.fX;
 	float y2 = pTarget->Get_Line().fRPoint.fY;
 
-	//-	*_fY = ((y2 - y1) / (x2 - x1))*(_fX - x1) + y1;
-	*_fY = ((y2 - y1) / (x2 - x1))*(_fX - x1) + y1;
+	*_fYOut = ((y2 - y1) / (x2 - x1))*(_fX - x1) + y1;
+
+	return true;
+}
+
+bool CLineMgr::CollisionLine(float	_fX, float _fY, float* _fYOut)
+{
+	if (m_Linelist.empty())
+		return false;
+
+	CLine* pTarget = nullptr;
+
+	for (auto& iter : m_Linelist)
+	{
+		// Obj is in the middle of a Line (X Axis)
+		if (_fX >= iter->Get_Line().fLPoint.fX
+			&& _fX < iter->Get_Line().fRPoint.fX)
+
+			// Line has way bigger Y compared to Obj
+			if (_fY > iter->Get_Line().fLPoint.fY + 20)
+				return false;
+			else
+				pTarget = iter;	
+	}
+
+	if (!pTarget)
+		return false;
+
+	float x1 = pTarget->Get_Line().fLPoint.fX;
+	float y1 = pTarget->Get_Line().fLPoint.fY;
+
+	float x2 = pTarget->Get_Line().fRPoint.fX;
+	float y2 = pTarget->Get_Line().fRPoint.fY;
+
+	*_fYOut = ((y2 - y1) / (x2 - x1))*(_fX - x1) + y1;
 
 	return true;
 }
