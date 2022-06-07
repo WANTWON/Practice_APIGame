@@ -74,7 +74,7 @@ void CMushroomMonster::Render(HDC hDC)
 	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
 
 
-	Rectangle(hDC, m_tRect.left + iScrollX , m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
+	Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 }
 
 
@@ -96,6 +96,7 @@ void CMushroomMonster::Move(void)
 			if (m_tInfo.fY >= fY - m_tInfo.fCY*0.5f)
 				m_bFalling = false;
 		}
+
 		else
 			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 
@@ -107,7 +108,4 @@ void CMushroomMonster::Move(void)
 		m_fSpeed *= -1;
 		m_tInfo.fX += m_fSpeed;
 	}
-
-
-
 }
