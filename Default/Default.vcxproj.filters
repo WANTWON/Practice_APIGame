@@ -142,6 +142,12 @@
     <Filter Include="01.Obj\02.Block\03. FlagBlock">
       <UniqueIdentifier>{c7f64f57-d1fc-4241-88b1-e49bdf3361ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="98.Design\BmpMgr">
+      <UniqueIdentifier>{040be570-79b0-41a3-b207-e17f539b2f37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Design\BmpMgr\MyBmp">
+      <UniqueIdentifier>{5ea1885b-a299-4a12-9612-81edecd04c23}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -300,6 +306,12 @@
     <ClInclude Include="FlagBlock.h">
       <Filter>01.Obj\02.Block\03. FlagBlock</Filter>
     </ClInclude>
+    <ClInclude Include="BmpMgr.h">
+      <Filter>98.Design\BmpMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="MyBmp.h">
+      <Filter>98.Design\BmpMgr\MyBmp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -418,6 +430,12 @@
     </ClCompile>
     <ClCompile Include="FlagBlock.cpp">
       <Filter>01.Obj\02.Block\03. FlagBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="BmpMgr.cpp">
+      <Filter>98.Design\BmpMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="MyBmp.cpp">
+      <Filter>98.Design\BmpMgr\MyBmp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

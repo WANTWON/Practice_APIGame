@@ -148,6 +148,7 @@
     <ClInclude Include="AbstractFactory.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="BlockNull.h" />
+    <ClInclude Include="BmpMgr.h" />
     <ClInclude Include="BossMonster.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Coin.h" />
@@ -175,6 +176,7 @@
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Mushroom.h" />
     <ClInclude Include="MushroomMonster.h" />
+    <ClInclude Include="MyBmp.h" />
     <ClInclude Include="NormalBlock.h" />
     <ClInclude Include="Obj.h" />
     <ClInclude Include="ObjMgr.h" />
@@ -199,6 +201,7 @@
   <ItemGroup>
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="BlockNull.cpp" />
+    <ClCompile Include="BmpMgr.cpp" />
     <ClCompile Include="BossMonster.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Coin.cpp" />
@@ -220,6 +223,7 @@
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Mushroom.cpp" />
     <ClCompile Include="MushroomMonster.cpp" />
+    <ClCompile Include="MyBmp.cpp" />
     <ClCompile Include="NormalBlock.cpp" />
     <ClCompile Include="Obj.cpp" />
     <ClCompile Include="ObjMgr.cpp" />
