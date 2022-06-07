@@ -51,7 +51,7 @@ int CPlayer::Update(void)
 
 	if (false == m_bEditMode)
 	{
-		
+
 		Check_ActiveBuff();
 		Key_Input();
 		Jumping();
@@ -104,9 +104,7 @@ void CPlayer::Release(void)
 
 void CPlayer::Render(HDC hDC)
 {
-
 	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
-
 
 	if (m_bIsInvincible)
 	{
@@ -123,7 +121,7 @@ void CPlayer::Render(HDC hDC)
 			myBrush = m_bColorSwitch ? (HBRUSH)CreateSolidBrush(RGB(255, 255, 0)) : (HBRUSH)CreateSolidBrush(RGB(255, 215, 0));
 			oldBrush = (HBRUSH)SelectObject(hDC, myBrush);
 
-			Rectangle(hDC, m_tRect.left +iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
+			Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 
 			SelectObject(hDC, oldBrush);
 			DeleteObject(myBrush);
@@ -144,7 +142,6 @@ void CPlayer::Render(HDC hDC)
 	}
 	else
 		Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
-
 }
 
 void CPlayer::Check_ActiveBuff(void)
@@ -246,7 +243,6 @@ void CPlayer::Key_Input(void)
 			m_tInfo.fX += m_fSpeed;
 			m_iLastDir = DIR_RIGHT;
 		}
-		
 	}
 
 	else if (GetAsyncKeyState(VK_LEFT))
@@ -256,9 +252,6 @@ void CPlayer::Key_Input(void)
 			m_tInfo.fX -= m_fSpeed;
 			m_iLastDir = DIR_LEFT;
 		}
-
-	
-			
 	}
 
 	if (CKeyMgr::Get_Instance()->Key_Down(VK_SPACE))
@@ -281,7 +274,7 @@ void CPlayer::Jumping(void)
 		if (m_bFlag)
 		{
 			m_dwClear = GetTickCount();
-			m_fLeft = m_tRect.left;
+			m_fLeft = float(m_tRect.left);
 			m_fTime = 0.0f;
 			m_bJump = false;
 			m_bPlay = false;
@@ -361,7 +354,7 @@ void CPlayer::Jumping(void)
 		{
 			m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
 		}
-		else 
+		else
 		{
 			m_tInfo.fY += m_fSpeed;
 			m_bFalling = true;
@@ -375,7 +368,7 @@ void CPlayer::Set_Dead_Moment(void)
 	{
 		m_bPlay = false;
 		m_fJumpPower = 13.f;
-		m_tInfo.fY -= m_fJumpPower*m_fPTime - (9.8*m_fPTime*m_fPTime*0.5f);
+		m_tInfo.fY -= float(m_fJumpPower*m_fPTime - (9.8*m_fPTime*m_fPTime*0.5f));
 		m_fPTime += 0.07f;
 
 		if (m_tInfo.fY > WINCY + 100.f)
@@ -393,8 +386,8 @@ void CPlayer::Set_Dead_Moment(void)
 
 void CPlayer::Offset(void)
 {
-	int iOffsetMinX = 300.f;
-	int iOffsetMaxX = 500.f;
+	int iOffsetMinX = int(300.f);
+	int iOffsetMaxX = int(500.f);
 
 	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
 

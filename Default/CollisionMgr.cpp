@@ -93,9 +93,6 @@ int CCollisionMgr::Collision_Bullet(CObj* _This, list<CObj*> _Bullet)
 	return iScore;
 }
 
-
-
-
 void CCollisionMgr::Collision_Rect_Ex(list<CObj*> _Sour, list<CObj*> _Dest)
 {
 	for (auto& Dest : _Dest)
