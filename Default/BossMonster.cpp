@@ -56,7 +56,7 @@ int CBossMonster::Update(void)
 void CBossMonster::Late_Update(void)
 {
 	if (m_bGet_Attacked)
-			m_bDead = true;
+		Set_Dead(true);
 
 	if (m_dwMoveTime + 4000 < GetTickCount()) //It moved every four seconds Stop
 	{

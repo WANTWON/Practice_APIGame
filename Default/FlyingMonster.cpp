@@ -61,10 +61,7 @@ int CFlyingMonster::Update(void)
 void CFlyingMonster::Late_Update(void)
 {
 	if (m_bGet_Attacked)
-	{
-		m_bDead = true;
-
-	}
+		Set_Dead(true);
 
 	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
 
