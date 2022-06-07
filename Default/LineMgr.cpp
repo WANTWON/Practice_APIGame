@@ -50,8 +50,8 @@ void CLineMgr::Edit_NULL(float _fX, float _fY)
 }
 
 void CLineMgr::Initialize(int _Number)
-{/*
-	if (1 == _Number)
+{
+	/*if (1 == _Number)
 	{
 		
 	}
@@ -64,8 +64,8 @@ void CLineMgr::Initialize(int _Number)
 			{ 700.f, 500.f },
 			{ 700.f, 100.f }
 		};
-  }
-	else if (3 == _Number)
+  }*/
+	if (3 == _Number)
 	{
 
 		LINEPOINT tPoint[8] =
@@ -86,7 +86,7 @@ void CLineMgr::Initialize(int _Number)
 		m_Linelist.push_back(new CLine(tPoint[4], tPoint[5]));
 		m_Flagline.push_back(new CLine(tPoint[6], tPoint[7]));
 	}
-*/
+
 }
 
 void CLineMgr::Render(HDC hDC)
@@ -258,7 +258,7 @@ CLine* CLineMgr::CollisionLine_Bullet(float _fX, float * _OutY)
 
 
 
-bool CLineMgr::CollisionFlag(RECT rc, float * _fY)
+bool CLineMgr::CollisionFlag(RECT rc)
 {
 	if (m_Flagline.empty())
 		return false;

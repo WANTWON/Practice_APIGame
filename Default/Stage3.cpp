@@ -21,19 +21,19 @@ CStage3::~CStage3()
 
 void CStage3::Initialize(void)
 {
-	//CBlockMgr::Get_Instance()->Initialize();
-	//CLineMgr::Get_Instance()->Initialize(3);
-	//CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, CAbstractFactory<CPlayer>::Create(50.f, 460.f,m_iCount));
-	////CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CMushroomMonster>::Create(600, 200));
-	//CBlockMgr::Get_Instance()->Add_Object(BLOCK_FLAG, CAbstractFactory<CFlagBlock>::Create(550, 445, false));
-	//CBlockMgr::Get_Instance()->Add_Object(BLOCK_FLAG, CAbstractFactory<CFlagBlock>::Create(535, 100, true));
+	CBlockMgr::Get_Instance()->Initialize();
+	CLineMgr::Get_Instance()->Initialize(3);
+	CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, CAbstractFactory<CPlayer>::Create(50.f, 460.f,m_iCount));
+	//CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CMushroomMonster>::Create(600, 200));
+	CBlockMgr::Get_Instance()->Add_Object(BLOCK_FLAG, CAbstractFactory<CFlagBlock>::Create(550, 445, false));
+	CBlockMgr::Get_Instance()->Add_Object(BLOCK_FLAG, CAbstractFactory<CFlagBlock>::Create(535, 100, true));
 
 	
 	m_dwView = GetTickCount();
 
-	CObjMgr::Get_Instance()->Load_File(3);
+	/*CObjMgr::Get_Instance()->Load_File(3);
 	CBlockMgr::Get_Instance()->Load_File(3);
-	CLineMgr::Get_Instance()->Load_File(3);
+	CLineMgr::Get_Instance()->Load_File(3);*/
 	CBlockMgr::Get_Instance()->Initialize();
 	CObjMgr::Get_Instance()->Add_Object(OBJ_ITEM, CAbstractFactory<CFlower>::Create(200, 400, ITEM_FLOWER));
 	dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Life(m_iCount);

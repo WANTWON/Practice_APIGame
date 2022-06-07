@@ -54,7 +54,7 @@ int CPlayer::Update(void)
 		Check_ActiveBuff();
 		Key_Input();
 		Jumping();
-		Offset();
+	//	Offset();
 	}
 
 	Update_Rect();
@@ -65,14 +65,16 @@ int CPlayer::Update(void)
 
 void  CPlayer::Late_Update(void)
 {
-	
-
 	if (m_bPlay)
 	{
 		if (m_tInfo.fY > WINCY)
 		{
 			m_tInfo.fY = WINCY - 10.f;
 			m_bDead_Count = true;
+		}
+		else if (m_tInfo.fX > WINCX)
+		{
+			m_iLife = -1;
 		}
 		CBlockMgr::Get_Instance()->Collision_with_Direction(this);
 	}
@@ -303,7 +305,7 @@ void CPlayer::Jumping(void)
 	{
 		bool b_LineCol = CLineMgr::Get_Instance()->CollisionLinePlayer(m_tInfo.fX, m_tInfo.fY, &m_tInfo.fX, &fY);
 		bool b_BlockCol = CBlockMgr::Get_Instance()->CollisionBlock(m_tRect, m_tInfo.fX, &fY2);
-		m_bFlag = CLineMgr::Get_Instance()->CollisionFlag(m_tRect, &fY);
+		m_bFlag = CLineMgr::Get_Instance()->CollisionFlag(m_tRect);
 
 		if (m_bFlag)
 		{

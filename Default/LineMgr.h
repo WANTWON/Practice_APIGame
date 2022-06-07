@@ -21,7 +21,7 @@ public:
 	CLine*		CollisionLine_Bullet(float _fX, float * _OutY);
 
 	//bool		CollisionLine(float _fX, float* _fY);
-	bool		CollisionFlag(RECT rc, float* _fY);
+	bool		CollisionFlag(RECT rc);
 
 	void		Save_File(void);
 	void		Load_File(int _iStage);
