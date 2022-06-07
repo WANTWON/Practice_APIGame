@@ -1,5 +1,6 @@
 #pragma once
 #include "Include.h"
+#include "BmpMgr.h"
 class CScene
 {
 public:
