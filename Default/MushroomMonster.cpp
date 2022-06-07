@@ -124,9 +124,10 @@ void CMushroomMonster::Move(void)
 			m_tInfo.fY += m_fSpeed;
 			if (m_tInfo.fY >= fY - m_tInfo.fCY*0.5f)
 				m_bFalling = false;
-		}*/
+		//}
 		//else
 		}
+
 		else
 			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 
