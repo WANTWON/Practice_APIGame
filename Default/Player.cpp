@@ -35,6 +35,7 @@ void CPlayer::Initialize(void)
 	Jumping_Time = GetTickCount();
 	m_dwTime = GetTickCount();
 	m_iLife = 3;
+	m_bFlag = false;
 
 	m_eType = PLAYER_NORMAL;
 }
