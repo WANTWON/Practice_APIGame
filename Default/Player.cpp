@@ -293,10 +293,12 @@ void CPlayer::Jumping(void)
 
 			if (b_BlockCol && m_tInfo.fY + m_tInfo.fCY*0.5f >= fY2)
 			{
+				m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
 				m_fTime = 0.0f;
 			}
 			if (b_LineCol && m_tInfo.fY > fY)
 			{
+				m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 				m_fTime = 0.0f;
 			}
 		}
@@ -309,8 +311,8 @@ void CPlayer::Jumping(void)
 			{
 				m_bJump = true;
 			}*/
-			if (m_fTime > 3.8f)
-				m_fTime = 3.8f;
+			if (m_fTime > 3.2f)
+				m_fTime = 3.2f;
 
 			if (b_BlockCol && m_tInfo.fY + m_tInfo.fCY*0.5f > fY2)
 			{
@@ -361,7 +363,7 @@ void CPlayer::Jumping(void)
 		}
 		else
 		{
-			m_tInfo.fY += m_fSpeed;
+			m_tInfo.fY += 1.f;
 			m_bFalling = true;
 		}
 	}
