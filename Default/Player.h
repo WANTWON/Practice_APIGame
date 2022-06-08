@@ -100,7 +100,7 @@ private:
 	bool m_bCheck;
 	float m_fLeft;
 
-	int DrawID;
+	
 
 };
 

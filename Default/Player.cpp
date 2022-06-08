@@ -16,7 +16,7 @@ CPlayer::CPlayer()
 	m_bStep_Monster(false), fY(0), fY2(0), m_iActiveBuff(ITEM_END), m_dwBuffTime(GetTickCount()),
 	m_bIsBuffActive(false), m_bCanShoot(false), m_iLastDir(DIR_RIGHT), m_bPlay(true), m_fPTime(0.f), m_bActive(false), m_bItem(false), m_iLife(3), m_bFirst(false),
 	m_bLineCol(false), m_bFlag(false), m_bBlock(false),
-	m_bIsInvincible(false), m_bColorSwitch(false), m_iLevel(0), m_eType(PLAYER_END), m_bCheck(false), m_fLeft(0.f), m_dwClear(GetTickCount()), DrawID(0)
+	m_bIsInvincible(false), m_bColorSwitch(false), m_iLevel(0), m_eType(PLAYER_END), m_bCheck(false), m_fLeft(0.f), m_dwClear(GetTickCount())
 
 {
 	ZeroMemory(&m_pGUIDE, sizeof(POINT));

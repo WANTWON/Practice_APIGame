@@ -3,6 +3,7 @@
 #include "MushroomMonster.h"
 #include "BlockMgr.h"
 #include "ScrollMgr.h"
+#include "BmpMgr.h"
 
 CMushroomMonster::CMushroomMonster() : Direction_time(GetTickCount())
 {
@@ -22,6 +23,7 @@ void CMushroomMonster::Initialize(void)
 	m_fSpeed = 1.f;
 
 	m_iType = MONSTER_MUSHROOM;
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Mushroom.bmp", L"Mushroom_Front");
 
 }
 int  CMushroomMonster::Update(void)
@@ -56,8 +58,13 @@ int  CMushroomMonster::Update(void)
 void CMushroomMonster::Late_Update(void)
 {
 
-	/*if (m_bGet_Attacked && m_dwTime + 500 < GetTickCount())
-		m_bDead = true;*/
+	if (m_dwDrawTime + 200 < GetTickCount())
+	{
+		++DrawID;
+		if (DrawID == 2)
+			DrawID = 0;
+		m_dwDrawTime = GetTickCount();
+	}
 
 	CBlockMgr::Get_Instance()->Collision_with_Direction(this);
 	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
@@ -74,7 +81,18 @@ void CMushroomMonster::Render(HDC hDC)
 	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
 
 
-	Rectangle(hDC, m_tRect.left + iScrollX , m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
+	HDC	hMemDC = CBmpMgr::Get_Instance()->Find_Image(L"Mushroom_Front");
+	GdiTransparentBlt(hDC, 					// 복사 받을, 최종적으로 그림을 그릴 DC
+		int(m_tRect.left + iScrollX),	// 2,3 인자 :  복사받을 위치 X, Y
+		int(m_tRect.top),
+		int(m_tInfo.fCX),				// 4,5 인자 : 복사받을 가로, 세로 길이
+		int(m_tInfo.fCY),
+		hMemDC,							// 비트맵을 가지고 있는 DC
+		16 * DrawID,								// 비트맵 출력 시작 좌표, X,Y
+		0,
+		16,				// 복사할 비트맵의 가로, 세로 길이
+		16,
+		RGB(255, 255, 255));			// 제거하고자 하는 색상
 }
 
 

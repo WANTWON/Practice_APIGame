@@ -69,7 +69,7 @@ protected:
 	int m_iCoins_Given;
 
 	bool	m_bEditMode;
-
+	int DrawID;
 	DWORD m_dwDrawTime;
 };
 
