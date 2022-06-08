@@ -10,7 +10,7 @@ public:
 	void Scene_Change(SCENEID eScene);
 	void Update(void);
 	void Late_Update(void);
-	void Render(void);
+	void Render(HDC hDC);
 	void Release(void);
 
 public:

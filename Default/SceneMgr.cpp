@@ -16,6 +16,7 @@ CSceneMgr::~CSceneMgr()
 void CSceneMgr::Scene_Change(SCENEID eScene)
 {
 	m_eCurScene = eScene;
+
 	if (m_ePreScene != m_eCurScene)
 	{
 		Safe_Delete(m_pScene);
@@ -33,7 +34,9 @@ void CSceneMgr::Scene_Change(SCENEID eScene)
 		case SC_STAGE:
 			break;
 		}
+
 		m_pScene->Initialize();
+
 		m_ePreScene = m_eCurScene;
 	}
 }
@@ -48,9 +51,9 @@ void CSceneMgr::Late_Update(void)
 	m_pScene->Late_Update();
 }
 
-void CSceneMgr::Render(void)
+void CSceneMgr::Render(HDC hDC)
 {
-	m_pScene->Render();
+	m_pScene->Render(hDC);
 }
 
 void CSceneMgr::Release(void)

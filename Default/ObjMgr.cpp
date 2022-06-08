@@ -59,6 +59,14 @@ void CObjMgr::Set_PlayMode(void)
 	}
 }
 
+void CObjMgr::Delete_ID(OBJ_LIST eID)
+{
+	for (auto& iter : m_pObjList[eID])
+		Safe_Delete(iter);
+
+	m_pObjList[eID].clear();
+}
+
 void CObjMgr::Add_Object(OBJ_LIST _ID, CObj* pObj)
 {
 	if (_ID == OBJ_END || nullptr == pObj)

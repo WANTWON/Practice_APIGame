@@ -43,7 +43,7 @@ public:
 	CObj* Get_Target(OBJ_LIST _ID, CObj* pObj);
 	void	Set_EditorMode(void);
 	void	Set_PlayMode(void);
-
+	void Delete_ID(OBJ_LIST eID);
 
 	void	Save_File(void);
 	void	Load_File(int _iStage);

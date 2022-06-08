@@ -1,6 +1,9 @@
 #pragma once
 #include "Obj.h"
 #include "BmpMgr.h"
+#include "KeyMgr.h"
+#include "SceneMgr.h"
+
 class CMyButton :
 	public CObj
 {
