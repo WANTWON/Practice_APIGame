@@ -24,6 +24,7 @@ void CMushroomMonster::Initialize(void)
 
 	m_iType = MONSTER_MUSHROOM;
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Mushroom.bmp", L"Mushroom_Front");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/MushroomStep.bmp", L"Mushroom_Step");
 
 }
 int  CMushroomMonster::Update(void)
@@ -36,14 +37,15 @@ int  CMushroomMonster::Update(void)
 
 		if (m_bGet_Attacked)
 		{
-			m_iMonsterNumber = 1;
-			Set_Dead(true);
-
-			/*	if (!m_bCount)
+			//m_iMonsterNumber = 1;
+		
+				if (!m_bCount)
 				{
+					m_fSpeed = 0.f;
+					m_tInfo.fCY = 20.f;
 					m_dwTime = GetTickCount();
 					m_bCount = true;
-				}*/
+				}
 		}
 		Move();
 	}
@@ -57,6 +59,11 @@ int  CMushroomMonster::Update(void)
 
 void CMushroomMonster::Late_Update(void)
 {
+	if (m_dwTime + 500 < GetTickCount() && m_bGet_Attacked)
+	{
+		Set_Dead(true);
+	}
+
 
 	if (m_dwDrawTime + 200 < GetTickCount())
 	{
@@ -80,19 +87,37 @@ void CMushroomMonster::Render(HDC hDC)
 {
 	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
 
-
-	HDC	hMemDC = CBmpMgr::Get_Instance()->Find_Image(L"Mushroom_Front");
-	GdiTransparentBlt(hDC, 					// 복사 받을, 최종적으로 그림을 그릴 DC
-		int(m_tRect.left + iScrollX),	// 2,3 인자 :  복사받을 위치 X, Y
-		int(m_tRect.top),
-		int(m_tInfo.fCX),				// 4,5 인자 : 복사받을 가로, 세로 길이
-		int(m_tInfo.fCY),
-		hMemDC,							// 비트맵을 가지고 있는 DC
-		16 * DrawID,								// 비트맵 출력 시작 좌표, X,Y
-		0,
-		16,				// 복사할 비트맵의 가로, 세로 길이
-		16,
-		RGB(255, 255, 255));			// 제거하고자 하는 색상
+	if (m_bGet_Attacked)
+	{
+		HDC	hMemDC = CBmpMgr::Get_Instance()->Find_Image(L"Mushroom_Step");
+		GdiTransparentBlt(hDC, 					// 복사 받을, 최종적으로 그림을 그릴 DC
+			int(m_tRect.left + iScrollX),	// 2,3 인자 :  복사받을 위치 X, Y
+			int(m_tRect.top),
+			int(m_tInfo.fCX),				// 4,5 인자 : 복사받을 가로, 세로 길이
+			int(m_tInfo.fCY),
+			hMemDC,							// 비트맵을 가지고 있는 DC
+			0,								// 비트맵 출력 시작 좌표, X,Y
+			0,
+			16,				// 복사할 비트맵의 가로, 세로 길이
+			8,
+			RGB(255, 255, 255));			// 제거하고자 하는 색상
+	}
+	else
+	{
+		HDC	hMemDC = CBmpMgr::Get_Instance()->Find_Image(L"Mushroom_Front");
+		GdiTransparentBlt(hDC, 					// 복사 받을, 최종적으로 그림을 그릴 DC
+			int(m_tRect.left + iScrollX),	// 2,3 인자 :  복사받을 위치 X, Y
+			int(m_tRect.top),
+			int(m_tInfo.fCX),				// 4,5 인자 : 복사받을 가로, 세로 길이
+			int(m_tInfo.fCY),
+			hMemDC,							// 비트맵을 가지고 있는 DC
+			16 * DrawID,								// 비트맵 출력 시작 좌표, X,Y
+			0,
+			16,				// 복사할 비트맵의 가로, 세로 길이
+			16,
+			RGB(255, 255, 255));			// 제거하고자 하는 색상
+	}
+	
 }
 
 
