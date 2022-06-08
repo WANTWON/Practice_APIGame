@@ -290,8 +290,8 @@ void CPlayer::Remove_Buff(ITEM_TYPE iBuff)
 	{
 	case ITEM_MUSHROOM:
 	{
-		m_tInfo.fCX = 30;
-		m_tInfo.fCY = 30;
+		m_tInfo.fCX = 40;
+		m_tInfo.fCY = 40;
 		break;
 	}
 	case ITEM_STAR:
@@ -301,8 +301,8 @@ void CPlayer::Remove_Buff(ITEM_TYPE iBuff)
 	}
 	case ITEM_FLOWER:
 	{
-		m_tInfo.fCX = 30;
-		m_tInfo.fCY = 30;
+		m_tInfo.fCX = 40;
+		m_tInfo.fCY = 40;
 		m_bCanShoot = false;
 		break;
 	}
