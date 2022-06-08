@@ -4,6 +4,7 @@
 #include "CollisionMgr.h"
 #include <time.h>
 #include "StageMgr.h"
+#include "BmpMgr.h"
 
 
 CMainGame::CMainGame()
@@ -13,7 +14,7 @@ CMainGame::CMainGame()
 
 CMainGame::~CMainGame()
 {
-	
+	Release();
 }
 
 void CMainGame::Initialize(void)
@@ -45,6 +46,7 @@ void CMainGame::Release(void)
 {
 	CStageMgr::Get_Instance()->Release();
 	CStageMgr::Get_Instance()->Destroy_Instance();
+	CBmpMgr::Get_Instance()->Destroy_Instance();
 
 	ReleaseDC(g_hWnd, m_hDc);
 }

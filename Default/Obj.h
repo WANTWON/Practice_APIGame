@@ -28,7 +28,7 @@ public:
 	void Set_Pos(float _fX, float _fY) { m_tInfo.fX = _fX; m_tInfo.fY = _fY; }
 	void Set_PosY(float _fY) { m_tInfo.fY += _fY; }
 	//void Set_PosYTemp(float _fY) { m_tInfo.fY = _fY; }
-	
+
 	void Set_PosX(float _fX) { m_tInfo.fX += _fX; }
 	void Set_Angle(int angle) { m_fAngle = float(angle); }
 	void Set_Rect(float _left, float _top, float _right, float _bottom) { m_tRect.left = int(_left); m_tRect.top = int(_top); m_tRect.right = int(_right); m_tRect.bottom = int(_bottom); }
@@ -45,7 +45,7 @@ public:
 
 	CObj* Get_Target(void) { return m_pTarget; }
 	float Get_Angle(void) { return m_fAngle; }
-	
+
 
 public:
 	//added an ID to distinguish between the monster's bullet and the player's bullet
@@ -69,5 +69,7 @@ protected:
 	int m_iCoins_Given;
 
 	bool	m_bEditMode;
+
+	DWORD m_dwDrawTime;
 };
 

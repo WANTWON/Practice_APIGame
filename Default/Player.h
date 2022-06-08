@@ -29,13 +29,13 @@ public:
 
 	bool Get_bJump(void) { return m_bJump; }
 	void Set_JumpingTime(void) { Jumping_Time = GetTickCount(); }
-		
-	
+
+
 
 	void	Set_GravityTime(float _fTime) { m_fTime = _fTime; }
-	float	Get_Gravity(void){ return (m_fJumpPower*m_fTime - (9.8f*m_fTime*m_fTime*0.5f)); }
+	float	Get_Gravity(void) { return (m_fJumpPower*m_fTime - (9.8f*m_fTime*m_fTime*0.5f)); }
 
-	
+
 	void Set_Dead_Count(void) { m_bDead_Count = true; }
 	bool Get_Count(void) { return m_bDead_Count; }
 	bool Get_Buff(void) { return m_bIsBuffActive; }
@@ -83,9 +83,10 @@ private:
 	DWORD m_dwTime;
 	DWORD Jumping_Time;
 	DWORD m_dwClear;
+
 	POINT m_pGUIDE;
 	PLAYER_LIST m_eType;
-	
+
 	int	m_iLevel;
 	bool m_bPlay;
 	float m_fPTime;
@@ -98,5 +99,8 @@ private:
 	bool m_bFlag;
 	bool m_bCheck;
 	float m_fLeft;
+
+	int DrawID;
+
 };
 

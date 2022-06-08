@@ -9,13 +9,14 @@
 #include "StageMgr.h"
 #include "Stage.h"
 #include "ScrollMgr.h"
+#include "BmpMgr.h"
 
 CPlayer::CPlayer()
 	: m_pShield_Angle(0), m_bJump(false), m_fJumpPower(0), m_fTime(0), m_bFalling(false),
 	m_bStep_Monster(false), fY(0), fY2(0), m_iActiveBuff(ITEM_END), m_dwBuffTime(GetTickCount()),
 	m_bIsBuffActive(false), m_bCanShoot(false), m_iLastDir(DIR_RIGHT), m_bPlay(true), m_fPTime(0.f), m_bActive(false), m_bItem(false), m_iLife(3), m_bFirst(false),
 	m_bLineCol(false), m_bFlag(false), m_bBlock(false),
-	m_bIsInvincible(false), m_bColorSwitch(false), m_iLevel(0), m_eType(PLAYER_END), m_bCheck(false), m_fLeft(0.f), m_dwClear(GetTickCount())
+	m_bIsInvincible(false), m_bColorSwitch(false), m_iLevel(0), m_eType(PLAYER_END), m_bCheck(false), m_fLeft(0.f), m_dwClear(GetTickCount()), DrawID(0)
 
 {
 	ZeroMemory(&m_pGUIDE, sizeof(POINT));
@@ -36,8 +37,14 @@ void CPlayer::Initialize(void)
 	m_dwTime = GetTickCount();
 	m_iLife = CStageMgr::Get_Instance()->Get_Count();
 	m_bFlag = false;
-
 	m_eType = PLAYER_NORMAL;
+
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/MarioFront.bmp", L"Player_Front");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/MarioBack.bmp", L"Player_Back");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/MarioFireFront.bmp", L"Player_FireFront");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/MarioFireBack.bmp", L"Player_FireBack");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/MarioStarFront.bmp", L"Player_StarFront");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/MarioStarBack.bmp", L"Player_StarBack");
 }
 
 int CPlayer::Update(void)
@@ -91,7 +98,6 @@ void  CPlayer::Late_Update(void)
 		m_bCheck = true;
 		m_bFlag = false;
 		m_dwClear = GetTickCount();
-		
 	}
 
 	CCollisionMgr::Collision_Bullet(this, CObjMgr::Get_Instance()->Get_Bullets());
@@ -110,40 +116,107 @@ void CPlayer::Render(HDC hDC)
 
 	if (m_bIsInvincible)
 	{
-		if (GetTickCount() > m_dwTime + 400)
+
+		if (m_iLastDir == DIR_RIGHT)
 		{
-			m_bColorSwitch = !m_bColorSwitch;
-			m_dwTime = GetTickCount();
+			HDC	hMemDC = CBmpMgr::Get_Instance()->Find_Image(L"Player_StarFront");
+			GdiTransparentBlt(hDC, 					// 복사 받을, 최종적으로 그림을 그릴 DC
+				int(m_tRect.left + iScrollX),	// 2,3 인자 :  복사받을 위치 X, Y
+				int(m_tRect.top),
+				int(m_tInfo.fCX),				// 4,5 인자 : 복사받을 가로, 세로 길이
+				int(m_tInfo.fCY),
+				hMemDC,							// 비트맵을 가지고 있는 DC
+				16 * DrawID,								// 비트맵 출력 시작 좌표, X,Y
+				0,
+				16,				// 복사할 비트맵의 가로, 세로 길이
+				16,
+				RGB(255, 255, 255));			// 제거하고자 하는 색상
 		}
 		else
 		{
-			HBRUSH myBrush = nullptr;
-			HBRUSH oldBrush = nullptr;
-
-			myBrush = m_bColorSwitch ? (HBRUSH)CreateSolidBrush(RGB(255, 255, 0)) : (HBRUSH)CreateSolidBrush(RGB(255, 215, 0));
-			oldBrush = (HBRUSH)SelectObject(hDC, myBrush);
-
-			Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
-
-			SelectObject(hDC, oldBrush);
-			DeleteObject(myBrush);
+			HDC	hMemDC = CBmpMgr::Get_Instance()->Find_Image(L"Player_StarBack");
+			GdiTransparentBlt(hDC, 					// 복사 받을, 최종적으로 그림을 그릴 DC
+				int(m_tRect.left + iScrollX),	// 2,3 인자 :  복사받을 위치 X, Y
+				int(m_tRect.top),
+				int(m_tInfo.fCX),				// 4,5 인자 : 복사받을 가로, 세로 길이
+				int(m_tInfo.fCY),
+				hMemDC,							// 비트맵을 가지고 있는 DC
+				16 * DrawID,								// 비트맵 출력 시작 좌표, X,Y
+				0,
+				16,				// 복사할 비트맵의 가로, 세로 길이
+				16,
+				RGB(255, 255, 255));			// 제거하고자 하는 색상
 		}
+
 	}
 	else if (m_bCanShoot)
 	{
-		HBRUSH myBrush = nullptr;
-		HBRUSH oldBrush = nullptr;
-
-		myBrush = (HBRUSH)CreateSolidBrush(RGB(255, 0, 0));
-		oldBrush = (HBRUSH)SelectObject(hDC, myBrush);
-
-		Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
-
-		SelectObject(hDC, oldBrush);
-		DeleteObject(myBrush);
+		if (m_iLastDir == DIR_RIGHT)
+		{
+			HDC	hMemDC = CBmpMgr::Get_Instance()->Find_Image(L"Player_FireFront");
+			GdiTransparentBlt(hDC, 					// 복사 받을, 최종적으로 그림을 그릴 DC
+				int(m_tRect.left + iScrollX),	// 2,3 인자 :  복사받을 위치 X, Y
+				int(m_tRect.top),
+				int(m_tInfo.fCX),				// 4,5 인자 : 복사받을 가로, 세로 길이
+				int(m_tInfo.fCY),
+				hMemDC,							// 비트맵을 가지고 있는 DC
+				16 * DrawID,								// 비트맵 출력 시작 좌표, X,Y
+				0,
+				16,				// 복사할 비트맵의 가로, 세로 길이
+				16,
+				RGB(255, 255, 255));			// 제거하고자 하는 색상
+		}
+		else
+		{
+			HDC	hMemDC = CBmpMgr::Get_Instance()->Find_Image(L"Player_FireBack");
+			GdiTransparentBlt(hDC, 					// 복사 받을, 최종적으로 그림을 그릴 DC
+				int(m_tRect.left + iScrollX),	// 2,3 인자 :  복사받을 위치 X, Y
+				int(m_tRect.top),
+				int(m_tInfo.fCX),				// 4,5 인자 : 복사받을 가로, 세로 길이
+				int(m_tInfo.fCY),
+				hMemDC,							// 비트맵을 가지고 있는 DC
+				16 * DrawID,								// 비트맵 출력 시작 좌표, X,Y
+				0,
+				16,				// 복사할 비트맵의 가로, 세로 길이
+				16,
+				RGB(255, 255, 255));			// 제거하고자 하는 색상
+		}
 	}
 	else
-		Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
+	{
+		if (m_iLastDir == DIR_RIGHT)
+		{
+			HDC	hMemDC = CBmpMgr::Get_Instance()->Find_Image(L"Player_Front");
+			GdiTransparentBlt(hDC, 					// 복사 받을, 최종적으로 그림을 그릴 DC
+				int(m_tRect.left + iScrollX),	// 2,3 인자 :  복사받을 위치 X, Y
+				int(m_tRect.top),
+				int(m_tInfo.fCX),				// 4,5 인자 : 복사받을 가로, 세로 길이
+				int(m_tInfo.fCY),
+				hMemDC,							// 비트맵을 가지고 있는 DC
+				16 * DrawID,								// 비트맵 출력 시작 좌표, X,Y
+				0,
+				16,				// 복사할 비트맵의 가로, 세로 길이
+				16,
+				RGB(255, 255, 255));			// 제거하고자 하는 색상
+		}
+		else
+		{
+			HDC	hMemDC = CBmpMgr::Get_Instance()->Find_Image(L"Player_Back");
+			GdiTransparentBlt(hDC, 					// 복사 받을, 최종적으로 그림을 그릴 DC
+				int(m_tRect.left + iScrollX),	// 2,3 인자 :  복사받을 위치 X, Y
+				int(m_tRect.top),
+				int(m_tInfo.fCX),				// 4,5 인자 : 복사받을 가로, 세로 길이
+				int(m_tInfo.fCY),
+				hMemDC,							// 비트맵을 가지고 있는 DC
+				16 * DrawID,								// 비트맵 출력 시작 좌표, X,Y
+				0,
+				16,				// 복사할 비트맵의 가로, 세로 길이
+				16,
+				RGB(255, 255, 255));			// 제거하고자 하는 색상
+		}
+
+	}
+	//Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top, m_tRect.right + iScrollX, m_tRect.bottom);
 }
 
 void CPlayer::Check_ActiveBuff(void)
@@ -200,8 +273,8 @@ void CPlayer::Buff_Flower()
 	if (!m_bIsBuffActive)
 	{
 		// Activate Buff
-		m_tInfo.fCX  = 60;
-		m_tInfo.fCY  = 60;
+		m_tInfo.fCX = 60;
+		m_tInfo.fCY = 60;
 		m_bCanShoot = true;
 		m_bIsBuffActive = true;
 	}
@@ -240,6 +313,14 @@ void CPlayer::Key_Input(void)
 {
 	if (GetAsyncKeyState(VK_RIGHT))
 	{
+		if (m_dwDrawTime + 200 < GetTickCount())
+		{
+			++DrawID;
+			if (DrawID == 4)
+				DrawID = 0;
+			m_dwDrawTime = GetTickCount();
+		}
+
 		if (m_bPlay)
 		{
 			m_tInfo.fX += m_fSpeed;
@@ -249,6 +330,14 @@ void CPlayer::Key_Input(void)
 
 	else if (GetAsyncKeyState(VK_LEFT))
 	{
+		if (m_dwDrawTime + 200 < GetTickCount())
+		{
+			++DrawID;
+			if (DrawID == 4)
+				DrawID = 0;
+			m_dwDrawTime = GetTickCount();
+		}
+
 		if (m_bPlay)
 		{
 			m_tInfo.fX -= m_fSpeed;
@@ -257,11 +346,21 @@ void CPlayer::Key_Input(void)
 	}
 
 	if (CKeyMgr::Get_Instance()->Key_Down(VK_SPACE))
+	{
 		m_bJump = true;
+
+	}
+
 
 	if (CKeyMgr::Get_Instance()->Key_Down('Z') && m_bCanShoot)
 	{
 		CObjMgr::Get_Instance()->Add_Object(OBJ_BULLET, CAbstractFactory<CBullet>::Create(m_tInfo.fX, m_tInfo.fY, m_iLastDir, OBJ_PLAYER));
+	}
+	if (CKeyMgr::Get_Instance()->Key_Down(VK_LCONTROL))
+	{
+		m_bIsInvincible = true;
+		m_iActiveBuff = ITEM_STAR;
+		m_dwBuffTime = 9999999999.f;
 	}
 }
 
@@ -283,7 +382,7 @@ void CPlayer::Jumping(void)
 			m_bFirst = true;
 			//CScrollMgr::Get_Instance()->Set_ScrollX();
 		}
-		else if (m_bStep_Monster) 
+		else if (m_bStep_Monster)
 		{
 			m_fJumpPower = 10;
 			m_tInfo.fY -= m_fJumpPower*m_fTime - (2.8f*m_fTime*m_fTime*0.5f);
@@ -293,12 +392,10 @@ void CPlayer::Jumping(void)
 
 			if (b_BlockCol && m_tInfo.fY + m_tInfo.fCY*0.5f >= fY2)
 			{
-				m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
 				m_fTime = 0.0f;
 			}
 			if (b_LineCol && m_tInfo.fY > fY)
 			{
-				m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 				m_fTime = 0.0f;
 			}
 		}
@@ -309,7 +406,7 @@ void CPlayer::Jumping(void)
 			m_fTime += 0.1f;
 			/*if ((m_fJumpPower*m_fTime) < (9.8f*m_fTime*m_fTime*0.5f))
 			{
-				m_bJump = true;
+			m_bJump = true;
 			}*/
 			if (m_fTime > 3.2f)
 				m_fTime = 3.2f;
@@ -345,13 +442,13 @@ void CPlayer::Jumping(void)
 				{
 					m_tInfo.fY = fY2 - m_tInfo.fCY*0.5f;
 				}
-						
+
 			}
 			else // 선만 있는 경우
 			{
 				m_tInfo.fY += m_fSpeed;
 
-				if (m_tInfo.fY + m_tInfo.fCY*0.5f> fY)
+				if (m_tInfo.fY + m_tInfo.fCY*0.5f > fY)
 					m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 			}
 

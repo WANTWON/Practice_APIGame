@@ -48,3 +48,23 @@ public:
 		}
 	}
 };
+
+class CTag_Finder
+{
+private:
+	const TCHAR*		m_pTag;
+
+public:
+	CTag_Finder(const TCHAR* pTag) : m_pTag(pTag) {}
+
+public:
+	template<typename T>
+	bool	operator()(T& Pair)
+	{
+		if (!lstrcmp(m_pTag, Pair.first))
+			return true;
+
+		return false;
+	}
+
+};
